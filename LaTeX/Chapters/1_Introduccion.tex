@@ -31,13 +31,14 @@
 
 		A figure with an image is presented in \Cref{fig:figura}. Note that it floats away and latex places it where convenient.
 
-		\begin{figure}
+		\begin{figure}[h!] % h de here con signo o sin b abajo t al principio
 			\centering
 			\includegraphics[width=0.4\textwidth]{Images/escudo_ucm.pdf}
-			\caption{Sample figure}
+			\caption{Sample figure} % DESCRIPCION
 			\label{fig:figura}
 		\end{figure}
-
+		
+		
 		Tables work in the same way, as seen in \Cref{tab:tabla}
 
 		\begin{table}
@@ -50,7 +51,27 @@
 			\caption{Sample table}
 			\label{tab:tabla}
 		\end{table}
-	\blindtext
+		
+		
+		
+%TODO QUITAR TABS \usepackage{parskip}
+
+\lstset{language=python, breaklines=true, basicstyle=\footnotesize}
+\begin{lstlisting}[frame=single]
+  # Prueba
+  print("Hola Mundo\n")
+		
+\end{lstlisting}
+		
+		%-_-
+		-\_-
+		\%
+		\#
+		@
+		º
+	
+	
+	
 	
 	\newpage %TODO QUITAR
 	\section{Definición y alcance del proyecto}
