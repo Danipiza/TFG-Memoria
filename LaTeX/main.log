@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  7 MAY 2024 17:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  7 MAY 2024 23:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -978,11 +978,24 @@ Cap\'{\i }tulo 3.
 
 ] [13] [14] [15] [16]) (Chapters/4_Estudio_empírico.tex [17]
 Cap\'{\i }tulo 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--4
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--6
+
+ []
+
+LaTeX Font Info:    Trying to load font information for OML+cmr on input line 2
+0.
+(C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/base\omlcmr.fd
+File: omlcmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-
-Package blindtext Warning: spanish not defined, using English instead.
-(blindtext)                 on input line 96.
-
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 20.
+)
 (Chapters/5_Conclusiones_trabajo_futuro.tex [18
 
 ]
@@ -1024,37 +1037,39 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 22346 strings out of 474485
- 398715 string characters out of 5742791
- 1943542 words of memory out of 5000000
- 44305 multiletter control sequences out of 15000+600000
- 567486 words of font info for 68 fonts, out of 8000000 for 9000
+ 22403 strings out of 474485
+ 399527 string characters out of 5742791
+ 2091542 words of memory out of 5000000
+ 44340 multiletter control sequences out of 15000+600000
+ 568181 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  66i,9n,81p,1887b,2218s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tc
-rm1095.pk><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
-sfonts/cm/cmbx10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Usuario/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Usuario/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Usuar
-io/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/U
-sers/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12
-.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/publi
-c/amsfonts/cm/cmr9.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmsy9.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Usuario/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/Usuario/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Users/Usuar
-io/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/U
-sers/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt1
-0.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmtt8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/latxfont/lasy8.pfb>
-Output written on main.pdf (28 pages, 592121 bytes).
+rm0900.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
+pi600\tcrm1095.pk><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmbx10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Usuario/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Usuario/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Usuario/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Use
+rs/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.p
+fb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmr10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmr12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Usuario/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/Usuario/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Usuario
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Use
+rs/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti8.p
+fb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmti9.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmtt10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmtt8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/latxfont/lasy8.pfb>
+Output written on main.pdf (28 pages, 611517 bytes).
 PDF statistics:
- 394 PDF objects out of 1000 (max. 8388607)
- 68 named destinations out of 1000 (max. 500000)
+ 425 PDF objects out of 1000 (max. 8388607)
+ 85 named destinations out of 1000 (max. 500000)
  235 words of extra memory for PDF output out of 10000 (max. 10000000)
 

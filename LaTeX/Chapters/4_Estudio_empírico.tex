@@ -1,2 +1,29 @@
 \chapter{Estudio empírico}
-	\blindtext
+
+Después de implementar y diseñar los algoritmos y mejoras utilizando MPI, llevamos a cabo un análisis exhaustivo para evaluar los tiempos de ejecución, realizar pruebas, contrastar resultados y extraer conclusiones.\newline
+
+\textbf{Ordenaciones}\newline
+
+De las ordenaciones básicas con coste cuadrático ($\textbf{O(N}^2\textbf{)}$) comentadas anteriormente, SelectionSort es la que mejores resultados obtiene.
+
+\lstset{language=python, breaklines=true, basicstyle=\footnotesize}
+\begin{lstlisting}[frame=single]
+def selection_sort(a):			def sequential_sort(a):
+   n = len(a)				  INF=sys.maxsize
+   minE = 0				  n=len(a)
+   pos = 0			  	  b=[(INF) for i in range(n)]  
+   
+   for i in range(n-1):			  for i in range(n):
+      minE = a[i]			    cont=0
+      pos = i				    val=a[i]
+      for j in range(i+1, n):		    for i in range(n):  
+         if minE > a[j]:		      if a[i]<val: cont+=1
+            minE = a[j]				while b[cont]!=INF: 
+            pos = j				  cont+=1
+            					b[cont]=val
+   tmp = a[i]
+   a[i] = a[pos]
+   a[pos] = tmp
+	
+\end{lstlisting}
+
