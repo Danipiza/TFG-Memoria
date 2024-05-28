@@ -1,0 +1,151 @@
+\chapter{Introducción}
+
+En este capítulo se presenta una perspectiva general del contexto en el que se ha llevado a cabo el proyecto. Además de los desafíos enfrentados durante su desarrollo para alcanzar las contribuciones mencionadas, se detallan cada uno de los propósitos perseguidos en él.
+
+
+\section{Definición y alcance del proyecto}
+Definición y alcance del proyecto
+El desarrollo de las Inteligencias Artificiales en nuestra sociedad ha sido un fenómeno de gran relevancia, además de popular, en los últimos años. Estas tecnologías han llegado para quedarse. Están mejorando nuestra calidad de vida, desde la automatización de tareas hasta la asistencia virtual, estas IAs desempeñan un papel cada vez más importante en nuestro día a día.
+Con el advenimiento del Internet de alta velocidad y la proliferación de datos, las empresas tecnológicas se enfrentan a la necesidad creciente de desarrollar servicios de alta calidad en un mercado muy competitivo. Se invierte mucho dinero y tiempo en mejorar y diseñar algoritmos, para implementar Inteligencias Artificiales para el acceso público \cite{thomas2021global}.
+
+El entrenamiento y ejecución de estos algoritmos para modelar inteligencias artificiales consumen mucha energía, además de provocar una cantidad excesiva de emisiones de CO2. La empresa tecnológica Hugging Face estimó que el entrenamiento de BLOOM[16] emitió 25 toneladas de CO2, cifra que se duplicó al contar el coste de producción del equipo informático usado[14]. Los investigadores se están enfocando en evaluar y reducir el impacto ambiental de las tecnologías de IA. Una prueba de ello es el desarrollo de CarbonTracker[17] (CTI), un equipo de especialistas financieros que asumen el riesgo climático como realidad de los mercados financieros actuales. El objetivo de esta herramienta es predecir y reducir la huella de carbono de las etapas de entrenamiento de los modelos de IA[18].
+
+El uso de programación distribuida, más específicamente MPI, permite tener varios procesos ejecutándose en paralelo, dividiendo la carga de trabajo y así reduciendo el tiempo de ejecución. Al contrario de la memoria compartida, en la cual se pueden dar problemas de memoria y sincronización, cada proceso generado tiene su propia memoria local, evadiendo estos problemas. En contraposición, hay que diseñar implementaciones correctas y eficientes para no tener más carga espacial de la esperada.
+Los procesos están interconectados con comunicaciones peer-to-peer, con un nodo Master y varios Workers. El Máster se dedica a establecer todas las comunicaciones y dividir el cómputo entre todos los procesos, así como recibir y juntar los resultados obtenidos. Los trabajadores trabajan en paralelo, esperan unos datos y ejecutan su respectiva tarea. Al finalizar un cálculo envían el resultado de vuelta.
+
+Los algoritmos de IA suelen manejar un vasto número de datos para entrenar y evaluar los modelos deseados. En este proyecto se van a diseñar e implementar mejoras para algoritmos de IA, para ejecutarse en sistemas altamente distribuidos, con el objetivo de reducir el tiempo de ejecución.
+
+
+
+
+\section{Motivación}
+Actualmente hay muchas implementaciones de algoritmos de IA. Scikit learn es una biblioteca de python perfecta para probar cualquier técnica. Secuencialmente está perfeccionado y demuestra un alto desempeño computacional, pero tiene sus limitaciones. 
+
+Las arquitecturas distribuidas a gran escala, tal como la técnica HPC master-worker mencionada anteriormente, es una de las soluciones más óptimas para los usuarios finales: científicos y empresas. La búsqueda de una eficiencia óptima de gestión de recursos bajo una perspectiva técnica en sistemas altamente distribuidos, demandan enfoques adaptables y escalables para implementar aplicaciones científicas de alto rendimiento. Uno de los desafíos recurrentes en los sistemas distribuidos radica en asegurar la cohesión con el funcionamiento secuencial de la especificación deseada. La comunicación en el proceso tiene que ser controlada para el correcto funcionamiento, y en algunas ocasiones estas mejoras derivan en implementaciones más complejas. 
+En estas situaciones, es desafiante controlar las acciones de cada proceso, dificultando la cohesión deseada con la especificación deseada. Cada algoritmo tiene su funcionamiento y su desempeño, al igual que implementación única.
+
+
+
+
+
+
+\section{Objetivo}
+
+El objetivo principal de este trabajo es paralelizar varios algoritmos de IA, desarrollando varias implementaciones que reduzcan el tiempo de ejecución. Además de evaluar dichas mejoras para optimizarlas lo máximo posible. Entre los algoritmos a optimizar se encuentran técnicas como el agrupamiento de individuos, predicción de resultados u optimización de funciones de evaluación. Todas estas implementaciones desarrolladas en Python, lenguaje de programación más popular en el ámbito de la inteligencia artificial. Sin embargo, al ser un lenguaje interpretado (el código se traduce en la misma ejecución), aumenta la sobrecarga y hace que el programa sea más lento que otros lenguajes. Por eso Python es el lenguaje de programación idóneo para aplicar técnicas de cómputo de alto rendimiento y reducir el tiempo de ejecución.
+
+
+
+Asimismo, se requerirá alcanzar los siguientes objetivos secundarios:
+
+Diseño de implementaciones escalables: Al diseñar e implementar mejoras de cada algoritmo, se permite la varianza del número de procesos a ejecutar. No es óptimo crear varios programas que ejecuten el mismo código pero adaptados para diferentes argumentos.
+
+Correcto funcionamiento de los algoritmos: Cada mejora tiene que tener una cohesión con sus implementaciones originales. Si queremos agrupar individuos en base a unas características, el resultado final tiene que ser coherente.
+
+
+
+
+\section{Estructura del documento}
+El resto de este documento está organizado en los siguientes capítulos:
+
+% TODO LINKS A LOS CAPITULOS
+\begin{itemize}
+	\item Capítulo 2, Contextualización. Proporcionar información de cada algoritmo estudiado, para la correcta lectura del trabajo.
+	\item Capítulo 3, Diseño e implementaciones. Comenzando con unos ejemplos básicos fuera del ámbito de la inteligencia artificial, seguido de las mejoras desarrolladas para las diferentes técnicas abordadas.
+	\item Capítulo 4, Estudio empírico. Presenta el estudio realizado, el cual consiste en medir los tiempos de las mejoras así como las implementaciones secuenciales, para poder medir el speed-up y realizar comparaciones significativas.
+	\item Capítulo 5, Conclusiones y trabajo a futuro.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%The document is divided into \texttt{chapters}, \texttt{sections}, and \texttt{subsections}.
+%
+%Some important references are \cite{einstein,latexcompanion,knuthwebsite}.
+%
+%To add paragraphs in the document, 
+%one line break is not enough,
+%
+%two line breaks are needed.
+%
+%An itemized list:
+%
+%\begin{itemize}
+%	\item An item.
+%	\item Another item.
+%	\item Final item.
+%\end{itemize}
+%
+%An enumerated list:
+%
+%\begin{enumerate}
+%	\item First item.
+%	\item Second item.
+%	\item Third item.
+%\end{enumerate}
+%
+%A figure with an image is presented in \Cref{fig:figura}. Note that it floats away and latex places it where convenient.
+%
+%\begin{figure}[h!] % h de here con signo o sin b abajo t al principio
+%	\centering
+%	\includegraphics[width=0.4\textwidth]{Images/escudo_ucm.pdf}
+%	\caption{Sample figure} % DESCRIPCION
+%	\label{fig:figura}
+%\end{figure}
+%
+%
+%Tables work in the same way, as seen in \Cref{tab:tabla}
+%
+%\begin{table}
+%	\centering
+%	\begin{tabular}{c|c|c}
+%		Row & English & Español \\\hline\hline
+%		1 & One & Uno \\
+%		2 & Two & Dos \\
+%	\end{tabular}
+%	\caption{Sample table}
+%	\label{tab:tabla}
+%\end{table}
+%
+%
+%
+%TODO QUITAR TABS \usepackage{parskip}
+%
+%\lstset{language=python, breaklines=true, basicstyle=\footnotesize}
+%\begin{lstlisting}[frame=single]
+%	# Prueba
+%	print("Hola Mundo\n")
+%	
+%\end{lstlisting}
+%
+%-_-
+%-\_-
+%\%
+%\#
+%@
+%º
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

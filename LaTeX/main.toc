@@ -1,29 +1,26 @@
 \babel@toc {spanish}{}\relax 
-\contentsline {chapter}{Agradecimientos}{\es@scroman {i}}{chapter*.1}%
-\contentsline {chapter}{Resumen}{\es@scroman {ii}}{chapter*.2}%
-\contentsline {chapter}{Abstract}{\es@scroman {iii}}{chapter*.3}%
-\contentsline {chapter}{\'{I}ndice de figuras}{\es@scroman {v}}{section*.5}%
+\contentsline {chapter}{Índice}{\es@scroman {i}}{section*.1}%
+\contentsline {chapter}{Dedicatoria}{\es@scroman {ii}}{section*.3}%
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Introduccion LaTeX TODO QUITAR}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Definición y alcance del proyecto}{2}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Motivación}{3}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Objetivo}{4}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Estructura del documento}{5}{section.1.5}%
-\contentsline {chapter}{\numberline {2}Contextualización}{6}{chapter.2}%
-\contentsline {section}{\numberline {2.1}MPI}{7}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Aprendizaje por Refuerzo}{8}{section.2.2}%
+\contentsline {section}{\numberline {1.1}Definición y alcance del proyecto}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Motivación}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objetivo}{3}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Estructura del documento}{4}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Contextualización}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}MPI}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Aprendizaje por Refuerzo}{7}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Aprendizaje No-Supervisado}{9}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{10}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Algoritmos Evolutiva}{11}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Diseño e Implementaciones}{12}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Ejemplos básicos MPI}{13}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Algoritmos de Clustering}{14}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Jerárquico Aglomerativo}{14}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}K-Medias}{14}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}K-Vecinos más cercanos (KNN)}{14}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Aprendizaje por refuerzo}{15}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Algoritmos Evolutivos}{16}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Redes Neuronales}{17}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Estudio empírico}{20}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{33}{chapter.5}%
-\contentsline {chapter}{Bibliography}{34}{chapter*.32}%
+\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{13}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Programación Evolutiva}{16}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Diseño e Implementaciones}{17}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Ejemplos básicos MPI}{17}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Algoritmos de Clustering}{21}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Jerárquico Aglomerativo}{21}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}K-Medias}{23}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}K-Vecinos más cercanos (KNN)}{25}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Aprendizaje por refuerzo}{27}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Algoritmos Evolutivos}{31}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Redes Neuronales}{34}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Estudio empírico}{38}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{63}{chapter.5}%
+\contentsline {chapter}{Bibliography}{65}{chapter*.47}%

@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{texbook}
+Donald~E. Knuth.
+\newblock {\em The {\TeX} Book}.
+\newblock Addison-Wesley Professional, 1986.
+
+\bibitem{ARP:Loy:1974}
+M.~M.~T. Loy.
+\newblock Observation of population inversion by optical adiabatic rapid
+  passage.
+\newblock 32:814--817, 1974.
+
+\bibitem{CT:Phillips:1985}
+W.~D. Phillips, J.~V. Prodan, and H.~J. Metcalf.
+\newblock Laser cooling and electromagnetic trapping of neutral atoms.
+\newblock 2:1751--1767, 1985.
+
+\end{thebibliography}

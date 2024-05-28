@@ -1,130 +1,372 @@
-\documentclass[11pt,a4paper,spanish,openany,twoside]{report}
-\usepackage{csquotes}
-\usepackage[spanish,es-tabla]{babel}
-%allow for áéíóú
-\usepackage[utf8]{inputenc}
-%set page geometry for PRINTED version (more margin on the inner side towards the book's spine)
-%\usepackage[top=2.25cm, bottom=2.25cm, outer=2cm, inner=3cm, heightrounded, marginparwidth=2.5cm, marginparsep=0.3cm]{geometry}
-%set page geometry for PDF version
-\usepackage[top=2.25cm, bottom=2.25cm, outer=2.5cm, inner=2.5cm, heightrounded, marginparwidth=2.5cm, marginparsep=0.3cm]{geometry}
+% +--------------------------------------------------------------------+
+% | LaTeX Template                                                     |
+% | for K-State Electronic Theses, Dissertations, and Reports          |
+% |                                                                    |
+% | Comments and guidelines for using the template are shown           |
+% | within boxes like this one.                                        |
+% |                                                                    |
+% | Revised 6/30/06                                                    |
+% | 9/14/06: Removed typos                                             |
+% +--------------------------------------------------------------------+
 
+% +--------------------------------------------------------------------+
+% | Your paper should contain the following sections, except where     |
+% | indicated as optional, in the order shown.  Also, all headings     |
+% | shown with an asterisk (*) must be centered and in uppercase       |
+% | letters:                                                           |
+% |                                                                    |
+% | Abstract Title Page (doctoral dissertations only)                  |
+% | ABSTRACT* (doctoral dissertations only)                            |
+% | Title Page                                                         |
+% | Copyright Page (Optional - only needed if copyrighting)            |
+% | ABSTRACT *                                                         |
+% | TABLE OF CONTENTS *                                                |
+% | LIST OF FIGURES *                                                  |
+% | LIST OF TABLES*                                                    |
+% | ACKNOWLEDGMENTS* (Optional)                                        |
+% | DEDICATION * (Optional)                                            |
+% | PREFACE * (Optional)                                               |
+% | Individual Chapters                                                |
+% | References and/or bibliography                                     |
+% | Appendices (as needed)                                             |
+% +--------------------------------------------------------------------+
+
+% +--------------------------------------------------------------------+
+% | The LaTex keyword \documentclass selects a particular class to     |
+% | associate with the document.  The current documentclass            |
+% | {class_diss} generates a Table of Contents that has leading dots   |
+% | only on chapter subheadings.  If you prefer a Table of Contents    |
+% | that has leading dots for all entries, replace {class_diss}        |
+% | with {Mydiss} in the command below.                                |
+% |                                                                    |
+% +--------------------------------------------------------------------+
+
+\documentclass[final, 12pt,oneside]{class_diss}
+
+
+
+% +--------------------------------------------------------------------+
+% | The following command sets the bibliography style to American
+% | Institute of Physics (AIP).  Other styles are available in the
+% | styles directory.  To use a different style, replace "aip" with
+% | the filename of the style you want to use.
+% +--------------------------------------------------------------------+
+
+\bibliographystyle{styles/plain}
+
+
+
+% TODO acronimos
+\usepackage[acronym]{glossaries}
+\usepackage[automake]{glossaries-extra}
+%\usepackage[spanish]{cleveref}
+
+\makeglossaries
+
+\usepackage{geometry}
 
 
 \usepackage{listings}
-\usepackage{mdframed}
+\usepackage{mdframed} 
+\usepackage[T1]{fontenc}
 
 \usepackage{verbatim} % NO ES MUY BONITO
 \usepackage[ruled,vlined]{algorithm2e} % ALGORITMOS COMO EN CODIGO DE RICARDO PEÑA
+
 \usepackage{tcolorbox}
-
 \usepackage{fancyvrb}
-
 \usepackage[table]{xcolor}
+
 \usepackage{colortbl}
 \usepackage{array}
 \usepackage{makecell}
 
 
 \usepackage{pgfplots} 
+\usepgfplotslibrary{groupplots}
 \pgfplotsset{compat=1.17} % TODO ?
+
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{patterns}
-\usepackage{subcaption} % for subfigures
-\usepgfplotslibrary{groupplots}
+\usepackage{subcaption} % subfigures
+\usepackage{caption}
 
-%load images
-\usepackage{graphicx}
-\graphicspath{{Images/}}
+% TODO ERROR
+%\usepackage[hidelinks]{hyperref}
+% TODO ERROR
+%\usepackage[capitalise]{cleveref}
+% TODO ERROR
+%\crefname{table}{tabla}{tablas}
 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+% +--------------------------------------------------------------------+
+% | Now, we add in all external packages that we will use throughout   |
+% | the document.  You can add other packages as needed.
+% +--------------------------------------------------------------------+
 
+%\usepackage{     caption2} % Customize captions a bit more
+\usepackage{      amsmath} % American Mathematics Society standards
+%\usepackage{      wrapfig} % Wraps text around a figure or table
+\usepackage{     graphicx} % Extended graphics package.
+%\usepackage{     fancyhdr} % Efficiently handles headers and footers
+%\usepackage{       braket} % Bra-Ket notation package
+%\usepackage{     mathrsfs} % Specialized Math fonts (Hamiltonian, etc.)
+%\usepackage{boxedminipage} % Boxed text can be produced
+%\usepackage{     setspace} % Controls line spacing via \begin{space}
 
+\usepackage{amsxtra}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{latexsym}
 
-%bibliography: add .bib file in Others/library.bib
-%set bibliography style according to faculty specifications
-\usepackage[%
-	backend=bibtex       % biber or bibtex
-	%,style=authoryear   % Alphabeticalsch
-	,style=numeric-comp  % numerical-compressed
-	,sorting=nty         % no sorting: none %nty (name title year)
-	,sortcites=true      % some other example options ...
-	,block=none
-	,indexing=false
-	,citereset=none
-	,isbn=false
-	,url=true
-	,doi=false           % prints doi
-	,natbib=true         % if you need natbib functions
-]{biblatex}
-\addbibresource{Others/library.bib}  
-\setcounter{biburllcpenalty}{7000}
-\setcounter{biburlucpenalty}{8000}
-\usepackage{multicol}
-\renewcommand*{\bibfont}{\scriptsize} %\tiny
+% +--------------------------------------------------------------------+
+% | The color package allows one to select colors for hyperlinking     |
+% | (see below).                                                       |
+% +--------------------------------------------------------------------+
 
+% TODO DA ERROR CON TODAS LAS LIBRERIAS
+%\usepackage[usenames]{color}
 
-%in-document links (LOAD LAST, math overwrites the reference system)
-\usepackage[hidelinks]{hyperref}
-\usepackage[capitalise]{cleveref}
-\crefname{table}{tabla}{tablas}
+% +--------------------------------------------------------------------+
+% | Colors defined for use with this template.                         |
+% +--------------------------------------------------------------------+
 
+\definecolor{  Pink}{rgb}{1.0, 0.5, 0.5}
+\definecolor{Maroon}{rgb}{0.8, 0.0, 0.0}
 
-%for adding dummy text
-\usepackage[math]{blindtext}
+% +--------------------------------------------------------------------+
+% | In the commands below, we use the 'natbib' package, and specify    |
+% | the 'sort&compress' option, which condenses                        |
+% | citations from (1,2,3,5,9,10,11) to (1-3,5,9-11).  The 'bibpunct'  |
+% | option selects various parameters for how the citation will be     |
+% | displayed.  In this case, only the comma (separation between       |
+% | citations) and the 's' (superscript) arguments are chosen.  The    |
+% | other curly braces deal with how to 'wrap' the citation (using     |
+% | parentheses, brackets, etc.) and are not needed for the chosen     |
+% | style.                                                             |
+% +--------------------------------------------------------------------+
 
+\usepackage[sort&compress]{natbib}
+\bibpunct{}{}{,}{s}{}{}
+\usepackage{hypernat}
 
+% +--------------------------------------------------------------------+
+% | Lastly, the hyperref package allows one to hyperlink cross-        |
+% | references and figures in a LaTeX document.                        |
+% +--------------------------------------------------------------------+
 
-%BEGIN THE DOCUMENT ITSELF
+\usepackage[pdftex, plainpages=false, pdfpagelabels]{hyperref}
+
+\hypersetup{
+    linktocpage=true,
+    colorlinks=true,
+    bookmarks=true,
+    citecolor=blue,
+    urlcolor=red,
+    linkcolor=Maroon,
+    citebordercolor={1 0 0},
+    urlbordercolor={1 0 0},
+    linkbordercolor={.7 .8 .8},
+    breaklinks=true,
+    pdfpagelabels=true,
+    }
+
+% +--------------------------------------------------------------------+
+% | Page margins are set on 1 inch on all sides.                       |
+% +--------------------------------------------------------------------+
+
+\topmargin      = -0.56in
+\textheight     =  8.60in
+\textwidth      =  6.46in
+\oddsidemargin  =  0.02in
+
+% +--------------------------------------------------------------------+
+% | The document finally begins here.                                  |
+% +--------------------------------------------------------------------+
+
 \begin{document}
-	%Do not number pages until we are ready
-	\pagenumbering{gobble} 
-	
-	%Place TOP COVER 
-	\input{Others/top_cover.tex}
-	\clearpage
-
-	%Place authorship declaration
-	%and financial support on its back 
-	\input{Others/authorship.tex}
-	\clearpage
-	
-	%Place dedication
-	\input{Others/dedication.tex}
-	\clearpage
-
-	%Start numbering pages with roman numbers
-	\pagenumbering{roman}
-	\input{Others/thanks.tex}
-	\input{Others/abstract.tex}
-	\clearpage
 
 
-	%Table of contents, list of figures, list of tables
-	\tableofcontents 
-	\newpage
-	\phantomsection\addcontentsline{toc}{chapter}{\listfigurename} %add LOF to index
-	\listoffigures
-	%\newpage
-	%\phantomsection\addcontentsline{toc}{chapter}{\listtablename} %add LOT to index
-	%\listoftables
-	\clearpage
+  \setcounter{page}{-1}
 
-    
-	%capítulos
-	\pagenumbering{arabic} 
-	\input{Chapters/1_Introduccion.tex}
-	\input{Chapters/2_Contextualizacion.tex}
-	\input{Chapters/3_Diseño_implementaciones.tex}
-	\input{Chapters/4_Estudio_empírico.tex}
-	\input{Chapters/5_Conclusiones_trabajo_futuro.tex}
-	%\input{Chapters/6_conclusions_future_work.tex}
-	
-	
-	
-	%Compact bibliography style
-	\begin{multicols}{2}[\printbibheading]
-		\printbibliography[heading=none]
-		\addcontentsline{toc}{chapter}{Bibliography}
-	\end{multicols}
+
+% +--------------------------------------------------------------------+
+% | Title Page -- Required for both Doctoral and Masters Students
+% +--------------------------------------------------------------------+
+
+\input{Cascaras/title.tex}
+   \pdfbookmark[0]{Portada}{PDFPortadaPage}
+
+% +--------------------------------------------------------------------+
+% | Autorizacion Page -- Required for both Doctoral and Masters Students
+% +--------------------------------------------------------------------+
+
+\input{autorizacion.tex}
+   \pdfbookmark[0]{Autorización}{PDFAutorizacionPage}
+
+
+   
+   \input{Cascaras/resumen.tex}
+   
+   \pdfbookmark[0]{Resumen}{PDFResumenPage}
+
+    \input{Cascaras/abstract.tex}
+       \pdfbookmark[0]{Abstract}{PDFAbstractPage}
+    \vfill
+
+
+% +--------------------------------------------------------------------+
+% | We use the following code to suppress page numbers and other
+% | style issues we do not want present on a given page.               |
+% +--------------------------------------------------------------------+
+
+%\thispagestyle{empty} Looks like it's ok to remove this line
+\newpage
+\pagenumbering{roman}
+
+% +--------------------------------------------------------------------+
+% | On the line below, set the number to represent the page number of
+% | the Table of Contents page.  For example, if the Table of Contents
+% | page is the 8th page of your document, enter 8 in the brackets.  This
+% | number may vary, depending on the length of your abstract.
+% |
+% | Numbers do not appear on the title and abstract pages, but they are
+% | included in the page count.  The Table of Contents page is the
+% | first page on which page numbers are displayed.
+% +--------------------------------------------------------------------+
+
+\setcounter{page}{1}
+
+% +--------------------------------------------------------------------+
+% | Here, we will generate our Table of Contents (TOC) entries.        |
+% | This adds the section to the TOC and then generates the indicated  |
+% | section.                                                           |
+% +--------------------------------------------------------------------+
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Índice}
+
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+%\hfill  Are these lines necessary?
+%\hfill
+
+% +--------------------------------------------------------------------+
+% | Acknowledgements Page
+% |
+% | If you choose not to have an Acknowledgements page, comment out
+% | or delete the following 3 lines.
+% +--------------------------------------------------------------------+
+
+%\input{agradecimientos.tex}
+%\phantomsection
+%\addcontentsline{toc}{chapter}{Agradecimientos}
+
+% +--------------------------------------------------------------------+
+% | Dedication Page
+% |
+% | If you choose not to have a Dedication page, comment out
+% | or delete the following 3 lines.
+% +--------------------------------------------------------------------+
+
+\input{Cascaras/dedicatoria.tex}
+\phantomsection
+\addcontentsline{toc}{chapter}{Dedicatoria}
+
+% +--------------------------------------------------------------------+
+% | Preface Page
+% +--------------------------------------------------------------------+
+
+%\input{preface.tex}
+%\phantomsection
+%\addcontentsline{toc}{chapter}{Preface}
+
+% +--------------------------------------------------------------------+
+% | We use arabic (1, 2, 3...) page numbering starting from page 1.    |
+% | Note, however, that there are many pages where this is not the     |
+% | desired behavior - such as the Title page, or abstract.  In these  |
+% | cases, we can use \thispagestyle{empty} to suppress page numbers,  |
+% | and other general style issues that we've defined globally.        |
+% +--------------------------------------------------------------------+
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% +--------------------------------------------------------------------+
+% | Here is where we include individual sections of the thesis or
+% | dissertation.                                                      |
+% +--------------------------------------------------------------------+
+
+% +--------------------------------------------------------------------+
+% | Chapters
+% +--------------------------------------------------------------------+
+
+
+
+% +--------------------------------------------------------------------+
+% | Uncomment the lines below to add additional chapters.  Name the
+% | files chapter2.tex for Chapter 2, chapter3.tex for Chapter 3, etc.
+% +--------------------------------------------------------------------+
+
+
+\include{Capitulos/1_Introduccion}
+\include{Capitulos/2_Contextualizacion}
+\include{Capitulos/3_Diseño_implementaciones}
+\include{Capitulos/4_Estudio_empírico}
+\include{Capitulos/5_Conclusiones_trabajo_futuro}
+%\input{chapter4.tex}
+%\input{chapter5.tex}
+
+% +-------------------------------------------------------------------------+
+% | References                                                              |
+% +-------------------------------------------------------------------------+
+
+% +-------------------------------------------------------------------------+
+% | In order for WinEDT to index references correctly, it has to know where |
+% | the file resides.  The following command is prefaced by %, and will be  |
+% | ignored completely by LaTeX.  However, WinEDT will use this line to     |
+% | access the external .bib bibliography file.  Also note that WinEDT can  |
+% | read file path names with either "\" or "/" - LaTeX, however, doesn't   |
+% | like "\", so it's easier to store a path name in the "Unix" style.      |
+% +-------------------------------------------------------------------------+
+
+%Included for Gather Purpose only.  Do NOT uncomment:
+%input "references.bib"
+
+% +--------------------------------------------------------------------+
+% | This template uses the BibTeX program to format references.  The
+% | 3 lines below create a separate Bibliography section and add
+% | an entry for "raphy" to the Table of Contents.  The actual
+% | data for your references (author, title, journal, date, etc.) are
+% | entered in the references.bib file.  See that file for information
+% | on how to enter references.
+% +--------------------------------------------------------------------+
+
+\bibdata{references}
+\bibliography{references}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+
+
+\include{Cascaras/acronimos.tex}
+% +--------------------------------------------------------------------+
+% | Finally, we generate the appendix.  To add or delete appendices,
+% | add or remove the line
+% |
+% |     \input{appendixX.tex}
+% |
+% | where "X" is the letter designation of the Appendix (A, B, C, etc.)
+% | You should have one \input{appendixX.tex} line and a corresponding
+% | file appendixX.tex for each appendix.                                 |
+% +--------------------------------------------------------------------+
+
+%\appendix
+%\input{appendixA.tex}
+%\input{appendixB.tex}
 
 \end{document}
-

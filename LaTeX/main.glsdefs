@@ -1,0 +1,28 @@
+\glsdefs@newdocentry{MPI}%
+{%
+name={\acronymfont {\glsentryshort {MPI}}},%
+sort={MPI},%
+type={acronym},%
+first={MPI},%
+firstplural={MPIs},%
+text={MPI},%
+plural={MPIs},%
+description={Message Passing Interface},%
+descriptionplural={Message Passing Interface},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Message Passing Interface},%
+longplural={Message Passing Interfaces},%
+short={MPI},%
+shortplural={MPIs},%
+counter={page},%
+parent={},%
+%
+}%
+

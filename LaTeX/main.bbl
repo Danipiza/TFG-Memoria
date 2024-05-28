@@ -1,105 +1,53 @@
-% $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.2 $
-% Do not modify the above lines!
-%
-% This is an auxiliary file used by the 'biblatex' package.
-% This file may safely be deleted. It will be recreated as
-% required.
-%
-\begingroup
-\makeatletter
-\@ifundefined{ver@biblatex.sty}
-  {\@latex@error
-     {Missing 'biblatex' package}
-     {The bibliography requires the 'biblatex' package.}
-      \aftergroup\endinput}
-  {}
-\endgroup
+\begin{thebibliography}{1}
 
-\datalist[entry]{nty/global//global/global}
-  \entry{einstein}{article}{}
-    \name{author}{1}{}{%
-      {{hash=EA}{%
-         family={Einstein},
-         familyi={E\bibinitperiod},
-         given={Albert},
-         giveni={A\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{EA1}
-    \strng{fullhash}{EA1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{E}
-    \field{sortinithash}{E}
-    \verb{doi}
-    \verb http://dx.doi.org/10.1002/andp.19053221004
-    \endverb
-    \field{number}{10}
-    \field{pages}{891\bibrangedash 921}
-    \field{title}{{Zur Elektrodynamik bewegter K{\"o}rper}. ({German}) [{On}
-  the electrodynamics of moving bodies]}
-    \field{volume}{322}
-    \field{journaltitle}{Annalen der Physik}
-    \field{year}{1905}
-  \endentry
+\bibitem{ackermann2014analysis}
+Marcel~R Ackermann, Johannes Bl{\"o}mer, Daniel Kuntze, and Christian Sohler.
+\newblock Analysis of agglomerative clustering.
+\newblock {\em Algorithmica}, 69:184--215, 2014.
 
-  \entry{latexcompanion}{book}{}
-    \name{author}{3}{}{%
-      {{hash=GM}{%
-         family={Goossens},
-         familyi={G\bibinitperiod},
-         given={Michel},
-         giveni={M\bibinitperiod},
-      }}%
-      {{hash=MF}{%
-         family={Mittelbach},
-         familyi={M\bibinitperiod},
-         given={Frank},
-         giveni={F\bibinitperiod},
-      }}%
-      {{hash=SA}{%
-         family={Samarin},
-         familyi={S\bibinitperiod},
-         given={Alexander},
-         giveni={A\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Addison-Wesley}%
-    }
-    \strng{namehash}{GMMFSA1}
-    \strng{fullhash}{GMMFSA1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{G}
-    \field{sortinithash}{G}
-    \field{title}{The \LaTeX\ Companion}
-    \list{location}{1}{%
-      {Reading, Massachusetts}%
-    }
-    \field{year}{1993}
-  \endentry
+\bibitem{barker2015message}
+Brandon Barker.
+\newblock Message passing interface (mpi).
+\newblock In {\em Workshop: high performance computing on stampede}, volume
+  262. Cornell University Publisher Houston, TX, USA, 2015.
 
-  \entry{knuthwebsite}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=KD}{%
-         family={Knuth},
-         familyi={K\bibinitperiod},
-         given={Donald},
-         giveni={D\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{KD1}
-    \strng{fullhash}{KD1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{K}
-    \field{sortinithash}{K}
-    \field{title}{Knuth: Computers and Typesetting}
-    \verb{url}
-    \verb http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html
-    \endverb
-  \endentry
-\enddatalist
-\endinput
+\bibitem{contreras2015mobile}
+Marco~A Contreras-Cruz, Victor Ayala-Ramirez, and Uriel~H Hernandez-Belmonte.
+\newblock Mobile robot path planning using artificial bee colony and
+  evolutionary programming.
+\newblock {\em Applied Soft Computing}, 30:319--328, 2015.
+
+\bibitem{espinoza2012using}
+Flor~A Espinoza, Janet~M Oliver, Bridget~S Wilson, and Stanly~L Steinberg.
+\newblock Using hierarchical clustering and dendrograms to quantify the
+  clustering of membrane proteins.
+\newblock {\em Bulletin of mathematical biology}, 74:190--211, 2012.
+
+\bibitem{garcia2013markov}
+Fr{\'e}d{\'e}rick Garcia and Emmanuel Rachelson.
+\newblock Markov decision processes.
+\newblock {\em Markov Decision Processes in Artificial Intelligence}, pages
+  1--38, 2013.
+
+\bibitem{mnih2013playing}
+Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves, Ioannis
+  Antonoglou, Daan Wierstra, and Martin Riedmiller.
+\newblock Playing atari with deep reinforcement learning.
+\newblock {\em arXiv preprint arXiv:1312.5602}, 2013.
+
+\bibitem{stone1990high}
+Harold~S Stone.
+\newblock {\em High-performance computer architecture}.
+\newblock Addison-Wesley Longman Publishing Co., Inc., 1990.
+
+\bibitem{thomas2021global}
+Christopher~A Thomas and Xander Wu.
+\newblock How global tech executives view us-china tech competition.
+\newblock 2021.
+
+\bibitem{wang2012monte}
+Yi~Wang, Kok~Sung Won, David Hsu, and Wee~Sun Lee.
+\newblock Monte carlo bayesian reinforcement learning.
+\newblock {\em arXiv preprint arXiv:1206.6449}, 2012.
+
+\end{thebibliography}
