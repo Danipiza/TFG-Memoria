@@ -1,4 +1,4 @@
-## TFG: Optimización de algoritmos de IA aplicando técnicas enfocadas en cómputo de alto rendimiento
+## (TFG) MPAI-Boost: Optimización de algoritmos de IA aplicando técnicas enfocadas en cómputo de alto rendimiento
 ---
 #### Estudiante: Daniel Pizarro Gallego (GII)
 
