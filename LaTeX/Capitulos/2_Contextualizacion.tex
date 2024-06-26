@@ -1,5 +1,5 @@
 \chapter{Contextualización}
-\label{cap:Contextualizacion}
+\label{cap:c2_context}
 
 \definecolor{lightergray}{RGB}{247,247,247}
 \definecolor{darkgreen}{RGB}{36,135,20}
@@ -15,51 +15,11 @@ El objetivo de este capítulo es explicar rápidamente los algoritmos, y facilit
 
 
 \section{MPI}
-Message Passing Interface \cite{barker2015message}  (MPI)  es un estándar para una biblioteca de paso de mensajes, diseñado para funcionar en una amplia variedad de arquitecturas informáticas paralelas. Permite la comunicación entre procesos, mandando y recibiendo mensajes de todo tipo. Comúnmente usado en informática de alto rendimiento \cite{stone1990high} (HPC) y entornos informáticos paralelos, para desarrollar aplicaciones paralelas escalables y eficientes.
 
-Al crear el entorno MPI en una aplicación se ejecutan en paralelo varios procesos, cada uno con su correspondiente id. El primer proceso (id=0) es llamado Master, se encarga de distribuir los mensajes entre los demás procesos, workers, para que haya una comunicación eficiente y paralelizar los programas. Figura \ref{fig:comunicacion_mw}.
-
-Esta técnica para paralelizar utiliza memoria distribuida, es decir, cada proceso tiene su propia memoria local. No tienen que preocuparse por los problemas de la memoria compartida, como la sincronización para el acceso de variables compartidas, condiciones de carrera o deadlocks. Asimismo la memoria compartida no es fácilmente escalable a un gran número de procesadores \cite{barker2015message} .
+Message Passing Interface\cite{barker2015message}  (MPI)  es un estándar para una biblioteca de paso de mensajes, diseñado para funcionar en una amplia variedad de arquitecturas informáticas paralelas. Permite la comunicación entre procesos, mandando y recibiendo mensajes de todo tipo. Comúnmente usado en informática de alto rendimiento\cite{stone1990high} (HPC) y entornos informáticos paralelos, para desarrollar aplicaciones paralelas escalables y eficientes.
 
 
-\textbf{Single Program Multiple Data (SPMD)}. Un programa ejecutado en paralelo. Este mismo se copia en todos los nodos. Figura \ref{fig:ejecucion_mpi}.
-
-La comunicación se lleva a cabo con funciones punto a punto, un proceso emisor y otro receptor. Estos mensajes pueden ser:
-Síncronos: al ejecutar la función recv() el proceso receptor se queda bloqueado.
-Asíncrono: el receptor no se bloquea, por lo que puede adelantar código mientras espera a recibir el mensaje.
-Broadcast:un mensaje se envía a todos los procesos ejecutados. Los emisores tienen que llamar a la misma función para recibir el mensaje.
-
-
-
-
-\begin{figure}[!h]
-\lstset{language=python, 
-	language=python,
-	breaklines=true,
-	basicstyle=\footnotesize\ttfamily,
-	backgroundcolor=\color{lightergray},
-	keywordstyle=\color{blue}, % Keywords will be blue
-	commentstyle=\color{green!60!black}, % Comments will be green
-	stringstyle=\color{purple}, % Strings will be purple
-	numbers=left, % Line numbers will appear on the left
-	numberstyle=\tiny\color{gray}, % Line numbers will be small and gray
-	frame=single,}
-		
-\begin{lstlisting}[frame=single]
-from mpi4py import MPI #Al importar la biblioteca en Python se genera el entorno.
-
-comm=MPI.COMM_WORLD     	# Comunicador
-status = MPI.Status()   		# Status
-myrank=comm.Get_rank() 	# id de cada proceso
-numProc=comm.Get_size() 	# Numero de procesadores
-if myrank==0:           # Master
-# TODO
-else:                   # Workers
-# TODO	
-\end{lstlisting}
-\caption{Esquema básico para ejecutar un programa MPI en Python}
-\label{fig:esquea_mpi}
-\end{figure}
+Al crear el entorno MPI en una aplicación se ejecutan en paralelo varios procesos, cada uno con su correspondiente id, también llamado rank. El programador elige cuál va a ser el desempeño de los procesos. Por ejemplo, en el modelo \textit{Master-Worker}, el primer proceso (id=0) generalmente, es llamado \textit{Master}, se encarga de distribuir los mensajes entre los demás procesos, llamados \textit{Workers}, para que haya una comunicación eficiente y paralelizar los programas. La Figura \ref{fig:comunicacion_mw}, muestra la comunicación entre los procesos en este modelo. El proceso master reparte los datos, los workers los procesan y los devuelven.
 
 
 \begin{figure}[!h]
@@ -71,19 +31,71 @@ else:                   # Workers
 
 \newpage
 
+Esta técnica para paralelizar utiliza memoria distribuida, es decir, cada proceso tiene su propia memoria local. No tienen que preocuparse por los problemas de la memoria compartida, como la sincronización para el acceso de variables compartidas, condiciones de carrera o deadlocks. Asimismo la memoria compartida no es fácilmente escalable a un gran número de procesadores\cite{barker2015message}.
+
+
+- Single Program Multiple Data (SPMD). Un programa ejecutado en paralelo, donde múltiples procesos se ejecutan en el mismo programa de manera independiente, pero trabajan con diferentes conjuntos de datos. Es un modelo comúnmente utilizado en computación de alto rendimiento y entornos de procesamiento paralelo. La escalabilidad, y eficiencia de este modelo son sus principales ventajas.
+
+Un proceso (el Master) contiene todos los datos del programa, y se encarga de gestionar todos los datos y repartirlos de manera eficiente Figura \ref{fig:ejecucion_mpi}. Los mensajes pueden ser:
+
+\begin{itemize}
+	\item Síncronos: al ejecutar la función recv() el proceso receptor se queda bloqueado.
+	\item Asíncrono: el receptor no se bloquea, por lo que puede adelantar código mientras espera a recibir el mensaje.
+	\item Broadcast: un mensaje se envía a todos los procesos ejecutados. Los emisores tienen que llamar a la misma función para recibir el mensaje.
+\end{itemize}
+
+
+
+
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{images/chapter_2/mpi_2}
+	\includegraphics[width=0.9\textwidth]{images/chapter_2/mpi_2}
 	\caption{Ejecución MPI}
 	\label{fig:ejecucion_mpi}
 \end{figure}
 
 
-%\newpage
+Un programa MPI, comparte el mismo código para todos los procesos ejecutados. Un proceso lee el conjunto de datos y los carga en su memoria, para luego dividirlos y enviarlos a los procesos disponibles. Una vez repartido el dataset se ejecutan en paralelo y procesan los datos recibidos. Cuando un proceso finaliza el procesado, envia devuelta los datos procesados.
+
+\begin{figure}[!h]
+	\lstset{language=python, 
+		language=python,
+		breaklines=true,
+		basicstyle=\footnotesize\ttfamily,
+		backgroundcolor=\color{lightergray},
+		keywordstyle=\color{blue}, % Keywords will be blue
+		commentstyle=\color{green!60!black}, % Comments will be green
+		stringstyle=\color{purple}, % Strings will be purple
+		numbers=left, % Line numbers will appear on the left
+		numberstyle=\tiny\color{gray}, % Line numbers will be small and gray
+		frame=single,}
+	
+	\begin{lstlisting}[frame=single]
+from mpi4py import MPI 
+# Al importar la biblioteca en Python se genera el entorno.
+
+comm = MPI.COMM_WORLD     # Comunicador
+status = MPI.Status()   # Status
+myrank = comm.Get_rank() 	# id de cada proceso
+numProc = comm.Get_size() # Numero de procesadores
+
+if myrank==0:           # Master
+    # Carga el conjunto de datos. Los divide y envia.
+    # Recibe todos los datos procesados.
+else:                   # Workers
+    # Recibe el subconjunto de datos que le asigna el Master.
+    # Procesa los datos.
+    # Envia los datos procesados.
+	\end{lstlisting}
+	\caption{Esquema básico para ejecutar un programa MPI en Python}
+	\label{fig:esquea_mpi}
+\end{figure}
+
+\newpage
 
 \section{Aprendizaje por Refuerzo}
 
-Reinforcement Learning (RL), en español Aprendizaje por Refuerzo. Es un tipo de aprendizaje automático donde el agente aprende en base a las decisiones tomadas al interactuar con el entorno. El agente aprende a llegar a una meta o maximizar un cúmulo de recompensas obtenidas al realizar un determinado número de acciones consecutivas, y observar las posibles recompensas al realizar cada acción en los estados del entorno.
+Reinforcement Learning (RL), en español, Aprendizaje por Refuerzo, es un tipo de aprendizaje automático donde el agente aprende en base a las decisiones tomadas al interactuar con el entorno. El agente aprende a llegar a una meta o maximizar un cúmulo de recompensas obtenidas al realizar un determinado número de acciones consecutivas, y observar las posibles recompensas al realizar cada acción en los estados del entorno.
 
 El agente aprende a con prueba y error, explorando las diferentes acciones y aprendiendo cuáles conducen a mejores resultados. No requiere entradas etiquetadas como en el aprendizaje supervisado, aprende con una serie de feedbacks (recompensas o castigos).
 
@@ -101,7 +113,8 @@ El agente aprende a con prueba y error, explorando las diferentes acciones y apr
 \end{itemize}
 
 
-\noindent \textbf{Algoritmo Q-Learning:} Mezcla entre programación dinámica y Monte Carlo \cite{wang2012monte}.
+\subsection{Algoritmo Q-Learning} 
+Mezcla entre programación dinámica y Monte Carlo \cite{wang2012monte}.
 
 Es el más básico de entre los algoritmos de aprendizaje por refuerzo. Se usa para encontrar la mejor política de selección de acciones para un proceso de Decisión de Markov Determinado (MDP en inglés) \cite{garcia2013markov}. 
 
@@ -124,17 +137,20 @@ El agente toma las decisiones de ejecutar una acción dependiendo del hiper par�
 			$\gamma$ ← Factor de descuento. Determina la importancia de futuras recompensas comparadas con las recompensas inmediatas.\\
 			maxi(Q(S’,Ai)): Es el valor máximo obtenible de realizar las posibles acciones en el estado siguiente.
 			
-			
+				
 		\end{tcolorbox}
-		
+
+	
 	\end{mdframed}
+	%\caption{Cálculo del Q-Value de un estado y acción}	
+	%\label{fig:qvalue}
 \end{flushleft}
 
 %\newpage
 
 Este algoritmo se ha aplicado en muchos dominios, como puede ser videojuegos de Atari \cite{mnih2013playing}, robótica o problemas de optimización. Sin embargo sufre cuando el entorno tiene muchos estados, ya que la complejidad espacial aumenta muchísimo y no es práctico tener las dos matrices.\\
 
-\noindent \textbf{Deep Q-Network (DQN):}\\
+\subsection{Deep Q-Network (DQN)}
 Por los problemas de escalabilidad mencionados anteriormente, se desarrolló el algoritmo de Redes Neuronales Profundas. Combina redes neuronales, con la base de aprendizaje por refuerzo, así eliminando la Q-Table.
 % TODO DQN
 \color{blue} TODO… \color{black}
@@ -146,28 +162,33 @@ Los métodos no supervisados (unsupervised methods) son algoritmos de aprendizaj
 
 La meta de este aprendizaje es encontrar patrones o estructura en los datos proporcionados. Estos algoritmos son útiles en escenarios en los cuales hay escasez de datos etiquetados o no están disponibles.
 
-Hay muchos tipos de técnicas de aprendizaje no supervisado. Como puede ser detección de anomalías, reducción de dimensionalidad o clustering. Voy a mejorar las técnicas de Clustering que se encargan de agrupar individuos, basándose en alguna medida de similitud. Como no es aprendizaje supervisado, no disponemos de información categorizada previamente. Por lo que hay que calcular el número óptimo de clusters, para el cual hay medidas ya estudiadas como el coeficiente de Davies-Bouldin, Silhouette o Diagramas de codo. Figura \ref{fig:coeficientes},
+Hay muchos tipos de técnicas de aprendizaje no supervisado. Como puede ser detección de anomalías, reducción de dimensionalidad o clustering. En este proyecto vamos a reducir el tiempo de ejecución de las técnicas de Clustering que se encargan de agrupar individuos, basándose en alguna medida de similitud. Como no es aprendizaje supervisado, no disponemos de información categorizada previamente, por lo que hay que calcular el número óptimo de clusters, para el cual hay medidas ya estudiadas como el coeficiente de Davies-Bouldin cuyo valor mínimo indica el número óptimo de clusters, Silhouette es parecido al anterior pero con el valor máximo, o Diagramas de codo. Siendo este último el menos preciso debido a que se calcula visualmente, cuando empieza a crearse un codo (la diferencia con el número anterior no es tan pronunciada como en puntos anteriores). Se pueden apreciar los diferentes coeficientes en la Figura \ref{fig:coeficientes}. 
 
-Los llamados métodos jerárquicos \cite{ackermann2014analysis} tienen por objetivo agrupar clusters para formar uno nuevo o bien separar alguno ya existente para dar origen a otros dos, de tal forma que, si sucesivamente se va efectuando este proceso de aglomeración, se minimice alguna distancia o bien se maximice alguna medida de similitud.\\
 
-\noindent \textbf{Clustering jerárquico aglomerativo}\\
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=1\textwidth]{images/chapter_2/ap_nosup_diagramas}
+	\caption{Coeficientes}
+	\label{fig:coeficientes}
+\end{figure}
+
+
+Los llamados métodos jerárquicos \cite{ackermann2014analysis} tienen por objetivo agrupar clusters para formar uno nuevo o bien separar alguno ya existente para dar origen a otros dos, de tal forma que, si sucesivamente se va efectuando este proceso de aglomeración, se minimice alguna distancia o bien se maximice alguna medida de similitud.
+
+\subsection{Clustering jerárquico aglomerativo}
 
 Este algoritmo usa una matriz para realizar la agrupación de los individuos. Comienza teniendo N cluster, uno por cada individuo de la población. La matriz se representa por las filas, es decir, la fila i-ésima representa el cluster i-ésimo. La matriz se rellena con las distancias entre los clusters, por lo que la celda (i,j) representa la distancia entre el cluster i y el j.  
 
-En cada iteración, se busca en la matriz la distancia mínima, y se juntan los clusters que representan la fila i con la columna j. La matriz se actualiza, eliminando la fila y la columna con mayor índice (entre i,j), y actualizando la fila y columna de menor índice. Este proceso se repite hasta que solo haya un cluster.\\
-
-
-\noindent El cálculo de la distancia entre cluster puede ser por:
+En cada iteración, se busca en la matriz la distancia mínima, y se juntan los clusters que representan la fila i con la columna j. La matriz se actualiza, eliminando la fila y la columna con mayor índice (entre i,j), y actualizando la fila y columna de menor índice. Este proceso se repite hasta que solo haya un cluster. Las distancia entre clusters pueden ser:
 \begin{itemize}
 \item Centroides, cada cluster tiene un centro.
-\item Enlace simple y compuesto. La distancia entre cluster viene dada por la menor o mayor distancia, respectivamente, entre los individuos que representan cada cluster.
+\item Enlace simple o compuesto. La distancia entre cluster viene dada por la menor o mayor distancia, respectivamente, entre los individuos que representan cada cluster.
 \end{itemize}
-\noindent La complejidad en los enlaces simple y completo tienen un coste cúbico O(N3), al tener que comparar todos los individuos uno a uno entre dos cluster.
 
 
 
 \begin{algorithm}[!h]
-	\caption{Jerarquico Aglomerativo}
+	\caption{Jerárquico Aglomerativo}
 	\KwData{poblacion, C // Número de clusters deseados}
 	\KwResult{agrupacion // Clusters para cada individuo de la población}
 	D := init() // Inicializar la matriz de distancias\\
@@ -181,13 +202,22 @@ En cada iteración, se busca en la matriz la distancia mínima, y se juntan los 
 	
 \end{algorithm}
 
+\noindent La complejidad en los enlaces simple y completo tienen un coste cúbico O(\(N^{3}\)), al tener que comparar todos los individuos uno a uno entre dos cluster.
+
+\newpage
 
 
+Al finalizar la ejecución se puede representar la agrupación mediante un dendrograma \cite{espinoza2012using}, y comprobar el número óptimo de clusters para la población calculada. Aunque no es igual de preciso como los coeficientes mencionados anteriormente. Ejemplo: Figura \ref{fig:dendograma}
 
-Al finalizar la ejecución se puede representar la agrupación mediante un dendrograma \cite{espinoza2012using}, y comprobar el número óptimo de clusters para la población calculada. Aunque no es igual de preciso como los coeficientes mencionados anteriormente. Ejemplo: Figura \ref{fig:dendograma}\\
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/chapter_2/dendograma}
+	\caption{Dendograma}
+	\label{fig:dendograma}
+\end{figure}
 
 
-\noindent \textbf{Clustering Basados en particiones: K-Medias}
+\subsection{Clustering Basados en particiones: K-Medias}
 
 La meta de este algoritmo es particionar la población inicial en K cluster, cada individuo se agrupa con el cluster más próximo. Para ello se busca minimizar el sumatorio de distancias entre los individuos y el centroide de su cluster. 
 
@@ -208,33 +238,14 @@ La meta de este algoritmo es particionar la población inicial en K cluster, cad
 	\Return $agrupacion$\;
 \end{algorithm}
 
-Sin embargo, hay que tener en cuenta que la inicialización de los centros es estocástica, por lo que el algoritmo puede converger en un óptimo local. Por eso es importante repetir el algoritmo varias veces para encontrar el óptimo general. Idea representada en la figura \ref{fig:kmediasBusqueda}.
-
-%\vspace{0.1cm}
-\newpage
+Sin embargo, hay que tener en cuenta que la inicialización de los centros es estocástica, por lo que el algoritmo puede converger en un óptimo local. Por eso es importante repetir el algoritmo varias veces para encontrar el óptimo general. Idea representada en la figura \ref{fig:kmediasBusqueda}. Se ejecuta varias veces el algoritmo, para ver las posibles asignaciones. El intento con menor valor de sumatorio de distancias de individuos y su cluster asignado, es la mejor asignación entre los intentos ejecutados.
 
 
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{images/chapter_2/ap_nosup_diagramas}
-	\caption{Coeficientes}
-	\label{fig:coeficientes}
-\end{figure}
-
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{images/chapter_2/dendograma}
-	\caption{Dendograma}
-	\label{fig:dendograma}
-\end{figure}
-
-\vspace{0.1cm}
 
 % TODO CAMBIAR IMAGEN
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/chapter_2/kmedias}
+	\includegraphics[width=1\textwidth]{images/chapter_2/kmedias}
 	\caption{KMedias - Busqueda}
 	\label{fig:kmediasBusqueda}
 \end{figure}
@@ -245,9 +256,11 @@ Al contrario que el apartado anterior, este tipo de aprendizaje automático, es 
 
 El objetivo de este algoritmo es aprender la función que mapea las variables de entrada en las categorías correctas de salida. Ajusta los parámetros con técnicas de optimización iterativas para minimizar el error en sus predicciones.
 
-Los ejemplos más comunes son la clasificación, para dividir la población en categorías según unos parámetros. Y regresión, que encuentra las correlaciones entre las variables dependientes e independientes.\\
+Los ejemplos más comunes son la clasificación, para dividir la población en categorías según unos parámetros. Y regresión, que encuentra las correlaciones entre las variables dependientes e independientes.\
 
-\noindent\textbf{K-Vecinos más Cercanos - KNN}
+\newpage
+
+\subsection{K-Vecinos más Cercanos - KNN}
 
 Simple pero potente, es muy efectivo para tareas de clasificación y regresión. Se basa en la idea de que los puntos de datos similares tienden a agruparse en el espacio de características. Pertenece al paradigma de aprendizaje perezoso o basado en instancias.
 
@@ -257,7 +270,7 @@ Simple pero potente, es muy efectivo para tareas de clasificación y regresión.
 	\item Basado en instancias: usa todos los individuos disponibles y ante un ejemplo nuevo recupera los más relevantes para componer la solución.	
 \end{itemize}
 
-No hay una forma de determinar el mejor valor para K, hay que probar con varias ejecuciones. Valores pequeños de K crea sonido y valores grandes con pocos datos hará que siempre sea la misma categoría. Un valor diferente de K puede cambiar la categoría de un individuo. Figura \ref{fig:knn}
+No hay una forma de determinar el mejor valor para K, hay que probar con varias ejecuciones. Valores pequeños de K crea sonido y valores grandes con pocos datos hará que siempre sea la misma categoría. Un valor diferente de K puede cambiar la categoría de un individuo. En la Figura \ref{fig:knn} se puede apreciar el proceso de asignación de un cluster a un nuevo individuo. Como se puede ver con los círculos que delimitan los K vecinos más cercanos, si variamos K, la asignación del nuevo individuo puede cambiar.
 
 \begin{algorithm}
 	\caption{KNN}
@@ -271,21 +284,59 @@ No hay una forma de determinar el mejor valor para K, hay que probar con varias 
 	\Return $agrupacion$\;
 \end{algorithm}
 
-La distancia entre individuos más usada es la Euclídea, pero demora más tiempo al aplicar potencias y raíces cuadradas en su cálculo. La distancia Manhattan es más rápida.\\
+La distancia entre individuos más usada es la Euclídea, pero demora más tiempo al aplicar potencias y raíces cuadradas en su cálculo. La distancia Manhattan es más rápida, pero un poco menos precisa.
+
+\newpage
+
+%\begin{figure}[!h]
+%	\centering
+%	\includegraphics[width=0.5\textwidth]{images/chapter_2/knn}
+%	\caption{KNN}
+%	\label{fig:knn}
+%\end{figure}
 
 
-\noindent\textbf{Redes Neuronales}
+\begin{figure}[!h]
+	\centering
+	
+	
+	\begin{subfigure}[t]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/chapter_2/knn}
+		\caption{KNN}
+		\label{fig:knn}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/chapter_2/redneu}
+		\caption{Red Neuronal}
+		\label{fig:redneu}
+	\end{subfigure}
+	
+	\caption{Aprendizaje Supervisado}
+	\label{fig:aprendizajeSupervisado}
+\end{figure}
+
+\subsection{Redes Neuronales}
 
 Modelo computacional inspirado en el funcionamiento y estructura de las neuronas del cerebro humano. Consiste en capas de nodos interconectados, llamadas neuronas artificiales. Estructura del modelo (Figura \ref{fig:redneu}):
 
 
 \begin{itemize}
-	\item Capa de entrada, en la cual, habrá tantas neuronas como variables de entrada tenga el modelo de predicción.\\
-	\item Capa oculta, representada con una o más capas internas. Cada una con su número de neuronas.\\	
+	\item Capa de entrada, en la cual, habrá tantas neuronas como variables de entrada tenga el modelo de predicción.
+	\item Capa oculta, representada con una o más capas internas. Cada una con su número de neuronas.	
 	\item Capa de salida, como en la entrada. Tendrá un número de neuronas relacionadas con las variables de salida.
 \end{itemize}
 
 Se ha demostrado que tiene un rendimiento notable en muchas tareas, como el reconocimiento de imágenes o procesamiento de lenguaje natural. Aprenden patrones complejos al someterse a un entrenamiento específico con un amplio dataset categorizado.	
+
+%\begin{figure}[!h]
+%	\centering
+%	\includegraphics[width=0.5\textwidth]{images/chapter_2/redneu}
+%	\caption{Red Neuronal}
+%	\label{fig:redneu}
+%\end{figure}
 
 En el proceso de entrenamiento aprende a realizar una tarea específica ajustando los parámetros internos (pesos en las conexiones), gracias al dataset proporcionado. Normalmente ajustando con algoritmos de optimización como descenso de gradiente, donde se comparan las predicciones del modelo con las categoría correcta, y actualizando los parámetros del modelo con un método de propagación hacia atrás, backpropagation en inglés. Estos valores se actualizan dependiendo del error cometido y la tasa de aprendizaje proporcionada al modelo.
 
@@ -311,29 +362,31 @@ En el proceso de entrenamiento aprende a realizar una tarea específica ajustand
 	\Return $agrupacion$\;
 \end{algorithm}
 
+
+
 %\vspace{0.2cm}
 
-\begin{figure}[!h]
-	\centering
-	
-	
-	\begin{subfigure}[t]{0.33\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/chapter_2/knn}
-		\caption{KNN}
-		\label{fig:knn}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/chapter_2/redneu}
-		\caption{Red Neuronal}
-		\label{fig:redneu}
-	\end{subfigure}
-	
-	\caption{Aprendizaje Supervisado}
-	\label{fig:aprendizajeSupervisado}
-\end{figure}
+%\begin{figure}[!h]
+%	\centering
+%	
+%	
+%	\begin{subfigure}[t]{0.33\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{images/chapter_2/knn}
+%		\caption{KNN}
+%		\label{fig:knn}
+%	\end{subfigure}
+%	\hfill
+%	\begin{subfigure}[t]{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{images/chapter_2/redneu}
+%		\caption{Red Neuronal}
+%		\label{fig:redneu}
+%	\end{subfigure}
+%	
+%	\caption{Aprendizaje Supervisado}
+%	\label{fig:aprendizajeSupervisado}
+%\end{figure}
 
 \newpage
 
@@ -357,7 +410,7 @@ Esta técnica es muy útil para problemas de optimización donde los métodos tr
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/chapter_2/AG}
+	\includegraphics[width=0.55\textwidth]{images/chapter_2/AG}
 	\caption{Algoritmo Evolutivo}
 	\label{fig:AG}
 \end{figure}

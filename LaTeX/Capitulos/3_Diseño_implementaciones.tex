@@ -6,17 +6,18 @@
 
 
 \chapter{Diseño e Implementaciones}
-	
-El objetivo de este proyecto es mejorar los algoritmos de IA mencionados anteriormente. En este capítulo se presentan los diseños e implementaciones desarrolladas a lo largo del desarrollo del mismo.
+\label{cap:c3_implementaciones}	
+En este capítulo se presentan los diseños e implementaciones desarrolladas a lo largo del desarrollo del mismo. Empezando con programas sencillos para introducir MPI, y avanzando por nivel de dificultad en los algoritmos de IA. Los algoritmos de clustering son sencillos de entender y de paralelizar. El aprendizaje por refuerzo y los algoritmos evolutivos aumentan la complejidad en las implementaciones y para finalizar las redes neuronales, que de por si tienen un complejidad más elevada.
 
 %\newpage %TODO QUITAR
-\section{Ejemplos básicos MPI}
-\noindent Multiplicación de matrices. 
+\section{Programas sencillos}
+
+Para introducir MPI en el proyecto se implementan y comentan varios programas sencillos. La multiplicación de matrices, que tiene un coste cúbico, al tener que recorrer, para cada elemento de la matriz, una fila y columna entera. Y algoritmos de ordenación, que para simplificar, solo se realizan un estudio de las ordenaciones que más tiempo de ejecución consumen, O(\(N^{2}\)) y MergeSort con coste O(NlogN).
 
 
 Las matrices son un concepto matemático muy relevante en el mundo de los videojuegos y en el ámbito de la inteligencia artificial. Hay muchas técnicas de IA que conllevan la gestión de imágenes, como en el algoritmo DQN cuya red neuronal tiene como entrada varios fotogramas para poder aprender. Estas imágenes, pueden en mayor o menor medida ser implementadas con matrices.
 
-El cálculo de la multiplicación de dos matrices es cúbico O(N3). Recorre toda la matriz, y para cada elemento, hace el sumatorio de las multiplicaciones fila, columna. 
+El cálculo de la multiplicación de dos matrices es cúbico O(\(N^{3}\)). Recorre toda la matriz, y para cada elemento, hace el sumatorio de las multiplicaciones fila, columna. 
 
 Es un buen primer ejemplo para iniciar con la arquitectura MPI, debido a la lentitud del cálculo. Para ello hay que plantear cómo dividir el trabajo entre los procesos. 
 
@@ -29,96 +30,119 @@ Cada worker se va a encargar de un determinado número de filas, así paraleliza
 	\item Ir enviando filas de la matriz conforme se va resolviendo. Así logramos tener un flujo constante de mensajes y reducimos la complejidad espacial.
 \end{itemize}
 
-En el primer enfoque dejamos al master dormido hasta que recibe los resultados, y al recibir los resultados, se genera un cuello de botella. Además de aumentar la complejidad espacial al tener siempre las filas asignadas. Sin embargo en la segunda idea, el flujo de mensajes hace que el master vaya colocando los resultados recibidos, y se reduce el espacio en memoria, al manejar en cada iteración una fila. Figura 13
+
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.65\textwidth]{images/chapter_3/matriz_mpi}
+	\includegraphics[width=0.58\textwidth]{images/chapter_3/matriz_mpi}
 	\caption{MPI - Matriz}
 	\label{fig:matrizmpi}
 \end{figure}
 
-\begin{flushleft}
-	\underline{Búsqueda de elementos en arrays: }
-\end{flushleft}
-La complejidad temporal de los algoritmos de búsqueda en arrays, suele ser lineal O(N). Puede aplicarse divide y vencerás para reducir a un tiempo logarítmico, pero la restricción de ordenación no se puede garantizar siempre.
-
-A primera vista, reducir el espacio de búsqueda puede ser beneficioso. Dividiendo el espacio de búsqueda entre los workers reduce el tiempo de O(N) a O(N/numWorkers). Pero ¿se puede reducir el tiempo de ejecución al dividir el espacio entre los workers? Hay que tener en cuenta el tiempo de paso de mensajes. Si no se tuviese en cuenta, se podría garantizar la reducción, pero la comunicación master-worker tiene un coste, y con un tiempo lineal no se pueden lograr mejoras, más bien aumenta el tiempo de búsqueda.
-
-Por este motivo, hay que tener en cuenta la complejidad temporal de los algoritmos que queremos optimizar, porque no siempre es eficiente aplicar paralelismo.
+En el primer enfoque dejamos al master dormido hasta que recibe los resultados, y al recibir los resultados, se genera un cuello de botella. Además de aumentar la complejidad espacial al tener siempre las filas asignadas. Sin embargo en la segunda idea, el flujo de mensajes hace que el master vaya colocando los resultados recibidos, y se reduce el espacio en memoria, al manejar en cada iteración una fila. Figura \ref{fig:matrizmpi}
 
 
-\begin{flushleft}
-	\underline{Métodos de ordenación: \textbf{O(N2)} y \textbf{O(NlogN)}}
-\end{flushleft}
-Los algoritmos de ordenación tienen una complejidad mayor, a las búsquedas. Para ordenar un array de elementos hay que hacer varias iteraciones, hasta que esté completamente ordenado.
+\vspace*{0.2cm}
+%\noindent Métodos de ordenación: \textbf{O(N2)} y \textbf{O(NlogN)}
 
--Ordenaciones cuadráticas:
-Los métodos populares son BubbleSort, InsertionSort y SelectionSort, han sido estudiados y optimizados para que aunque tengan un coste cuadrático en el caso peor, tengan un buen rendimiento. Basándome en estos algoritmos he diseñado otro al cual he llamado SequentialSort. Consiste en recorrer todas las posiciones del array, y buscar en qué posición debería de colocarse para que el array esté ordenado. Cada elemento se compara con todos los demás. Se suma uno al contador por cada elemento menor comparado con el actual, y al finalizar una iteración, el contador es la posición del elemento en el array ordenado (si hay repetidos su posición es la primera sin ocupar).
+Los algoritmos de ordenación tienen tienen que iterar varias veces hasta que esté completamente ordenado. Y los métodos pueden variar bastante el tiempo de ejecución.
 
-
-Este método siempre tendrá coste cuadrático. No es como los anteriores que van reduciendo el espacio conforme aumentan las iteraciones. Pero es fácilmente paralelizable. 
-
-Para lograr esta idea, el master envía a todos los workers el array entero, y además asigna a cada uno qué elementos tiene que buscar su posición en el array ordenado.
+Para las ordenaciones cuadráticas, los métodos populares son BubbleSort, InsertionSort y SelectionSort, han sido estudiados y optimizados para que aunque tengan un coste cuadrático en el caso peor, tengan un buen rendimiento. Basándome en estos algoritmos he diseñado otro al cual he llamado SequentialSort. Consiste en recorrer todas las posiciones del array, y buscar en qué posición debería de colocarse para que el array esté ordenado. Cada elemento se compara con todos los demás. Se suma uno al contador por cada elemento menor comparado con el actual, y al finalizar una iteración, el contador es la posición del elemento en el array ordenado (si hay repetidos su posición es la primera sin ocupar) Figura \ref{fig:aglomerativompi}.
 
 
-- Ordenación logarítmicas:
-Los métodos algoritmos de ordenación son muy útiles y eficientes, QuickSort tiene varios problemas como la profundidad de recursión y el caso peor es cuadrático. Los algoritmos de RadixSort y HeapSort son de los mejores si no se aplican mejoras,  y MergeSort es muy popular, tanto que se aplica en Python para el método de ordenación por defecto, TimSort[19], en el cual mezcla una ordenación cuadrática optimizada al máximo, para luego usar las mitades ordenadas con MergeSort. Sin embargo, el algoritmo básico de MergeSort no es tan eficiente.
 
-Aplicando la misma idea que TimSort, se puede mejorar el tiempo de ejecución de MergeSort, aplicando combinaciones de los métodos básicos con complejidad cuadrática y comprobar la eficiencia.
 
-\underline{Mejora MPI:}
-Se crean varios procesos (para mayor eficacia y simpleza el número de procesos tiene que ser potencia de dos).  Se divide el array entre los procesos.
-Primera fase de ordenación: cada proceso ordena su sub-array con el método de ordenación más eficiente. Una vez desarrollado el estudio, el método básico SelectionSort es el que mejores resultados obtiene.
-Segunda fase de reagrupación y ordenación: esta fase se repite hasta solo tener un proceso activo, es decir, el array esté completamente ordenado.
-Proceso de comunicación entre procesos. Cada proceso se conecta con el más cercano (activo). 
-El proceso de mayor id manda su array ordenado y finaliza su ejecución. El que recibe se encarga de ordenar ambas mitades en una sola.
-Broadcast MPI, para garantizar que terminen todos al mismo tiempo.
-Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. Se espera a los procesos en potencias de dos para sincronizar.
+
 
 
 \begin{figure}[!h]
 	\centering
-	
-	
-	\begin{subfigure}[t]{0.33\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/chapter_3/sequentialsort_mpi}
-		\caption{MPI - SequentialSort}
-		\label{fig:sequentialsortmpi}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/chapter_3/mergesort_mpi}
-		\caption{MPI - MergeSort}
-		\label{fig:mergesortmpi}
-	\end{subfigure}
-	
-	\caption{Mejoras MPI de las ordenaciones}
-	\label{fig:ordenacionesmpi}
+	\includegraphics[width=0.6\textwidth]{images/chapter_3/sequentialsort_mpi}
+	\caption{MPI - SequentialSort}
+	\label{fig:sequentialsortmpi}
 \end{figure}
 
+Este método siempre tendrá coste cuadrático. No es como los anteriores que van reduciendo el espacio conforme aumentan las iteraciones. Pero es fácilmente paralelizable. 
 
-\newpage %TODO QUITAR
+\newpage
+
+Para lograr esta idea, el master envía a todos los workers el array entero, y además asigna a cada uno qué elementos tiene que buscar su posición en el array ordenado.
+
+
+
+Los algoritmos de ordenación logarítmicos son muy útiles y eficientes. QuickSort tiene varios problemas como la profundidad de recursión y en el caso peor es cuadrático. Los algoritmos de RadixSort y HeapSort son de los mejores si no se aplican mejoras,  y MergeSort es muy popular, tanto que se aplica en Python para el método de ordenación por defecto, TimSort[19]. Este último mezcla una ordenación cuadrática optimizada al máximo, para luego usar las mitades ordenadas con MergeSort. Sin embargo, el algoritmo básico de MergeSort no es tan eficiente.
+
+Aplicando la misma idea que TimSort, se puede mejorar el tiempo de ejecución de MergeSort, aplicando combinaciones de los métodos básicos con complejidad cuadrática y comprobar la eficiencia.
+
+
+Aplicando MPI se crean varios procesos (para mayor eficacia y simpleza el número de procesos tiene que ser potencia de dos), y se divide el array entre los procesos.
+\begin{itemize}
+	\item Primera fase de ordenación: cada proceso ordena su sub-array con el método de ordenación más eficiente. Una vez desarrollado el estudio, el método básico SelectionSort es el que mejores resultados obtiene.
+	\item Segunda fase de reagrupación y ordenación: esta fase se repite hasta solo tener un proceso activo, es decir, el array esté completamente ordenado.
+	\item Proceso de comunicación entre procesos. Cada proceso se conecta con el más cercano (activo). 
+	El proceso de mayor id manda su array ordenado y finaliza su ejecución. El que recibe se encarga de ordenar ambas mitades en una sola.
+\end{itemize}
+
+
+Se usa barrier MPI, para garantizar que terminen todos al mismo tiempo. Esta mejora aplica la idea de sincronización con barrera simétrica mariposa (Figura \ref{fig:mergesortmpi}). Se espera a los procesos en potencias de dos para sincronizar.  
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.65\textwidth]{images/chapter_3/mergesort_mpi}
+	\caption{MPI - MergeSort}
+	\label{fig:mergesortmpi}
+\end{figure}
+
+%\begin{figure}[!h]
+%	\centering
+%	
+%	
+%	\begin{subfigure}[t]{0.33\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{images/chapter_3/sequentialsort_mpi}
+%		\caption{MPI - SequentialSort}
+%		\label{fig:sequentialsortmpi}
+%	\end{subfigure}
+%	\hfill
+%	\begin{subfigure}[t]{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=\textwidth]{images/chapter_3/mergesort_mpi}
+%		\caption{MPI - MergeSort}
+%		\label{fig:mergesortmpi}
+%	\end{subfigure}
+%	
+%	\caption{Mejoras MPI de las ordenaciones}
+%	\label{fig:ordenacionesmpi}
+%\end{figure}
+
+
+\vspace*{0.3cm}
+
+Para aplicar MPI y paralelizar programas hay que tener en cuenta que la comunicación entre procesos tarda un tiempo. Si queremos reducir el tiempo de ejecución de un programa tenemos que asegurarnos que el programa es viable para paralelizar. Si ejecutamos, por ejemplo una búsqueda lineal en un array, a primera vista, reducir el espacio de búsqueda puede ser beneficioso. Dividiendo el espacio de búsqueda entre los workers reduce el tiempo de O(N) a O(N/numWorkers). Pero ¿se puede reducir el tiempo de ejecución al dividir el espacio entre los workers? 
+
+Hay que tener en cuenta el tiempo de paso de mensajes. Si no se tuviese en cuenta, se podría garantizar la reducción, pero la comunicación entre procesos tiene un coste, y con un tiempo lineal no se pueden lograr mejoras, más bien aumenta el tiempo de búsqueda.
+
+Por este motivo, hay que tener en cuenta la complejidad temporal de los algoritmos que queremos optimizar, porque no siempre es eficiente aplicar paralelismo.
+
+\newpage 
+
 \section{Algoritmos de Clustering}
+
+Una vez introducido MPI con programas básicos, podemos pasar empezar a ver las implementaciones de algoritmos relacionados con la inteligencia artificial. La clusterización toma una población, y dependiendo del conjunto de datos categoriza los individuos. Puede ser supervisado, si ademas de la población a categorizar, tenemos un poblacion categorizada previamente. O no-supervisado, si no contamos con esta población etiquetada.
 
 	\subsection{Jerárquico Aglomerativo}
 		Este algoritmo usa una matriz para calcular las agrupaciones. Como es una \textbf{matriz simétrica}, podemos reducir la complejidad espacial usando solo el triángulo superior. 
 		
 		La distancia entre clusters es muy importante. Además de calcular agrupaciones distintas, también varía la complejidad temporal. La más eficaz y rápida es la de centroides, para calcular la distancia entre dos cluster solo necesita el cálculo entre dos puntos (los centros de los clusters). Los demás métodos, enlaces simples y completos, comparan las distancias entre todos los individuos de ambos clusters, provocando un coste mayor. Conviene explotar más el paralelismo en estas distancias.
 		
-		\begin{flushleft}
-			\underline{Mejora MPI:}
-		\end{flushleft}
+	
 		Una vez implementadas las mejoras en el cálculo de multiplicación de matrices, podemos usar estas para mejorar este algoritmo. La primera idea de enviar las filas conforme se realizan los cálculos no se puede aplicar. El algoritmo es más complejo que unos simples sumatorios de multiplicaciones y varía conforme a la población. Dividir el todo espacio entre los workers esta vez si es óptimo.
 		
-		Como es una matriz simétrica y se representa con el triángulo superior, hay que dividir la carga de trabajo equitativamente. No podemos implementar una mejora sin dividir el espacio de forma óptima entre los workers. 
+		Como es una matriz simétrica y se representa con el triángulo superior, hay que dividir la carga de trabajo equitativamente. No podemos implementar una mejora sin dividir el espacio de forma óptima entre los workers. Si dividimos las filas de forma secuencial, el primer worker tendrá muchos más elementos que el último (Figura \ref{fig:JA_distribucion}). 
+	
 		
-		\begin{flushleft}
-			Si dividimos las filas de forma secuencial, el primer worker tendrá muchos más elementos que el último. 		
-		\end{flushleft}
-		\begin{flushleft}
+		\begin{figure}
+			
 			\begin{mdframed}[roundcorner=5pt]
 				\[
 				\sum_{i=1}^{\text{filas}} (N - i) \gg \sum_{i=\text{filas}(M-1)}^{\text{filas}(M-1) + \text{filas}} (N - i)
@@ -135,7 +159,10 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 				\end{tcolorbox}
 				
 			\end{mdframed}
-		\end{flushleft}
+		\label{"fig:JA_distribucion"}
+		\caption{Jerarquico Aglomerativo - Cálculo de la distribución optima}
+		\end{figure}
+		
 		
 		Dividiendo las filas por pares (parte superior, parte inferior) repartimos de forma óptima las filas para cada worker. Figura \ref{fig:aglomerativompi}.
 		
@@ -189,23 +216,32 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 		
 		
 	\subsection{K-Medias}
-		Perteneciente al aprendizaje no supervisado, es una técnica de clustering en la cual tenemos una población inicial de individuos sin clasificar, y un valor K sujeto a una asignación flexible según nuestros criterios. Al contrario al algoritmo anterior no se usa una matriz, y solo se usa distancia por centroides.
+		Perteneciente al aprendizaje no supervisado, es una técnica de clustering en la cual tenemos una población inicial de individuos sin clasificar, y un valor K sujeto a una asignación flexible según nuestros criterios. Al contrario al algoritmo anterior no se usa una matriz, y solo se usa distancia por centroides. Una mejora MPI se puede implementar de las siguientes formas:
 		
 		\begin{flushleft}
-			\underline{Mejoras MPI:}
+			1. Dividir la población entre los workers. Figura \ref{fig:kmediasdiv} \\
+			2. Ir repartiendo partes de la población para que se vayan procesando y enviando.\\
 		\end{flushleft}
-		1. Dividir la población entre los workers. Figura 16\\
-		2. Ir repartiendo partes de la población para que se vayan procesando y enviando.\\
 		
 		La primera idea es la más simple y la que mejor suena en un primer momento. El master se encarga de generar los centroides de manera aleatoria, eligiendo K individuos al azar, sin repeticiones. Mediante broadcast los workers reciben estos centros, y con conexiones punto-a-punto se recibe la población dividida sin intersecciones. Cada worker se encarga de una subpoblación. 
 		
-		\begin{flushleft}
-			El siguiente proceso se repite hasta que el master envie un mensaje de finalización, es decir, no cambien los centros:
-			
-			\vspace{0.2cm}
-			\centering
-			\includegraphics[width=1\textwidth]{images/chapter_3/kmedias_proceso}			
-		\end{flushleft}	
+		
+		
+		\begin{mdframed}[roundcorner=5pt]
+			El siguiente proceso se repite hasta que el master envie un mensaje de finalización, es decir, no cambien los centros:	
+			\begin{itemize}
+				\setlength\itemsep{0em} % Ajusta el espaciado entre los ítems
+				\item Los workers calculan la asignación de sus individuos. Además calculan la suma de distancias de los individuos a sus centros y el número de individuos asociado a cada cluster. Estos valores los envían al master.
+				\item El master recibe estos valores y calcula los nuevos centroides. Manda un mensaje a todos los workers. 
+				\begin{itemize}
+					\setlength\itemsep{0em} % Ajusta el espaciado entre los ítems
+					\item CentroidesNuevos, si los centros cambian. Se actualizan los centros.
+					\item Finalización, en caso contrario.
+				\end{itemize}
+			\end{itemize}
+		\end{mdframed}
+		
+	
 		
 		Después de ver e implementar la primera opción, no es una buena idea tener un flujo constante de mensajes, pidiendo nuevos datos. La población no cambia, solo cambia la asignación de los individuos y los centros de los clusters. Solo es necesario un mensaje para recibir la población.
 		
@@ -214,32 +250,40 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 			\centering
 			\includegraphics[width=0.8\textwidth]{images/chapter_3/kmedias_mpi}	
 			\caption{KMedias - División de poblaciones}
-			\label{kmediasdiv}
+			\label{fig:kmediasdiv}
 		\end{figure}
 		
-		\underline{Búsqueda del óptimo general, y mejor valor para K.}
+		\vspace{0.2cm}
+		
+		\noindent Búsqueda del óptimo general, y mejor valor para K.\\
 		Si queremos realizar este proceso, vamos a necesitar ejecutar la búsqueda del óptimo general para ciertos valores de K. Por lo que se van a necesitar muchas ejecuciones del algoritmo.
 		
-		1. Se puede aplicar la técnica mejorada MPI, con dos bucles. El más externo varía los valores para K, y el interno ejecuta varias veces el algoritmo para conseguir la mejor asignación.
-		2. Cada proceso ejecuta la búsqueda del óptimo general para valores de K distintos. El master se encarga de recibir las mejores asignaciones y calcular el mejor valor para K, aplicando coeficientes de optimalidad. Esta idea tiene un coste mucho mayor, puesto que cada proceso tendrá la población entera.
+		\begin{flushleft}
+			1. Se puede aplicar la técnica mejorada MPI, con dos bucles. El más externo varía los valores para K, y el interno ejecuta varias veces el algoritmo para conseguir la mejor asignación.\\
+			2. Cada proceso ejecuta la búsqueda del óptimo general para valores de K distintos. El master se encarga de recibir las mejores asignaciones y calcular el mejor valor para K, aplicando coeficientes de optimalidad. Esta idea tiene un coste mucho mayor, puesto que cada proceso tendrá la población entera.
+		\end{flushleft}
 		
-		\begin{mdframed}[roundcorner=5pt]
-			\[
-			O((T \times (N \times K)) \times \text{Rep} \times K_{\text{max}}) \approx O\left(\frac{{(T \times (N \times K)) \times \text{Rep} \times K_{\text{max}}}}{{M}}\right)
-			\]
-			
-			
-			\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
+		\begin{figure}
+			\begin{mdframed}[roundcorner=5pt]
+				\[
+				O((T \times (N \times K)) \times \text{Rep} \times K_{\text{max}}) \approx O\left(\frac{{(T \times (N \times K)) \times \text{Rep} \times K_{\text{max}}}}{{M}}\right)
+				\]
 				
-				\textit{T} = número de iteraciones en el algoritmo de K-Medias\\
-				\textit{N} = número de individuos en la población\\
-				\textit{M} = número de proceso\\
-				\textit{Rep = }repeticiones para buscar el óptimo general\\
-				\textit{KMax} = valor máximo de K en la búsqueda.				
 				
-			\end{tcolorbox}
-			
-		\end{mdframed}
+				\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
+					
+					\textit{T} = número de iteraciones en el algoritmo de K-Medias\\
+					\textit{N} = número de individuos en la población\\
+					\textit{M} = número de proceso\\
+					\textit{Rep = }repeticiones para buscar el óptimo general\\
+					\textit{KMax} = valor máximo de K en la búsqueda.				
+					
+				\end{tcolorbox}
+				
+			\end{mdframed}
+			\caption{KMedias - Comparación temporal de las mejoras}
+			\label{fig:KMedias_comp}
+		\end{figure}
 		
 		Ambas ideas tienen el mismo coste temporal, sin contar los mensajes en MPI. Pero la segunda opción tiene un coste espacial mayor, por lo que reduce la eficiencia al crear muchos procesos.
 		
@@ -249,32 +293,25 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 		
 		Aplicando una cola de prioridad de máximos para el cálculo de los K vecinos más cercanos, reducimos la complejidad del algoritmo. Al recorrer la población categorizada, se compara con la cima de la cola. Si la distancia a comparar es menor que la cima, se elimina la cima y se introduce la nueva distancia. Los valores de la cola se mueven con la restricción de prioridad. Y al finalizar la búsqueda en la población se cuentan los elementos de la cola, para saber qué cluster se repite más.
 		
-		Es importante actualizar la población conforme se van prediciendo los valores, para tener más puntos de referencia. Si no actualizamos la población, la agrupación de los individuos puede variar mucho. Aunque es menos precisa a la hora de predecir, el algoritmo es más veloz, al no aumentar la población categorizada.
+		Es importante actualizar la población conforme se van prediciendo los valores, para tener más puntos de referencia. Si no actualizamos la población, la agrupación de los individuos puede variar mucho. Aunque es menos precisa a la hora de predecir, el algoritmo es más veloz, al no aumentar la población categorizada. Al tener una población extra (la categorizada) hay dos formas de implementación posible:
+		
 		
 		\begin{flushleft}
-			\underline{Mejoras MPI:}
+			1. Dividir la población categorizada entre los workers. (Figura \ref{fig:knn1})\\
+			2. Dividir la población a predecir entre los workers. (Figura \ref{fig:knn2})
 		\end{flushleft}
-		1. Dividir la población categorizada entre los workers. \\
-		2. Dividir la población a predecir entre los workers. \\
 		
-		1. Si dividimos la población categorizada, los workers trabajan menos en cada individuo. Comparan el individuo a predecir con su subpoblación, y el master trabaja más, al recibir los K vecinos de cada worker.  Mientras que el master comprueba las distancias recibidas, los workers trabajan con el siguiente valor a predecir. 
+		Si dividimos la población categorizada (primera idea), los workers trabajan menos en cada individuo. Comparan el individuo a predecir con su subpoblación, y el master trabaja más, al recibir los K vecinos de cada worker.  Mientras que el master comprueba las distancias recibidas, los workers trabajan con el siguiente valor a predecir. Para la actualización de individuos, el master reparte de forma equitativa. En cada iteración envía el individuo categorizado a uno distinto.
 		
-		Para la actualización de individuos, el master reparte de forma equitativa. En cada iteración envía el individuo categorizado a uno distinto.
+		Con la división de la población a predecir (segunda idea), cada worker trabaja lo mismo, pero predice menos individuos. El máster no trabaja tanto como en la mejora anterior, solo recibe la categorización de los workers. Actualizar la población se puede realizar de varias formas, ya que aquí todos los workers comparten la población categorizada, no como en el anterior. Se puede hacer enviando M nuevos individuos a los M workers ejecutados, en cada iteración, es decir, al recibir un individuo predicho de cada worker. O cada X iteracioens, enviar los nuevos individuos categorizados.
 		
-		2. Con la división de la población a predecir, cada worker trabaja lo mismo, pero predice menos individuos. El máster no trabaja tanto como en la mejora anterior, solo recibe la categorización de los workers. 
-		
-		Actualizar la población se puede realizar de varias formas, ya que aquí todos los workers comparten la población categorizada, no como en el anterior.
-		
-		\begin{itemize}
-			\item Al recibir un individuo predicho de cada worker, el master envía los M nuevos individuos para los M workers. 			
-			\item Cada x iteraciones, enviar los individuos categorizados en estas iteraciones.
-		\end{itemize}
 
 		\begin{flushleft}
 			El coste espacial depende de los tamaños de las poblaciones.		
 		\end{flushleft}
+		
 		\begin{itemize}
-			\item La primera idea, al dividir la población inicial, es más eficiente cuando esta población inicial es mayhor a la de predicción. 
+			\item La primera idea, al dividir la población inicial, es más eficiente cuando esta población inicial es mayor a la de predicción. 
 			\item En su contraparte, la segunda implementación, al dividir la población a predecir, tiene un mejor rendimiento con poblaciones de predicción mayores.
 		\end{itemize}
 		
@@ -300,16 +337,15 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 			\label{fig:knnmpi}
 		\end{figure}
 
-		\underline{Búsqueda del mejor valor para K.}
-		Al contrario que en K-Medias, este proceso es determinista, es decir, con la misma población, siempre sale la misma predicción. A no ser que se cambie el orden de predicción y se actualice la población a predecir. No es necesario ejecutar varias veces el mismo algoritmo, pero sí puede ser útil variar el número de vecinos (K).
+		El proceso Master (el de la esquina superior izquierda) tiene el dataset completo. En la primera implementación (gráfico de la izquierda) divide la población categorizada entre los procesos. Y la segunda implementación (gráfico de la derecha) tiene una copia entera de la población categorizada en todos los procesos.
 		
-		Las mejoras de esta búsqueda son las mismas que en el algoritmo anterior. Aplicar la mejora MPI e iterar cambiando los valores de K, o ejecutar de manera secuencial en varios procesos.
+		
+		Para realizar una búsqueda del mejor valor para K, al contrario que en K-Medias, no hace falta repetir varias veces el mismo algoritmo, el proceso es determinista. Es decir, con la misma población, siempre sale la misma predicción. A no ser que se cambie el orden de predicción y se actualice la población a predecir. No es necesario ejecutar varias veces el mismo algoritmo, pero sí puede ser útil variar el número de vecinos (K). Las mejoras de esta búsqueda son las mismas que en el algoritmo anterior. Aplicar la mejora MPI e iterar cambiando los valores de K, o ejecutar de manera secuencial en varios procesos.
 
+\newpage
 
 \section{Aprendizaje por refuerzo}
-	El algoritmo de Q-Learing actualiza iterativamente las estimaciones de calidad de las acciones permitidas en el entorno de desarrollo. Estos valores se almacenan en la Q-Table, representado como una matriz en la que cada fila es un estado, y las columnas son las acciones disponibles.
-	
-	Nos centramos en la técnica de \textbf{minimizar las acciones} de un agente. 
+	El algoritmo de Q-Learing actualiza iterativamente las estimaciones de calidad de las acciones permitidas en el entorno de desarrollo. Estos valores se almacenan en la Q-Table, representado como una matriz en la que cada fila es un estado, y las columnas son las acciones disponibles. Nos centramos en la técnica de \textbf{minimizar las acciones} de un agente. 
 	
 	El agente se encuentra en un laberinto, el tamaño y la semilla es variable por parámetros de inicialización. El agente tiene que recorrerlo desde un punto inicial hasta una celda destino, en el menor número de acciones posibles. Las acciones disponibles para el agente son solo de movimiento: norte, oeste, este y sur. No puede atravesar ni situarse en un muro del laberinto. Hay que fijar unas recompensas con las acciones tomadas. 	
 	\begin{itemize}
@@ -318,14 +354,14 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 		\item Al llegar a la meta le damos una recompensa alta. 		
 	\end{itemize}
 	
-	Con estas recompensas aprende a llegar a la meta minimizando las acciones ejecutadas.
+	Con estas recompensas aprende a llegar a la meta minimizando las acciones ejecutadas. El código que genera los laberintos ha sido implementado por @ChlouisPy en github. [12]\\
 	%TODO
-	El código que genera los laberintos ha sido implementado por @ChlouisPy en github. [12]
+	
 	
 	Se puede optimizar el algoritmo haciendo algún \textbf{preprocesado}.
 	Modificar la Q-Table y convertirla en un array bidimensional, en el cual no se almacenen las acciones que no deseamos que realice el agente, como puede ser chocarse con un muro. Asimismo, no añadir estados inaccesibles. Esto reduce el número de estados, pero añade un nuevo array bidimensional de acciones para cada estado. Este preprocesado tiene complejidad cuadrática \textit{O(4*N2) $\equiv$ O(N2)}. Recorre toda la matriz, comprueba para cada celda si no es un muro, y en caso afirmativo comprobar las 4 las acciones permitidas y almacenar las disponibles en los arrays bidimensionales  de valores-Q y acciones. Con tamaños de laberintos pequeños no hace falta paralelizar el preprocesado, porque no se consigue reducir el tiempo significativamente.
 	
-	Los hiper parámetros ($\alpha$, $\gamma$, $\epsilon$) son muy importantes para el desarrollo del agente en el entorno. Una mala configuración de estos hace que sobre aprenda o no aprenda correctamente, generando bucles infinitos. Por este motivo es importante comprobar las diferentes combinaciones de hiper parámetros, y ver cuales funcionan correctamente en el entorno.
+	Los hiper parámetros ($\alpha$, $\gamma$, $\epsilon$) son muy importantes para el desarrollo del agente en el entorno. Una mala configuración de estos hace que sobre aprenda o no aprenda correctamente, generando bucles infinitos. Por este motivo es importante comprobar las diferentes combinaciones de hiper parámetros, y ver cuales funcionan correctamente en el entorno.\\
 	
 	La búsqueda en laberintos grandes es muy lenta. Hay que comprobar muchas combinaciones entre los hiper parámetros y los episodios del entrenamiento. Por eso es más útil desarrollar el algoritmo Deep Q-Learning que no tiene problemas con los estados, al usar una red neuronal. Pero si queremos usar el algoritmo básico de Q-Learning, hay que realizar una búsqueda exhaustiva en el entorno ejecutando muchas  combinaciones de hiper parámetros.
 	
@@ -339,49 +375,61 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 	
 	El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). 
 	
-	\begin{mdframed}[roundcorner=5pt]
-		El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). Al terminar una ejecución el worker escribe en un fichero de texto: 
+	\newpage
+	
+	\begin{figure}
 		
-		
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]			
-			- La id del proceso. \\
-			- Los hiper parámetros ejecutados.v
-			- El tiempo de ejecución \\
-			- Como termina:\\
-			$\rightarrow$ Bucle en entrenamiento.\\
-			$\rightarrow$ Bucle en evaluación.\\
-			$\rightarrow$ Movimientos. Si termina correctamente.
-				
+
+		\begin{mdframed}[roundcorner=5pt]
+			El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). Al terminar una ejecución el worker escribe en un fichero de texto: 
 			
-		\end{tcolorbox}
-		
-	\end{mdframed}
+			
+			\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]			
+				- La id del proceso. \\
+				- Los hiper parámetros ejecutados.v
+				- El tiempo de ejecución \\
+				- Como termina:\\
+				$\rightarrow$ Bucle en entrenamiento.\\
+				$\rightarrow$ Bucle en evaluación.\\
+				$\rightarrow$ Movimientos. Si termina correctamente.
+					
+				
+			\end{tcolorbox}
+			
+		\end{mdframed}
+		\caption{RL - Búsqueda de hiperparámetros}
+		\label{fig:rl_busqueda}
+	\end{figure}
 	
 	Los bucles se detectan de diferentes formas. En el entrenamiento, si un episodio tarda más de x segundos, es porque está en un bucle y estos hiper parámetros no funcionan. En la evaluación se comprueba llevando una cuenta de los últimos 4 estados visitados. 
 	\begin{center}
 		\textit{Estados[0]==Estados[2] and Estados[1]==Estados[3] and Estados[0]!=Estados[1]: }
 	\end{center}
 	
-\underline{	Mejoras MPI:}
+	\begin{flushleft}
+		Las posibles mejoras de este algoritmo son más complejas, se puede:	
+		1. Dividir el entorno entre los procesos. \\
+		2. Ejecutar el algoritmo en los workers y juntar las experiencias.\\
+	\end{flushleft}
 	
-	1. Dividir el entorno entre los procesos. \\
-	2. Ejecutar el algoritmo en los workers y juntar las experiencias.\\
-	
-	1. Al dividir el laberinto entre los procesos, cada proceso controla una zona, y se genera un flujo constante de episodios. Cuando un agente sale del dominio de un proceso, este le manda un mensaje al proceso que controla esa parte del laberinto, con la posición en la que entra. Figura \ref{fig:rlmpi}.
+	Al dividir el laberinto entre los procesos, cada proceso controla una zona, y se genera un flujo constante de episodios. Cuando un agente sale del dominio de un proceso, este le manda un mensaje al proceso que controla esa parte del laberinto, con la posición en la que entra. Figura \ref{fig:rlmpi}.
 	El master se encarga de iniciar a los agentes y cuando sale su dominio genera otro agente. Para garantizar que funcione el master no puede recibir agentes de los workers, porque si no no se podría garantizar el flujo de nuevos episodios. 
 	Como cada proceso tiene su propio dominio, la Q-Table se divide entre estos. Aplicando la mejora con el preprocesado, es la misma idea pero con los dos arrays bidimensionales (acciones y Q-valores). 
 	
-	2. Ejecutar en varios procesos el algoritmo, funciona. El master recolecta las experiencias de los workers, haciendo la media de los valor-Q obtenidos de los procesos, así calculando la mejores acciones para cada estado. Es mucho mejor inicializar el algoritmo desde distintos puntos, para así explorar todo el laberinto y encontrar el mejor camino en menos tiempo. Al menos un worker inicia desde el punto de inicio que se desea evaluar, porque por el contrario no se podría garantizar que visiten la zona del inicio.
+	Ejecutar en varios procesos el algoritmo, funciona. El master recolecta las experiencias de los workers, haciendo la media de los valor-Q obtenidos de los procesos, así calculando la mejores acciones para cada estado. Es mucho mejor inicializar el algoritmo desde distintos puntos, para así explorar todo el laberinto y encontrar el mejor camino en menos tiempo. Al menos un worker inicia desde el punto de inicio que se desea evaluar, porque por el contrario no se podría garantizar que visiten la zona del inicio.
 	
-	\newpage
+	
 	
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.38\textwidth]{images/chapter_3/rl_mpi}	
+		\includegraphics[width=0.65\textwidth]{images/chapter_3/rl_mpi}	
 		\caption{RL - División del entorno}
 		\label{fig:rlmpi}
 	\end{figure}
 	
+	Hay que tener en cuenta los límites de cada proceso, para cuando el agente salga fuera de estos, envíe un mensaje con la posición en la que entra al proceso correcto. Es un flujo constante de agentes nuevos, por eso es mejor que una vez salga del primer proceso (el que genera los agentes), no pueda volver a entrar, asi simplificando la lógica de programación.
+	
+	\newpage
 	
 
 
@@ -390,25 +438,25 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 	
 	\begin{enumerate}
 		\item \textbf{Inicialización.} Dados los parámetros iniciales se crea la población, con los individuos deseados. Hay diferentes tipos, con sus respectivas características.
-		\begin{description}
-			\item[Binarios.] Estos individuos son fáciles de inicializar, pero ralentizan la comunicación entre procesos, debido a tener que enviar muchos bits.
-			\item[Reales.] Parecidos a los binarios pero estos son más portables.
-			\item[Árboles.] Más lentos para inicializar y difíciles de tratar.
-		\end{description}
+		\begin{itemize}
+			\item Binarios. Estos individuos son fáciles de inicializar, pero ralentizan la comunicación entre procesos, debido a tener que enviar muchos bits.
+			\item Reales. Parecidos a los binarios pero estos son más portables.
+			\item Árboles. Más lentos para inicializar y difíciles de tratar.
+		\end{itemize}
 		
-		\item \textbf{Evaluación.} Este es el método que más tiempo de ejecución puede llegar a consumir.
+		\item \textbf{Evaluación.} Este es el método que más tiempo de ejecución puede llegar a consumir. Varía dependiendo del tipo de individuo del problema.
 		
-		\item \textbf{Selección.} Se seleccionan a los individuos. El tiempo depende de los métodos de selección aplicados.
+		\item \textbf{Selección.} Se seleccionan a los individuos. El tiempo depende de los métodos de selección aplicados, pero suelen ser lineales.
 		
-		\item \textbf{Cruce.} Con una cierta probabilidad, se cruzan 2 individuos del conjunto seleccionado.
+		\item \textbf{Cruce.} Con una cierta probabilidad, se cruzan 2 individuos del conjunto seleccionado. Tienen un mayor coste que selección.
 		
-		\item \textbf{Mutación.} Igual que el cruce tiene una probabilidad para mutar.
+		\item \textbf{Mutación.} Igual que el cruce tiene una probabilidad para mutar. Parecido a cruce, pero un poco más rápido.
 	\end{enumerate}
 	
-	Para cada tipo de individuos se desarrollan unos problemas.
+	Para cada tipo de individuos se desarrollan unos problemas.\\
 	1. Binario, con un intervalo dado y una precisión, queremos calcular el valor máximo o mínimo para ciertas funciones. Los valores fitness se calculan con la representación real del cromosoma, que varía dependiendo de la precisión que se le asigna al ejecutar el algoritmo. Por lo que hay que convertir de binario a real.
-	Este problema se ejecuta bastante rápido. Reducir su tiempo de ejecución es desafiante.
-	2. Real. Aeropuertos con un número variable de vuelos y pistas. Queremos calcular el sumatorio de tiempos mínimos de retraso para que los aviones aterricen en el aeropuerto. Cada avión tiene asignada la hora de aterrizaje para cada pista, y hay un tiempo mínimo de separación entre vuelos que aterrizan en cada pista. Se puede resolver con vuelta atrás pero tiene un coste exponencial (inviable). El valor fitness tiene coste \textit{O(NumAviones*NumPistas) $\equiv$ O(N2)}. Se calcula:
+	Este problema se ejecuta bastante rápido. Reducir su tiempo de ejecución es desafiante.\\
+	2. Real. Aeropuertos con un número variable de vuelos y pistas. Queremos calcular el sumatorio de tiempos mínimos de retraso para que los aviones aterricen en el aeropuerto. Cada avión tiene asignada la hora de aterrizaje para cada pista, y hay un tiempo mínimo de separación entre vuelos que aterrizan en cada pista. Se puede resolver con vuelta atrás pero tiene un coste exponencial (inviable). El valor fitness tiene coste \textit{O(NumAviones*NumPistas) $\equiv$ O(\(N^{2}\))}. Se calcula:
 	
 	\lstset{language=python, 
 		breaklines=true, 
@@ -425,33 +473,35 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
  # menor_TEL: menor TEL de ese vuelo con todas las pistas		
 	\end{lstlisting}
 	
-	El tiempo de ejecución para este problema depende de la función de evaluación, que varía dependiendo del número de aviones y pistas. 
+	\noindent El tiempo de ejecución para este problema depende de la función de evaluación, que varía dependiendo del número de aviones y pistas. 
 	
 	3. Árbol, tenemos una matriz de enteros que representa un jardín. 1: césped y                 0: césped podado. Queremos maximizar el área podada. Para ello el agente tiene unas acciones que puede ejecutar.
 	El coste temporal de este algoritmo viene dado principalmente por la función de evaluación. Ejecuta la simulación en la matriz hasta cumplir un determinado número de ticks (acciones realizadas), que es proporcional al número de filas y columnas de la matriz. Aunque las funciones de cruce y mutación también tardan en ejecutarse, debido al control de punteros.
 	
-	\underline{Mejoras MPI:}
 	
-	1. Dividir la población en subpoblaciones.\\
-	2. Modelo de islas.\\
-	3. PipeLine.\\
 	
-	\textbf{1.} Estos algoritmos se pueden paralelizar fácilmente si dividimos la población entre los workers. El master recibe de los workers las subpoblaciones inicializadas y evaluadas, y comienza el bucle principal del algoritmo, en el cual. 
+	\begin{flushleft}
+		Cada una de las siguientes mejoras MPI se pueden configurar para cada tipo de individuo.\\
+		1. Dividir la población en subpoblaciones.\\
+		2. Modelo de islas.\\
+		3. PipeLine. (Figura \ref{fig:pevpipe})\\
+	\end{flushleft}
+	
+	La primera implementación, de dividir la poblacion entre procesos, se puede paralelizar fácilmente. El master recibe de los Workers las subpoblaciones inicializadas y evaluadas, y comienza el bucle principal del algoritmo, en el cual:
 	\begin{itemize}
 		\item El master se encarga de hacer la selección, y enviarla dividida a los workers. Mientras los workers trabajan, el master almacena el progreso de los mejores individuos de cada generación.
 		\item Los workers reciben la selección, la cruzan, mutan y evalúan. Al finalizar estos procesos mandan la subpoblación al master para empezar la siguiente iteración.
 	\end{itemize}
 	
-	\textbf{2.} El modelo de islas, es como algunas mejoras implementadas en otros algoritmos. En cada proceso se ejecuta el algoritmo. Todos tienen el mismo tamaño, pero distintas poblaciones. Hay varios tipos de comunicaciones en esta mejora. Cada cierto tiempo se reinicia la población con los mejores individuos generales (de todos los procesos).
-	Estrella. Solo hay comunicaciones master-worker. El master recibe los mejores individuos.
+	Para el \textbf{modelo de islas}, se aplica la idea de mejoras pasadas, en cada proceso se ejecuta el algoritmo. Todos tienen el mismo tamaño, pero distintas poblaciones. Hay varios tipos de comunicaciones en esta mejora. Cada cierto tiempo se reinicia la población con los mejores individuos generales (de todos los procesos).
+
 	\begin{itemize}
 		\item Estrella. Solo hay comunicaciones master-worker. El master recibe los mejores individuos.
 		\item En red. No hay proceso master, todos los procesos ejecutan el algoritmo. Todos los procesos están en comunicación constante, mandando los mejores individuos para el reinicio de la población.
 		\item En anillo. Tampoco hay proceso master, los procesos se comunican como una lista enlazada.
 	\end{itemize}
 	
-	\textbf{3.} Segmentar el algoritmo entre los procesos, provoca un flujo constante de generaciones. Cada proceso se encarga de un método. 
-	El master se encarga de generar cuatro poblaciones distintas y las evalúa para mandarlas al worker que se encarga de la selección. El master no genera más poblaciones, y pasa a un estado de recepción mejores individuos. Las poblaciones van evolucionando conforme avanzan por el pipeline. El último worker se encarga de la evaluación, que envía al worker de selección, y al master.
+	Segmentar el algoritmo entre los procesos, provoca un flujo constante de generaciones. Cada proceso se encarga de un método. El master se encarga de generar cuatro poblaciones distintas y las evalúa para mandarlas al worker que se encarga de la selección. El master no genera más poblaciones, y pasa a un estado de recepción mejores individuos. Las poblaciones van evolucionando conforme avanzan por el pipeline. El último worker se encarga de la evaluación, que envía al worker de selección, y al master.
 	
 	\begin{figure}[!h]
 		\centering
@@ -476,44 +526,48 @@ Esta mejora aplica la idea de sincronización con barrera simétrica mariposa. S
 	
 	Como en algoritmos pasados, necesitamos encontrar la mejor tasa de aprendizaje, para que aprenda lo mejor posible. Por lo que diseñamos una programa MPI, en el cual se ejecutan en varios procesos el mismo algoritmo con diferentes tasas de aprendizaje y repeticiones para el entrenamiento. El speedup es proporcional al número de procesos.
 	
-	\underline{Mejoras MPI:}
+	\begin{flushleft}
+		Como en el algoritmo anterior, se puede aplicar un pipeline para que haya un flujo de mensajes, pero esta vez en vez de ser unidireccional es bidireccional, al tener que actualizar los pesos de las neuronas al predecir un individuo.\\	
+		1. PipeLine\\
+		2. Dividir el trabajo en procesos
+	\end{flushleft}
 	
-	1. PipeLine\\
-	2. Dividir el trabajo en procesos
+	Segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el master el encargado de enviar individuos de la población categorizada. El último worker controla la capa de salida, con las etiquetas calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes. Figura \ref{fig:redneumpipipe}.
 	
-	\textbf{1. }Como en el apartado anterior, segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el master el encargado de enviar individuos de la población categorizada. El último worker controla la capa de salida, con las etiquetas calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes. Figura \ref{redneumpipipe}.
+	
 	
 	\begin{enumerate}
 		\item El master envía un número proporcional de individuos al número de procesos ejecutándose. Luego entra en un bucle en el cual recibe el error, actualiza, y envía otro individuo. Para finalizar recibe el mismo número de individuos que envió al principio y actualiza.
 		\item El último worker solo recibe las predicciones y calcula el error.
 		\item Los workers de la capa oculta tienen un proceso más complejo. Primero reciben un número de individuos proporcional a su id, los procesan y envían. Después entran en un bucle en el cual:			
-		\begin{description}
+		\begin{itemize}
 			\item Reciben, de la capa siguiente, los errores, actualizan sus pesos y envían a la capa anterior.			
 			\item Reciben, de la capa anterior, los nuevos individuos, procesan y propagan hacia adelante.
-		\end{description}		
+		\end{itemize}		
 		
 	\end{enumerate}
 	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=0.55\textwidth]{images/chapter_3/redneu_mpi2}
+		\caption{MPI - PipeLine Rede Neuronal}
+		\label{fig:redneumpipipe}
+	\end{figure}
 	
-	\textbf{2.} Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado fine tuning[13] que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos, y en paralelo ejecutamos la fase de entrenamiento. Una vez finalizadas el master recibe los pesos de cada worker y hace la media. 
+	Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado fine tuning[13] que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos, y en paralelo ejecutamos la fase de entrenamiento. Una vez finalizadas el master recibe los pesos de cada worker y hace la media. 
 	
 	Cuanto más grande sea la red neuronal mejor, tanto en rendimiento como en evaluación. En las redes neuronales grandes, un nodo se especializa en unos ciertos parámetros, por lo que no hay demasiadas intersecciones entre los entrenamientos de los procesos. Pero hay que dividir correctamente la población inicial entre los procesos. 
 	
 	\begin{enumerate}
 		\item Con una población distinta, depende del tamaño de la red. 
-		\begin{description}
+		\begin{itemize}
 			\item Si es una red pequeña, esta técnica no es muy efectiva. La diferencia de pesos entre procesos puede llegar a ser grande, y al hacer la media dar evaluaciones incorrectas. 		
 			\item Sin embargo con muchas capas se mejora la evaluación. Cada proceso especializa unas neuronas y al juntarlas en el master no intersecan.			
-		\end{description}		
+		\end{itemize}		
 		\item Si enviamos una población parecida, depende de la inicialización de los pesos, pero muy seguramente no surta efecto. Es como ejecutar varias veces el algoritmo en diferentes ejecuciones.
 		
 	\end{enumerate}	
 	
 	
-	\begin{figure}[!h]
-		\centering
-		\includegraphics[width=0.65\textwidth]{images/chapter_3/redneu_mpi2}
-		\caption{MPI - PipeLine Rede Neuronal}
-		\label{fig:redneumpipipe}
-	\end{figure}
+
 	
