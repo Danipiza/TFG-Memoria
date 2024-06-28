@@ -45,6 +45,25 @@
 \contentsline {subsubsection}{Cluster}{51}{section*.44}%
 \contentsline {subsection}{\numberline {4.2.2}K-Medias}{52}{subsection.4.2.2}%
 \contentsline {subsubsection}{Ordenador de propósito general}{52}{section*.46}%
-\contentsline {subsubsection}{Cluster}{55}{section*.49}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{71}{chapter.5}%
-\contentsline {chapter}{Bibliography}{73}{chapter*.65}%
+\contentsline {subsubsection}{Cluster}{54}{section*.49}%
+\contentsline {subsection}{\numberline {4.2.3}KNN}{55}{subsection.4.2.3}%
+\contentsline {subsubsection}{Algoritmo sin mejoras}{55}{section*.50}%
+\contentsline {subsubsection}{Algoritmo con mejoras}{56}{section*.52}%
+\contentsline {subsubsection}{Cluster}{57}{section*.55}%
+\contentsline {section}{\numberline {4.3}RL}{58}{section.4.3}%
+\contentsline {subsubsection}{Algoritmo sin mejoras}{58}{section*.56}%
+\contentsline {subsubsection}{Búsqueda de los mejores hiperparámetros}{58}{section*.58}%
+\contentsline {subsubsection}{Mejora: Dividir el entorno entre los procesos}{59}{section*.59}%
+\contentsline {subsubsection}{Mejora: Ejecuciones en paralelo}{59}{section*.60}%
+\contentsline {subsubsection}{Cluster}{59}{section*.61}%
+\contentsline {section}{\numberline {4.4}PEV}{61}{section.4.4}%
+\contentsline {subsubsection}{Algoritmos sin mejoras}{62}{section*.63}%
+\contentsline {subsubsection}{Mejora 2: Modelo de islas}{63}{section*.65}%
+\contentsline {subsubsection}{Mejora 1: Dividir con el master}{64}{section*.68}%
+\contentsline {subsubsection}{Mejora 3: PipeLine}{66}{section*.71}%
+\contentsline {subsubsection}{Cluster}{68}{section*.75}%
+\contentsline {section}{\numberline {4.5}Redes Neuronales}{69}{section.4.5}%
+\contentsline {subsubsection}{Mejora 1: PipeLine}{69}{section*.76}%
+\contentsline {subsubsection}{Mejora 2: Dividir el trabajo en procesos}{71}{section*.78}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{73}{chapter.5}%
+\contentsline {chapter}{Bibliography}{75}{chapter*.81}%

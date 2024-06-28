@@ -333,23 +333,36 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\scriptsize	
 		\textbf{Las poblaciones que se usan en cada algoritmo se han generado previamente de manera aleatoria}, delimitando un intervalo [-10, 10] para todas las dimensiones disponibles. Para crear los gráficos se ejecutó muchas veces con diferentes tamaños para guardar los tiempos de ejecución con poblaciones de diferentes tamaños. Se añaden \textit{x} elementos a las poblaciones.
 		
+		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
+			\scriptsize
+			Para las implementaciones de Jerárquico Aglomerativo y K-Medias se aplican el mismo incremento que en las ordenaciones:
+			El incremento del tamaño viene dado de la siguiente forma:\\
+			- [20-1.000) $\rightarrow$ 20 elementos.\\
+			- [1.000-10.000) $\rightarrow$ 250 elementos.\\
+			- [10.000-100.000) $\rightarrow$ 1.000 elementos.\\
+			
+			Para K-Vecinos más cercanos (KNN), al ser un algoritmo lineal, se guarda el tiempo de ejecución cada veinte nuevos individuos categorizados.
+			
+		\end{tcolorbox}
+		
+		\normalsize
+		
+		\textbf{\underline{Procesos}}
+		
+		\vspace{0.1cm}
+		
+		\scriptsize	
+		Para los tres algoritmos implementados, se usa el modelo \textit{Master-Worker}. El proceso Master se encarga de dividir los datos de entrada y los Workers los procesan, para enviar el resultado. El Master hace el siguiente trabajo:
+		\begin{itemize}
+			\item Jerarquico Aglomerativo: se encarga de gestionar que proceso tiene que eliminar y actualizar filas.
+			\item KMedias: se encarga de recibir las asignaciones para comprobar la condicion de finalización.
+			\item KNN: depende de la mejora tiene más o menos trabajo. Pero en ambas se encarga de enviar a los workers los individuos nuevos categorizados, para tener una agrupación más precisa.
+		\end{itemize} 
+		
 		
 	\end{mdframed}
 	\end{flushleft}		
 
-	\begin{flushleft}
-	\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-		\scriptsize
-		Para las implementaciones de Jerárquico Aglomerativo y K-Medias se aplican el mismo incremento que en las ordenaciones:
-		El incremento del tamaño viene dado de la siguiente forma:\\
-		- [20-1.000) $\rightarrow$ 20 elementos.\\
-		- [1.000-10.000) $\rightarrow$ 250 elementos.\\
-		- [10.000-100.000) $\rightarrow$ 1.000 elementos.\\
-		
-		Para K-Vecinos más cercanos (KNN), al ser un algoritmo lineal, se guarda el tiempo de ejecución cada veinte nuevos individuos categorizados.
-		
-	\end{tcolorbox}		
-	\end{flushleft}
 
 	\subsection{Jerárquico Aglomerativo}
 	
@@ -359,29 +372,35 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		
 		\subsubsection{Distancias sin mejoras}		
 
-		Cuando la complejidad del cálculo de las distancias entre clusters es constante (aplicando centroide), el tiempo de ejecución no varía al usar un determinado tipo de distancia.
-		No obstante, cuando se aplican distancias entre clusters con coste cuadrático (enlace simple o completo), la distancia euclídea tarda más, porque para realizar el cálculo, usa potencias y raíces cuadradas.
-
-
-		\begin{figure}[!h]
-			\centering
-			\includegraphics[width=0.8\textwidth]{images/chapter_4/jerarquico}
-			\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
-			\label{fig:prueba_jerarquicosec}
-		\end{figure}
-
-		Al principio no hay tanta diferencia, pero conforme se aumenta la población, los tiempos de ejecución empiezan a distinguirse. El tiempo de ejecución para calcular la distancia entre dos clusters depende del número de individuos de los mismos, y conforme se aumenta la población aumenta el número de repeticiones del cálculo de las distancias, además de aumentar los individuos en cada cluster lo que también perjudica al tiempo de ejecución.
+			Cuando la complejidad del cálculo de las distancias entre clusters es constante (aplicando centroide), el tiempo de ejecución no varía al usar un determinado tipo de distancia.
+			No obstante, cuando se aplican distancias entre clusters con coste cuadrático (enlace simple o completo), la distancia euclídea tarda más, porque para realizar el cálculo, usa potencias y raíces cuadradas.
+	
+	
+			\begin{figure}[!h]
+				\centering
+				\includegraphics[width=0.8\textwidth]{images/chapter_4/jerarquico}
+				\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
+				\label{fig:prueba_jerarquicosec}
+			\end{figure}
+	
+			\newpage 
+			
+			Al principio no hay tanta diferencia, pero conforme se aumenta la población, los tiempos de ejecución empiezan a distinguirse. El tiempo de ejecución para calcular la distancia entre dos clusters depende del número de individuos de los mismos, y conforme se aumenta la población aumenta el número de repeticiones del cálculo de las distancias, además de aumentar los individuos en cada cluster lo que también perjudica al tiempo de ejecución.
 		
 		
 		\subsubsection{Distancia Centroide con mejoras}	
 		
-		Distancia entre clusters por \textbf{centroide}.
-		La segunda mejora de dividir entre los workers el cálculo de distancias, no se puede aplicar. Debido a que el cálculo de distancias es constante, no surte mucho efecto dividir la fila que se tiene que recalcular, porque el coste total es lineal. Pero la mejora principal reduce considerablemente el tiempo de ejecución.
-		
-		% JERARQUICO AGLOMERATIVO: HISTOGRAMA CON VARIOS PROCESOS
-		\begin{figure}[!h]
-		\centering
-		\begin{tikzpicture}
+			Distancia entre clusters por \textbf{centroide}.
+			La segunda mejora de dividir entre los workers el cálculo de distancias, no se puede aplicar. Debido a que el cálculo de distancias es constante, no surte mucho efecto dividir la fila que se tiene que recalcular, porque el coste total es lineal. Pero la mejora principal reduce considerablemente el tiempo de ejecución.
+			
+			Esta mejora provoca que en cada iteración, el proceso que tiene que actualizar la fila pare al resto de los procesos. Con un tamaño de población elevado, en la primera mitad de las iteraciones se pierde tiempo esperando a la actualización. \\ \color{blue} Por eso la mejora 3 (TODO) se dedica un proceso unicamente para el calculo de la TODO...\\ puede que esta implementación no mejore mucho.
+			
+			\color{black}
+			
+			% JERARQUICO AGLOMERATIVO: HISTOGRAMA CON VARIOS PROCESOS
+			\begin{figure}[!h]
+			\centering
+			\begin{tikzpicture}
 			\begin{axis}[
 				ybar,
 				bar width=0.35cm,
@@ -411,38 +430,40 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 				\legend{Secuencial, MPI(2),MPI(4),MPI(6),MPI(8)}
 			\end{axis}
-		\end{tikzpicture}
-		\caption{ MPI Jerarquico Aglomerativo, Dist. por centroide}
-		\end{figure}
+			\end{tikzpicture}
+			\caption{ MPI Jerarquico Aglomerativo, Dist. por centroide}
+			\end{figure}
+			
+			\newpage
 
 		\subsubsection{Distancia Simple/Completo con mejoras}	
 		
-		% TODO Jerarquico Aglom, Dist. Simple
-		\color{blue} TODO PRUEBAS D. SIMPLE/COMPLETO ...
-		% TODO Jerarquico Aglom CLUSTER
-		TODO CLUSTER
-		\color{black}
+			% TODO Jerarquico Aglom, Dist. Simple
+			\color{blue} TODO PRUEBAS D. SIMPLE/COMPLETO ...
+			% TODO Jerarquico Aglom CLUSTER
+			TODO CLUSTER
+			\color{black}
 		\subsubsection{Cluster}	
-		
-		% TODO Jerarquico Aglom CLUSTER
-		TODO CLUSTER
-		
-		\color{black}
-
-
-
-		\newpage
+			
+			% TODO Jerarquico Aglom CLUSTER
+			TODO CLUSTER
+			
+			\color{black}
+	
+	
+	
+			\newpage
 % ------------------------------------------------------------------------------------------------
 % --- KMEDIAS ------------------------------------------------------------------------------------
 % ------------------------------------------------------------------------------------------------
 
 	\subsection{K-Medias}	
 
-	El algoritmo anterior no tiene ninguna variable que modifique el tiempo de ejecución. Sin contar la distancia entre clusters. Esta técnica de agrupación tiene un coste temporal mucho menor que el aglomerativo, \textit{O(N*K*iter)} siendo N el tamaño de la población, iter las iteraciones  hasta que no cambien los centros. \textit{(N $\gg$ K,iter)} K e iter no son valores muy altos por lo que la complejidad no llega a ser cuadrática. Cuanto mayor sea el valor de K más tiempo va a consumir para realizar la asignación, debido a que tiene que iterar con mas centros. Pero esto puede no ser así, dependiendo de la asignación de los individuos, puede que una ejecución con mas centros tarde menos tiempo que otra con menos si consigue no variar mucho los centros de los clusters.
-	
-	\begin{figure}[!h]
-	\centering
-	\begin{tikzpicture}
+		El algoritmo anterior no tiene ninguna variable que modifique el tiempo de ejecución. Sin contar la distancia entre clusters. Esta técnica de agrupación tiene un coste temporal mucho menor que el aglomerativo, \textit{O(N*K*iter)} siendo N el tamaño de la población, iter las iteraciones  hasta que no cambien los centros. \textit{(N $\gg$ K,iter)} K e iter no son valores muy altos por lo que la complejidad no llega a ser cuadrática. Cuanto mayor sea el valor de K más tiempo va a consumir para realizar la asignación, debido a que tiene que iterar con mas centros. Pero esto puede no ser así, dependiendo de la asignación de los individuos, puede que una ejecución con mas centros tarde menos tiempo que otra con menos si consigue llegar a la condición de finalización (que los centros no cambien entre dos iteraciones) en menos iteraciones.
+		
+		\begin{figure}[!h]
+		\centering
+		\begin{tikzpicture}
 		\begin{axis}[
 			width=0.85\textwidth,
 			height=0.40\textwidth,
@@ -480,26 +501,24 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			
 			\legend{5, 10, 25, 50}
 		\end{axis}
-	\end{tikzpicture}
-	\caption{KMedias variando K}
-	\end{figure}
-	
-	\begin{flushleft}
-	\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-		\scriptsize
-		Para las pruebas realizadas se usa un valor K=10, y se usan cuatro procesos workers para la mejora MPI:
+		\end{tikzpicture}
+		\caption{KMedias variando K}
+		\end{figure}
 		
-	\end{tcolorbox}		
-	\end{flushleft}
-
+		\begin{flushleft}
+		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
+			\scriptsize
+			Para las pruebas realizadas se usa un valor K=10, y se usan cuatro procesos workers para la mejora MPI:			
+		\end{tcolorbox}		
+		\end{flushleft}
 	
-	\subsubsection{Ordenador de propósito general}
+		
+		\subsubsection{Ordenador de propósito general}	
 	
-
-
-		\begin{figure}[!h]
-		\centering
-		\begin{tikzpicture}
+	
+			\begin{figure}[!h]
+			\centering
+			\begin{tikzpicture}
 			\begin{axis}[
 				xlabel={Tam. Población ($10^5$)},
 				ylabel={Tiempo de ejeución (s)},
@@ -509,14 +528,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				height=0.4\textwidth
 				]
 				
-				% Plot data from the file without markers, with different colors, and thicker lines
+				
 				\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/kmedias.txt};
 				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/kmedias.txt};
 				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/kmedias.txt};
 				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/kmedias.txt};
 				
 				
-				% Add legends
 				\addlegendentry{Euclidea}
 				\addlegendentry{Manhattan}
 				\addlegendentry{Euclidea\_MPI}
@@ -524,22 +542,22 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 				
 			\end{axis}
-		\end{tikzpicture}
-		\caption{Tiempo de ejecución de KMedias}
-		\end{figure}
-		
-		
-		A medida que la población crece, los centros varían, debido a la inclusión de más individuos en el cálculo de las nuevas posiciones de los centros, provocando una variación en el número de iteraciones del algoritmo para que los centros no cambien. 
-		El tiempo de ejecución no aumenta en proporción al tamaño, si no que varía dependiendo de la composición de los individuos y por eso hay tantos picos. El aumento de la población no necesariamente implica una ejecución más lenta en comparación con una población menor.
-		Las mejoras MPI, son bastante buenas. Haciendo el mismo número de iteraciones que las implementaciones secuenciales, no hay picos muy pronunciados. Lo más seguro es que al aumentar la población se empiecen a pronunciar.
-		
-		
-		
-		
-		
-		\begin{figure}[!h]
-		\centering
-		\begin{tikzpicture}
+			\end{tikzpicture}
+			\caption{Tiempo de ejecución de KMedias}
+			\end{figure}
+			
+			
+			A medida que la población crece, los centros varían, debido a la inclusión de más individuos en el cálculo de las nuevas posiciones de los centros, provocando una variación en el número de iteraciones del algoritmo para que los centros no cambien. 
+			El tiempo de ejecución no aumenta en proporción al tamaño, si no que varía dependiendo de la composición de los individuos y por eso hay tantos picos. El aumento de la población no necesariamente implica una ejecución más lenta en comparación con una población menor.
+			Las mejoras MPI, son bastante buenas. Haciendo el mismo número de iteraciones que las implementaciones secuenciales, no hay picos muy pronunciados. Lo más seguro es que al aumentar la población se empiecen a pronunciar.
+			
+			
+			
+			El speedup es muy curioso. 
+			
+			\begin{figure}[!h]
+			\centering
+			\begin{tikzpicture}
 			\begin{axis}[
 				xlabel={Tam. Población},
 				ylabel={SpeedUp},
@@ -549,226 +567,286 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				height=0.40\textwidth
 				]
 				
-				% Plot data from the file without markers, with different colors, and thicker lines
+				
 				\addplot [mark=none, color=darkgreen, line width=1.7pt] table [x index=0, y index=1, col sep=space] {files/kmedias_speedup.txt};
 				\addplot [mark=none, color=red, line width=0.3pt] table [x index=0, y index=2, col sep=space] {files/kmedias_speedup.txt};
 				\addplot [mark=none, color=blue, line width=0.3pt] table [x index=0, y index=3, col sep=space] {files/kmedias_speedup.txt};
 				
 				
-				% Add legends
 				\addlegendentry{Ideal}
 				\addlegendentry{Euclidea}
 				\addlegendentry{Manhttan}
 				
 				
 			\end{axis}
-		\end{tikzpicture}
-		\caption{SpeedUp - KMedias}
-		\end{figure}
+			\end{tikzpicture}
+			\caption{SpeedUp - KMedias}
+			\end{figure}
+			
+			A partir de diez mil individuos de población, el speedup es aproximadamente el ideal para ambas distancias, contando solo que los workers son los que trabajan y el master solo recibe la asignación y calcula los nuevos centros. Pero lo curioso es que con la población generada aleatoria, y un tamaño relativamente pequeño llega a duplicar el speedup ideal. Lo primero que se puede venir a la mente es que hace menos iteraciones, pero esto no es así, puesto que ejecuta el mismo número de iteraciones en ambas implementaciones. 
+			
+			% TODO ¿Poner gráfico con el número de iteraciones para cada tamaño? Serían 2 líneas iguales.
+			
+			
 		
-		El speedup es muy curioso. A partir de diez mil individuos de población, el speedup es aproximadamente el ideal para ambas distancias, contando solo que los workers son los que trabajan y el master solo recibe la asignación y calcula los nuevos centros. Pero lo curioso es que con la población generada aleatoria, y un tamaño relativamente pequeño llega a duplicar el speedup ideal. Lo primero que se puede venir a la mente es que hace menos iteraciones, pero esto no es así, puesto que ejecuta el mismo número de iteraciones en ambas implementaciones. 
+			
+					
+		\subsubsection{Cluster}
+
+			% TODO KMedias CLUSTER
+			
+			\color{blue} TODO CLUSTER
+			
+			\color{black}
+			
+			\newpage
+
+% ------------------------------------------------------------------------------------------------
+% --- KNN ----------------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------------------------		
+	\subsection{KNN}
+
+
+		En cada iteración de este algoritmo de aprendizaje supervisado, usa una población categorizada para agrupar un único individuo, no como en los anteriores que tiene que terminar todas las iteraciones para agrupar toda una población.
 		
-		% TODO ¿Poner gráfico con el número de iteraciones para cada tamaño? Serían 2 líneas iguales.
+		
+		\begin{flushleft}
+		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
+			\scriptsize
+			Para las pruebas realizadas se usa un valor de K=15, impar para que no pueda existir empates.		
+		\end{tcolorbox}		
+		\end{flushleft}
 		
 		
-	
+		Hay dos formas de realizar la agrupación. Si se actualiza la población conforme se categorizan los individuos nuevos, la población final será mucho más precisa que si no se actualiza, pero tardará más tiempo en ejecutarse. 
 		
-		\newpage
+		\subsubsection{Algoritmo sin mejoras}
+
+			% KNN BASICO
+			\begin{figure}[h!]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					xlabel={Tam. Población ($10^5$)},
+					ylabel={Tiempo de ejeución (s)},
+					legend pos=north west,
+					legend columns=2,
+					grid=major,
+					width=\textwidth,
+					height=0.45\textwidth
+					]
+					
+					
+					\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/knn.txt};
+					\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/knn.txt};
+					\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/knn.txt};
+					
+					\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/knn.txt};
+					
+					
+					\addlegendentry{Euclidea}
+					\addlegendentry{Euclidea\_Act}
+					\addlegendentry{Manhattan}
+					
+					\addlegendentry{Manhattan\_Act}
+					
+					
+				\end{axis}
+				\end{tikzpicture}
+				\caption{Tiempo de ejecución para KNN}
+			\end{figure}
+
+			Cuando la población se actualiza, aumenta el tiempo de ejecución, y se puede apreciar la diferencia entre los tipos de distancia. A largo plazo la distancia Euclídea tardará mucho más que la Manhattan, por tener una complejidad de cálculo mayor. 
+			Cuando la población es constante, los tiempos de ejecución aumentan con el tamaño de la población a predecir de forma lineal, y el uso de distancias no afecta casi al rendimiento.
+		
+		\subsubsection{Algoritmo con mejoras}
+
+
+			\begin{figure}[!h]
+				\centering
+				\includegraphics[width=0.8\textwidth]{images/chapter_4/knn_mpi}
+				\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
+				\label{fig:example}
+			\end{figure}
+			
+			Las dos implementaciones son aproximadamente iguales, siendo mejor la segunda implementación de la primera mejora. Añadir los individuos categorizados de la iteración anterior cuando cada worker finaliza la búsqueda de los K vecinos más cercanos en la iteración actual, elimina el tiempo de espera que tenía la primera implementación, reduciendo levemente el tiempo.
+			La segunda mejora, además de ser levemente peor en cuestión de complejidad temporal, es mucho peor en complejidad espacial. Dividir la población a predecir conlleva un mayor consumo de memoria, al tener que tener la población entera en cada proceso. En la primera mejora se reparten equitativamente los individuos nuevos, es decir, en cada iteración el master envía a un único proceso el individuo categorizado.
+			
+			
+			\begin{enumerate}
+				\item La primera mejora acaba con dos copias de la población inicial y predicha (una en el master y la otra repartida entre los procesos).
+				\item La segunda mejora acaba con N copias, siendo N el número de procesos ejecutados.
+			\end{enumerate}
+		
+
+			Viendo el speedup de las implementaciones, se puede concluir que al principio es mejor dividir la población a predecir, pero a largo plazo es más efectivo dividir la población categorizada, además de tener menos complejidad espacial. 
+		
+			\begin{figure} [!h]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					xlabel={Tam. Población},
+					ylabel={SpeedUp},
+					legend pos=south east,			
+					legend columns=3,
+					grid=major,
+					width=0.85\textwidth,
+					height=0.35\textwidth
+					]
+									
+					\addplot [mark=none, color=darkgreen, line width=0.8pt] table [x index=0, y index=1, col sep=space] {files/knn_speedup.txt};
+					\addplot [mark=none, color=red, line width=0.8pt] table [x index=0, y index=2, col sep=space] {files/knn_speedup.txt};
+					\addplot [mark=none, color=blue, line width=0.8pt] table [x index=0, y index=3, col sep=space] {files/knn_speedup.txt};
+					
+									
+					\addlegendentry{Ideal}
+					\addlegendentry{MPI\_1}
+					\addlegendentry{MPI\_2}
+					
+					
+				\end{axis}
+				\end{tikzpicture}
+				\caption{SpeedUp - KNN}
+			\end{figure}
+			
+			\newpage
 		
 		\subsubsection{Cluster}
 
-		% TODO KMedias CLUSTER
-		
-		\color{blue} TODO CLUSTER
-		
-		\color{black}
-		
-		\newpage
-% ------------------------------------------------------------------------------------------------
-% --- KNN ----------------------------------------------------------------------------------------
-% ------------------------------------------------------------------------------------------------
-
-\textbf{KNN}
-
-En cada iteración de este algoritmo de aprendizaje supervisado, usa una población categorizada para agrupar un único individuo, no como en los anteriores que tiene que terminar todas las iteraciones para agrupar toda una población.
-
-Para las pruebas realizadas se usa un valor de K=15, impar para que no pueda existir empates. Hay dos formas de realizar la agrupación. Si se actualiza la población conforme se categorizan los individuos nuevos, la población final será mucho más precisa que si no se actualiza, pero tardará más tiempo en ejecutarse. 
-
-
-% KNN BASICO
-\begin{figure}[h!]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xlabel={Tam. Población ($10^5$)},
-			ylabel={Tiempo de ejeución (s)},
-			legend pos=north west,
-			legend columns=2,
-			grid=major,
-			width=\textwidth,
-			height=0.45\textwidth
-			]
+			% TODO KNN SIN ACTUALIZAR? 
 			
-			% Plot data from the file without markers, with different colors, and thicker lines
-			\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/knn.txt};
-			\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/knn.txt};
-			\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/knn.txt};
+			\vspace{1cm}
 			
-			\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/knn.txt};
+			\color{blue} TODO ? Añadir un estudio del algoritmo sin actualizar? Así a lo mejor se puede comprobar que es mejor la segunda implementación cuando las poblaciones no cambian.
 			
+			% TODO KNN CLUSTER
+			TODO CLUSTER
+			\color{black}
 			
-			% Add legends
-			\addlegendentry{Euclidea}
-			\addlegendentry{Euclidea\_Act}
-			\addlegendentry{Manhattan}
-			
-			\addlegendentry{Manhattan\_Act}
-			
-			
-		\end{axis}
-	\end{tikzpicture}
-	\caption{Tiempo de ejecución para KNN}
-\end{figure}
-
-Cuando la población se actualiza, aumenta el tiempo de ejecución, y se puede apreciar la diferencia entre los tipos de distancia. A largo plazo la distancia Euclídea tardará mucho más que la Manhattan, por tener una complejidad de cálculo mayor. 
-Cuando la población es constante, los tiempos de ejecución aumentan con el tamaño de la población a predecir de forma lineal, y el uso de distancias no afecta casi al rendimiento.
-
-
-% TODO MEJORAR CALIDAD
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{images/chapter_4/knn_mpi}
-	\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
-	\label{fig:example}
-\end{figure}
-
-Las dos implementaciones son aproximadamente iguales, siendo mejor la segunda implementación de la primera mejora. Añadir los individuos categorizados de la iteración anterior cuando cada worker finaliza la búsqueda de los K vecinos más cercanos en la iteración actual, elimina el tiempo de espera que tenía la primera implementación, reduciendo levemente el tiempo.
-La segunda mejora, además de ser levemente peor en cuestión de complejidad temporal, es mucho peor en complejidad espacial. Dividir la población a predecir conlleva un mayor consumo de memoria, al tener que tener la población entera en cada proceso. En la primera mejora se reparten equitativamente los individuos nuevos, es decir, en cada iteración el master envía a un único proceso el individuo categorizado.
-
-
-1. La primera mejora acaba con dos copias de la población inicial y predicha (una en el master y la otra repartida entre los procesos). 
-2. La segunda mejora acaba con N copias, siendo N el número de procesos ejecutados.
-
-
-\vspace{0.1cm}
-
-\begin{figure} [!h]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xlabel={Tam. Población},
-			ylabel={SpeedUp},
-			legend pos=south east,			
-			legend columns=3,
-			grid=major,
-			width=0.85\textwidth,
-			height=0.35\textwidth
-			]
-			
-			% Plot data from the file without markers, with different colors, and thicker lines
-			\addplot [mark=none, color=darkgreen, line width=0.8pt] table [x index=0, y index=1, col sep=space] {files/knn_speedup.txt};
-			\addplot [mark=none, color=red, line width=0.8pt] table [x index=0, y index=2, col sep=space] {files/knn_speedup.txt};
-			\addplot [mark=none, color=blue, line width=0.8pt] table [x index=0, y index=3, col sep=space] {files/knn_speedup.txt};
-			
-			
-			% Add legends
-			\addlegendentry{Ideal}
-			\addlegendentry{MPI\_1}
-			\addlegendentry{MPI\_2}
-			
-			
-		\end{axis}
-	\end{tikzpicture}
-	\caption{SpeedUp - KNN}
-\end{figure}
-
-Al principio es mejor dividir la poblacion a predecir, pero a largo plazo es más efectivo dividir la poblacion categorizada, además de tener menos complejidad espacial.
-
-
-
-% TODO KNN SIN ACTUALIZAR? 
-
-\vspace{1cm}
-
-\color{blue} TODO ? Añadir un estudio del algoritmo sin actualizar? Así a lo mejor se puede comprobar que es mejor la segunda implementación cuando las poblaciones no cambian.
-
-% TODO KNN CLUSTER
-TODO CLUSTER
-\color{black}
-
-\newpage
+			\newpage
 
 
 % ------------------------------------------------------------------------------------------------
 % --- RL -----------------------------------------------------------------------------------------
 % ------------------------------------------------------------------------------------------------
 
-\textbf{RL}
+\section{RL}	
+	
+		
+		
+	\begin{flushleft}
+	\begin{mdframed}[roundcorner=5pt]		
+		\textbf{\underline{Pruebas}}
+		\vspace{0.1cm}
+		
+		\scriptsize	
+		Estas pruebas se realizan con tres distintos laberintos, ejecutando varias veces para hacer un cálculo más eficaz del tiempo de ejecución para cada laberinto. Las matrices son cuadradas, y se generan de manera aleatoria con \textit{30, 50 y 100 filas.}
+	\end{mdframed}
+	\end{flushleft}	
+		
+		
+		
+	\subsubsection{Algoritmo sin mejoras}
 
-Una vez implementada este preprocesado y comparándolo con el sin procesar, los resultados son parecidos. Pero con en la búsqueda de los mejores hiper parámetros, da mejores resultados al preprocesar. No hace acciones innecesarias y le permite explorar mejor el entorno y no entrar en bucles.
+		\begin{figure}[!h]
+			\centering
+			\begin{tikzpicture}
+			\begin{axis}[
+				xlabel={Tam. del Laberinto},
+				ylabel={Tiempo de ejeución (s)},
+				legend pos=north west,
+				grid=major,
+				width=\textwidth,
+				height=0.35\textwidth
+				]
+				
+				
+				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/rl.txt};
+				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/rl.txt};
+				
+				
+				\addlegendentry{Normal}
+				\addlegendentry{Preprocesado}
+				
+				
+			\end{axis}
+			\end{tikzpicture}
+			\caption{Tiempo de ejecución para RL}
+		\end{figure}
+		
+		Una vez implementada este preprocesado y comparándolo con el sin procesar, los resultados son parecidos. Pero con en la búsqueda de los mejores hiper parámetros, da mejores resultados al preprocesar. No hace acciones innecesarias y le permite explorar mejor el entorno y no entrar en bucles.
+		
+	\subsubsection{Búsqueda de los mejores hiperparámetros}
 
-Estas pruebas se realizan con tres distintos laberintos, ejecutando varias veces para hacer un cálculo más eficaz del tiempo de ejecución para cada laberinto. Las matrices son cuadradas, y se generan de manera aleatoria con \textit{30, 50 y 100 filas.}
 
-\begin{figure}[!h]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xlabel={Tam. del Laberinto},
-			ylabel={Tiempo de ejeución (s)},
-			legend pos=north west,
-			grid=major,
-			width=\textwidth,
-			height=0.35\textwidth
-			]
+		Para realizar la búsqueda mencionada se aplica la mejora de dividir el trabajo entre varios procesos. El master se encarga de mandar combinaciones a los workers. Dependiendo de la precisión, puede llegar a haber muchas por el poder de la combinatoria, y este proceso ser muy lento. El speedup es proporcional al número de nodos ejecutando combinaciones en paralelo.
+		
+		Esta búsqueda es muy útil para encontrar configuraciones que funcionen en el entorno.
+		La mejora de matriz dividida no funciona correctamente, se queda en bucles en la mayoría de configuraciones que funcionan para la implementación secuencial del algoritmo. Con unos valores-Q previamente entrenados si funciona, pero la etapa de entrenamiento no funciona.
+
+		
+	
+	\subsubsection{Mejora: Dividir el entorno entre los procesos}
+	
+		\begin{flushleft}
+		\begin{mdframed}[roundcorner=5pt]		
+			\textbf{\underline{Procesos}}
+			\vspace{0.1cm}
 			
-			% Plot data from the file without markers, with different colors, and thicker lines
-			\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/rl.txt};
-			\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/rl.txt};
+			\scriptsize	
+			Esta mejora se basa en el modelo \textit{Master-Worker}. El proceso Master divide el entorno entre todos los procesos (incluyéndose). También se encarga del punto de partida del agente (parte superior izquierda) y genera nuevos agentes conforme salen de su perímetro. Los demás procesos esperan a recibir un agente de algún proceso para poder explorar su entorno.
+		\end{mdframed}
+		\end{flushleft}	
+		
+		Esta mejora no da buenos resultados. He encontrado una configuración de hiperparámetros para que el agente aprenda a llegar al destino, se queda dando vueltas en cualquier proceso. Si en vez de inicializar las experiencias a 0, usamos el mapa aprendido usando el algoritmo sin mejoras, si llega al destino, creo que el problema no es de la comunicación sino de encontrar unos buenos hiperparámetros para que llegue al destino.
+		
+		\color{blue} %TODO: RL MEJORA DIVIDIR MATRIZ
+		TODO A LO MEJOR Añadiendo un premio cuando un agente sale de un entorno de un proceso dependiendo de si va hacia atras o en buen camino puede que funcione. ESTOY IMPLEMENTADO ESTA MEJORA. 
+		\color{black}
+	
+	\subsubsection{Mejora: Ejecuciones en paralelo}
+		\begin{flushleft}
+		\begin{mdframed}[roundcorner=5pt]		
+			\textbf{\underline{Procesos}}
+			\vspace{0.1cm}
 			
-			% Add legends
-			\addlegendentry{Normal}
-			\addlegendentry{Preprocesado}
-			
-			
-		\end{axis}
-	\end{tikzpicture}
-	\caption{Tiempo de ejecución para RL}
-\end{figure}
+			\scriptsize	
+			Usando el modelo \textit{Master-Worker}. El proceso Master envia las posiciones aleatorias y el laberinto a los Workers, para que estos investiguen el laberinto y devuelven las experiencias obtenidas para que el Master haga la media y aprenda las mejores acciones para cada estado del entorno.
+		\end{mdframed}
+		\end{flushleft}	
+		
+		Esta mejora aplica la misma idea que la búsqueda de hiperparámetros, pero esta vez para investigar por completo el laberinto y encontrar más rápidamente el mejor camino para llegar a la meta. al ejecutar N Workers, el Master recibe la experiencia de estos procesos, provocando una reducción en el tiempo de ejecución de \textit{N*rep} repeticiones, provocando un speedup aproximado al número de procesos Workers ejecutados.
+		
+		%TODO: RL - PONER GRAFICO 2da MEJORA
+		
+	\subsubsection{Cluster}
+	
+		
+		% TODO RL 
+		
+		\vspace{1cm}
+		
+		\color{blue} TODO ? Añadir un estudio del algoritmo sin actualizar? Así a lo mejor se puede comprobar que es mejor la segunda implementación cuando las poblaciones no cambian.
+		
+		% TODO RL CLUSTER
+		TODO CLUSTER
+		\color{black}
+		\newpage
 
-
-Para realizar la búsqueda mencionada se aplica la mejora de dividir el trabajo entre varios procesos. El master se encarga de mandar combinaciones a los workers. Dependiendo de la precisión, puede llegar a haber muchas por el poder de la combinatoria, y este proceso ser muy lento. El speedup es proporcional al número de nodos ejecutando combinaciones en paralelo.
-
-Esta búsqueda es muy útil para encontrar configuraciones que funcionen en el entorno.
-La mejora de matriz dividida no funciona correctamente, se queda en bucles en la mayoría de configuraciones que funcionan para la implementación secuencial del algoritmo. Con unos valores-Q previamente entrenados si funciona, pero la etapa de entrenamiento no funciona.
-
-\newpage
-
-% TODO RL 
-
-\vspace{1cm}
-
-\color{blue} TODO ? Añadir un estudio del algoritmo sin actualizar? Así a lo mejor se puede comprobar que es mejor la segunda implementación cuando las poblaciones no cambian.
-
-% TODO RL CLUSTER
-TODO CLUSTER
-\color{black}
-\newpage
 
 % ------------------------------------------------------------------------------------------------
 % --- PEV ----------------------------------------------------------------------------------------
-% ------------------------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------------------------	
+\section{PEV}
 
-
-
-\begin{flushleft}
-	\textbf{PEV}
+	\begin{flushleft}			
 	\begin{mdframed}[roundcorner=5pt]
 		\textbf{\underline{Pruebas}}
 		\vspace{0.1cm}
 		
 		\scriptsize		
-		Para el algoritmo se ha aplicado un elitismo de 5\% conservando los mejores individuos de cada generación. Para el problema de árboles se aplica un método de control de bloating, para intentar reducir la alutra de los individuos. 		
-		Para mejorar la aptitud de los individuos se aplica un desplazamiento, cuya finalidad es todos los individuos tengan valores positivos. Además de aplicar un escalado lineal, controlando la diversidad de las aptitudes.\\
+		Para el algoritmo se ha aplicado un elitismo de 5\% conservando los mejores individuos de cada generación. Para el problema de árboles se aplica un método de control de bloating, para intentar reducir la altura de los individuos. 		
+		Para mejorar la aptitud de los individuos se aplica un desplazamiento, cuya finalidad es que todos los individuos tengan valores positivos. Además de aplicar un escalado lineal, controlando la diversidad de las aptitudes.\\
 		
 		El método de evaluación depende del tipo de individuo. \\
 		- Si es binario se calcula su valor real y se aplica una función matemática.  \\
@@ -795,606 +873,800 @@ TODO CLUSTER
 			- Individuo Binario:\\
 			Met. Cruce (p=0.6): Intercambio\\
 			Met. Mutación (p=0.3): Terminal \\
-			M(x)X(y)=matriz: \{M8X8: 8 filas, 8 columnas y 100 ticks; M100X100: 100 filas, 100 columnas y 10000 ticks\}
-			
-			
-			
+			M(x)X(y)=matriz: \{M8X8: 8 filas, 8 columnas y 100 ticks; M100X100: 100 filas, 100 columnas y 10000 ticks\}				
 			
 		\end{tcolorbox}
 		
 	\end{mdframed}
-\end{flushleft}
+	\end{flushleft}
 
-Con las tres mejoras implementadas hay que tener en cuenta el tipo de individuo para cada problema, pues dependiendo del tipo, tardará más tiempo en determinadas funciones. Además de tener en cuenta el coste de la comunicación entre procesos.
+	Con las tres mejoras implementadas hay que tener en cuenta el tipo de individuo para cada problema, pues dependiendo del tipo, tardará más tiempo en determinadas funciones. Además de tener en cuenta el coste de la comunicación entre procesos.
+	
+	Tiempo de ejecución (en segundos) de los métodos, para una operación. Es decir, el tiempo que tarda en inicializar, evaluar, seleccionar y mutar un único individuo, o cruzar dos individuos. 
+	
+	\vspace{0.3cm}
 
-Tiempo de ejecución (en segundos) de los métodos, para una operación. Es decir, el tiempo que tarda en inicializar, evaluar, seleccionar y mutar un único individuo, o cruzar dos individuos. 
+	Para la siguiente tabla, se marca en rojo los métodos más tardíos para cada problema. 
+	\begin{itemize}
+		\item Con individuos binarios, conviene dar más recursos a las operaciones de cruce y mutación.
+		\item Los otros dos individuos (reales y árboles) es mejor paralelizar la función de evaluación, dependiendo de los datos de entrada de dichos problemas.
+	\end{itemize}
+ 
+	
 
-
-
-% TODO CENTRAR TABLA
-\begin{center}
+	
 	\begin{table}[!h]
 		\centering
-		\begin{tabular}{|c|c|c|c|c|c|c|}
-			\hline
-			\rowcolor{lightgray}
-			\textbf{Datos} & \textbf{Funciones} & \textbf{Init(1)} & \textbf{Evaluación(1)} & \textbf{Selección(1)} & \textbf{Cruce(2)} & \textbf{Mutación(1)} \\
-			\hline
-			Precision: 2 & Binario & 2.56e-05 & 4.4e-06 & 8.56e-06 & \cellcolor{redcell} 1.36e-05 & \cellcolor{redcell} 1.53e-05 \\
-			\hline
-			Precision: 10 & Binario & 3.33e-05 & 5.44e-06 & 8.9e-06 & \cellcolor{redcell} 1.71e-05 & \cellcolor{redcell} 1.88e-05 \\
-			\hline
-			\makecell{aviones: 12 \\ pistas: 3} & Aeropuerto 1 & 7.04e-06 & \cellcolor{redcell} 2.55e-05 & 4.12e-06 & 1.48e-05 & 2.764e-06 \\
-			\hline
-			\makecell{aviones: 25 \\ pistas: 5} & Aeropuerto 2 & 1.36e-05 & \cellcolor{redcell} 6.55e-05 & 4.62e-06 & 2.4e-05 & 3.43e-06 \\
-			\hline
-			\makecell{aviones: 100 \\ pistas: 10} & Aeropuerto 3 & 3.97e-05 & \cellcolor{redcell} 4.3e-04 & 8.05e-06 & 4.18e-05 & 1.04e-05 \\
-			\hline
-			\makecell{M10x10 \\ ticks: 150} & Árbol & 6.12e-05 & \cellcolor{redcell} 6.47e-05 & 7.92e-05 & 2.33e-05 & 3.47e-07 \\
-			\hline
-			\makecell{M25x25 \\ ticks: 400} & Árbol & 6.16e-05 & \cellcolor{redcell} 1.65e-04 & 7.88e-05 & 2.32e-05 & 3.7e-07 \\
-			\hline
-			\makecell{M100x100 \\ ticks: 800} & Árbol & 6.41e-05 & \cellcolor{redcell} 3.66e-04 & 8.07e-05 & 2.09e-05 & 3.23e-07 \\
-			\hline
-		\end{tabular}
+		\includegraphics[width=1\textwidth]{images/chapter_4/tabla_pev}
+		\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
 		\caption{PEV - Tiempos de cada método}
-		\label{tab:sample}
+		\label{tab:pev}
 	\end{table}
-\end{center}
-
-En rojo se marcan los métodos más tardíos para cada problema. 
-Con individuos binarios, conviene dar más recursos a las operaciones de cruce y mutación. Y para los individuos reales y árboles la evaluación.
-
-
-
-
-
-
-\begin{figure}[h!]
-	\centering
-	\begin{tikzpicture}
-		\begin{groupplot}[
-			group style={
-				group size=3 by 1,
-				horizontal sep=0.78cm,
-				vertical sep=0.5cm},
-			width=0.40\textwidth,
-			height=0.40\textwidth,
-			tick label style={font=\tiny} % Adjust font size of tick labels
-			]
-			
-			% First plot
-			\nextgroupplot[
-			title={},
-			ylabel= Tiempo de ejecución (s),
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-			xtick={25, 500, 1000, 1500, 2000} 
-			]
-			\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev.txt};
-			\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev.txt};
-			\addlegendentry{\tiny P2}
-			\addlegendentry{\tiny P10}
-			
-			% Second plot
-			\nextgroupplot[
-			title={},
-			xlabel=Num. Generaciones,
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-			xtick={25, 500, 1000, 1500, 2000} 
-			]
-			\addplot [mark=none, color=blue] table [x index=0, y index=3, col sep=space] {files/pev.txt};
-			\addplot [mark=none, color=green] table [x index=0, y index=4, col sep=space] {files/pev.txt};
-			\addplot [mark=none, color=red] table [x index=0, y index=5, col sep=space] {files/pev.txt};
-			\addlegendentry{\tiny AER 1}
-			\addlegendentry{\tiny AER 2}
-			\addlegendentry{\tiny AER 3}
-			
-			% Third plot
-			\nextgroupplot[
-			title={},
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-			xtick={25, 500, 1000, 1500, 2000} 
-			]
-			\addplot [mark=none, color=blue] table [x index=0, y index=6, col sep=space] {files/pev.txt};
-			\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev.txt};
-			\addlegendentry{\tiny M8X8}
-			\addlegendentry{\tiny M100X10}
-			
-		\end{groupplot}        
-	\end{tikzpicture}
-	\caption{PEV Secuencial}
-\end{figure}
-
-% TODO PEV DESARROLLAR
-Como solo varía el número de generaciones, las gráficas son lineales. Si se modifica de la misma forma el tamaño de la población, serían exponenciales, y tardarían mucho tiempo para ejecutarse.
-
-1. El problema que aplica individuos binarios es bastante rápido, es el que menos tiempo de ejecución tiene entre los tres problemas implementados. 
-La complejidad de la función de evaluación es lineal O(M) siendo M el tamaño del individuo. Recorre todos los bits para convertirlo a un número real y luego ejecuta una función matemática.
-
-2. Para los individuos reales aumenta en relación al tamaño del problema. 
-La complejidad de la función de evaluación es cuadrática O(N*M), siendo N el número de aviones y M las pistas. Para cada individuo recorre las pistas disponibles asignando la que menor tiempo de retraso genere al vuelo. 
-
-3. El problema de los árboles depende del número de ticks.
-La complejidad de la función de evaluación es lineal O(Ticks).
-
-\underline{Mejora 2, Modelo de islas}
-
-El modelo de islas, depende de la configuración elegida. Si es el básico, se divide la población entre los workers por lo que se consigue un speedup proporcional a los procesos ejecutados. Para garantizar que funcione igual o mejor que la implementación secuencial, hay que tener una comunicación para garantizar la supervivencia de los más aptos en la población general y de vez en cuando reiniciar las poblaciones de cada proceso con los mejores resultados obtenidos. El maestro se encarga de agrupar los mejores y enviarlos a la hora del reinicio. 
-
-Si usamos la configuración en estrella o anillo, podemos ir mezclando poblaciones de y tener más diversidad, y es más probable calcular mejores resultados .
-
-\begin{flushleft}
-	\textbf{Mejoras: aplicando 4 islas.}
-\end{flushleft}
-
-\begin{figure}[h!]
-	\centering
-	\begin{tikzpicture}
-		\begin{groupplot}[group style={
-				group size=3 by 1,
-				horizontal sep=0.78cm, % Adjust horizontal separation between plots
-				vertical sep=0.5cm}, % Adjust vertical separation between plots
-			width=0.40\textwidth, height=0.22\textheight, % Adjust size as needed		
-			tick label style={font=\tiny} % Adjust font size of tick labels	
-			]
-			
-			% First plot
-			\nextgroupplot[title={}, ylabel= Tiempo de ejecución (s),
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev_2mpi.txt};
-			\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev_2mpi.txt};
-			\addplot [mark=none, color=black] table [x index=0, y index=3, col sep=space] {files/pev_2mpi.txt};
-			\addplot [mark=none, color=darkgreen] table [x index=0, y index=4, col sep=space] {files/pev_2mpi.txt};
-			\addlegendentry{\tiny P2}
-			\addlegendentry{\tiny P10}
-			\addlegendentry{\tiny P2\_MPI}
-			\addlegendentry{\tiny P10\_MPI}
-			
-			% Second plot
-			\nextgroupplot[title={}, xlabel=Num. Generaciones,
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=blue] table [x index=0, y index=5, col sep=space] {files/pev_2mpi.txt};			
-			\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev_2mpi.txt};
-			\addplot [mark=none, color=black] table [x index=0, y index=6, col sep=space] {files/pev_2mpi.txt};
-			\addplot [mark=none, color=darkgreen] table [x index=0, y index=8, col sep=space] {files/pev_2mpi.txt};
-			\addlegendentry{\tiny AER 1}
-			\addlegendentry{\tiny AER 2}
-			\addlegendentry{\tiny AER 1\_MPI}
-			\addlegendentry{\tiny AER 2\_MPI}
-			
-			
-			% Third plot
-			\nextgroupplot[title={},
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=red] table [x index=0, y index=9, col sep=space] {files/pev_2mpi.txt};
-			\addplot [mark=none, color=black] table [x index=0, y index=10, col sep=space] {files/pev_2mpi.txt};
-			\addlegendentry{\tiny AER 3}
-			\addlegendentry{\tiny AER 3\_MPI}
-			
-		\end{groupplot}		
-	\end{tikzpicture}
-	\caption{MPI - Modelo de Islas}
-\end{figure}
-
-
-\newpage
-
-El problema de los árboles calcularía resultados parecidos a estos dos gráficos.
-
-
-Los resultados son buenos, teniendo aproximadamente un speedup proporcional al número de procesos ejecutándose.
-
-
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xlabel={Num. Generaciones},
-			ylabel={SpeedUp},
-			legend pos=south east,
-			grid=major,
-			width=0.45\textwidth,
-			height=0.35\textwidth,
-			ymin=0, 
-			ymax=5
-			]
-			
-			% Plot data from the file without markers, with different colors, and thicker lines
-			\addplot [mark=diamond*, color=darkgreen, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/pev_2mpi_speedup.txt};
-			\addplot [mark=none, color=blue, line width=0.8pt] table [x index=0, y index=2, col sep=space] {files/pev_2mpi_speedup.txt};
-			\addplot [mark=none, color=black, line width=0.8pt] table [x index=0, y index=3, col sep=space] {files/pev_2mpi_speedup.txt};
-			\addplot [mark=none, color=red, line width=0.8pt] table [x index=0, y index=4, col sep=space] {files/pev_2mpi_speedup.txt};
-			
-			
-			% Add legends
-			\addlegendentry{Ideal}
-			\addlegendentry{P10}
-			\addlegendentry{AER3}
-			\addlegendentry{M100X100}
-			
-			
-		\end{axis}
-	\end{tikzpicture}
-	\caption{SpeedUp - Modelo en Islas}
-\end{figure}
-
-
-
-\underline{Mejora 1, Dividir con el master}
-
-Con una única población, el master se encarga de dividir el trabajo entre los workers, reduciendo el tiempo de ejecución. 
-
-Para estas pruebas se ejecutan cuatro procesos workers, cinco contando el master:
-
-\begin{figure}[h!]
-	\centering
-	\begin{tikzpicture}
-		\begin{groupplot}[group style={
-				group size=3 by 1,
-				horizontal sep=0.78cm, 
-				vertical sep=0.5cm}, 
-			width=0.40\textwidth, height=0.35\textwidth, 
-			tick label style={font=\tiny} 
-			]
-			
-			% PRIMERO
-			\nextgroupplot[title={}, ylabel=Tiempo de ejecución (s),
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev_1_1mpi.txt};
-			\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev_1_1mpi.txt};
-			\addplot [mark=none, color=black] table [x index=0, y index=3, col sep=space] {files/pev_1_1mpi.txt};
-			\addplot [mark=none, color=darkgreen] table [x index=0, y index=4, col sep=space] {files/pev_1_1mpi.txt};
-			\addlegendentry{\tiny P2}
-			\addlegendentry{\tiny P10}
-			\addlegendentry{\tiny P2\_MPI}
-			\addlegendentry{\tiny P10\_MPI}
-			
-			% SEGUNDO
-			\nextgroupplot[title={}, xlabel=Num. Generaciones,
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=blue] table [x index=0, y index=5, col sep=space] {files/pev_1_1mpi.txt};	
-			\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev_1_1mpi.txt};
-			\addplot [mark=none, color=black] table [x index=0, y index=6, col sep=space] {files/pev_1_1mpi.txt};
-			\addplot [mark=none, color=darkgreen] table [x index=0, y index=8, col sep=space] {files/pev_1_1mpi.txt};
-			\addlegendentry{\tiny AER 1}
-			\addlegendentry{\tiny AER 2}
-			\addlegendentry{\tiny AER 1\_MPI}
-			\addlegendentry{\tiny AER 2\_MPI}
-			
-			% TERCERO
-			\nextgroupplot[title={},
-			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=red] table [x index=0, y index=9, col sep=space] {files/pev_1_1mpi.txt};			
-			\addplot [mark=none, color=black] table [x index=0, y index=10, col sep=space] {files/pev_1_1mpi.txt};			
-			\addlegendentry{\tiny M8X8}
-			\addlegendentry{\tiny MPI}
-			
-		\end{groupplot}	
-		
-		% Common x-axis label
-		%\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
-		
-	\end{tikzpicture}
-	\caption{MPI1.1 - Dividir Poblacion}
-\end{figure}
-
-(Gráfica izquierda). Para los problemas binarios este método no es efectivo. Se pierde mucho tiempo en el paso de mensajes. Tener para cada individuo muchos bits provoca que una población no muy grande sea inviable para aplicar esta mejora. Además de que este problema es bastante rápido.
-
-(Gráfica derecha). Aunque se controle el tamaño de los individuos, el problema es muy pequeño para alcanzar alguna mejora. Con matrices más grandes se puede mejorar.
-
-(Gráfica central). Para este tipo de problema hasta con valores pequeños se puede reducir el tiempo de ejecución. Aunque está lejos de llegar a un speedup ideal.
-
-%\newpage
-
-
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.7\textwidth]{images/chapter_4/pev_mpi1}
-	\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
-	\label{fig:MPI1.2 - Dividir Poblacion + Speedup}
-\end{figure}
-
-% CODIGO DE LA IMAGEN DE ARRIBA
-%\begin{figure}[h!]
-%	\centering
-%	\begin{tikzpicture}
-	%		\begin{groupplot}[group style={
-			%				group size=2 by 1, % Adjust group size (2 plots horizontally)
-			%				horizontal sep=0.78cm, % Adjust horizontal separation between plots
-			%				vertical sep=0.5cm}, % Adjust vertical separation between plots
-		%			width=0.40\textwidth, height=0.40\textwidth, % Adjust size as needed		
-		%			tick label style={font=\tiny} % Adjust font size of tick labels	
-		%			]
-		%			
-		%			% First plot
-		%			\nextgroupplot[title={}, ylabel=Tiempo de ejecución (s),
-		%			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-		%			xtick={25, 500, 1000, 1500, 2000}]
-		%			\addplot [mark=none, color=red] table [x index=0, y index=1, col sep=space] {files/pev_1_2mpi.txt};
-		%			\addplot [mark=none, color=black] table [x index=0, y index=2, col sep=space] {files/pev_1_2mpi.txt};			
-		%			\addlegendentry{\tiny AER 3}
-		%			\addlegendentry{\tiny MPI}
-		%			
-		%			% Add value labels
-		%			\node at (axis cs:2000,96.16) [text=red,left] {\tiny 96.16};
-		%			\node at (axis cs:2000,34.25) [text=black,left] {\tiny 34.25};
-		%			
-		%			% Second plot
-		%			\nextgroupplot[title={},
-		%			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-		%			xtick={25, 500, 1000, 1500, 2000}]
-		%			\addplot [mark=none, color=red] table [x index=0, y index=3, col sep=space] {files/pev_1_2mpi.txt};			
-		%			\addplot [mark=none, color=black] table [x index=0, y index=4, col sep=space] {files/pev_1_2mpi.txt};			
-		%			\addlegendentry{\tiny M100X100}
-		%			\addlegendentry{\tiny MPI}
-		%			
-		%			% Add value labels
-		%			\node at (axis cs:2000,1008.51) [text=red,left] {\tiny 1008.5};
-		%			\node at (axis cs:2000,324.52) [text=black,left]{\tiny 324.5};
-		%			
-		%		\end{groupplot}	
-	%		
-	%		% Common x-axis label
-	%		\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
-	%		
-	%	\end{tikzpicture}
-%	\caption{MPI1.2 - Dividir Poblacion}
-%\end{figure}
-
-
-Como se comentó antes, al aumentar los tamaños se consiguen mejores resultados. Con estas características, la ejecución se aumenta al punto de ser buena opción aplicar esta mejora.
-
-\underline{Mejora 3, PipeLine}
-
-El método de pipeline varía para cada problema. Los individuos binarios no mejoran mucho la ejecución, al tener muchos datos que enviar. Sin embargo los problemas con individuos reales o árboles si se pueden optimizar. La evaluación es el método que más tarda en estos dos problemas, por lo que repartir la carga de trabajo con más procesos reduce el tiempo de ejecución.
-
-
-\begin{figure}[h!]
-	\centering
-	\begin{tikzpicture}
-		\begin{groupplot}[group style={
-				group size=3 by 1,
-				horizontal sep=0.78cm, % Adjust horizontal separation between plots
-				vertical sep=0.5cm}, % Adjust vertical separation between plots
-			width=0.40\textwidth, height=0.40\textwidth, % Adjust size as needed		
-			tick label style={font=\tiny} % Adjust font size of tick labels	
-			]
-			
-			% First plot
-			\nextgroupplot[title={}, ylabel=Tiempo de ejecución (s),
-			legend pos=north west,
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=red] table [x index=0, y index=1, col sep=space] {files/pev_3mpi.txt};
-			\addplot [mark=none, color=darkgreen] table [x index=0, y index=2, col sep=space] {files/pev_3mpi.txt};
-			\addplot [mark=none, color=blue] table [x index=0, y index=3, col sep=space] {files/pev_3mpi.txt};							
-			\addlegendentry{\tiny P10}
-			\addlegendentry{\tiny MPI(4)}
-			\addlegendentry{\tiny MPI(7)}
-			
-			
-			% Second plot
-			\nextgroupplot[title={},
-			legend pos=north west,
-			xtick={25, 500, 1000, 1500, 2000}]
-			\addplot [mark=none, color=red] table [x index=0, y index=4, col sep=space] {files/pev_3mpi.txt};			
-			\addplot [mark=none, color=darkgreen] table [x index=0, y index=5, col sep=space] {files/pev_3mpi.txt};
-			\addplot [mark=none, color=blue] table [x index=0, y index=6, col sep=space] {files/pev_3mpi.txt};	
-			\addlegendentry{\tiny AER3}
-			\addlegendentry{\tiny MPI(6)}
-			\addlegendentry{\tiny MPI(10)}
-			
-		\end{groupplot}	
-		
-		% Common x-axis label
-		\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
-		
-	\end{tikzpicture}
-	\caption{MPI3 - PipeLine}
-\end{figure}
-
-Para los individuos binarios, funciona algo mejor que la mejora anterior, con el funcionamiento de pipeline no se pierde tanto tiempo con el paso de mensajes de individuos binarios, y aunque sea poco, se puede reducir el tiempo de ejecución. Al tener varias poblaciones ejecutándose al mismo tiempo no se puede tener una población muy grande. A partir de un tamaño de 1000 no se puede ejecutar con dos decimales de precisión. 500 para 10 decimales de precisión.
-
-
-\begin{figure}[!h]
-	\begin{mdframed}[roundcorner=5pt]
-		\textbf{Binarios}
-		\vspace{-0.2cm}
-		
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize		
-			\color{darkgreen} 1. Cuatro procesos: \color{black}\\
-			- Master se encarga de inicializar\\
-			- Worker1: evaluación y selección, procesos que no tardan mucho en ejecutarse.\\
-			- Worker2: cruce\\
-			- Worker3: mutación\\
-			
-			\color{blue} 2. Siete procesos. \color{black}\\
-			Se duplica el numero de workers en cada pipe.	
-		\end{tcolorbox}
-		
-		\vspace{-0.5cm}
-		\begin{flushleft}
-			\textbf{Reales}
-		\end{flushleft}
-		\vspace{-0.7cm}
-		
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize
-			Solo aumenta el número de workers en el método de evaluación.\\
-			\color{darkgreen} 1. Seis procesos: \color{black}\\
-			- Master se encarga de inicializar\\
-			- Worker [1, 4]: evaluación, función que más tarda\\
-			- Worker 5:  selección, cruce y mutación\\	
-			
-			\color{blue} 2. Diez procesos. \color{black}\\
-			Se duplica el numero de workers en cada pipe.	
-		\end{tcolorbox}
-		
-		\vspace{-0.5cm}
-		\begin{flushleft}
-			\textbf{Arboles}
-		\end{flushleft}
-		\vspace{-0.4cm}
-		Es igual que la implementación de individuos reales, pues la evaluación es el método que más tarda.
-		
-		
-		
-	\end{mdframed}
-\end{figure}
-
-Estos datos se calcularon teniendo en cuenta los tiempos de ejecución para cada método (tabla del principio). \\
-1. Evaluación $\approx$ 400e-06s \\
-2. Selección $\approx$ 8e-06\\
-3. Cruce $\approx$ 40e-06\\
-4. Mutación $\approx$ 10e-06\\
-Al juntar los últimos tres métodos, tarda un tiempo aproximado de 58e-06. \\
-6.9 veces más rápido que la evaluación. Por simplicidad, es mejor ejecutar potencias de dos procesos, para hacer una división equitativa
-
-% TODO PEV CLUSTER
-
-\color{blue} TODO CLUSTER
-
-\color{black}
-\newpage
-
-\begin{flushleft}
-	\textbf{Redes Neuronales}
-\end{flushleft}
-
-Red neuronal con capa oculta 1x5, una capa y cinco nodos.
-
-\begin{figure}[!h]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xlabel={Num. Repeticiones},
-			ylabel={Tiempo de ejeución (s)},
-			legend pos=north west,
-			grid=major,
-			width=\textwidth,
-			height=0.45\textwidth
-			]
-			
-			% Plot data from the file without markers, with different colors, and thicker lines
-			\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/redneu1.txt};
-			\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/redneu1.txt};
-			\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/redneu1.txt};
-			
-			% Add legends
-			\addlegendentry{Secuencial}
-			\addlegendentry{Síncrono}
-			\addlegendentry{Asíncrono}
-			
-			
-		\end{axis}
-	\end{tikzpicture}
-	\caption{MPI1 - Red Neuronal}
-\end{figure}
-
-Una vez implementado para una red neuronal pequeña, no reduce el tiempo de ejecución. En programación evolutiva, el flujo de mensajes es unidireccional, y no se pierde tanto tiempo entre mensajes. Este algoritmo tiene dos métodos en diferentes direcciones, provocando un \textbf{flujo bidireccional}, y la comunicación entre procesos se ralentiza. Usando mensajes \textbf{asíncronos}, permite a cada proceso ejecutar antes el cálculo de forward y cuando recibe los errores los actualiza. Reduce muy poco el tiempo comparándolo con la versión síncrona, pero empeora la predicción del modelo.
-También hay que tener en cuenta que el flujo de mensajes hace que el modelo aprenda con valores desactualizados. Y dependiendo de la población puede haber un bucle en el cual aumenta y reduce los pesos, provocando un entrenamiento erróneo.
-
-% TODO REDNEU 5X50
-
-\color{blue} TODO PROBAR CON 5X50
-
-\color{black}
-\newpage
-
-Para dividir la población de entrenamiento, aplicando la idea de fine-tuning, entre los procesos hay que tener mucho cuidado. La repartición de individuos es crucial para un correcto aprendizaje de la red. Si cada proceso tiene la misma población de entrenamiento, se reduce el tiempo de ejecución en relación al número de procesos ejecutados, pero no garantiza buenas predicciones, pues la media sería parecida. A no ser que cada proceso inicialmente tuviese pesos distintos, aunque no se podría garantizar un buen entrenamiento. Sin embargo dividiendo la población de manera eficiente se podría intentar provocar que cada proceso aprendiese unos ciertos intervalos, y con una red grande ciertos nodos se especializan en unos datos, y no se entrelazan los resultados, llegando a reducir el tiempo y entrenar correctamente.
-
-\begin{figure}[!h]
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			xlabel={Num. Repeticiones},
-			ylabel={Tiempo de ejeución (s)},
-			legend pos=north west,
-			grid=major,
-			width=\textwidth,
-			height=0.45\textwidth
-			]
-			
-			% Plot data from the file without markers, with different colors, and thicker lines
-			\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/redneu2.txt};
-			\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/redneu2.txt};
-			\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/redneu2.txt};
-			
-			% Add legends
-			\addlegendentry{Secuencial}
-			\addlegendentry{MPI(2)}
-			\addlegendentry{MPI(4)}
-			
-			
-		\end{axis}
-	\end{tikzpicture}
-	\caption{MPI2 - Red Neuronal Dividiendo entrenamiento}
-\end{figure}
-
-Esta prueba se ejecutó con 80 individuos en la población de entrenamiento, sobre una red neuronal con diez capas ocultas y diez nodos por capa (10x10). Si aumentamos o reducimos la población o la estructura de la red, el tiempo será proporcional.
-Al dividir la fase de entrenamiento se puede alcanzar un speedup aproximado al ideal, pero lo difícil es encontrar los valores concretos de los hiper parámetros y la repartición del entrenamiento para tener una buena red neuronal que cumpla con el funcionamiento deseado. Para ello se puede realizar una búsqueda en paralelo comprobando los mejores resultados, tanto variando la tasa de aprendizaje como la repartición de los individuos con los cuales se entrena al modelo.
-
-Para realizar la búsqueda de mejores hiper parámetros se ejecuta, con los mismos pesos, varias veces con diferentes valores, almacenando los mejores resultados y cuando se obtienen. Con cien repeticiones con un tamaño de población de ochenta individuos y una precisión de 0.01 se pueden comprobar los resultados en un intervalo de [0.01,0.20].
-
-
-% TODO CENTRAR BIEN
-\begin{figure}[!h]
-	\centering
 	
+	%\begin{table}[!h]
+	%	\centering
+	%	\begin{tabular}{|c|c|c|c|c|c|c|}
+	%		\hline
+	%		\rowcolor{lightgray}
+	%		\textbf{Datos} & \textbf{Funciones} & \textbf{Init(1)} & \textbf{Evaluación(1)} & \textbf{Selección(1)} & \textbf{Cruce(2)} & \textbf{Mutación(1)} \\
+	%		\hline
+	%		Precision: 2 & Binario & 2.56e-05 & 4.4e-06 & 8.56e-06 & \cellcolor{redcell} 1.36e-05 & \cellcolor{redcell} 1.53e-05 \\
+	%		\hline
+	%		Precision: 10 & Binario & 3.33e-05 & 5.44e-06 & 8.9e-06 & \cellcolor{redcell} 1.71e-05 & \cellcolor{redcell} 1.88e-05 \\
+	%		\hline
+	%		\makecell{aviones: 12 \\ pistas: 3} & Aeropuerto 1 & 7.04e-06 & \cellcolor{redcell} 2.55e-05 & 4.12e-06 & 1.48e-05 & 2.764e-06 \\
+	%		\hline
+	%		\makecell{aviones: 25 \\ pistas: 5} & Aeropuerto 2 & 1.36e-05 & \cellcolor{redcell} 6.55e-05 & 4.62e-06 & 2.4e-05 & 3.43e-06 \\
+	%		\hline
+	%		\makecell{aviones: 100 \\ pistas: 10} & Aeropuerto 3 & 3.97e-05 & \cellcolor{redcell} 4.3e-04 & 8.05e-06 & 4.18e-05 & 1.04e-05 \\
+	%		\hline
+	%		\makecell{M10x10 \\ ticks: 150} & Árbol & 6.12e-05 & \cellcolor{redcell} 6.47e-05 & 7.92e-05 & 2.33e-05 & 3.47e-07 \\
+	%		\hline
+	%		\makecell{M25x25 \\ ticks: 400} & Árbol & 6.16e-05 & \cellcolor{redcell} 1.65e-04 & 7.88e-05 & 2.32e-05 & 3.7e-07 \\
+	%		\hline
+	%		\makecell{M100x100 \\ ticks: 800} & Árbol & 6.41e-05 & \cellcolor{redcell} 3.66e-04 & 8.07e-05 & 2.09e-05 & 3.23e-07 \\
+	%		\hline
+	%	\end{tabular}
+	%	\caption{PEV - Tiempos de cada método}
+	%	\label{tab:pev}
+	%\end{table}
 	
-	\begin{subfigure}[t]{0.35\textwidth}
+
+	\subsubsection{Algoritmos sin mejoras}
+	
+		\begin{figure}[h!]
+		\centering
 		\begin{tikzpicture}
-			\begin{axis}[
-				ybar,
-				bar width=0.35cm,
-				ylabel={Tiempo de ejecución (s)},
-				xlabel={Capa Oculta},
-				symbolic x coords={5x1, 10x2, 20x3},
-				xtick=data,
-				enlarge x limits=0.2,
-				ymin=0,
-				%legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
-				legend pos={north west},
-				area legend
+			\begin{groupplot}[
+				group style={
+					group size=3 by 1,
+					horizontal sep=0.78cm,
+					vertical sep=0.5cm},
+				width=0.40\textwidth,
+				height=0.40\textwidth,
+				tick label style={font=\tiny} 
 				]
 				
-				\addplot+[ybar, pattern=vertical lines, draw=black] plot coordinates 
-				{(5x1, 2.342097799992189) (10x2, 10.170772599987686) (20x3, 45.124263799982145)};
-				\addplot+[ybar, pattern=grid, draw=black] plot coordinates 
-				{(5x1, 0.6505134999752045) (10x2, 2.6451210000086576) (20x3, 12.60217950004153)};
+				% 1
+				\nextgroupplot[
+				title={},
+				ylabel= Tiempo de ejecución (s),
+				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+				xtick={25, 500, 1000, 1500, 2000} 
+				]
+				\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev.txt};
+				\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev.txt};
+				\addlegendentry{\tiny P2}
+				\addlegendentry{\tiny P10}
+				
+				% 2
+				\nextgroupplot[
+				title={},
+				xlabel=Num. Generaciones,
+				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+				xtick={25, 500, 1000, 1500, 2000} 
+				]
+				\addplot [mark=none, color=blue] table [x index=0, y index=3, col sep=space] {files/pev.txt};
+				\addplot [mark=none, color=green] table [x index=0, y index=4, col sep=space] {files/pev.txt};
+				\addplot [mark=none, color=red] table [x index=0, y index=5, col sep=space] {files/pev.txt};
+				\addlegendentry{\tiny AER 1}
+				\addlegendentry{\tiny AER 2}
+				\addlegendentry{\tiny AER 3}
+				
+				% 3
+				\nextgroupplot[
+				title={},
+				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+				xtick={25, 500, 1000, 1500, 2000} 
+				]
+				\addplot [mark=none, color=blue] table [x index=0, y index=6, col sep=space] {files/pev.txt};
+				\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev.txt};
+				\addlegendentry{\tiny M8X8}
+				\addlegendentry{\tiny M100X10}
+				
+			\end{groupplot}        
+		\end{tikzpicture}
+		\caption{PEV Secuencial}
+		\end{figure}
+
+		% TODO PEV DESARROLLAR
+		Como solo varía el número de generaciones, las gráficas son lineales. Si se modifica de la misma forma el tamaño de la población, serían exponenciales, y tardarían mucho tiempo para ejecutarse.
+		
+		\begin{enumerate}
+			\item El problema que aplica individuos binarios es bastante rápido, es el que menos tiempo de ejecución tiene entre los tres problemas implementados. La complejidad de la función de evaluación es lineal O(M) siendo M el tamaño del individuo. Recorre todos los bits para convertirlo a un número real y luego ejecuta una función matemática.
+			\item Para los individuos reales aumenta en relación al tamaño del problema. La complejidad de la función de evaluación es cuadrática O(N*M), siendo N el número de aviones y M las pistas. Para cada individuo recorre las pistas disponibles asignando la que menor tiempo de retraso genere al vuelo
+			\item El problema de los árboles depende del número de ticks. La complejidad de la función de evaluación es lineal O(Ticks).
+		\end{enumerate}
+		
+	\subsubsection{Mejora 2: Modelo de islas}
+		
+
+		El modelo de islas, depende de la configuración elegida. Si es el básico, se divide la población entre los workers por lo que se consigue un speedup proporcional a los procesos ejecutados. Para garantizar que funcione igual o mejor que la implementación secuencial, hay que tener una comunicación para garantizar la supervivencia de los más aptos en la población general y de vez en cuando reiniciar las poblaciones de cada proceso con los mejores resultados obtenidos. El maestro se encarga de agrupar los mejores y enviarlos a la hora del reinicio. 
+		
+		Si usamos la configuración en estrella o anillo, podemos ir mezclando poblaciones y tener más diversidad, siendo más probable obtener mejores resultados.
+
+		\begin{flushleft}			
+		\begin{mdframed}[roundcorner=5pt]
+			\textbf{\underline{Procesos}}
+			\vspace{0.1cm}
+			
+			\scriptsize		
+			Esta prueba se realiza con \textbf{cuatro procesos}, tienen las mismas variables iniciales. Cada proceso inicializa aleatoriamente la población que va a evolucionar conforme avanzan las generaciones. Se conectan cada X (X=100) generaciones para reiniciar las poblaciones.
+		\end{mdframed}
+		\end{flushleft}
+		
+		\newpage
+		
+		\begin{figure}[h!]
+			\centering
+			\begin{tikzpicture}
+			\begin{groupplot}[group style={
+					group size=3 by 1,
+					horizontal sep=0.78cm, 
+					vertical sep=0.5cm},
+				width=0.40\textwidth, height=0.22\textheight, 	
+				tick label style={font=\tiny} 	
+				]
+				
+				% 1
+				\nextgroupplot[title={}, ylabel= Tiempo de ejecución (s),
+				legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
+				xtick={25, 500, 1000, 1500, 2000}]
+				\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev_2mpi.txt};
+				\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev_2mpi.txt};
+				\addplot [mark=none, color=black] table [x index=0, y index=3, col sep=space] {files/pev_2mpi.txt};
+				\addplot [mark=none, color=darkgreen] table [x index=0, y index=4, col sep=space] {files/pev_2mpi.txt};
+				\addlegendentry{\tiny P2}
+				\addlegendentry{\tiny P10}
+				\addlegendentry{\tiny P2\_MPI}
+				\addlegendentry{\tiny P10\_MPI}
+				
+				% 2
+				\nextgroupplot[title={}, xlabel=Num. Generaciones,
+				legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
+				xtick={25, 500, 1000, 1500, 2000}]
+				\addplot [mark=none, color=blue] table [x index=0, y index=5, col sep=space] {files/pev_2mpi.txt};			
+				\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev_2mpi.txt};
+				\addplot [mark=none, color=black] table [x index=0, y index=6, col sep=space] {files/pev_2mpi.txt};
+				\addplot [mark=none, color=darkgreen] table [x index=0, y index=8, col sep=space] {files/pev_2mpi.txt};
+				\addlegendentry{\tiny AER 1}
+				\addlegendentry{\tiny AER 2}
+				\addlegendentry{\tiny AER 1\_MPI}
+				\addlegendentry{\tiny AER 2\_MPI}
 				
 				
+				% 3
+				\nextgroupplot[title={},
+				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+				xtick={25, 500, 1000, 1500, 2000}]
+				\addplot [mark=none, color=red] table [x index=0, y index=9, col sep=space] {files/pev_2mpi.txt};
+				\addplot [mark=none, color=black] table [x index=0, y index=10, col sep=space] {files/pev_2mpi.txt};
+				\addlegendentry{\tiny AER 3}
+				\addlegendentry{\tiny AER 3\_MPI}
 				
-				\legend{Secuencial, MPI(4)}
+			\end{groupplot}		
+			\end{tikzpicture}
+			\caption{MPI - Modelo de Islas}
+		\end{figure}
+
+
+
+
+		El problema de los árboles calcularía resultados parecidos a estos dos gráficos. Al ser lineales y ejecutar en paralelo los procesos se obtiene un speedup aproximado al número de procesos ejecutados. Como se puede apreciar en la siguiente gráfica:
+
+
+		\begin{figure}[!h]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				xlabel={Num. Generaciones},
+				ylabel={SpeedUp},
+				legend pos=south east,
+				grid=major,
+				width=0.45\textwidth,
+				height=0.35\textwidth,
+				ymin=0, 
+				ymax=5
+				]
+				
+				
+				\addplot [mark=diamond*, color=darkgreen, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/pev_2mpi_speedup.txt};
+				\addplot [mark=none, color=blue, line width=0.8pt] table [x index=0, y index=2, col sep=space] {files/pev_2mpi_speedup.txt};
+				\addplot [mark=none, color=black, line width=0.8pt] table [x index=0, y index=3, col sep=space] {files/pev_2mpi_speedup.txt};
+				\addplot [mark=none, color=red, line width=0.8pt] table [x index=0, y index=4, col sep=space] {files/pev_2mpi_speedup.txt};
+				
+				
+				\addlegendentry{Ideal}
+				\addlegendentry{P10}
+				\addlegendentry{AER3}
+				\addlegendentry{M100X100}
+				
+				
 			\end{axis}
 		\end{tikzpicture}
-		\label{fig:redneubusqueda}
-		\caption{Grafica + SpeedUp}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.55\textwidth}
-		\centering
-		\includegraphics[width=0.8\textwidth,height=0.8\textwidth]{images/chapter_4/redneu_err}
+		\caption{SpeedUp - Modelo en Islas}
+		\end{figure}
 		
-		\caption{MPI - MergeSort}
-		\label{fig:Errores}
-	\end{subfigure}
+		
+
 	
-	\caption{Mejoras MPI de las ordenaciones}
-	\label{fig:Red Neuronal - Busqueda}
-\end{figure}
+	\subsubsection{Mejora 1: Dividir con el master}
+	
+		\begin{flushleft}			
+		\begin{mdframed}[roundcorner=5pt]
+			\textbf{\underline{Procesos}}
+			\vspace{0.1cm}
+			
+			\scriptsize		
+			Esta vez tenemos una única población. Aplicando el modelo \textit{Master-Worker} el master se encarga de dividir el trabajo entre los workers, reduciendo el tiempo de ejecución. 
+			
+			Para estas pruebas se ejecutan \textbf{cuatro procesos Workers}, \textbf{cinco en total} contando el Master.
+		\end{mdframed}
+		\end{flushleft}
+		
+		En cada iteración, el Master envía a los Workers el tamaño de de sub-población con el que van a trabajar. Estos inicializan la población, la evaluan y la envían de vuelta, para que hacer la selección con todos los individuos. Envía las partes de la selección a los procesos para que estos la crucen, muten y evaluen, así iterando por el número de generaciones.
+
+		\begin{figure}[h!]
+			\centering
+			\begin{tikzpicture}
+				\begin{groupplot}[group style={
+						group size=3 by 1,
+						horizontal sep=0.78cm, 
+						vertical sep=0.5cm}, 
+					width=0.40\textwidth, height=0.35\textwidth, 
+					tick label style={font=\tiny} 
+					]
+					
+					% 1
+					\nextgroupplot[title={}, ylabel=Tiempo de ejecución (s),
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
+					xtick={25, 500, 1000, 1500, 2000}]
+					\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev_1_1mpi.txt};
+					\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev_1_1mpi.txt};
+					\addplot [mark=none, color=black] table [x index=0, y index=3, col sep=space] {files/pev_1_1mpi.txt};
+					\addplot [mark=none, color=darkgreen] table [x index=0, y index=4, col sep=space] {files/pev_1_1mpi.txt};
+					\addlegendentry{\tiny P2}
+					\addlegendentry{\tiny P10}
+					\addlegendentry{\tiny P2\_MPI}
+					\addlegendentry{\tiny P10\_MPI}
+					
+					% 2
+					\nextgroupplot[title={}, xlabel=Num. Generaciones,
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
+					xtick={25, 500, 1000, 1500, 2000}]
+					\addplot [mark=none, color=blue] table [x index=0, y index=5, col sep=space] {files/pev_1_1mpi.txt};	
+					\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev_1_1mpi.txt};
+					\addplot [mark=none, color=black] table [x index=0, y index=6, col sep=space] {files/pev_1_1mpi.txt};
+					\addplot [mark=none, color=darkgreen] table [x index=0, y index=8, col sep=space] {files/pev_1_1mpi.txt};
+					\addlegendentry{\tiny AER 1}
+					\addlegendentry{\tiny AER 2}
+					\addlegendentry{\tiny AER 1\_MPI}
+					\addlegendentry{\tiny AER 2\_MPI}
+					
+					% 3
+					\nextgroupplot[title={},
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+					xtick={25, 500, 1000, 1500, 2000}]
+					\addplot [mark=none, color=red] table [x index=0, y index=9, col sep=space] {files/pev_1_1mpi.txt};			
+					\addplot [mark=none, color=black] table [x index=0, y index=10, col sep=space] {files/pev_1_1mpi.txt};			
+					\addlegendentry{\tiny M8X8}
+					\addlegendentry{\tiny MPI}
+					
+				\end{groupplot}	
+				
+			
+				%\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
+				
+			\end{tikzpicture}
+			\caption{MPI1.1 - Dividir Poblacion}
+		\end{figure}
+		
+		\begin{itemize}
+			\item (Gráfica izquierda). Para los problemas binarios este método no es efectivo. Se pierde mucho tiempo en el paso de mensajes. Tener para cada individuo muchos bits provoca que una población no muy grande sea inviable para aplicar esta mejora. Además de que este problema es bastante rápido.
+			\item (Gráfica derecha). Aunque se controle el tamaño de los individuos, el problema es muy pequeño para alcanzar alguna mejora. Con matrices más grandes se puede mejorar.
+			\item (Gráfica central). Para este tipo de problema hasta con valores pequeños se puede reducir el tiempo de ejecución. Aunque está lejos de llegar a un speedup ideal.
+		\end{itemize}
+
+		Con los problemas con pocos datos de entrada, no conviene paralelizarlos, pues son bastante rápidos. Pero al aumentar el tamaño de los problemas, puede ser beneficiosos paralelizarlos.
+		
+		\newpage
+
+		\begin{figure}[!h]
+			\centering
+			\includegraphics[width=0.7\textwidth]{images/chapter_4/pev_mpi1}
+			\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
+			\label{fig:MPI1.2 - Dividir Poblacion + Speedup}
+		\end{figure}
+
+		% CODIGO DE LA IMAGEN DE ARRIBA
+		%\begin{figure}[h!]
+		%	\centering
+		%	\begin{tikzpicture}
+			%		\begin{groupplot}[group style={
+					%				group size=2 by 1, % Adjust group size (2 plots horizontally)
+					%				horizontal sep=0.78cm, % Adjust horizontal separation between plots
+					%				vertical sep=0.5cm}, % Adjust vertical separation between plots
+				%			width=0.40\textwidth, height=0.40\textwidth, % Adjust size as needed		
+				%			tick label style={font=\tiny} % Adjust font size of tick labels	
+				%			]
+				%			
+				%			% First plot
+				%			\nextgroupplot[title={}, ylabel=Tiempo de ejecución (s),
+				%			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+				%			xtick={25, 500, 1000, 1500, 2000}]
+				%			\addplot [mark=none, color=red] table [x index=0, y index=1, col sep=space] {files/pev_1_2mpi.txt};
+				%			\addplot [mark=none, color=black] table [x index=0, y index=2, col sep=space] {files/pev_1_2mpi.txt};			
+				%			\addlegendentry{\tiny AER 3}
+				%			\addlegendentry{\tiny MPI}
+				%			
+				%			% Add value labels
+				%			\node at (axis cs:2000,96.16) [text=red,left] {\tiny 96.16};
+				%			\node at (axis cs:2000,34.25) [text=black,left] {\tiny 34.25};
+				%			
+				%			% Second plot
+				%			\nextgroupplot[title={},
+				%			legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+				%			xtick={25, 500, 1000, 1500, 2000}]
+				%			\addplot [mark=none, color=red] table [x index=0, y index=3, col sep=space] {files/pev_1_2mpi.txt};			
+				%			\addplot [mark=none, color=black] table [x index=0, y index=4, col sep=space] {files/pev_1_2mpi.txt};			
+				%			\addlegendentry{\tiny M100X100}
+				%			\addlegendentry{\tiny MPI}
+				%			
+				%			% Add value labels
+				%			\node at (axis cs:2000,1008.51) [text=red,left] {\tiny 1008.5};
+				%			\node at (axis cs:2000,324.52) [text=black,left]{\tiny 324.5};
+				%			
+				%		\end{groupplot}	
+			%		
+			%		% Common x-axis label
+			%		\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
+			%		
+			%	\end{tikzpicture}
+		%	\caption{MPI1.2 - Dividir Poblacion}
+		%\end{figure}
+
+		
+		Como se comentó antes, al aumentar los tamaños se consiguen mejores resultados. Con estas características, la ejecución se aumenta al punto de ser buena opción aplicar esta mejora.
+
+	\subsubsection{Mejora 3: PipeLine}
+	
+		\begin{flushleft}			
+		\begin{mdframed}[roundcorner=5pt]
+			\textbf{\underline{Procesos}}
+			\vspace{0.1cm}
+			
+			\scriptsize		
+			Mezclando el modelo \textit{Master-Worker} con segmentación, el proceso Master se encarga de generar N (número de workers) poblaciones que envía al siguiente proceso, cuando genera todos se queda en un estado de recepción de mejores individuos. Cada proceso envía su siguiente los datos procesados según su tarea, generando un flujo constante de trabajo.
+		\end{mdframed}
+		\end{flushleft}
+		
+		
+		Para los individuos binarios, funciona algo mejor que la mejora anterior, con el funcionamiento de pipeline no se pierde tanto tiempo con el paso de mensajes de individuos binarios, y aunque sea poco, se puede reducir el tiempo de ejecución.
+		
+		%El método de pipeline varía para cada problema. Los individuos binarios no mejoran mucho la ejecución, al tener muchos datos que enviar. 
+		
+		%Sin embargo los problemas con individuos reales o árboles si se pueden optimizar. La evaluación es el método que más tarda en estos dos problemas, por lo que repartir la carga de trabajo con más procesos reduce el tiempo de ejecución.
+		
+		\begin{figure}[!h]
+			\centering
+			\begin{tikzpicture}
+			\begin{axis}[
+				xlabel={Tam. Poblacion},
+				ylabel={Tiempo (s)},
+				legend pos=north west,
+				grid=major,
+				width=0.70\textwidth,
+				height=0.4\textwidth
+				]				
+				
+				xtick={25, 500, 1000, 1500, 2000}]
+				\addplot [mark=none, color=red] table [x index=0, y index=1, col sep=space] {files/pev_3mpi.txt};
+				\addplot [mark=none, color=darkgreen] table [x index=0, y index=2, col sep=space] {files/pev_3mpi.txt};
+				\addplot [mark=none, color=blue] table [x index=0, y index=3, col sep=space] {files/pev_3mpi.txt};
+											
+				\addlegendentry{\tiny P10}
+				\addlegendentry{\tiny MPI(4)}
+				\addlegendentry{\tiny MPI(7)}
+				
+			\end{axis}
+			\end{tikzpicture}
+			\caption{PEV - Bin PipeLine}
+		\end{figure}
+		
+		
+	 Al tener varias poblaciones ejecutándose al mismo tiempo no se puede tener una población muy grande. A partir de un tamaño de 1000 individuos no se puede ejecutar con dos decimales de precisión con el ordenador de propósito general, y con 500 individuos es el máximo tamaño de población si se usan 10 decimales de precisión.
+	 
+	 
+	 \begin{flushleft}
+	 	\begin{mdframed}[roundcorner=5pt]			 		
+		 		\small
+		 		\color{darkgreen} 1. Cuatro procesos: \color{black}
+		 		\vspace{-0.3cm}
+		 		\scriptsize
+		 		\begin{itemize}
+		 			\item Master se encarga de inicializar
+		 			\vspace{-0.1cm}
+		 			\item Worker1: evaluación y selección, procesos que no tardan mucho en ejecutarse.
+		 			\vspace{-0.1cm}
+		 			\item Worker2: cruce
+		 			\vspace{-0.1cm}
+		 			\item Worker3: mutación
+		 		\end{itemize}
+		 		\small
+		 		\color{blue} 2. Siete procesos. \color{black} 	\scriptsize	Se duplica el numero de workers en cada pipe.
+  
+	 	\end{mdframed}
+ 		\end{flushleft}
+		 		
+	 Para los individuos reales y arboles, al no tener tantos elementos por individuo, esta mejora funciona correctamente. Estos dos individuos tienen la misma implementación al tener tiempos similares y perder la mayor parte del tiempo en la evaluación de los individuos.
+	 
+	 
+	 \begin{figure}[!h]
+		 	\centering
+		 	\begin{tikzpicture}
+	 		\begin{axis}[
+	 			xlabel={Tam. Poblacion},
+	 			ylabel={Tiempo (s)},
+	 			legend pos=north west,
+	 			grid=major,
+	 			width=0.70\textwidth,
+	 			height=0.35\textwidth
+	 			]				
+	 			
+	 			xtick={25, 500, 1000, 1500, 2000}]
+	 			\addplot [mark=none, color=red] table [x index=0, y index=4, col sep=space] {files/pev_3mpi.txt};			
+	 			\addplot [mark=none, color=darkgreen] table [x index=0, y index=5, col sep=space] {files/pev_3mpi.txt};
+	 			\addplot [mark=none, color=blue] table [x index=0, y index=6, col sep=space] {files/pev_3mpi.txt};	
+	 			\addlegendentry{\tiny AER3}
+	 			\addlegendentry{\tiny MPI(6)}
+	 			\addlegendentry{\tiny MPI(10)}
+	 			
+	 		\end{axis}
+		 	\end{tikzpicture}
+		 	\caption{PEV - Real PipeLine}
+	 \end{figure}
+	 
+	 
+
+		%\begin{figure}[h!]
+		%	\centering
+		%	\begin{tikzpicture}
+		%	\begin{groupplot}[group style={
+		%			group size=3 by 1,
+		%			horizontal sep=0.78cm, 
+		%			vertical sep=0.5cm},
+		%		width=0.40\textwidth, height=0.40\textwidth, 
+		%		tick label style={font=\tiny} 
+		%		]
+		%		
+		%		% 1
+		%		\nextgroupplot[title={}, ylabel=Tiempo de ejecución (s),
+		%		legend pos=north west,
+		%		xtick={25, 500, 1000, 1500, 2000}]
+		%		\addplot [mark=none, color=red] table [x index=0, y index=1, col sep=space] {files/pev_3mpi.txt};
+		%		\addplot [mark=none, color=darkgreen] table [x index=0, y index=2, col sep=space] {files/pev_3mpi.txt};
+		%		\addplot [mark=none, color=blue] table [x index=0, y index=3, col sep=space] {files/pev_3mpi.txt};							
+		%		\addlegendentry{\tiny P10}
+		%		\addlegendentry{\tiny MPI(4)}
+		%		\addlegendentry{\tiny MPI(7)}
+		%		
+		%		
+		%		% 2
+		%		\nextgroupplot[title={},
+		%		legend pos=north west,
+		%		xtick={25, 500, 1000, 1500, 2000}]
+		%		\addplot [mark=none, color=red] table [x index=0, y index=4, col sep=space] {files/pev_3mpi.txt};			
+		%		\addplot [mark=none, color=darkgreen] table [x index=0, y index=5, col sep=space] {files/pev_3mpi.txt};
+		%		\addplot [mark=none, color=blue] table [x index=0, y index=6, col sep=space] {files/pev_3mpi.txt};	
+		%		\addlegendentry{\tiny AER3}
+		%		\addlegendentry{\tiny MPI(6)}
+		%		\addlegendentry{\tiny MPI(10)}
+		%		
+		%	\end{groupplot}	
+		%	
+		%	\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
+		%	\end{tikzpicture}
+		%	\caption{MPI3 - PipeLine}
+		%\end{figure}
+
+		
+		
+		%\begin{flushleft}
+		%	\begin{mdframed}[roundcorner=5pt]
+		%		\normalsize
+		%		\textbf{Binarios}	
+		%		
+		%		\small
+		%		\color{darkgreen} 1. Cuatro procesos: \color{black}
+		%		\vspace{-0.3cm}
+		%		\scriptsize
+		%		\begin{itemize}
+		%			\item Master se encarga de inicializar
+		%			\vspace{-0.1cm}
+		%			\item Worker1: evaluación y selección, procesos que no tardan mucho en ejecutarse.
+		%			\vspace{-0.1cm}
+		%			\item Worker2: cruce
+		%			\vspace{-0.1cm}
+		%			\item Worker3: mutación
+		%		\end{itemize}
+		%		\small
+		%		\color{blue} 2. Siete procesos. \color{black} 	\scriptsize	Se duplica el numero de workers en cada pipe.	
+		%		
+		%		\vspace{0.2cm}
+		%		
+		%		\normalsize		
+		%		\textbf{Reales} \small (Solo aumenta el número de workers en el método de evaluación.)	
+		%		
+		%		
+		%		\normalsize		
+		%		\color{darkgreen} 1. Seis procesos: \color{black}
+		%		\vspace{-0.3cm}
+		%		\scriptsize
+		%		\begin{itemize}			
+		%			\item Master se encarga de inicializar
+		%			\vspace{-0.1cm}
+		%			\item Worker [1, 4]: evaluación, función que más tarda			
+		%			\vspace{-0.1cm}
+		%			\item Worker 5:  selección, cruce y mutación						
+		%			\vspace{-0.1cm}
+		%		\end{itemize}
+		%		\small
+		%		\color{blue} 2. Diez procesos. \color{black} \scriptsize Se duplica el numero de workers en cada pipe.
+		%		
+		%		\vspace{0.2cm}
+		%		\normalsize
+		%		\textbf{Arboles:} \small Es igual que la implementación de individuos reales, pues la evaluación es el método que más tarda.			
+		%	\end{mdframed}
+		%\end{flushleft}
+
+
+		\begin{flushleft}
+		\begin{mdframed}[roundcorner=5pt]					
+			\normalsize		
+			\textbf{Reales} \small (Solo aumenta el número de workers en el método de evaluación.)	
+			
+			
+			\normalsize		
+			\color{darkgreen} 1. Seis procesos: \color{black}
+			\vspace{-0.3cm}
+			\scriptsize
+			\begin{itemize}			
+				\item Master se encarga de inicializar
+				\vspace{-0.1cm}
+				\item Worker [1, 4]: evaluación, función que más tarda			
+				\vspace{-0.1cm}
+				\item Worker 5:  selección, cruce y mutación						
+				\vspace{-0.1cm}
+			\end{itemize}
+			\small
+			\color{blue} 2. Diez procesos. \color{black} \scriptsize Se duplica el numero de workers en cada pipe.
+			
+			\vspace{0.2cm}
+			\normalsize
+			\textbf{Arboles:} \small Es igual que la implementación de individuos reales, pues la evaluación es el método que más tarda.			
+		\end{mdframed}
+		\end{flushleft}
+
+
+
+		Estos datos se calcularon teniendo en cuenta los tiempos de ejecución para cada método (Tabla \ref{tab:pev}).
+		
+		\begin{table}[!h]				
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\rowcolor{lightgray}
+			\textbf{Evaluación} & \textbf{Selección} & \textbf{Cruce} & \textbf{Mutación}\\
+			\hline
+			400e-06s  & 8e-06 & 40e-06 & 10e-06\\ 
+			\hline
+		\end{tabular}
+		\caption{PEV - Tiempos de aproximados usados}
+		\label{tab:tiempos_aprox}
+		\end{table}
+		
+		
+		Al juntar los últimos tres métodos, tarda un tiempo aproximado de 58e-06. 6.9 veces más rápido que la evaluación. Por simplicidad, es mejor ejecutar potencias de dos procesos, para hacer una división equitativa.
+	
+	\subsubsection{Cluster}
+			% TODO PEV CLUSTER
+			
+			\color{blue} TODO CLUSTER
+			
+			\color{black}
+			\newpage
+
+\section{Redes Neuronales}
+
+
+		\begin{flushleft}
+		\begin{mdframed}[roundcorner=5pt]	
+			
+			\textbf{\underline{Pruebas}}
+			\vspace{0.1cm}
+			
+			\scriptsize	
+			Se usa una población de 80 individuos, generados previamente de manera no aleatoria, para tener una concordancia con valores reales, de altura y masa corporal, y así calcular IMCs con concordancia. Se generan con combinaciones en las cuales se aumenta la altura cada vez que se crean 10 individuos con diferentes pesos. Los individuos oscilan en alturas de [150, 200]cms.										
+			
+		\end{mdframed}
+		\end{flushleft}
+		
+		\subsubsection{Mejora 1: PipeLine}
+		
+			\begin{flushleft}			
+				\begin{mdframed}[roundcorner=5pt]
+					\textbf{\underline{Procesos}}
+					\vspace{0.1cm}
+					
+					\scriptsize		
+					Aplicando el modelo \textit{Master-Worker} junto con segmentación, cada proceso se encarga de un determinado numero de capas. El proceso Master se encarga de empezar a categorizar los individuos, ejecutando el metodo forward() en sus capas, una vez llega a su última capa envía los datos que ha procesado al siguiente proceso, y genera otro individuo. Los procesos procesan los individuos que reciben, generando un flujo de individuos. El último proceso se encarga de evaluar y gestionar los errores para enviar hacia atrás (método de propagación hacia atrás).
+				\end{mdframed}
+			\end{flushleft}
+		
+		
+		
+			\begin{tcolorbox}[boxrule=0.5pt]
+				\scriptsize
+				Para la siguiente prueba se utiliza una red neuronal con capa oculta de 1x5, es decir, una capa y cinco nodos.		
+			\end{tcolorbox}
+
+
+
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						xlabel={Num. Repeticiones},
+						ylabel={Tiempo de ejeución (s)},
+						legend pos=north west,
+						grid=major,
+						width=\textwidth,
+						height=0.45\textwidth
+						]
+						
+						% Plot data from the file without markers, with different colors, and thicker lines
+						\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/redneu1.txt};
+						\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/redneu1.txt};
+						\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/redneu1.txt};
+						
+						% Add legends
+						\addlegendentry{Secuencial}
+						\addlegendentry{Síncrono}
+						\addlegendentry{Asíncrono}
+						
+						
+					\end{axis}
+				\end{tikzpicture}
+				\caption{MPI1 - Red Neuronal}
+			\end{figure}
+
+			Una vez implementado para una red neuronal pequeña, no reduce el tiempo de ejecución. En programación evolutiva, el flujo de mensajes es unidireccional, y no se pierde tanto tiempo entre mensajes. Este algoritmo tiene dos métodos en diferentes direcciones, provocando un \textbf{flujo bidireccional}, y la comunicación entre procesos se ralentiza. Usando mensajes \textbf{asíncronos}, permite a cada proceso ejecutar antes el cálculo de forward y cuando recibe los errores los actualiza. Reduce muy poco el tiempo comparándolo con la versión síncrona, pero empeora la predicción del modelo.
+			También hay que tener en cuenta que el flujo de mensajes hace que el modelo aprenda con valores desactualizados. Y dependiendo de la población puede haber un bucle en el cual aumenta y reduce los pesos, provocando un entrenamiento erróneo.
+
+			% TODO REDNEU 5X50
+			
+			\color{blue} TODO PROBAR CON 5X50
+			
+			\color{black}
+			\newpage
+			
+		\subsubsection{Mejora 2: Dividir el trabajo en procesos}
+		
+			\begin{flushleft}			
+			\begin{mdframed}[roundcorner=5pt]
+				\textbf{\underline{Procesos}}
+				\vspace{0.1cm}
+				
+				\scriptsize		
+				Para esta mejora se aplica el modelo \textit{Master-Worker}. El proceso Master se encarga de dividir eficazmente la población, para el máximo rendimiento de la red neuronal. Cada Worker se encarga de entrenar con una población distinta para aprender correctamente como categorizar los individuos. Una vez se ha terminado la fase de entrenamiento, envían al Master todas sus experiencias para que este haga la media y pueda aprender a predecir correctamente. (Para el correcto funcionamiento la red neuronal tiene que ser grande, si no no se puede garantizar que prediga correctamente para todos los individuos de la población)
+			\end{mdframed}
+			\end{flushleft}
+
+			Para dividir la población de entrenamiento, aplicando la idea de fine-tuning, entre los procesos hay que tener mucho cuidado. La repartición de individuos es crucial para un correcto aprendizaje de la red. Si cada proceso tiene la misma población de entrenamiento, se reduce el tiempo de ejecución en relación al número de procesos ejecutados, pero no garantiza buenas predicciones, pues la media sería parecida. A no ser que cada proceso inicialmente tuviese pesos distintos, aunque no se podría garantizar un buen entrenamiento. Sin embargo dividiendo la población de manera eficiente se podría intentar provocar que cada proceso aprendiese unos ciertos intervalos, y con una red grande ciertos nodos se especializan en unos datos, y no se entrelazan los resultados, llegando a reducir el tiempo y entrenar correctamente.
+			
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					xlabel={Num. Repeticiones},
+					ylabel={Tiempo de ejeución (s)},
+					legend pos=north west,
+					grid=major,
+					width=\textwidth,
+					height=0.45\textwidth
+					]
+					
+					
+					\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/redneu2.txt};
+					\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/redneu2.txt};
+					\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/redneu2.txt};
+					
+					
+					\addlegendentry{Secuencial}
+					\addlegendentry{MPI(2)}
+					\addlegendentry{MPI(4)}
+					
+					
+				\end{axis}
+				\end{tikzpicture}
+				\caption{MPI2 - Red Neuronal Dividiendo entrenamiento}
+			\end{figure}
+			
+			Esta prueba se ejecutó con 80 individuos en la población de entrenamiento, sobre una red neuronal con diez capas ocultas y diez nodos por capa (10x10). Si aumentamos o reducimos la población o la estructura de la red, el tiempo será proporcional.
+			Al dividir la fase de entrenamiento se puede alcanzar un speedup aproximado al ideal, pero lo difícil es encontrar los valores concretos de los hiper parámetros y la repartición del entrenamiento para tener una buena red neuronal que cumpla con el funcionamiento deseado. Para ello se puede realizar una búsqueda en paralelo comprobando los mejores resultados, tanto variando la tasa de aprendizaje como la repartición de los individuos con los cuales se entrena al modelo.
+			
+			Para realizar la búsqueda de mejores hiper parámetros se ejecuta, con los mismos pesos, varias veces con diferentes valores, almacenando los mejores resultados y cuando se obtienen. Con cien repeticiones con un tamaño de población de ochenta individuos y una precisión de 0.01 se pueden comprobar los resultados en un intervalo de [0.01,0.20].
+
+
+			% TODO CENTRAR BIEN
+			\begin{figure}[!h]
+				\centering
+				
+				
+				\begin{subfigure}[t]{0.35\textwidth}
+					\begin{tikzpicture}
+					\begin{axis}[
+						ybar,
+						bar width=0.35cm,
+						ylabel={Tiempo de ejecución (s)},
+						xlabel={Capa Oculta},
+						symbolic x coords={5x1, 10x2, 20x3},
+						xtick=data,
+						enlarge x limits=0.2,
+						ymin=0,
+						legend pos={north west},
+						area legend
+						]
+						
+						\addplot+[ybar, pattern=vertical lines, draw=black] plot coordinates 
+						{(5x1, 2.342097799992189) (10x2, 10.170772599987686) (20x3, 45.124263799982145)};
+						\addplot+[ybar, pattern=grid, draw=black] plot coordinates 
+						{(5x1, 0.6505134999752045) (10x2, 2.6451210000086576) (20x3, 12.60217950004153)};
+						
+						
+						
+						\legend{Secuencial, MPI(4)}
+					\end{axis}
+					\end{tikzpicture}
+					\label{fig:redneubusqueda}
+					\caption{Grafica + SpeedUp}
+				\end{subfigure}
+				\hfill
+				\begin{subfigure}[t]{0.55\textwidth}
+					\centering
+					\includegraphics[width=0.8\textwidth,height=0.8\textwidth]{images/chapter_4/redneu_err}
+					
+					\caption{MPI - MergeSort}
+					\label{fig:Errores}
+				\end{subfigure}
+				
+				\caption{Mejoras MPI de las ordenaciones}
+				\label{fig:Red Neuronal - Busqueda}
+			\end{figure}
 
 
 
 
-
-Se ejecuta el algoritmo sobre varias configuraciones, en cada configuración siempre se utilizan los mismos pesos, para así comprobar cuales son los mejores hiper parámetros.
-
-A la derecha se pueden ver los gráficos de la evolución, siendo el de arriba los errores cometidos en cada tasa de aprendizaje, y el de abajo cuando se obtienen menos errores.
+			Se ejecuta el algoritmo sobre varias configuraciones, en cada configuración siempre se utilizan los mismos pesos, para así comprobar cuales son los mejores hiper parámetros.
+			
+			A la derecha se pueden ver los gráficos de la evolución, siendo el de arriba los errores cometidos en cada tasa de aprendizaje, y el de abajo cuando se obtienen menos errores.

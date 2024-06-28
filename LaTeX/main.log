@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  26 JUN 2024 23:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  27 JUN 2024 23:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1517,7 +1517,7 @@ Package hyperref Info: Link coloring ON on input line 189.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<images/escudo_ucm.pdf, id=170, 237.74768pt x 271.23311pt>
+<images/escudo_ucm.pdf, id=186, 237.74768pt x 271.23311pt>
 File: images/escudo_ucm.pdf Graphic file (type pdf)
 <use images/escudo_ucm.pdf>
 Package pdftex.def Info: images/escudo_ucm.pdf  used on input line 28.
@@ -1595,7 +1595,7 @@ ne 61.
 
  (Capitulos/2_Contextualizacion.tex
 Cap\'{\i }tulo 2.
-<images/chapter_2/mpi_1.png, id=279, 627.09282pt x 423.08063pt>
+<images/chapter_2/mpi_1.png, id=299, 627.09282pt x 423.08063pt>
 File: images/chapter_2/mpi_1.png Graphic file (type png)
 <use images/chapter_2/mpi_1.png>
 Package pdftex.def Info: images/chapter_2/mpi_1.png  used on input line 27.
@@ -1609,7 +1609,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 ] [7 <./images/chapter_2/mpi_1.png>]
-<images/chapter_2/mpi_2.png, id=296, 1049.42062pt x 470.50781pt>
+<images/chapter_2/mpi_2.png, id=316, 1049.42062pt x 470.50781pt>
 File: images/chapter_2/mpi_2.png Graphic file (type png)
 <use images/chapter_2/mpi_2.png>
 Package pdftex.def Info: images/chapter_2/mpi_2.png  used on input line 52.
@@ -1633,39 +1633,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 151--152
  []
 
 [10]
-<images/chapter_2/ap_nosup_diagramas.jpg, id=343, 1159.33125pt x 390.45876pt>
+<images/chapter_2/ap_nosup_diagramas.jpg, id=363, 1159.33125pt x 390.45876pt>
 File: images/chapter_2/ap_nosup_diagramas.jpg Graphic file (type jpg)
 <use images/chapter_2/ap_nosup_diagramas.jpg>
 Package pdftex.def Info: images/chapter_2/ap_nosup_diagramas.jpg  used on input
  line 170.
 (pdftex.def)             Requested size: 466.86469pt x 157.23528pt.
  [11 <./images/chapter_2/ap_nosup_diagramas.jpg>] [12]
-<images/chapter_2/dendograma.jpg, id=362, 770.88pt x 414.54875pt>
+<images/chapter_2/dendograma.jpg, id=382, 770.88pt x 414.54875pt>
 File: images/chapter_2/dendograma.jpg Graphic file (type jpg)
 <use images/chapter_2/dendograma.jpg>
 Package pdftex.def Info: images/chapter_2/dendograma.jpg  used on input line 21
 4.
 (pdftex.def)             Requested size: 420.17535pt x 225.95305pt.
  [13 <./images/chapter_2/dendograma.jpg>]
-<images/chapter_2/kmedias.png, id=373, 759.58781pt x 312.41719pt>
+<images/chapter_2/kmedias.png, id=393, 759.58781pt x 312.41719pt>
 File: images/chapter_2/kmedias.png Graphic file (type png)
 <use images/chapter_2/kmedias.png>
 Package pdftex.def Info: images/chapter_2/kmedias.png  used on input line 248.
 (pdftex.def)             Requested size: 466.86469pt x 192.02339pt.
  [14 <./images/chapter_2/kmedias.png>] [15]
-<images/chapter_2/knn.png, id=390, 406.51875pt x 347.2975pt>
+<images/chapter_2/knn.png, id=410, 406.51875pt x 347.2975pt>
 File: images/chapter_2/knn.png Graphic file (type png)
 <use images/chapter_2/knn.png>
 Package pdftex.def Info: images/chapter_2/knn.png  used on input line 305.
 (pdftex.def)             Requested size: 186.74301pt x 159.53621pt.
-<images/chapter_2/redneu.png, id=391, 368.1253pt x 195.73125pt>
+<images/chapter_2/redneu.png, id=411, 368.1253pt x 195.73125pt>
 File: images/chapter_2/redneu.png Graphic file (type png)
 <use images/chapter_2/redneu.png>
 Package pdftex.def Info: images/chapter_2/redneu.png  used on input line 312.
 (pdftex.def)             Requested size: 233.43234pt x 124.1177pt.
  [16 <./images/chapter_2/knn.png (PNG copy)> <./images/chapter_2/redneu.png>] [
 17]
-<images/chapter_2/AG.png, id=406, 754.82pt x 844.15375pt>
+<images/chapter_2/AG.png, id=426, 754.82pt x 844.15375pt>
 File: images/chapter_2/AG.png Graphic file (type png)
 <use images/chapter_2/AG.png>
 Package pdftex.def Info: images/chapter_2/AG.png  used on input line 413.
@@ -1681,21 +1681,21 @@ Cap\'{\i }tulo 3.
 
 
 ]
-<images/chapter_3/matriz_mpi.jpeg, id=419, 1780.6525pt x 1589.94pt>
+<images/chapter_3/matriz_mpi.jpeg, id=439, 1780.6525pt x 1589.94pt>
 File: images/chapter_3/matriz_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/matriz_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/matriz_mpi.jpeg  used on input line 3
 7.
 (pdftex.def)             Requested size: 270.78236pt x 241.78014pt.
  [20 <./images/chapter_3/matriz_mpi.jpeg>]
-<images/chapter_3/sequentialsort_mpi.jpeg, id=427, 2033.5975pt x 1345.025pt>
+<images/chapter_3/sequentialsort_mpi.jpeg, id=447, 2033.5975pt x 1345.025pt>
 File: images/chapter_3/sequentialsort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/sequentialsort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/sequentialsort_mpi.jpeg  used on inpu
 t line 60.
 (pdftex.def)             Requested size: 280.12166pt x 185.26476pt.
  [21 <./images/chapter_3/sequentialsort_mpi.jpeg>] [22]
-<images/chapter_3/mergesort_mpi.jpeg, id=439, 4107.345pt x 1710.39pt>
+<images/chapter_3/mergesort_mpi.jpeg, id=459, 4107.345pt x 1710.39pt>
 File: images/chapter_3/mergesort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/mergesort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/mergesort_mpi.jpeg  used on input lin
@@ -1722,13 +1722,13 @@ Package mdframed Info: mdframed inside float
  mdframed uses option nobreak mdframed on input line 161.
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 161.
-<images/chapter_3/aglomerativo_mpi.jpg, id=451, 314.18431pt x 262.45421pt>
+<images/chapter_3/aglomerativo_mpi.jpg, id=471, 314.18431pt x 262.45421pt>
 File: images/chapter_3/aglomerativo_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/aglomerativo_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/aglomerativo_mpi.jpg  used on input l
 ine 177.
 (pdftex.def)             Requested size: 186.74301pt x 155.99998pt.
-<images/chapter_3/aglomerativo_sec.png, id=452, 2212.265pt x 889.3225pt>
+<images/chapter_3/aglomerativo_sec.png, id=472, 2212.265pt x 889.3225pt>
 File: images/chapter_3/aglomerativo_sec.png Graphic file (type png)
 <use images/chapter_3/aglomerativo_sec.png>
 Package pdftex.def Info: images/chapter_3/aglomerativo_sec.png  used on input l
@@ -1741,7 +1741,7 @@ Package mdframed Info: mdframed detected package amsthm
 (mdframed)              on input line 230.
  [27]
 Package mdframed Info: Not enough space on this page on input line 242.
-<images/chapter_3/kmedias_mpi.jpeg, id=470, 2089.8075pt x 927.465pt>
+<images/chapter_3/kmedias_mpi.jpeg, id=490, 2089.8075pt x 927.465pt>
 File: images/chapter_3/kmedias_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/kmedias_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/kmedias_mpi.jpeg  used on input line 
@@ -1756,13 +1756,13 @@ Package mdframed Info: mdframed inside float
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 283.
  [29]
-<images/chapter_3/knn_mpi1.jpg, id=483, 4015.0pt x 4015.0pt>
+<images/chapter_3/knn_mpi1.jpg, id=503, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi1.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi1.jpg>
 Package pdftex.def Info: images/chapter_3/knn_mpi1.jpg  used on input line 324.
 
 (pdftex.def)             Requested size: 210.08768pt x 210.07387pt.
-<images/chapter_3/knn_mpi2.jpg, id=484, 4015.0pt x 4015.0pt>
+<images/chapter_3/knn_mpi2.jpg, id=504, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi2.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi2.jpg>
 Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 331.
@@ -1791,13 +1791,13 @@ Package mdframed Info: mdframed inside float
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 399.
  [34]
-<images/chapter_3/rl_mpi.jpg, id=510, 2264.46pt x 2288.55pt>
+<images/chapter_3/rl_mpi.jpg, id=530, 2264.46pt x 2288.55pt>
 File: images/chapter_3/rl_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/rl_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 425.
 (pdftex.def)             Requested size: 303.45918pt x 306.6711pt.
  [35 <./images/chapter_3/rl_mpi.jpg>] [36] [37]
-<images/chapter_3/pev_mpi3.png, id=542, 1670.24pt x 1339.0025pt>
+<images/chapter_3/pev_mpi3.png, id=562, 1670.24pt x 1339.0025pt>
 File: images/chapter_3/pev_mpi3.png Graphic file (type png)
 <use images/chapter_3/pev_mpi3.png>
 Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 508.
@@ -1808,7 +1808,7 @@ Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 508.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [38] [39 <./images/chapter_3/pev_mpi3.png>]
-<images/chapter_3/redneu_mpi2.jpeg, id=553, 2164.085pt x 2330.7075pt>
+<images/chapter_3/redneu_mpi2.jpeg, id=573, 2164.085pt x 2330.7075pt>
 File: images/chapter_3/redneu_mpi2.jpeg Graphic file (type jpg)
 <use images/chapter_3/redneu_mpi2.jpeg>
 Package pdftex.def Info: images/chapter_3/redneu_mpi2.jpeg  used on input line 
@@ -1824,7 +1824,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 (Capitulos/4_Estudio_empírico.tex
 Cap\'{\i }tulo 4.
-<images/chapter_4/cluster.jpg, id=573, 1073.39969pt x 793.44853pt>
+<images/chapter_4/cluster.jpg, id=593, 1073.39969pt x 793.44853pt>
 File: images/chapter_4/cluster.jpg Graphic file (type jpg)
 <use images/chapter_4/cluster.jpg>
 Package pdftex.def Info: images/chapter_4/cluster.jpg  used on input line 19.
@@ -1904,29 +1904,32 @@ Package mdframed Info: mdframed detected package amsthm
  changed the theorem header of amsthm
 (mdframed)              on input line 329.
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--348
+Underfull \hbox (badness 10000) in paragraph at lines 338--343
 
  []
 
-<images/chapter_4/jerarquico.jpg, id=620, 1567.8575pt x 713.66624pt>
+<images/chapter_4/jerarquico.jpg, id=640, 1567.8575pt x 713.66624pt>
 File: images/chapter_4/jerarquico.jpg Graphic file (type jpg)
 <use images/chapter_4/jerarquico.jpg>
-Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 36
-8.
+Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 38
+1.
 (pdftex.def)             Requested size: 373.49316pt x 170.00931pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [49]
-Package pgfplots info on input line 398: Using 'lua backend=false' for axis: x 
+Package pgfplots info on input line 417: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
 
-Overfull \hbox (10.02232pt too wide) in paragraph at lines 414--415
+Overfull \hbox (10.02232pt too wide) in paragraph at lines 433--434
  [][] 
  []
 
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [50 <./images/chapter_4/jerarquico.jpg>] [51]
-Package pgfplots info on input line 460: Using 'lua backend=false' for axis: x 
+Package pgfplots info on input line 481: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
 PGFPlots: reading {files/kmedias.txt}
 PGFPlots: reading {files/kmedias.txt}
@@ -1940,200 +1943,274 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 PGFPlots: reading {files/kmedias_speedup.txt}
 PGFPlots: reading {files/kmedias_speedup.txt}
 PGFPlots: reading {files/kmedias_speedup.txt}
- [53] [54] [55]
+ [53] [54]
 PGFPlots: reading {files/knn.txt}
 PGFPlots: reading {files/knn.txt}
 PGFPlots: reading {files/knn.txt}
 PGFPlots: reading {files/knn.txt}
 
-Overfull \hbox (10.02861pt too wide) in paragraph at lines 629--630
+Overfull \hbox (10.02861pt too wide) in paragraph at lines 655--656
  [][] 
  []
 
-<images/chapter_4/knn_mpi.jpg, id=661, 900.71242pt x 403.95126pt>
-File: images/chapter_4/knn_mpi.jpg Graphic file (type jpg)
-<use images/chapter_4/knn_mpi.jpg>
-Package pdftex.def Info: images/chapter_4/knn_mpi.jpg  used on input line 640.
-(pdftex.def)             Requested size: 373.49316pt x 167.5072pt.
+<images/chapter_4/knn_mpi.jpeg, id=677, 2376.88pt x 1065.9825pt>
+File: images/chapter_4/knn_mpi.jpeg Graphic file (type jpg)
+<use images/chapter_4/knn_mpi.jpeg>
+Package pdftex.def Info: images/chapter_4/knn_mpi.jpeg  used on input line 667.
+
+(pdftex.def)             Requested size: 373.49316pt x 167.50276pt.
+[55]
+PGFPlots: reading {files/knn_speedup.txt}
+PGFPlots: reading {files/knn_speedup.txt}
+PGFPlots: reading {files/knn_speedup.txt}
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[56]
-PGFPlots: reading {files/knn_speedup.txt}
-PGFPlots: reading {files/knn_speedup.txt}
-PGFPlots: reading {files/knn_speedup.txt}
- [57 <./images/chapter_4/knn_mpi.jpg>] [58]
+[56 <./images/chapter_4/knn_mpi.jpeg>] [57]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 738.
 PGFPlots: reading {files/rl.txt}
 PGFPlots: reading {files/rl.txt}
+ [58]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 792.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 809.
  [59] [60]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 765.
+(mdframed)              on input line 843.
 
-Underfull \hbox (badness 10000) in paragraph at lines 770--772
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 773--777
+Underfull \hbox (badness 10000) in paragraph at lines 848--850
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 781--784
+Underfull \hbox (badness 10000) in paragraph at lines 851--855
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 785--789
+Underfull \hbox (badness 10000) in paragraph at lines 859--862
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 790--794
+Underfull \hbox (badness 10000) in paragraph at lines 863--867
 
  []
 
 
-Overfull \hbox (71.96098pt too wide) in paragraph at lines 818--840
+Underfull \hbox (badness 10000) in paragraph at lines 868--872
+
+ []
+
+<images/chapter_4/tabla_pev.png, id=717, 1321.18594pt x 545.03625pt>
+File: images/chapter_4/tabla_pev.png Graphic file (type png)
+<use images/chapter_4/tabla_pev.png>
+Package pdftex.def Info: images/chapter_4/tabla_pev.png  used on input line 900
+.
+(pdftex.def)             Requested size: 466.86469pt x 192.59518pt.
+[61]
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+
+Overfull \hbox (38.71852pt too wide) in paragraph at lines 988--989
  [][] 
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-
-Overfull \hbox (38.71852pt too wide) in paragraph at lines 904--905
- [][] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[61] [62]
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-
-Overfull \hbox (38.71852pt too wide) in paragraph at lines 978--979
- [][] 
- []
-
-[63]
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-
-Overfull \hbox (38.71852pt too wide) in paragraph at lines 1083--1084
- [][] 
- []
-
-[64]
-<images/chapter_4/pev_mpi1.jpeg, id=709, 3629.56pt x 2003.485pt>
-File: images/chapter_4/pev_mpi1.jpeg Graphic file (type jpg)
-<use images/chapter_4/pev_mpi1.jpeg>
-Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 109
-9.
-(pdftex.def)             Requested size: 326.80385pt x 180.367pt.
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[65 <./images/chapter_4/pev_mpi1.jpeg>]
+[62 <./images/chapter_4/tabla_pev.png>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 1206.
+(mdframed)              on input line 1009.
+ [63]
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
 
-Underfull \hbox (badness 10000) in paragraph at lines 1212--1217
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1230--1235
-
- []
-
-Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 1249.
-Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 1249.
-[66] [67]
-PGFPlots: reading {files/redneu1.txt}
-PGFPlots: reading {files/redneu1.txt}
-PGFPlots: reading {files/redneu1.txt}
- [68]
-PGFPlots: reading {files/redneu2.txt}
-PGFPlots: reading {files/redneu2.txt}
-PGFPlots: reading {files/redneu2.txt}
-
-Overfull \hbox (0.87617pt too wide) in paragraph at lines 1337--1338
+Overfull \hbox (38.71852pt too wide) in paragraph at lines 1068--1069
  [][] 
  []
 
-[69]
-Package pgfplots info on input line 1366: Using 'lua backend=false' for axis: x
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1116.
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+
+Overfull \hbox (38.71852pt too wide) in paragraph at lines 1180--1181
+ [][] 
+ []
+
+[64] [65]
+<images/chapter_4/pev_mpi1.jpeg, id=751, 3629.56pt x 2003.485pt>
+File: images/chapter_4/pev_mpi1.jpeg Graphic file (type jpg)
+<use images/chapter_4/pev_mpi1.jpeg>
+Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 119
+6.
+(pdftex.def)             Requested size: 326.80385pt x 180.367pt.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1254.
+
+Missing character: There is no x in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no ] in font nullfont!
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1301.
+Package mdframed Info: Box was splittet wrong
+ starting loop to iterate the splitting point
+(mdframed)              on input line 1318.
+[66 <./images/chapter_4/pev_mpi1.jpeg>]
+Missing character: There is no x in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no ] in font nullfont!
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1444.
+[67] [68]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1503.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1517.
+PGFPlots: reading {files/redneu1.txt}
+PGFPlots: reading {files/redneu1.txt}
+PGFPlots: reading {files/redneu1.txt}
+ [69] [70]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1576.
+PGFPlots: reading {files/redneu2.txt}
+PGFPlots: reading {files/redneu2.txt}
+PGFPlots: reading {files/redneu2.txt}
+
+Overfull \hbox (0.87617pt too wide) in paragraph at lines 1611--1612
+ [][] 
+ []
+
+[71]
+Package pgfplots info on input line 1639: Using 'lua backend=false' for axis: x
  coord trafo unsupported.
 
-Overfull \hbox (71.60112pt too wide) in paragraph at lines 1377--1379
+Overfull \hbox (71.60112pt too wide) in paragraph at lines 1650--1652
 [][]
  []
 
-<images/chapter_4/redneu_err.png, id=736, 722.7pt x 433.62pt>
+<images/chapter_4/redneu_err.png, id=788, 722.7pt x 433.62pt>
 File: images/chapter_4/redneu_err.png Graphic file (type png)
 <use images/chapter_4/redneu_err.png>
-Package pdftex.def Info: images/chapter_4/redneu_err.png  used on input line 13
-84.
+Package pdftex.def Info: images/chapter_4/redneu_err.png  used on input line 16
+57.
 (pdftex.def)             Requested size: 205.42026pt x 205.42247pt.
-) [70 <./images/chapter_4/redneu_err.png>]
+) [72 <./images/chapter_4/redneu_err.png>]
 \openout2 = `Capitulos/5_Conclusiones_trabajo_futuro.aux'.
 
 
 (Capitulos/5_Conclusiones_trabajo_futuro.tex
 Cap\'{\i }tulo 5.
-[71
+[73
 
 
 
 
-]) [72] (main.bbl) [73
+]) [74] (main.bbl) [75
 
 
 
 ]
 \openout2 = `Cascaras/acronimos.aux'.
 
- (Cascaras/acronimos.tex) [74
+ (Cascaras/acronimos.tex) [76
 
 ]
 
@@ -2156,13 +2233,13 @@ L3 programming layer <2024-01-04>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9C6AB313C6DCC1E1289310F0888910F3;6297.
+(rerunfilecheck)             Checksum: E3F36DF5DC9F1912B1C5AED5EA86DDAD;6647.
  ) 
 Here is how much of TeX's memory you used:
- 49969 strings out of 474485
- 1114474 string characters out of 5742791
+ 50023 strings out of 474485
+ 1115494 string characters out of 5742791
  2053542 words of memory out of 5000000
- 71142 multiletter control sequences out of 15000+600000
+ 71169 multiletter control sequences out of 15000+600000
  580971 words of font info for 91 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  101i,21n,131p,2364b,2464s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2204,9 +2281,9 @@ public/amsfonts/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fon
 ts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs
 /MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/Usuario/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (81 pages, 8947018 bytes).
+Output written on main.pdf (83 pages, 9420146 bytes).
 PDF statistics:
- 1678 PDF objects out of 1728 (max. 8388607)
- 236 named destinations out of 1000 (max. 500000)
- 486 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1750 PDF objects out of 2073 (max. 8388607)
+ 263 named destinations out of 1000 (max. 500000)
+ 523 words of extra memory for PDF output out of 10000 (max. 10000000)
 
