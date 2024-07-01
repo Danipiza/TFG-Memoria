@@ -8,7 +8,7 @@
 
 
 \chapter{Estudio empírico}
-
+\label{cap:c4_estudio}	
 Después de implementar y diseñar los algoritmos y mejoras utilizando MPI, llevamos a cabo un análisis exhaustivo para evaluar los tiempos de ejecución, realizar pruebas, contrastar resultados y extraer conclusiones
 
 Primero se ejecutan distintas pruebas en un ordenador normal, para luego ejecutar las mejores implementaciones en un cluster con varios ordenadores y muchos procesos. El cluster se representa en la siguiente figura:
@@ -84,9 +84,9 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/sortn2.txt};
 				\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/sortn2.txt};
-				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/sortn2.txt};
-				\addplot [mark=none, color=green, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/sortn2.txt};
-				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=5, col sep=space] {files/sortn2.txt};
+				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/sortn2.txt};
+				\addplot [mark=none, color=magenta, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/sortn2.txt};
+				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=5, col sep=space] {files/sortn2.txt};
 				
 			
 				\addlegendentry{Bubble}
@@ -136,8 +136,8 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				legend pos=north west
 				]
 				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/sequential.txt};
-				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/sequential.txt};
-				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/sequential.txt};
+				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/sequential.txt};
+				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/sequential.txt};
 				
 				% Add legends
 				\addlegendentry{Básico}
@@ -191,6 +191,8 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			Esta ordenación es mucho más eficiente. El incremento no cambia al llegar a 10.000 elementos, se mantiene en 250.		
 		\end{tcolorbox}
 		
+		\vspace*{-0.2cm}
+		
 		Con un coste temporal sin mejora de O(NlogN), al paralelizar la ordenación con la mejora comentada, se puede apreciar una notoria reducción del tiempo de ejecución, llegando a tener un speedup aproximado de 15.5 usando dieciséis workers (casi el speedup ideal). Es cierto que se podrían aplicar otras técnicas para reducir mucho más el tiempo, pero así se demuestra que en la computación de alto rendimiento se pueden obtener buenos resultados con estrategias no tan efectivas pero bien paralelizadas.
 		
 		% HISTOGRAMA CON VARIOS PROCESOS
@@ -208,7 +210,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				%width=15cm,
 				%height=10cm,
 				width=\textwidth,
-				height=0.45\textwidth,
+				height=0.38\textwidth,
 				legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
 				area legend
 				]
@@ -231,23 +233,61 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\caption{Tiempo de ejecución MPI MergeSort}
 		\end{figure}
 		
+		\newpage
+		
 		Con dos workers ejecutándose no reduce el tiempo de ejecución, lo duplica. Al aplicar ordenaciones cuadráticas y solo tener dos workers, el cómputo es igual que aplicar una ordenación cuadrática con la mitad del array original.
 		
 		La memoria está optimizada puesto que el master se encarga de dividir eficientemente el array entero entre todos los workers, teniendo solo dos copias del array, la que tiene el master y la otra dividida entre los procesos que se encargan de ordenarlo. Al terminar un proceso con la sincronización en mariposa, se termina la ejecución del proceso liberando memoria una vez ha enviado al proceso correspondiente su subarray ordenado.
 		
 		
-		\newpage
 		\subsubsection{Cluster}
 		
+		\begin{flushleft}
+		\begin{mdframed}[roundcorner=5pt]			
+			\textbf{\underline{Datos y número de procesos}}
+			\vspace{0.1cm}
+			
+			\scriptsize	
+			MergeSort, con un coste logarítmico, tarda 20.16s en ordenar 100.000 elementos. Por eso se realiza una prueba para saber cuanto tiempo tarda la mejora realizada para ordenar \textbf{[100000*i for i in range(1,11)]} con 16, 32, 64 y 128 procesos.
+			
+		\end{mdframed}
+		\end{flushleft}	
 		
-		\color{blue} TODO CLUSTER
+		\begin{figure}[!h]
+			\centering
+			\begin{tikzpicture}
+			\begin{axis}[
+				xlabel={Tam. Array},
+				ylabel={Tiempo de ejecución (s)},
+				legend style={at={(1.02,0.5)}, anchor=west},
+				grid=major,
+				width=\textwidth,
+				height=0.45\textwidth,
+				legend cell align={left},
+				extra description/.code={
+					\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
+				}
+				]
+				
+				\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/sort.txt};
+				\addplot [mark=square*, color=blue, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/sort.txt};
+				\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/sort.txt};
+				\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/sort.txt};
+				
+				
+				\addlegendentry{16}
+				\addlegendentry{32}
+				\addlegendentry{64}
+				\addlegendentry{128}
+				
+				
+			\end{axis}
+			\end{tikzpicture}
+			\caption{MergeSort - Tiempo de ejecución en el Cluster}
+		\end{figure}
 		
-		\color{black}
-
-		\newpage
-
-
-
+		Una vez realizadas las pruebas de esta función de ordenación, obtenemos un speedup aproximado al número de procesos ejecutados. De manera secuencial, sin mejoras, el algoritmo tarda, 20.16s en ordenar 100.000 elementos, mientras que con 128 procesos tarda 0.16s \textit{(speedup = 125)}. No llega a ser el speedup ideal debido al tiempo que se pierde al dividir y enviar el array entero con todos los procesos.
+		
 
 
 	% ------------------------------------------------------------------------------------------------
@@ -287,7 +327,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\centering
 		\begin{tikzpicture}
 			\begin{axis}[
-				xlabel={Tam. de Matriz},
+				xlabel={Tam. Matriz (NxN)},
 				ylabel={Tiempo de ejeución (s)},
 				legend pos=north west,
 				grid=major,
@@ -296,13 +336,17 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				]
 				
 				% Plot data from the file without markers, with different colors, and thicker lines
-				\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/multiplicacion.txt};
-				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/multiplicacion.txt};
+				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/multiplicacion1.txt};
+				\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/multiplicacion1.txt};
+				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/multiplicacion1.txt};
+				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/multiplicacion1.txt};
 				
 				
 				% Add legends
 				\addlegendentry{Secuencial}
+				\addlegendentry{MPI(2)}
 				\addlegendentry{MPI(4)}
+				\addlegendentry{MPI(6)}
 				
 				
 			\end{axis}
@@ -310,12 +354,62 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\caption{Tiempo de ejecución de multiplicación de matrices}
 		\end{figure}
 		
-		\subsubsection{Cluster}
-
-		\color{blue} TODO...
+		Se pueden apreciar oscilaciones en la gráfica debido a la complejidad del cálculo O($N^{2}$), y guardar los tiempos cada diez elementos. Estas oscilaciones son mas pronunciadas en la multiplicación sin mejoras, debido a que el tiempo de ejecución se mayor.
+		\newpage
 		
-		\color{black}
+		\subsubsection{Cluster}
+		
+			\begin{flushleft}
+			\begin{mdframed}[roundcorner=5pt]			
+				\textbf{\underline{Datos y número de procesos}}
+				\vspace{0.1cm}
+				
+				\scriptsize	
+				El coste cúbico de esta operación, converge en ejecuciones con mayor tiempo de cómputo. Por este motivo, para la siguiente prueba se hace un estudio incrementando en quinientos el número de filas y columnas de la matriz, ejecutando 16, 32, 64 y 128 procesos.				
+			\end{mdframed}
+			\end{flushleft}	
 
+
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					xlabel={Tam. Matriz (NxN)},
+					ylabel={Tiempo de ejecución (s)},
+					legend style={at={(1.02,0.5)}, anchor=west},
+					grid=major,
+					width=\textwidth,
+					height=0.45\textwidth,
+					legend cell align={left},
+					extra description/.code={
+						\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
+					}
+					]
+					
+				\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/mult.txt};
+				\addplot [mark=square*, color=blue, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/mult.txt};
+				\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/mult.txt};
+				\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/mult.txt};
+					
+					
+					\addlegendentry{16}
+					\addlegendentry{32}
+					\addlegendentry{64}
+					\addlegendentry{128}
+					
+					
+				\end{axis}
+				\end{tikzpicture}
+				\caption{MergeSort - Tiempo de ejecución en el Cluster}
+			\end{figure}
+			
+			
+			Pese a tener una implementación no tan optima, tiene un buen speedup. Para una matriz de \textit{1000x1000} tarda un total de 89.1 segundos para realizar el cálculo sin mejora, y al paralelizar el cálculo con 128 procesos, tarda 1.06 segundos (speedup = 84). La comunicación no es tan óptima como en la mejora de MergeSort, debido a que en esta implementación aplicamos el modelo \textit{Master-Worker} y cada vez que un proceso \textit{Worker} termina una fila, tiene que esperar a que el \textit{Master} esté libre para recibir nuevos datos que procesar. 
+			
+			En cada prueba, se pierden \textit{(N/M)*T} segundos en la comunicación entre procesos. Siendo \textit{N} el número de filas de la matriz, \textit{M} el número de \textit{Workers} y \textit{T} el tiempo de comunicación.
+			
+			
+		
 
 \newpage
 % ------------------------------------------------------------------------------------------------
@@ -445,6 +539,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\color{black}
 		\subsubsection{Cluster}	
 			
+			\color{blue}
 			% TODO Jerarquico Aglom CLUSTER
 			TODO CLUSTER
 			
@@ -505,15 +600,17 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\caption{KMedias variando K}
 		\end{figure}
 		
-		\begin{flushleft}
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize
-			Para las pruebas realizadas se usa un valor K=10, y se usan cuatro procesos workers para la mejora MPI:			
-		\end{tcolorbox}		
-		\end{flushleft}
 	
 		
 		\subsubsection{Ordenador de propósito general}	
+		
+			\begin{flushleft}
+			\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
+				\scriptsize
+				Para las pruebas realizadas se usa un valor K=10, y se usan cuatro procesos workers para la mejora MPI:			
+			\end{tcolorbox}		
+			\end{flushleft}	
+		
 	
 	
 			\begin{figure}[!h]
@@ -531,8 +628,8 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 				\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/kmedias.txt};
 				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/kmedias.txt};
-				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/kmedias.txt};
-				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/kmedias.txt};
+				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/kmedias.txt};
+				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/kmedias.txt};
 				
 				
 				\addlegendentry{Euclidea}
@@ -592,14 +689,97 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			
 					
 		\subsubsection{Cluster}
+		
+			\begin{flushleft}
+			\begin{mdframed}[roundcorner=5pt]			
+				\textbf{\underline{Datos y número de procesos}}
+				\vspace{0.1cm}
+				
+				\scriptsize	
+				La complejidad de esta técnica es menor al algoritmo anterior. No tiene un coste cúbico, tiene un coste amortizado cuadrático, pero depende mucho de la composición de la población. Empezamos con una poblacion de 20.000 individuos con cinco variables, en cada punto incrementamos la población con el tamaño original, llegando hasta 240.000. Los procesos a ejecutar son los siguientes 10, 20, 35, 50, 75, 100 y 128.
+			\end{mdframed}
+			\end{flushleft}	
 
-			% TODO KMedias CLUSTER
 			
-			\color{blue} TODO CLUSTER
 			
-			\color{black}
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					xlabel={Tam. Población},
+					ylabel={Tiempo de ejecución (s)},
+					legend style={at={(1.02,0.5)}, anchor=west},
+					grid=major,
+					width=\textwidth,
+					height=0.45\textwidth,
+					legend cell align={left},
+					extra description/.code={
+						\node at (1.01, 0.85) [anchor=west] {\textbf{Cores}};
+					}
+					]
+					
+					\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/kmedias5D.txt};
+					\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/kmedias5D.txt};
+					\addplot [mark=triangle*, color=blue, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/kmedias5D.txt};
+					\addplot [mark=star, color=orange, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/kmedias5D.txt};
+					\addplot [mark=diamond*, color=purple, line width=1.2pt] table [x index=0, y index=5, col sep=space] {files/cluster/kmedias5D.txt};
+					\addplot [mark=otimes*, color=cyan, line width=1.2pt] table [x index=0, y index=6, col sep=space] {files/cluster/kmedias5D.txt};
+					\addplot [mark=triangle*, color=darkgreen, line width=1.2pt] table [x index=0, y index=7, col sep=space] {files/cluster/kmedias5D.txt};
+					
+					\addlegendentry{10}
+					\addlegendentry{20}
+					\addlegendentry{35}
+					\addlegendentry{50}
+					\addlegendentry{75}
+					\addlegendentry{100}
+					\addlegendentry{128}
+					
+				\end{axis}
+				\end{tikzpicture}
+				\caption{KMedias - Tiempo de ejecución en el Cluster}
+			\end{figure}
+			
+			
+			No se logra obtener el speedup ideal, más bien se pierde tiempo al paralelizar el cómputo con muchos procesos. La constante comunicación, en el bucle principal (al tener que comprobar las asignaciones para saber si termina la ejecución debido a la condición de finalización), de todos los procesos con el \textit{Master} hace que no sea viable tener tantas comunicaciones.
 			
 			\newpage
+			
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						xlabel={Tam. Población},
+						ylabel={Tiempo de ejecución (s)},
+						legend style={at={(1.02,0.5)}, anchor=west},
+						grid=major,
+						width=\textwidth,
+						height=0.45\textwidth,
+						legend cell align={left},
+						extra description/.code={
+							\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
+						}
+						]
+						
+						\addplot [mark=*, color=black, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/kmediasDs.txt};
+						\addplot [mark=square*, color=red, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/kmediasDs.txt};
+						\addplot [mark=triangle*, color=darkgreen, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/kmediasDs.txt};
+						\addplot [mark=star, color=blue, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/kmediasDs.txt};
+						
+						
+						\addlegendentry{50\_2D}
+						\addlegendentry{50\_5D}
+						\addlegendentry{100\_2D}
+						\addlegendentry{100\_5D}
+						
+					\end{axis}
+				\end{tikzpicture}
+				\caption{KMedias - Diferencia de dimensiones calculada en el Cluster}
+			\end{figure}
+			
+			La diferencia entre usar más dimensiones en este algoritmo es abismal, llegando a ser cinco veces más lento tener una población tan elevada, con tres dimensiones (variables) más. Esto se debe a que el algoritmo está constantemente calculando distancias, lo que provoca, aplicando distancia euclidea, una diferencia significativa.
+			
+		
+			
 
 % ------------------------------------------------------------------------------------------------
 % --- KNN ----------------------------------------------------------------------------------------
@@ -627,7 +807,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
-					xlabel={Tam. Población ($10^5$)},
+					xlabel={Tam. Población},
 					ylabel={Tiempo de ejeución (s)},
 					legend pos=north west,
 					legend columns=2,
@@ -712,16 +892,68 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\newpage
 		
 		\subsubsection{Cluster}
+		
+			\begin{flushleft}
+			\begin{mdframed}[roundcorner=5pt]			
+				\textbf{\underline{Datos y número de procesos}}
+				\vspace{0.1cm}
+				
+				\scriptsize	
+				Este algoritmo, al contrario que KMedias, calcula la asignación de un individuo con coste lineal. Tiene coste cuadrático al procesar una población nueva. Medimos el tiempo que tarda en categorizar una nueva población de 100.000 individuos con dos variables de entrada, guardando el tiempo que tarda cada mil individuos. Ejecutando 10, 20, 35, 50, 75, 100 y 128 procesos para ver si es óptimo usar muchos procesos o genera mucha sobrecarga.
+			\end{mdframed}
+			\end{flushleft}	
 
-			% TODO KNN SIN ACTUALIZAR? 
+			% TODO KNN SIN ACTUALIZAR?
+			
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					xlabel={Tam. Población},
+					ylabel={Tiempo de ejecución (s)},
+					legend style={at={(1.02,0.5)}, anchor=west},
+					grid=major,
+					width=\textwidth,
+					height=0.45\textwidth,
+					legend cell align={left},
+					extra description/.code={
+						\node at (1.01, 0.85) [anchor=west] {\textbf{Cores}};
+					}
+					]
+					
+					\addplot [mark=, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/knn.txt};
+					\addplot [mark=, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/knn.txt};
+					\addplot [mark=, color=blue, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/knn.txt};
+					\addplot [mark=, color=orange, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/knn.txt};
+					\addplot [mark=, color=black, line width=1.2pt] table [x index=0, y index=5, col sep=space] {files/cluster/knn.txt};
+					\addplot [mark=, color=cyan, line width=1.2pt] table [x index=0, y index=6, col sep=space] {files/cluster/knn.txt};
+					\addplot [mark=, color=darkgreen, line width=1.2pt] table [x index=0, y index=7, col sep=space] {files/cluster/knn.txt};
+					
+			 		
+					 
+					\addlegendentry{10}
+					\addlegendentry{20}
+					\addlegendentry{35}
+					\addlegendentry{50}
+					\addlegendentry{75}
+					\addlegendentry{100}
+					\addlegendentry{128}
+					
+				\end{axis}
+				\end{tikzpicture}
+				\caption{KNN - Tiempo de ejecución en el Cluster}
+			\end{figure} 
 			
 			\vspace{1cm}
 			
-			\color{blue} TODO ? Añadir un estudio del algoritmo sin actualizar? Así a lo mejor se puede comprobar que es mejor la segunda implementación cuando las poblaciones no cambian.
+		
 			
-			% TODO KNN CLUSTER
-			TODO CLUSTER
-			\color{black}
+			Los tiempos de ejecución que muestra la gráfica, marca ciertos puntos de optimalidad para distintos números de procesos ejecutados. El incremento en el número de procesos no resulta en mejoras significativas, añadiendo sobrecarga apartir de 35 procesos ejecutados, pues es similar a la ejecución con 20 procesos.
+			
+			
+			
+			
+			
 			
 			\newpage
 
@@ -818,6 +1050,8 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		Esta mejora aplica la misma idea que la búsqueda de hiperparámetros, pero esta vez para investigar por completo el laberinto y encontrar más rápidamente el mejor camino para llegar a la meta. al ejecutar N Workers, el Master recibe la experiencia de estos procesos, provocando una reducción en el tiempo de ejecución de \textit{N*rep} repeticiones, provocando un speedup aproximado al número de procesos Workers ejecutados.
 		
 		%TODO: RL - PONER GRAFICO 2da MEJORA
+		
+		\newpage
 		
 	\subsubsection{Cluster}
 	
@@ -1261,7 +1495,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\end{flushleft}
 		
 		
-		Para los individuos binarios, funciona algo mejor que la mejora anterior, con el funcionamiento de pipeline no se pierde tanto tiempo con el paso de mensajes de individuos binarios, y aunque sea poco, se puede reducir el tiempo de ejecución.
+		
 		
 		%El método de pipeline varía para cada problema. Los individuos binarios no mejoran mucho la ejecución, al tener muchos datos que enviar. 
 		
@@ -1293,11 +1527,12 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\caption{PEV - Bin PipeLine}
 		\end{figure}
 		
-		
-	 Al tener varias poblaciones ejecutándose al mismo tiempo no se puede tener una población muy grande. A partir de un tamaño de 1000 individuos no se puede ejecutar con dos decimales de precisión con el ordenador de propósito general, y con 500 individuos es el máximo tamaño de población si se usan 10 decimales de precisión.
+		Para los individuos binarios, funciona algo mejor que la mejora anterior, con el funcionamiento de pipeline no se pierde tanto tiempo con el paso de mensajes de individuos binarios, y aunque sea poco, se puede reducir el tiempo de ejecución.
+			
+		Al tener varias poblaciones ejecutándose al mismo tiempo no se puede tener una población muy grande. A partir de un tamaño de 1000 individuos no se puede ejecutar con dos decimales de precisión con el ordenador de propósito general, y con 500 individuos es el máximo tamaño de población si se usan 10 decimales de precisión.
 	 
 	 
-	 \begin{flushleft}
+	\begin{flushleft}
 	 	\begin{mdframed}[roundcorner=5pt]			 		
 		 		\small
 		 		\color{darkgreen} 1. Cuatro procesos: \color{black}
@@ -1489,12 +1724,88 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		Al juntar los últimos tres métodos, tarda un tiempo aproximado de 58e-06. 6.9 veces más rápido que la evaluación. Por simplicidad, es mejor ejecutar potencias de dos procesos, para hacer una división equitativa.
 	
 	\subsubsection{Cluster}
-			% TODO PEV CLUSTER
+	
+			\begin{flushleft}
+			\begin{mdframed}[roundcorner=5pt]			
+				\textbf{\underline{Datos y número de procesos}}
+				\vspace{0.1cm}
+				
+				\scriptsize	
+				Para la siguiente prueba se ejecuta la primera mejora, el \textit{Master} se encarga de dividir la población entre los procesos, con 10, 20, 50 y 100 procesos \textit{Workers}. Se ejecutan 25 generaciones, con las siguientes poblaciones [1000, 2000, 5000, 7000].
+			\end{mdframed}
+			\end{flushleft}	
 			
-			\color{blue} TODO CLUSTER
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					xlabel={Tam. Población},
+					ylabel={Tiempo de ejecución (s)},
+					legend style={at={(1.02,0.5)}, anchor=west},
+					grid=major,
+					width=\textwidth,
+					height=0.45\textwidth,
+					legend cell align={left},
+					extra description/.code={
+						\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
+					}
+					]
+					
+					\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/pevReal.txt};
+					\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/pevReal.txt};
+					\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/pevReal.txt};
+					\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/pevReal.txt};
+					
+					
+					\addlegendentry{10}
+					\addlegendentry{20}
+					\addlegendentry{50}
+					\addlegendentry{100}
+					
+				\end{axis}
+				\end{tikzpicture}
+				\caption{PEV Real - Tiempo de ejecución en el Cluster}
+			\end{figure}
 			
-			\color{black}
-			\newpage
+			La \textbf{sobrecarga se empieza a notar con cincuenta procesos}, pues la mejora entre usar veinte y cincuenta es de un 25\% mas rápida, además de ser más eficaz que usar cien procesos.
+			Lo mismo ocurre al usar árboles como individuos.
+			
+		
+			
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						xlabel={Tam. Población},
+						ylabel={Tiempo de ejecución (s)},
+						legend style={at={(1.02,0.5)}, anchor=west},
+						grid=major,
+						width=\textwidth,
+						height=0.45\textwidth,
+						legend cell align={left},
+						extra description/.code={
+							\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
+						}
+						]
+						
+						\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/pevArbol.txt};
+						\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/pevArbol.txt};
+						\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/pevArbol.txt};
+						\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/pevArbol.txt};
+						
+						
+						\addlegendentry{10}
+						\addlegendentry{20}
+						\addlegendentry{50}
+						\addlegendentry{100}
+							
+						\end{axis}
+					\end{tikzpicture}
+					\caption{PEV Arbol - Tiempo de ejecución en el Cluster}
+				\end{figure}
+			
+			
+			
 
 \section{Redes Neuronales}
 

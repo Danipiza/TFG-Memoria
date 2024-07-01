@@ -8,62 +8,64 @@
 \contentsline {section}{\numberline {1.4}Estructura del documento}{5}{section.1.4}%
 \contentsline {chapter}{\numberline {2}Contextualización}{6}{chapter.2}%
 \contentsline {section}{\numberline {2.1}MPI}{6}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Single Program Multiple Data (SPMD)}{7}{subsection.2.1.1}%
 \contentsline {section}{\numberline {2.2}Aprendizaje por Refuerzo}{9}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Algoritmo Q-Learning}{9}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Deep Q-Network (DQN)}{10}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.2}Deep Q-Network (DQN)}{11}{subsection.2.2.2}%
 \contentsline {section}{\numberline {2.3}Aprendizaje No-Supervisado}{11}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Clustering jerárquico aglomerativo}{12}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}Clustering Basados en particiones: K-Medias}{13}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{14}{section.2.4}%
+\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{15}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}K-Vecinos más Cercanos - KNN}{15}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}Redes Neuronales}{16}{subsection.2.4.2}%
 \contentsline {section}{\numberline {2.5}Programación Evolutiva}{18}{section.2.5}%
 \contentsline {chapter}{\numberline {3}Diseño e Implementaciones}{19}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Programas sencillos}{19}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Algoritmos de Clustering}{25}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Jerárquico Aglomerativo}{25}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}K-Medias}{27}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}K-Vecinos más cercanos (KNN)}{29}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Aprendizaje por refuerzo}{32}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Algoritmos Evolutivos}{36}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Redes Neuronales}{39}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Estudio empírico}{43}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Programas sencillo}{44}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Ordenaciones}{44}{subsection.4.1.1}%
-\contentsline {subsubsection}{Algoritmos cuadráticas sin mejoras}{44}{section*.29}%
-\contentsline {subsubsection}{SequentialSort con mejoras}{45}{section*.31}%
-\contentsline {subsubsection}{MergeSort}{46}{section*.33}%
-\contentsline {subsubsection}{Cluster}{47}{section*.35}%
-\contentsline {subsection}{\numberline {4.1.2}Multiplicación de matrices}{48}{subsection.4.1.2}%
-\contentsline {subsubsection}{Ordenador de propósito general}{48}{section*.36}%
-\contentsline {subsubsection}{Cluster}{48}{section*.38}%
+\contentsline {section}{\numberline {3.2}Algoritmos de Clustering}{24}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Jerárquico Aglomerativo}{24}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}K-Medias}{26}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}K-Vecinos más cercanos (KNN)}{28}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Aprendizaje por refuerzo}{31}{section.3.3}%
+\contentsline {subsubsection}{Búsqueda de hiper-parámetros ideales}{32}{section*.25}%
+\contentsline {section}{\numberline {3.4}Algoritmos Evolutivos}{35}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Redes Neuronales}{38}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Estudio empírico}{42}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Programas sencillo}{43}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Ordenaciones}{43}{subsection.4.1.1}%
+\contentsline {subsubsection}{Algoritmos cuadráticas sin mejoras}{43}{section*.31}%
+\contentsline {subsubsection}{SequentialSort con mejoras}{44}{section*.33}%
+\contentsline {subsubsection}{MergeSort}{45}{section*.35}%
+\contentsline {subsubsection}{Cluster}{46}{section*.37}%
+\contentsline {subsection}{\numberline {4.1.2}Multiplicación de matrices}{47}{subsection.4.1.2}%
+\contentsline {subsubsection}{Ordenador de propósito general}{47}{section*.39}%
+\contentsline {subsubsection}{Cluster}{48}{section*.41}%
 \contentsline {section}{\numberline {4.2}Algoritmos de Agrupación}{49}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Jerárquico Aglomerativo}{49}{subsection.4.2.1}%
-\contentsline {subsubsection}{Distancias sin mejoras}{49}{section*.39}%
-\contentsline {subsubsection}{Distancia Centroide con mejoras}{50}{section*.41}%
-\contentsline {subsubsection}{Distancia Simple/Completo con mejoras}{51}{section*.43}%
-\contentsline {subsubsection}{Cluster}{51}{section*.44}%
+\contentsline {subsubsection}{Distancias sin mejoras}{49}{section*.43}%
+\contentsline {subsubsection}{Distancia Centroide con mejoras}{50}{section*.45}%
+\contentsline {subsubsection}{Distancia Simple/Completo con mejoras}{51}{section*.47}%
+\contentsline {subsubsection}{Cluster}{51}{section*.48}%
 \contentsline {subsection}{\numberline {4.2.2}K-Medias}{52}{subsection.4.2.2}%
-\contentsline {subsubsection}{Ordenador de propósito general}{52}{section*.46}%
-\contentsline {subsubsection}{Cluster}{54}{section*.49}%
+\contentsline {subsubsection}{Ordenador de propósito general}{52}{section*.50}%
+\contentsline {subsubsection}{Cluster}{54}{section*.53}%
 \contentsline {subsection}{\numberline {4.2.3}KNN}{55}{subsection.4.2.3}%
-\contentsline {subsubsection}{Algoritmo sin mejoras}{55}{section*.50}%
-\contentsline {subsubsection}{Algoritmo con mejoras}{56}{section*.52}%
-\contentsline {subsubsection}{Cluster}{57}{section*.55}%
-\contentsline {section}{\numberline {4.3}RL}{58}{section.4.3}%
-\contentsline {subsubsection}{Algoritmo sin mejoras}{58}{section*.56}%
-\contentsline {subsubsection}{Búsqueda de los mejores hiperparámetros}{58}{section*.58}%
-\contentsline {subsubsection}{Mejora: Dividir el entorno entre los procesos}{59}{section*.59}%
-\contentsline {subsubsection}{Mejora: Ejecuciones en paralelo}{59}{section*.60}%
-\contentsline {subsubsection}{Cluster}{59}{section*.61}%
-\contentsline {section}{\numberline {4.4}PEV}{61}{section.4.4}%
-\contentsline {subsubsection}{Algoritmos sin mejoras}{62}{section*.63}%
-\contentsline {subsubsection}{Mejora 2: Modelo de islas}{63}{section*.65}%
-\contentsline {subsubsection}{Mejora 1: Dividir con el master}{64}{section*.68}%
-\contentsline {subsubsection}{Mejora 3: PipeLine}{66}{section*.71}%
-\contentsline {subsubsection}{Cluster}{68}{section*.75}%
-\contentsline {section}{\numberline {4.5}Redes Neuronales}{69}{section.4.5}%
-\contentsline {subsubsection}{Mejora 1: PipeLine}{69}{section*.76}%
-\contentsline {subsubsection}{Mejora 2: Dividir el trabajo en procesos}{71}{section*.78}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{73}{chapter.5}%
-\contentsline {chapter}{Bibliography}{75}{chapter*.81}%
+\contentsline {subsubsection}{Algoritmo sin mejoras}{56}{section*.56}%
+\contentsline {subsubsection}{Algoritmo con mejoras}{56}{section*.58}%
+\contentsline {subsubsection}{Cluster}{58}{section*.61}%
+\contentsline {section}{\numberline {4.3}RL}{59}{section.4.3}%
+\contentsline {subsubsection}{Algoritmo sin mejoras}{59}{section*.63}%
+\contentsline {subsubsection}{Búsqueda de los mejores hiperparámetros}{59}{section*.65}%
+\contentsline {subsubsection}{Mejora: Dividir el entorno entre los procesos}{60}{section*.66}%
+\contentsline {subsubsection}{Mejora: Ejecuciones en paralelo}{60}{section*.67}%
+\contentsline {subsubsection}{Cluster}{61}{section*.68}%
+\contentsline {section}{\numberline {4.4}PEV}{62}{section.4.4}%
+\contentsline {subsubsection}{Algoritmos sin mejoras}{63}{section*.70}%
+\contentsline {subsubsection}{Mejora 2: Modelo de islas}{64}{section*.72}%
+\contentsline {subsubsection}{Mejora 1: Dividir con el master}{65}{section*.75}%
+\contentsline {subsubsection}{Mejora 3: PipeLine}{67}{section*.78}%
+\contentsline {subsubsection}{Cluster}{69}{section*.82}%
+\contentsline {section}{\numberline {4.5}Redes Neuronales}{70}{section.4.5}%
+\contentsline {subsubsection}{Mejora 1: PipeLine}{70}{section*.85}%
+\contentsline {subsubsection}{Mejora 2: Dividir el trabajo en procesos}{72}{section*.87}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{74}{chapter.5}%
+\contentsline {chapter}{Bibliography}{77}{chapter*.90}%

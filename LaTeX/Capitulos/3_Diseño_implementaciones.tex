@@ -7,128 +7,128 @@
 
 \chapter{Diseño e Implementaciones}
 \label{cap:c3_implementaciones}	
-En este capítulo se presentan los diseños e implementaciones desarrolladas a lo largo del desarrollo del mismo. Empezando con programas sencillos para introducir MPI, y avanzando por nivel de dificultad en los algoritmos de IA. Los algoritmos de clustering son sencillos de entender y de paralelizar. El aprendizaje por refuerzo y los algoritmos evolutivos aumentan la complejidad en las implementaciones y para finalizar las redes neuronales, que de por si tienen un complejidad más elevada.
+
+
+	En este capítulo se presentan los diseños e implementaciones desarrolladas a lo largo del desarrollo del mismo. Empezando con programas sencillos para introducir MPI, y avanzando por nivel de dificultad en los algoritmos de IA. Los algoritmos de clustering son sencillos de entender y de paralelizar. El aprendizaje por refuerzo y los algoritmos evolutivos aumentan la complejidad en las implementaciones y para finalizar las redes neuronales, que de por si tienen un complejidad más elevada.
 
 %\newpage %TODO QUITAR
 \section{Programas sencillos}
 
-Para introducir MPI en el proyecto se implementan y comentan varios programas sencillos. La multiplicación de matrices, que tiene un coste cúbico, al tener que recorrer, para cada elemento de la matriz, una fila y columna entera. Y algoritmos de ordenación, que para simplificar, solo se realizan un estudio de las ordenaciones que más tiempo de ejecución consumen, O(\(N^{2}\)) y MergeSort con coste O(NlogN).
+	Para introducir MPI en el proyecto se implementan y comentan varios programas sencillos. La multiplicación de matrices, que tiene un coste cúbico, al tener que recorrer, para cada elemento de la matriz, una fila y columna entera. Y algoritmos de ordenación, que para simplificar, solo se realizan un estudio de las ordenaciones que más tiempo de ejecución consumen, O(\(N^{2}\)) y MergeSort con coste O(NlogN).
 
 
-Las matrices son un concepto matemático muy relevante en el mundo de los videojuegos y en el ámbito de la inteligencia artificial. Hay muchas técnicas de IA que conllevan la gestión de imágenes, como en el algoritmo DQN cuya red neuronal tiene como entrada varios fotogramas para poder aprender. Estas imágenes, pueden en mayor o menor medida ser implementadas con matrices.
-
-El cálculo de la multiplicación de dos matrices es cúbico O(\(N^{3}\)). Recorre toda la matriz, y para cada elemento, hace el sumatorio de las multiplicaciones fila, columna. 
-
-Es un buen primer ejemplo para iniciar con la arquitectura MPI, debido a la lentitud del cálculo. Para ello hay que plantear cómo dividir el trabajo entre los procesos. 
-
-Se puede pensar que es mejor ir enviando los datos conforme se finaliza una operación, pero en esta operación se necesitan las filas de una matriz y columnas de otra, por lo que conviene que cada proceso tenga una matriz entera en su memoria local, para agilizar el proceso y poder enviar más datos al mismo tiempo.
-
-
-Cada worker se va a encargar de un determinado número de filas, así paralelizando el cálculo. El master se encarga de dividir la matriz entre los procesos, y se puede abordar con dos enfoques distintos.
-\begin{itemize}
-	\item Enviar la división completa de filas a cada worker, y esperar a que terminen todos los cálculos, y el master agrupa los mensajes. 
-	\item Ir enviando filas de la matriz conforme se va resolviendo. Así logramos tener un flujo constante de mensajes y reducimos la complejidad espacial.
-\end{itemize}
+	Las matrices son un concepto matemático muy relevante en el mundo de los videojuegos y en el ámbito de la inteligencia artificial. Hay muchas técnicas de IA que conllevan la gestión de imágenes, como en el algoritmo DQN cuya red neuronal tiene como entrada varios fotogramas para poder aprender. Estas imágenes, pueden en mayor o menor medida ser implementadas con matrices.
+	
+	El cálculo de la multiplicación de dos matrices es cúbico O(\(N^{3}\)). Recorre toda la matriz, y para cada elemento, hace el sumatorio de las multiplicaciones fila, columna. 
+	
+	Es un buen primer ejemplo para iniciar con la arquitectura MPI, debido a la lentitud del cálculo. Para ello hay que plantear cómo dividir el trabajo entre los procesos. 
+	
+	Se puede pensar que es mejor ir enviando los datos conforme se finaliza una operación, pero en esta operación se necesitan las filas de una matriz y columnas de otra, por lo que conviene que cada proceso tenga una matriz entera en su memoria local, para agilizar el proceso y poder enviar más datos al mismo tiempo.
 
 
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.58\textwidth]{images/chapter_3/matriz_mpi}
-	\caption{MPI - Matriz}
-	\label{fig:matrizmpi}
-\end{figure}
-
-En el primer enfoque dejamos al master dormido hasta que recibe los resultados, y al recibir los resultados, se genera un cuello de botella. Además de aumentar la complejidad espacial al tener siempre las filas asignadas. Sin embargo en la segunda idea, el flujo de mensajes hace que el master vaya colocando los resultados recibidos, y se reduce el espacio en memoria, al manejar en cada iteración una fila. Figura \ref{fig:matrizmpi}
-
-
-\vspace*{0.2cm}
-%\noindent Métodos de ordenación: \textbf{O(N2)} y \textbf{O(NlogN)}
-
-Los algoritmos de ordenación tienen tienen que iterar varias veces hasta que esté completamente ordenado. Y los métodos pueden variar bastante el tiempo de ejecución.
-
-Para las ordenaciones cuadráticas, los métodos populares son BubbleSort, InsertionSort y SelectionSort, han sido estudiados y optimizados para que aunque tengan un coste cuadrático en el caso peor, tengan un buen rendimiento. Basándome en estos algoritmos he diseñado otro al cual he llamado SequentialSort. Consiste en recorrer todas las posiciones del array, y buscar en qué posición debería de colocarse para que el array esté ordenado. Cada elemento se compara con todos los demás. Se suma uno al contador por cada elemento menor comparado con el actual, y al finalizar una iteración, el contador es la posición del elemento en el array ordenado (si hay repetidos su posición es la primera sin ocupar) Figura \ref{fig:aglomerativompi}.
+	Cada worker se va a encargar de un determinado número de filas, así paralelizando el cálculo. El master se encarga de dividir la matriz entre los procesos, y se puede abordar con dos enfoques distintos.
+	\begin{itemize}
+		\item Enviar la división completa de filas a cada worker, y esperar a que terminen todos los cálculos, y el master agrupa los mensajes. 
+		\item Ir enviando filas de la matriz conforme se va resolviendo. Así logramos tener un flujo constante de mensajes y reducimos la complejidad espacial.
+	\end{itemize}
 
 
 
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=0.58\textwidth]{images/chapter_3/matriz_mpi}
+		\caption{MPI - Matriz}
+		\label{fig:matrizmpi}
+	\end{figure}
+	
+	En el primer enfoque dejamos al master dormido hasta que recibe los resultados, y al recibir los resultados, se genera un cuello de botella. Además de aumentar la complejidad espacial al tener siempre las filas asignadas. Sin embargo en la segunda idea, el flujo de mensajes hace que el master vaya colocando los resultados recibidos, y se reduce el espacio en memoria, al manejar en cada iteración una fila. Figura \ref{fig:matrizmpi}
+
+
+	%\vspace*{0.2cm}
+	
+	
+	Los algoritmos de ordenación tienen tienen que iterar varias veces hasta que esté completamente ordenado. Y los métodos pueden variar bastante el tiempo de ejecución.
+	
+	Para las ordenaciones cuadráticas, los métodos populares son BubbleSort, InsertionSort y SelectionSort, han sido estudiados y optimizados para que aunque tengan un coste cuadrático en el caso peor, tengan un buen rendimiento. Basándome en estos algoritmos he diseñado otro al cual he llamado SequentialSort. Consiste en recorrer todas las posiciones del array, y buscar en qué posición debería de colocarse para que el array esté ordenado. Cada elemento se compara con todos los demás. Se suma uno al contador por cada elemento menor comparado con el actual, y al finalizar una iteración, el contador es la posición del elemento en el array ordenado (si hay repetidos su posición es la primera sin ocupar). Representación en la Figura \ref{fig:sequentialsortmpi} del proceso de ordenación.
 
 
 
 
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.6\textwidth]{images/chapter_3/sequentialsort_mpi}
-	\caption{MPI - SequentialSort}
-	\label{fig:sequentialsortmpi}
-\end{figure}
-
-Este método siempre tendrá coste cuadrático. No es como los anteriores que van reduciendo el espacio conforme aumentan las iteraciones. Pero es fácilmente paralelizable. 
-
-\newpage
-
-Para lograr esta idea, el master envía a todos los workers el array entero, y además asigna a cada uno qué elementos tiene que buscar su posición en el array ordenado.
 
 
 
-Los algoritmos de ordenación logarítmicos son muy útiles y eficientes. QuickSort tiene varios problemas como la profundidad de recursión y en el caso peor es cuadrático. Los algoritmos de RadixSort y HeapSort son de los mejores si no se aplican mejoras,  y MergeSort es muy popular, tanto que se aplica en Python para el método de ordenación por defecto, TimSort[19]. Este último mezcla una ordenación cuadrática optimizada al máximo, para luego usar las mitades ordenadas con MergeSort. Sin embargo, el algoritmo básico de MergeSort no es tan eficiente.
-
-Aplicando la misma idea que TimSort, se puede mejorar el tiempo de ejecución de MergeSort, aplicando combinaciones de los métodos básicos con complejidad cuadrática y comprobar la eficiencia.
-
-
-Aplicando MPI se crean varios procesos (para mayor eficacia y simpleza el número de procesos tiene que ser potencia de dos), y se divide el array entre los procesos.
-\begin{itemize}
-	\item Primera fase de ordenación: cada proceso ordena su sub-array con el método de ordenación más eficiente. Una vez desarrollado el estudio, el método básico SelectionSort es el que mejores resultados obtiene.
-	\item Segunda fase de reagrupación y ordenación: esta fase se repite hasta solo tener un proceso activo, es decir, el array esté completamente ordenado.
-	\item Proceso de comunicación entre procesos. Cada proceso se conecta con el más cercano (activo). 
-	El proceso de mayor id manda su array ordenado y finaliza su ejecución. El que recibe se encarga de ordenar ambas mitades en una sola.
-\end{itemize}
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=0.6\textwidth]{images/chapter_3/sequentialsort_mpi}
+		\caption{MPI - SequentialSort}
+		\label{fig:sequentialsortmpi}
+	\end{figure}
+	
+	Este método siempre tendrá coste cuadrático. No es como los anteriores que van reduciendo el espacio conforme aumentan las iteraciones. Pero es fácilmente paralelizable. 
+	
+	Para lograr esta idea, el master envía a todos los workers el array entero, y además asigna a cada uno qué elementos tiene que buscar su posición en el array ordenado.
 
 
-Se usa barrier MPI, para garantizar que terminen todos al mismo tiempo. Esta mejora aplica la idea de sincronización con barrera simétrica mariposa (Figura \ref{fig:mergesortmpi}). Se espera a los procesos en potencias de dos para sincronizar.  
 
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.65\textwidth]{images/chapter_3/mergesort_mpi}
-	\caption{MPI - MergeSort}
-	\label{fig:mergesortmpi}
-\end{figure}
+	Los algoritmos de ordenación logarítmicos son muy útiles y eficientes. QuickSort tiene varios problemas como la profundidad de recursión y en el caso peor es cuadrático. Los algoritmos de RadixSort y HeapSort son de los mejores si no se aplican mejoras,  y MergeSort es muy popular, tanto que se aplica en Python para el método de ordenación por defecto, TimSort\cite{auger2015merge}. Este último mezcla una ordenación cuadrática optimizada al máximo, para luego usar las mitades ordenadas con MergeSort. Sin embargo, el algoritmo básico de MergeSort no es tan eficiente.
+	
+	Aplicando la misma idea que TimSort, se puede mejorar el tiempo de ejecución de MergeSort, aplicando combinaciones de los métodos básicos con complejidad cuadrática y comprobar la eficiencia.
+	
+	
+	Aplicando MPI se crean varios procesos (para mayor eficacia y simpleza el número de procesos tiene que ser potencia de dos), y se divide el array entre los procesos.
+	\begin{itemize}
+		\item Primera fase de ordenación: cada proceso ordena su sub-array con el método de ordenación más eficiente. Una vez desarrollado el estudio, el método básico SelectionSort es el que mejores resultados obtiene.
+		\item Segunda fase de reagrupación y ordenación: esta fase se repite hasta solo tener un proceso activo, es decir, el array esté completamente ordenado.
+		\item Proceso de comunicación entre procesos. Cada proceso se conecta con el más cercano (activo). 
+		El proceso de mayor id manda su array ordenado y finaliza su ejecución. El que recibe se encarga de ordenar ambas mitades en una sola.
+	\end{itemize}
+	
+	
+	Se usa barrier MPI, para garantizar que terminen todos al mismo tiempo. Esta mejora aplica la idea de sincronización con barrera simétrica mariposa (Figura \ref{fig:mergesortmpi}). Se espera a los procesos en potencias de dos para sincronizar.  
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=0.65\textwidth]{images/chapter_3/mergesort_mpi}
+		\caption{MPI - MergeSort}
+		\label{fig:mergesortmpi}
+	\end{figure}
 
-%\begin{figure}[!h]
-%	\centering
-%	
-%	
-%	\begin{subfigure}[t]{0.33\textwidth}
-%		\centering
-%		\includegraphics[width=\textwidth]{images/chapter_3/sequentialsort_mpi}
-%		\caption{MPI - SequentialSort}
-%		\label{fig:sequentialsortmpi}
-%	\end{subfigure}
-%	\hfill
-%	\begin{subfigure}[t]{0.48\textwidth}
-%		\centering
-%		\includegraphics[width=\textwidth]{images/chapter_3/mergesort_mpi}
-%		\caption{MPI - MergeSort}
-%		\label{fig:mergesortmpi}
-%	\end{subfigure}
-%	
-%	\caption{Mejoras MPI de las ordenaciones}
-%	\label{fig:ordenacionesmpi}
-%\end{figure}
+	%\begin{figure}[!h]
+	%	\centering
+	%	
+	%	
+	%	\begin{subfigure}[t]{0.33\textwidth}
+	%		\centering
+	%		\includegraphics[width=\textwidth]{images/chapter_3/sequentialsort_mpi}
+	%		\caption{MPI - SequentialSort}
+	%		\label{fig:sequentialsortmpi}
+	%	\end{subfigure}
+	%	\hfill
+	%	\begin{subfigure}[t]{0.48\textwidth}
+	%		\centering
+	%		\includegraphics[width=\textwidth]{images/chapter_3/mergesort_mpi}
+	%		\caption{MPI - MergeSort}
+	%		\label{fig:mergesortmpi}
+	%	\end{subfigure}
+	%	
+	%	\caption{Mejoras MPI de las ordenaciones}
+	%	\label{fig:ordenacionesmpi}
+	%\end{figure}
 
 
-\vspace*{0.3cm}
+	\vspace*{0.2cm}
+	
+	Para aplicar MPI y paralelizar programas hay que tener en cuenta que la comunicación entre procesos tarda un tiempo. Si queremos reducir el tiempo de ejecución de un programa tenemos que asegurarnos que el programa es viable para paralelizar. Si ejecutamos, por ejemplo una búsqueda lineal en un array, a primera vista, reducir el espacio de búsqueda puede ser beneficioso. Dividiendo el espacio de búsqueda entre los workers reduce el tiempo de O(N) a O(N/numWorkers). Pero ¿se puede reducir el tiempo de ejecución al dividir el espacio entre los workers? 
+	
+	Hay que tener en cuenta el tiempo de paso de mensajes. Si no se tuviese en cuenta, se podría garantizar la reducción, pero la comunicación entre procesos tiene un coste, y con un tiempo lineal no se pueden lograr mejoras, más bien aumenta el tiempo de búsqueda.
+	
+	Por este motivo, hay que tener en cuenta la complejidad temporal de los algoritmos que queremos optimizar, porque no siempre es eficiente aplicar paralelismo.
 
-Para aplicar MPI y paralelizar programas hay que tener en cuenta que la comunicación entre procesos tarda un tiempo. Si queremos reducir el tiempo de ejecución de un programa tenemos que asegurarnos que el programa es viable para paralelizar. Si ejecutamos, por ejemplo una búsqueda lineal en un array, a primera vista, reducir el espacio de búsqueda puede ser beneficioso. Dividiendo el espacio de búsqueda entre los workers reduce el tiempo de O(N) a O(N/numWorkers). Pero ¿se puede reducir el tiempo de ejecución al dividir el espacio entre los workers? 
-
-Hay que tener en cuenta el tiempo de paso de mensajes. Si no se tuviese en cuenta, se podría garantizar la reducción, pero la comunicación entre procesos tiene un coste, y con un tiempo lineal no se pueden lograr mejoras, más bien aumenta el tiempo de búsqueda.
-
-Por este motivo, hay que tener en cuenta la complejidad temporal de los algoritmos que queremos optimizar, porque no siempre es eficiente aplicar paralelismo.
-
-\newpage 
+	\newpage 
 
 \section{Algoritmos de Clustering}
 
-Una vez introducido MPI con programas básicos, podemos pasar empezar a ver las implementaciones de algoritmos relacionados con la inteligencia artificial. La clusterización toma una población, y dependiendo del conjunto de datos categoriza los individuos. Puede ser supervisado, si ademas de la población a categorizar, tenemos un poblacion categorizada previamente. O no-supervisado, si no contamos con esta población etiquetada.
+	Una vez introducido MPI con programas básicos, podemos pasar empezar a ver las implementaciones de algoritmos relacionados con la inteligencia artificial. La clusterización toma una población, y dependiendo del conjunto de datos categoriza los individuos. Puede ser supervisado, si ademas de la población a categorizar, tenemos un poblacion categorizada previamente. O no-supervisado, si no contamos con esta población etiquetada.
 
 	\subsection{Jerárquico Aglomerativo}
 		Este algoritmo usa una matriz para calcular las agrupaciones. Como es una \textbf{matriz simétrica}, podemos reducir la complejidad espacial usando solo el triángulo superior. 
@@ -141,24 +141,23 @@ Una vez introducido MPI con programas básicos, podemos pasar empezar a ver las 
 		Como es una matriz simétrica y se representa con el triángulo superior, hay que dividir la carga de trabajo equitativamente. No podemos implementar una mejora sin dividir el espacio de forma óptima entre los workers. Si dividimos las filas de forma secuencial, el primer worker tendrá muchos más elementos que el último (Figura \ref{fig:JA_distribucion}). 
 	
 		
-		\begin{figure}
-			
-			\begin{mdframed}[roundcorner=5pt]
-				\[
-				\sum_{i=1}^{\text{filas}} (N - i) \gg \sum_{i=\text{filas}(M-1)}^{\text{filas}(M-1) + \text{filas}} (N - i)
-				\]
-				\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-					
-					\textit{N} individuos de la población, \textit{M} procesadores. \textit{N/M} filas para cada worker.\\
-					
-					Con 100 individuos de población y 4 workers, cada uno tendrá 25 filas. Por lo que:\\
-					Worker1 tiene las filas de 1-25, con 2175 elementos. \\
-					Worker4, las filas de 76-100, con solo 300 elementos. \\
-					El Worker1 tiene 7.25 veces más elementos, no reducirá el tiempo de ejecución.
-								
-				\end{tcolorbox}
+		\begin{figure}			
+		\begin{mdframed}[roundcorner=5pt]
+			\[
+			\sum_{i=1}^{\text{filas}} (N - i) \gg \sum_{i=\text{filas}(M-1)}^{\text{filas}(M-1) + \text{filas}} (N - i)
+			\]
+			\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
 				
-			\end{mdframed}
+				\textit{N} individuos de la población, \textit{M} procesadores. \textit{N/M} filas para cada worker.\\
+				
+				Con 100 individuos de población y 4 workers, cada uno tendrá 25 filas. Por lo que:\\
+				Worker1 tiene las filas de 1-25, con 2175 elementos. \\
+				Worker4, las filas de 76-100, con solo 300 elementos. \\
+				El Worker1 tiene 7.25 veces más elementos, no reducirá el tiempo de ejecución.
+							
+			\end{tcolorbox}
+			
+		\end{mdframed}
 		\label{"fig:JA_distribucion"}
 		\caption{Jerarquico Aglomerativo - Cálculo de la distribución optima}
 		\end{figure}
@@ -354,8 +353,8 @@ Una vez introducido MPI con programas básicos, podemos pasar empezar a ver las 
 		\item Al llegar a la meta le damos una recompensa alta. 		
 	\end{itemize}
 	
-	Con estas recompensas aprende a llegar a la meta minimizando las acciones ejecutadas. El código que genera los laberintos ha sido implementado por @ChlouisPy en github. [12]\\
-	%TODO
+	Con estas recompensas aprende a llegar a la meta minimizando las acciones ejecutadas. El código que genera los laberintos ha sido implementado por @ChlouisPy en github\cite{MazeGenerator}\\
+
 	
 	
 	Se puede optimizar el algoritmo haciendo algún \textbf{preprocesado}.
@@ -365,40 +364,38 @@ Una vez introducido MPI con programas básicos, podemos pasar empezar a ver las 
 	
 	La búsqueda en laberintos grandes es muy lenta. Hay que comprobar muchas combinaciones entre los hiper parámetros y los episodios del entrenamiento. Por eso es más útil desarrollar el algoritmo Deep Q-Learning que no tiene problemas con los estados, al usar una red neuronal. Pero si queremos usar el algoritmo básico de Q-Learning, hay que realizar una búsqueda exhaustiva en el entorno ejecutando muchas  combinaciones de hiper parámetros.
 	
-	\color{red}El algoritmo de Deep Q-Learning no lo implemento ya que las mejoras son parecidas a las que se implementan en el apartado 3.4
+	\color{red}El algoritmo de Deep Q-Learning no lo implemento ya que las mejoras son parecidas a las que se implementan en el apartado 3.5
 	\color{black}
 	
-	\begin{flushleft}
-		\underline{Búsqueda de hiper parámetros ideales:	}
-	\end{flushleft}
+	
+	\subsubsection{Búsqueda de hiper-parámetros ideales}
+	
 	Con MPI se puede procesar ejecutando de manera secuencial en diferentes procesos. Idea mencionada en otros algoritmos. 
 	
 	El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). 
 	
 	\newpage
 	
-	\begin{figure}
+	\begin{figure}			
+	\begin{mdframed}[roundcorner=5pt]
+		El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). Al terminar una ejecución el worker escribe en un fichero de texto: 
 		
-
-		\begin{mdframed}[roundcorner=5pt]
-			El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). Al terminar una ejecución el worker escribe en un fichero de texto: 
-			
-			
-			\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]			
-				- La id del proceso. \\
-				- Los hiper parámetros ejecutados.v
-				- El tiempo de ejecución \\
-				- Como termina:\\
-				$\rightarrow$ Bucle en entrenamiento.\\
-				$\rightarrow$ Bucle en evaluación.\\
-				$\rightarrow$ Movimientos. Si termina correctamente.
-					
+		
+		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]			
+			- La id del proceso. \\
+			- Los hiper parámetros ejecutados.v
+			- El tiempo de ejecución \\
+			- Como termina:\\
+			$\rightarrow$ Bucle en entrenamiento.\\
+			$\rightarrow$ Bucle en evaluación.\\
+			$\rightarrow$ Movimientos. Si termina correctamente.
 				
-			\end{tcolorbox}
 			
-		\end{mdframed}
-		\caption{RL - Búsqueda de hiperparámetros}
-		\label{fig:rl_busqueda}
+		\end{tcolorbox}
+		
+	\end{mdframed}
+	\caption{RL - Búsqueda de hiperparámetros}
+	\label{fig:rl_busqueda}
 	\end{figure}
 	
 	Los bucles se detectan de diferentes formas. En el entrenamiento, si un episodio tarda más de x segundos, es porque está en un bucle y estos hiper parámetros no funcionan. En la evaluación se comprueba llevando una cuenta de los últimos 4 estados visitados. 
@@ -554,7 +551,7 @@ Una vez introducido MPI con programas básicos, podemos pasar empezar a ver las 
 		\label{fig:redneumpipipe}
 	\end{figure}
 	
-	Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado fine tuning[13] que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos, y en paralelo ejecutamos la fase de entrenamiento. Una vez finalizadas el master recibe los pesos de cada worker y hace la media. 
+	Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado fine tuning \cite{malladi2023fine} que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos, y en paralelo ejecutamos la fase de entrenamiento. Una vez finalizadas el master recibe los pesos de cada worker y hace la media. 
 	
 	Cuanto más grande sea la red neuronal mejor, tanto en rendimiento como en evaluación. En las redes neuronales grandes, un nodo se especializa en unos ciertos parámetros, por lo que no hay demasiadas intersecciones entre los entrenamientos de los procesos. Pero hay que dividir correctamente la población inicial entre los procesos. 
 	
