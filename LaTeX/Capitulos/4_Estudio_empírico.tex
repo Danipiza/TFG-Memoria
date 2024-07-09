@@ -167,7 +167,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 			\end{groupplot}  				
 			\end{tikzpicture}
-			\caption{Mejoras MPI SequentialSort + Memoria}
+			\caption{SequentialSort - Mejoras MPI + Memoria}
 		\end{figure}
 		
 		La primera mejora es un poco más eficiente pero consume mucho más memoria que la segunda. En cuestión de complejidad temporal es un poco mejor repartir el array entero entre los workers, pero la complejidad espacial para esta implementación aumenta de manera lineal en proporción al número de procesadores. Por lo que teniendo en cuenta ambos aspectos es mejor la segunda implementación, dividir el array entre los workers y recibir elementos para comprobar su posición ordenada.
@@ -230,7 +230,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\legend{Secuencial, MPI(4),MPI(8),MPI(16),MPI(32)}
 			\end{axis}	
 		\end{tikzpicture}
-		\caption{Tiempo de ejecución MPI MergeSort}
+		\caption{MergeSort MPI - Tiempo de ejecución}
 		\end{figure}
 		
 		\newpage
@@ -400,7 +400,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 					
 				\end{axis}
 				\end{tikzpicture}
-				\caption{MergeSort - Tiempo de ejecución en el Cluster}
+				\caption{Multiplicación de Matrices - Tiempo de ejecución en el Cluster}
 			\end{figure}
 			
 			
@@ -484,12 +484,10 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		
 		\subsubsection{Distancia Centroide con mejoras}	
 		
-			Distancia entre clusters por \textbf{centroide}.
 			La segunda mejora de dividir entre los workers el cálculo de distancias, no se puede aplicar. Debido a que el cálculo de distancias es constante, no surte mucho efecto dividir la fila que se tiene que recalcular, porque el coste total es lineal. Pero la mejora principal reduce considerablemente el tiempo de ejecución.
 			
-			Esta mejora provoca que en cada iteración, el proceso que tiene que actualizar la fila pare al resto de los procesos. Con un tamaño de población elevado, en la primera mitad de las iteraciones se pierde tiempo esperando a la actualización. \\ \color{blue} Por eso la mejora 3 (TODO) se dedica un proceso unicamente para el calculo de la TODO...\\ puede que esta implementación no mejore mucho.
+			Esta mejora provoca que en cada iteración, el proceso que tiene que actualizar la fila pare al resto de los procesos. Con un tamaño de población elevado, en la primera mitad de las iteraciones se pierde tiempo esperando a la actualización. 
 			
-			\color{black}
 			
 			% JERARQUICO AGLOMERATIVO: HISTOGRAMA CON VARIOS PROCESOS
 			\begin{figure}[!h]
@@ -525,25 +523,114 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\legend{Secuencial, MPI(2),MPI(4),MPI(6),MPI(8)}
 			\end{axis}
 			\end{tikzpicture}
-			\caption{ MPI Jerarquico Aglomerativo, Dist. por centroide}
+			\caption{Jerarquico Aglomerativo - Mejoras MPI de la distancia por Centroide}
 			\end{figure}
 			
 			\newpage
 
-		\subsubsection{Distancia Simple/Completo con mejoras}	
+		\subsubsection{Distancia por enlace Simple/Completo con mejoras}
 		
-			% TODO Jerarquico Aglom, Dist. Simple
-			\color{blue} TODO PRUEBAS D. SIMPLE/COMPLETO ...
-			% TODO Jerarquico Aglom CLUSTER
-			TODO CLUSTER
-			\color{black}
+			\begin{flushleft}
+				\begin{mdframed}[roundcorner=5pt]			
+					\textbf{\underline{Datos y número de procesos}}
+					\vspace{0.1cm}
+					
+					\scriptsize	
+					Con un coste cúbico, este algoritmo es bastante complicado de mejorar. Ambas mejoras, sin dividir el cálculo de las nuevas distancias y dividiendo, no mejoran mucho el tiempo de ejecución, debido a que están mucho tiempo esperando a poder continuar. 
+					
+					En la prueba realizada las poblaciones estudiadas son de tamaño [100, 200, 500, 1.000, 1.500 y 2.000]. Y se usan cuatro procesos, uno para el proceso Master y los demás como Workers.
+				\end{mdframed}
+			\end{flushleft}	
+			
+			
+		
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						xlabel={Tam. Población},
+						ylabel={Tiempo de ejecución (s)},
+						legend style={at={(1.02,0.5)}, anchor=west},
+						grid=major,
+						width=\textwidth,
+						height=0.45\textwidth,
+						legend cell align={left},
+						extra description/.code={
+							\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
+						}
+						]
+						
+						\addplot [mark=*, color=black, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/jerarquico_aglom_simple.txt};
+						\addplot [mark=square*, color=red, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/jerarquico_aglom_simple.txt};
+						\addplot [mark=triangle*, color=darkgreen, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/jerarquico_aglom_simple.txt};
+						
+						
+						\addlegendentry{Secuencial}
+						\addlegendentry{MPI1}
+						\addlegendentry{MPI2}
+						
+						
+					\end{axis}
+				\end{tikzpicture}
+				\caption{Jerarquico Aglomerativo - Mejoras MPI de la distancia por enlace Simple}
+			\end{figure}
+			\newpage
+			Si se reservan varios Workers exclusivamente para el cálculo de las distancias, tiene un desempeño parecido a la segunda mejora, pues hasta que no se actualizan los centros de los clusters no pueden empezar a trabajar, y no se gana mucho tiempo.
+				
+			
 		\subsubsection{Cluster}	
 			
-			\color{blue}
-			% TODO Jerarquico Aglom CLUSTER
-			TODO CLUSTER
+			\begin{flushleft}
+				\begin{mdframed}[roundcorner=5pt]			
+					\textbf{\underline{Datos y número de procesos}}
+					\vspace{0.1cm}
+					
+					\scriptsize	
+					Como la distancia simple/completa tiene un coste mucho mayor a la distancia por centroide, no se realiza un estudio en el cluster debido al tiempo que puede llegar a tardar. Además de que se consigue un peor speedup con las mejoras implementadas.
+					
+					La siguiente prueba se hace un estudio con 5.000, 7.500 y 10.000 individuos, ejecutando 20, 50, 75, 100 y 128 procesos.				
+				\end{mdframed}
+			\end{flushleft}	
 			
-			\color{black}
+			
+			
+			\begin{figure}[!h]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						xlabel={Tam. Población},
+						ylabel={Tiempo de ejecución (s)},
+						legend style={at={(1.02,0.5)}, anchor=west},
+						grid=major,
+						width=\textwidth,
+						height=0.45\textwidth,
+						legend cell align={left},
+						extra description/.code={
+							\node at (1.01, 0.77) [anchor=west] {\textbf{Cores}};
+						}
+						]
+						
+						\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/jerarquico_aglomerativo.txt};
+						\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/jerarquico_aglomerativo.txt};
+						\addplot [mark=triangle*, color=blue, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/jerarquico_aglomerativo.txt};
+						\addplot [mark=star, color=orange, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/jerarquico_aglomerativo.txt};
+						\addplot [mark=diamond*, color=darkgreen, line width=1.2pt] table [x index=0, y index=5, col sep=space] {files/cluster/jerarquico_aglomerativo.txt};
+						%\addplot [mark=otimes*, color=cyan, line width=1.2pt] table [x index=0, y index=6, col sep=space] {files/cluster/kmedias5D.txt};
+						%\addplot [mark=triangle*, color=darkgreen, line width=1.2pt] table [x index=0, y index=7, col sep=space] {files/cluster/kmedias5D.txt};
+						
+						\addlegendentry{20}
+						\addlegendentry{50}
+						\addlegendentry{75}
+						\addlegendentry{100}
+						\addlegendentry{128}
+						
+					\end{axis}
+				\end{tikzpicture}
+				\caption{Jerarquico Aglomerativo - Pruebas en el cluster}
+			\end{figure}
+			
+			
+			Como se puede ver, con tamaños de poblaciones muy grandes no surge mucho efecto aumentar el tamaño de los procesos ejecutados. El tiempo de espera en cada iteración al calcular las nuevas distancias sigue siendo el mismo, solo mejora el tiempo que no está en espera.
 	
 	
 	
@@ -597,7 +684,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\legend{5, 10, 25, 50}
 		\end{axis}
 		\end{tikzpicture}
-		\caption{KMedias variando K}
+		\caption{KMedias - Variaciones en el numero de clusters (K)}
 		\end{figure}
 		
 	
@@ -677,7 +764,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{SpeedUp - KMedias}
+			\caption{KMedias - SpeedUp}
 			\end{figure}
 			
 			A partir de diez mil individuos de población, el speedup es aproximadamente el ideal para ambas distancias, contando solo que los workers son los que trabajan y el master solo recibe la asignación y calcula los nuevos centros. Pero lo curioso es que con la población generada aleatoria, y un tamaño relativamente pequeño llega a duplicar el speedup ideal. Lo primero que se puede venir a la mente es que hace menos iteraciones, pero esto no es así, puesto que ejecuta el mismo número de iteraciones en ambas implementaciones. 
@@ -736,7 +823,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 					
 				\end{axis}
 				\end{tikzpicture}
-				\caption{KMedias - Tiempo de ejecución en el Cluster}
+				\caption{KMedias - Pruebas en el cluster}
 			\end{figure}
 			
 			
@@ -773,7 +860,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 						
 					\end{axis}
 				\end{tikzpicture}
-				\caption{KMedias - Diferencia de dimensiones calculada en el Cluster}
+				\caption{KMedias - Diferencia de dimensiones calculada en el cluster}
 			\end{figure}
 			
 			La diferencia entre usar más dimensiones en este algoritmo es abismal, llegando a ser cinco veces más lento tener una población tan elevada, con tres dimensiones (variables) más. Esto se debe a que el algoritmo está constantemente calculando distancias, lo que provoca, aplicando distancia euclidea, una diferencia significativa.
@@ -800,10 +887,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		
 		Hay dos formas de realizar la agrupación. Si se actualiza la población conforme se categorizan los individuos nuevos, la población final será mucho más precisa que si no se actualiza, pero tardará más tiempo en ejecutarse. 
 		
+		\newpage
+		
 		\subsubsection{Algoritmo sin mejoras}
+		
 
 			% KNN BASICO
-			\begin{figure}[h!]
+			\begin{figure}[!h]
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
@@ -833,7 +923,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 					
 				\end{axis}
 				\end{tikzpicture}
-				\caption{Tiempo de ejecución para KNN}
+				\caption{KNN - Tiempo de ejecución del algoritmo sin mejoras }
 			\end{figure}
 
 			Cuando la población se actualiza, aumenta el tiempo de ejecución, y se puede apreciar la diferencia entre los tipos de distancia. A largo plazo la distancia Euclídea tardará mucho más que la Manhattan, por tener una complejidad de cálculo mayor. 
@@ -845,7 +935,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\begin{figure}[!h]
 				\centering
 				\includegraphics[width=0.8\textwidth]{images/chapter_4/knn_mpi}
-				\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
+				\caption{KNN - Tiempo de ejecución con las mejoras MPI}
 				\label{fig:example}
 			\end{figure}
 			
@@ -886,7 +976,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 					
 				\end{axis}
 				\end{tikzpicture}
-				\caption{SpeedUp - KNN}
+				\caption{KNN - SpeedUp}
 			\end{figure}
 			
 			\newpage
@@ -941,10 +1031,10 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 					
 				\end{axis}
 				\end{tikzpicture}
-				\caption{KNN - Tiempo de ejecución en el Cluster}
+				\caption{KNN - Pruebas en el cluster}
 			\end{figure} 
 			
-			\vspace{1cm}
+			
 			
 		
 			
@@ -1030,11 +1120,8 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\end{mdframed}
 		\end{flushleft}	
 		
-		Esta mejora no da buenos resultados. He encontrado una configuración de hiperparámetros para que el agente aprenda a llegar al destino, se queda dando vueltas en cualquier proceso. Si en vez de inicializar las experiencias a 0, usamos el mapa aprendido usando el algoritmo sin mejoras, si llega al destino, creo que el problema no es de la comunicación sino de encontrar unos buenos hiperparámetros para que llegue al destino.
+		Esta mejora no da buenos resultados. No hemos encontrado una configuración de hiperparámetros para que el agente aprenda a llegar al destino, se queda dando vueltas en cualquier proceso. Si en vez de inicializar las experiencias a 0, usamos el mapa aprendido usando el algoritmo sin mejoras, si llega al destino. Hay una probabilidad de que el problema sea de la comunicación entre los procesos, sino de encontrar unos buenos hiperparámetros para que llegue al destino.
 		
-		\color{blue} %TODO: RL MEJORA DIVIDIR MATRIZ
-		TODO A LO MEJOR Añadiendo un premio cuando un agente sale de un entorno de un proceso dependiendo de si va hacia atras o en buen camino puede que funcione. ESTOY IMPLEMENTADO ESTA MEJORA. 
-		\color{black}
 	
 	\subsubsection{Mejora: Ejecuciones en paralelo}
 		\begin{flushleft}
@@ -1047,23 +1134,18 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\end{mdframed}
 		\end{flushleft}	
 		
-		Esta mejora aplica la misma idea que la búsqueda de hiperparámetros, pero esta vez para investigar por completo el laberinto y encontrar más rápidamente el mejor camino para llegar a la meta. al ejecutar N Workers, el Master recibe la experiencia de estos procesos, provocando una reducción en el tiempo de ejecución de \textit{N*rep} repeticiones, provocando un speedup aproximado al número de procesos Workers ejecutados.
+		Esta mejora aplica la misma idea que la búsqueda de hiperparámetros, pero esta vez para investigar por completo el laberinto, desde distintos puntos de partida, para encontrar más rápidamente el mejor camino para llegar a la meta. Al ejecutar N Workers, el Master recibe la experiencia de estos procesos, provocando una reducción en el tiempo de ejecución proporcional al número de procesos ejecutados.	
 		
-		%TODO: RL - PONER GRAFICO 2da MEJORA
 		
 		\newpage
 		
 	\subsubsection{Cluster}
 	
-		
-		% TODO RL 
-		
-		\vspace{1cm}
-		
-		\color{blue} TODO ? Añadir un estudio del algoritmo sin actualizar? Así a lo mejor se puede comprobar que es mejor la segunda implementación cuando las poblaciones no cambian.
+			
 		
 		% TODO RL CLUSTER
-		TODO CLUSTER
+		\color{blue}
+		TODO CLUSTER, ejecutado el 27 de junio.
 		\color{black}
 		\newpage
 
@@ -1131,8 +1213,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 	
 	\begin{table}[!h]
 		\centering
-		\includegraphics[width=1\textwidth]{images/chapter_4/tabla_pev}
-		\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
+		\includegraphics[width=1\textwidth]{images/chapter_4/tabla_pev}		
 		\caption{PEV - Tiempos de cada método}
 		\label{tab:pev}
 	\end{table}
@@ -1412,7 +1493,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				%\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
 				
 			\end{tikzpicture}
-			\caption{MPI1.1 - Dividir Poblacion}
+			\caption{MPI1 - Dividir Poblacion con problemas pequeños}
 		\end{figure}
 		
 		\begin{itemize}
@@ -1428,7 +1509,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\begin{figure}[!h]
 			\centering
 			\includegraphics[width=0.7\textwidth]{images/chapter_4/pev_mpi1}
-			\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
+			\caption{MPI1 - Dividir Poblacion con problemas grandes}
 			\label{fig:MPI1.2 - Dividir Poblacion + Speedup}
 		\end{figure}
 
@@ -1524,7 +1605,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{PEV - Bin PipeLine}
+			\caption{PipeLine - Individuos Binarios}
 		\end{figure}
 		
 		Para los individuos binarios, funciona algo mejor que la mejora anterior, con el funcionamiento de pipeline no se pierde tanto tiempo con el paso de mensajes de individuos binarios, y aunque sea poco, se puede reducir el tiempo de ejecución.
@@ -1565,7 +1646,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 	 			legend pos=north west,
 	 			grid=major,
 	 			width=0.70\textwidth,
-	 			height=0.35\textwidth
+	 			height=0.45\textwidth
 	 			]				
 	 			
 	 			xtick={25, 500, 1000, 1500, 2000}]
@@ -1578,7 +1659,7 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 	 			
 	 		\end{axis}
 		 	\end{tikzpicture}
-		 	\caption{PEV - Real PipeLine}
+		 	\caption{PipeLine - Individuos Reales}
 	 \end{figure}
 	 
 	 
@@ -1704,7 +1785,9 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 
 
 
-		Estos datos se calcularon teniendo en cuenta los tiempos de ejecución para cada método (Tabla \ref{tab:pev}).
+		\begin{flushleft}
+			Estos datos se calcularon teniendo en cuenta los tiempos de ejecución para cada método (Tabla \ref{tab:pev}).
+		\end{flushleft}
 		
 		\begin{table}[!h]				
 		\centering
@@ -1734,6 +1817,10 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				Para la siguiente prueba se ejecuta la primera mejora, el \textit{Master} se encarga de dividir la población entre los procesos, con 10, 20, 50 y 100 procesos \textit{Workers}. Se ejecutan 25 generaciones, con las siguientes poblaciones [1000, 2000, 5000, 7000].
 			\end{mdframed}
 			\end{flushleft}	
+			
+			Ambos problemas, como mencionamos anteriormente tiene tiempos parecidos. La \textbf{sobrecarga se empieza a notar con cincuenta procesos}, pues la mejora entre usar veinte y cincuenta es de un 25\% mas rápida, además de ser más eficaz que usar cien procesos.
+			
+			\newpage
 			
 			\begin{figure}[!h]
 				\centering
@@ -1767,46 +1854,46 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\caption{PEV Real - Tiempo de ejecución en el Cluster}
 			\end{figure}
 			
-			La \textbf{sobrecarga se empieza a notar con cincuenta procesos}, pues la mejora entre usar veinte y cincuenta es de un 25\% mas rápida, además de ser más eficaz que usar cien procesos.
-			Lo mismo ocurre al usar árboles como individuos.
+			
+			
 			
 		
 			
 			\begin{figure}[!h]
 				\centering
 				\begin{tikzpicture}
-					\begin{axis}[
-						xlabel={Tam. Población},
-						ylabel={Tiempo de ejecución (s)},
-						legend style={at={(1.02,0.5)}, anchor=west},
-						grid=major,
-						width=\textwidth,
-						height=0.45\textwidth,
-						legend cell align={left},
-						extra description/.code={
-							\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
-						}
-						]
+				\begin{axis}[
+					xlabel={Tam. Población},
+					ylabel={Tiempo de ejecución (s)},
+					legend style={at={(1.02,0.5)}, anchor=west},
+					grid=major,
+					width=\textwidth,
+					height=0.45\textwidth,
+					legend cell align={left},
+					extra description/.code={
+						\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
+					}
+					]
+					
+					\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/pevArbol.txt};
+					\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/pevArbol.txt};
+					\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/pevArbol.txt};
+					\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/pevArbol.txt};
+					
+					
+					\addlegendentry{10}
+					\addlegendentry{20}
+					\addlegendentry{50}
+					\addlegendentry{100}
 						
-						\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/pevArbol.txt};
-						\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/pevArbol.txt};
-						\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/pevArbol.txt};
-						\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/pevArbol.txt};
-						
-						
-						\addlegendentry{10}
-						\addlegendentry{20}
-						\addlegendentry{50}
-						\addlegendentry{100}
-							
-						\end{axis}
-					\end{tikzpicture}
-					\caption{PEV Arbol - Tiempo de ejecución en el Cluster}
-				\end{figure}
+					\end{axis}
+				\end{tikzpicture}
+				\caption{PEV Arbol - Tiempo de ejecución en el Cluster}
+			\end{figure}
 			
 			
+			\newpage
 			
-
 \section{Redes Neuronales}
 
 

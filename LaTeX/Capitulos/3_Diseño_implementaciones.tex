@@ -136,7 +136,7 @@
 		La distancia entre clusters es muy importante. Además de calcular agrupaciones distintas, también varía la complejidad temporal. La más eficaz y rápida es la de centroides, para calcular la distancia entre dos cluster solo necesita el cálculo entre dos puntos (los centros de los clusters). Los demás métodos, enlaces simples y completos, comparan las distancias entre todos los individuos de ambos clusters, provocando un coste mayor. Conviene explotar más el paralelismo en estas distancias.
 		
 	
-		Una vez implementadas las mejoras en el cálculo de multiplicación de matrices, podemos usar estas para mejorar este algoritmo. La primera idea de enviar las filas conforme se realizan los cálculos no se puede aplicar. El algoritmo es más complejo que unos simples sumatorios de multiplicaciones y varía conforme a la población. Dividir el todo espacio entre los workers esta vez si es óptimo.
+		Una vez implementadas las mejoras en el cálculo de multiplicación de matrices, podemos usar estas para mejorar este algoritmo. La primera idea de enviar las filas conforme se realizan los cálculos no se puede aplicar. El algoritmo es más complejo que unos simples sumatorios de multiplicaciones, y varía conforme a la población. Dividir el todo espacio entre los workers esta vez si es óptimo.
 		
 		Como es una matriz simétrica y se representa con el triángulo superior, hay que dividir la carga de trabajo equitativamente. No podemos implementar una mejora sin dividir el espacio de forma óptima entre los workers. Si dividimos las filas de forma secuencial, el primer worker tendrá muchos más elementos que el último (Figura \ref{fig:JA_distribucion}). 
 	
@@ -158,8 +158,8 @@
 			\end{tcolorbox}
 			
 		\end{mdframed}
-		\label{"fig:JA_distribucion"}
-		\caption{Jerarquico Aglomerativo - Cálculo de la distribución optima}
+		\label{fig:JA_distribucion}
+		\caption{Jerarquico Aglomerativo - Cálculo de la distribución óptima}
 		\end{figure}
 		
 		
@@ -344,87 +344,190 @@
 \newpage
 
 \section{Aprendizaje por refuerzo}
-	El algoritmo de Q-Learing actualiza iterativamente las estimaciones de calidad de las acciones permitidas en el entorno de desarrollo. Estos valores se almacenan en la Q-Table, representado como una matriz en la que cada fila es un estado, y las columnas son las acciones disponibles. Nos centramos en la técnica de \textbf{minimizar las acciones} de un agente. 
+
+	Los algoritmos de este aprendizaje actualizan iterativamente las estimaciones de calidad de las acciones permitidas en el entorno de desarrollo. 
 	
-	El agente se encuentra en un laberinto, el tamaño y la semilla es variable por parámetros de inicialización. El agente tiene que recorrerlo desde un punto inicial hasta una celda destino, en el menor número de acciones posibles. Las acciones disponibles para el agente son solo de movimiento: norte, oeste, este y sur. No puede atravesar ni situarse en un muro del laberinto. Hay que fijar unas recompensas con las acciones tomadas. 	
-	\begin{itemize}
-		\item Si se choca con un muro castigamos al agente con valores altos para que no haga esas acciones.
-		\item Al moverse, el agente recibe un castigo pequeño para que aprenda a minimizar las operaciones.
-		\item Al llegar a la meta le damos una recompensa alta. 		
-	\end{itemize}
+	\subsection{Q-Learning}
+		Dichas estimaciones se almacenan en una Q-Table, representada como una matriz en la que cada fila es un estado, y las columnas son las acciones disponibles. 
+		
+		Para este algoritmo nos centramos en la técnica de \textbf{minimizar las acciones}. El agente se encuentra en un laberinto, el tamaño y la semilla es variable por parámetros de inicialización. Tiene que recorrer el laberinto desde un punto inicial hasta una celda destino, en el menor número de acciones posibles. Las acciones disponibles para el agente son solo de movimiento: arriba, derecha, abajo e izquierda. No puede atravesar ni situarse en un muro del laberinto. Hay que fijar unas recompensas con las acciones tomadas. 	
+		\begin{itemize}
+			\item Si se choca con un muro castigamos al agente con valores altos para que no haga esas acciones.
+			\vspace*{-0.2cm}
+			\item Al moverse, el agente recibe un castigo pequeño para que aprenda a minimizar las operaciones.
+			\vspace*{-0.2cm}
+			\item Al llegar a la meta le damos una recompensa alta. 		
+			\vspace*{-0.2cm}
+		\end{itemize}
 	
-	Con estas recompensas aprende a llegar a la meta minimizando las acciones ejecutadas. El código que genera los laberintos ha sido implementado por @ChlouisPy en github\cite{MazeGenerator}\\
+		Con estas recompensas aprende a llegar a la meta minimizando las acciones ejecutadas. El código que genera los laberintos ha sido implementado por @ChlouisPy en github\cite{MazeGenerator}
 
 	
-	
-	Se puede optimizar el algoritmo haciendo algún \textbf{preprocesado}.
-	Modificar la Q-Table y convertirla en un array bidimensional, en el cual no se almacenen las acciones que no deseamos que realice el agente, como puede ser chocarse con un muro. Asimismo, no añadir estados inaccesibles. Esto reduce el número de estados, pero añade un nuevo array bidimensional de acciones para cada estado. Este preprocesado tiene complejidad cuadrática \textit{O(4*N2) $\equiv$ O(N2)}. Recorre toda la matriz, comprueba para cada celda si no es un muro, y en caso afirmativo comprobar las 4 las acciones permitidas y almacenar las disponibles en los arrays bidimensionales  de valores-Q y acciones. Con tamaños de laberintos pequeños no hace falta paralelizar el preprocesado, porque no se consigue reducir el tiempo significativamente.
-	
-	Los hiper parámetros ($\alpha$, $\gamma$, $\epsilon$) son muy importantes para el desarrollo del agente en el entorno. Una mala configuración de estos hace que sobre aprenda o no aprenda correctamente, generando bucles infinitos. Por este motivo es importante comprobar las diferentes combinaciones de hiper parámetros, y ver cuales funcionan correctamente en el entorno.\\
-	
-	La búsqueda en laberintos grandes es muy lenta. Hay que comprobar muchas combinaciones entre los hiper parámetros y los episodios del entrenamiento. Por eso es más útil desarrollar el algoritmo Deep Q-Learning que no tiene problemas con los estados, al usar una red neuronal. Pero si queremos usar el algoritmo básico de Q-Learning, hay que realizar una búsqueda exhaustiva en el entorno ejecutando muchas  combinaciones de hiper parámetros.
-	
-	\color{red}El algoritmo de Deep Q-Learning no lo implemento ya que las mejoras son parecidas a las que se implementan en el apartado 3.5
-	\color{black}
-	
-	
-	\subsubsection{Búsqueda de hiper-parámetros ideales}
-	
-	Con MPI se puede procesar ejecutando de manera secuencial en diferentes procesos. Idea mencionada en otros algoritmos. 
-	
-	El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). 
-	
-	\newpage
-	
-	\begin{figure}			
-	\begin{mdframed}[roundcorner=5pt]
-		El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). Al terminar una ejecución el worker escribe en un fichero de texto: 
+		\subsubsection{Preprocesado}
 		
-		
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]			
-			- La id del proceso. \\
-			- Los hiper parámetros ejecutados.v
-			- El tiempo de ejecución \\
-			- Como termina:\\
-			$\rightarrow$ Bucle en entrenamiento.\\
-			$\rightarrow$ Bucle en evaluación.\\
-			$\rightarrow$ Movimientos. Si termina correctamente.
-				
+			Modificando la Q-Table, convertiendola en un array bidimensional, en el cual no se almacenen las acciones que no deseamos que realice el agente, como puede ser chocarse con un muro, puede reducir el tiempo de cómputo, al no perder tiempo chocando con paredes. Además de reducir la complejidad espacial al eliminar los estados inaccesibles, reduciendo el número de estados, pero añadiendo un nuevo array bidimensional de acciones para cada estado. 
 			
-		\end{tcolorbox}
+			Este preprocesado tiene complejidad cuadrática \textit{O(4*N2) $\equiv$ O(N2)}. Recorre toda la matriz, compruebando para cada celda si no es un muro, y en caso afirmativo comprueba las cuatro acciones permitidas y almacena las disponibles en los arrays bidimensionales de valores-Q y acciones. Con tamaños de laberintos pequeños no hace falta paralelizar el preprocesado, porque no se consigue reducir el tiempo significativamente.
+			
+		\subsubsection{Búsqueda de hiper-parámetros ideales}
 		
-	\end{mdframed}
-	\caption{RL - Búsqueda de hiperparámetros}
-	\label{fig:rl_busqueda}
-	\end{figure}
+			Los hiper parámetros ($\alpha$, $\gamma$, $\epsilon$) son muy importantes para el desarrollo del agente en el entorno. Una mala configuración de estos hace que sobre aprenda o no aprenda correctamente, generando bucles infinitos. Por este motivo es importante comprobar las diferentes combinaciones de hiper parámetros, y ver cuales funcionan correctamente en el entorno. La búsqueda en laberintos grandes es muy lenta. Hay que comprobar muchas combinaciones entre los hiper parámetros y los episodios del entrenamiento. Por eso es más útil desarrollar el algoritmo Deep Q-Learning que no tiene problemas con los estados, al usar una red neuronal. Pero si queremos usar el algoritmo básico de Q-Learning, hay que realizar una búsqueda exhaustiva en el entorno ejecutando muchas  combinaciones de hiper parámetros.
 	
-	Los bucles se detectan de diferentes formas. En el entrenamiento, si un episodio tarda más de x segundos, es porque está en un bucle y estos hiper parámetros no funcionan. En la evaluación se comprueba llevando una cuenta de los últimos 4 estados visitados. 
-	\begin{center}
-		\textit{Estados[0]==Estados[2] and Estados[1]==Estados[3] and Estados[0]!=Estados[1]: }
-	\end{center}
+			Con MPI se puede procesar ejecutando de manera secuencial en diferentes procesos. Idea mencionada en otros algoritmos. El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). 
+			
+			%\newpage
+			
+			\begin{figure}			
+			\begin{mdframed}[roundcorner=5pt]
+				El master envía configuraciones diferentes a los workers. Si aplicamos una precisión de 0.1, y reduciendo el número de mensajes, cada worker ejecuta 9 veces el algoritmo, aumentando un 10\% en cada iteración el hiper parámetro $\epsilon$ (el que controla la toma de decisiones). Al terminar una ejecución el worker escribe en un fichero de texto: 
+				
+				
+				\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]			
+					- La id del proceso. \\
+					- Los hiper parámetros ejecutados.v
+					- El tiempo de ejecución \\
+					- Como termina:\\
+					$\rightarrow$ Bucle en entrenamiento.\\
+					$\rightarrow$ Bucle en evaluación.\\
+					$\rightarrow$ Movimientos. Si termina correctamente.
+						
+					
+				\end{tcolorbox}
+				
+			\end{mdframed}
+			\caption{RL - Búsqueda de hiperparámetros}
+			\label{fig:rl_busqueda}
+			\end{figure}
+			
+			Los bucles se detectan de diferentes formas. En el entrenamiento, si un episodio tarda más de x segundos, es porque está en un bucle y estos hiper parámetros no funcionan. En la evaluación se comprueba llevando una cuenta de los últimos 4 estados visitados. 
+			\begin{center}
+				\textit{Estados[0]==Estados[2] and Estados[1]==Estados[3] and Estados[0]!=Estados[1]: }
+			\end{center}
 	
-	\begin{flushleft}
-		Las posibles mejoras de este algoritmo son más complejas, se puede:	
-		1. Dividir el entorno entre los procesos. \\
-		2. Ejecutar el algoritmo en los workers y juntar las experiencias.\\
-	\end{flushleft}
-	
-	Al dividir el laberinto entre los procesos, cada proceso controla una zona, y se genera un flujo constante de episodios. Cuando un agente sale del dominio de un proceso, este le manda un mensaje al proceso que controla esa parte del laberinto, con la posición en la que entra. Figura \ref{fig:rlmpi}.
-	El master se encarga de iniciar a los agentes y cuando sale su dominio genera otro agente. Para garantizar que funcione el master no puede recibir agentes de los workers, porque si no no se podría garantizar el flujo de nuevos episodios. 
-	Como cada proceso tiene su propio dominio, la Q-Table se divide entre estos. Aplicando la mejora con el preprocesado, es la misma idea pero con los dos arrays bidimensionales (acciones y Q-valores). 
-	
-	Ejecutar en varios procesos el algoritmo, funciona. El master recolecta las experiencias de los workers, haciendo la media de los valor-Q obtenidos de los procesos, así calculando la mejores acciones para cada estado. Es mucho mejor inicializar el algoritmo desde distintos puntos, para así explorar todo el laberinto y encontrar el mejor camino en menos tiempo. Al menos un worker inicia desde el punto de inicio que se desea evaluar, porque por el contrario no se podría garantizar que visiten la zona del inicio.
 	
 	
+			\begin{flushleft}
+				Las posibles mejoras de este algoritmo son más complejas, se puede:		
+			\end{flushleft}
+			\vspace{-0.9cm}
+			\begin{enumerate}
+				\item Dividir el entorno entre los procesos.
+				\vspace*{-0.2cm}
+				\item Ejecutar el algoritmo en los workers y juntar las experiencias.				
+			\end{enumerate}
 	
-	\begin{figure}[!h]
-		\centering
-		\includegraphics[width=0.65\textwidth]{images/chapter_3/rl_mpi}	
-		\caption{RL - División del entorno}
-		\label{fig:rlmpi}
-	\end{figure}
+		\subsubsection{Dividir el entorno}
+			Al dividir el laberinto entre los procesos, cada proceso controla una zona, y se genera un flujo constante de episodios. Cuando un agente sale del dominio de un proceso, este le manda un mensaje al proceso que controla esa parte del laberinto, con la posición en la que entra. Figura \ref{fig:rlmpi}. El master se encarga de iniciar a los agentes y cuando sale de su dominio genera otro agente. Para garantizar que funcione el master no puede recibir agentes de los workers, en caso contrarior no se podría garantizar el flujo de nuevos episodios. Pero solo puede exister \textit{M} agentes en todos los procesos (siendo \textit{M} el número de procesos ejecutados), debido a que un proceso solo puede gestionar a lo sumo un agente. Como cada proceso tiene su propio dominio, la Q-Table se divide entre estos. Aplicando la mejora con el preprocesado, es la misma idea pero con los dos arrays bidimensionales (acciones y Q-valores). 
+			
+			Hay que tener en cuenta los límites de cada proceso, para cuando el agente salga fuera de estos, envíe un mensaje con la posición en la que entra al proceso correcto. Es un flujo constante de agentes nuevos, por eso es mejor que una vez salga del primer proceso (el que genera los agentes), no pueda volver a entrar, asi simplificando la lógica de programación.
+			
+			\begin{figure}[!h]
+				\centering
+				\includegraphics[width=0.65\textwidth]{images/chapter_3/rl_mpi}	
+				\caption{RL - División del entorno}
+				\label{fig:rlmpi}
+			\end{figure}
 	
-	Hay que tener en cuenta los límites de cada proceso, para cuando el agente salga fuera de estos, envíe un mensaje con la posición en la que entra al proceso correcto. Es un flujo constante de agentes nuevos, por eso es mejor que una vez salga del primer proceso (el que genera los agentes), no pueda volver a entrar, asi simplificando la lógica de programación.
+		\subsubsection{Juntar experiencias}
+	
+			Ejecutar en varios procesos el algoritmo, funciona. El master recolecta las experiencias de los workers, haciendo la media de los valor-Q obtenidos de los procesos, así calculando la mejores acciones para cada estado. 
+			
+			Es mucho mejor inicializar el algoritmo desde distintos puntos, para así explorar todo el laberinto y encontrar el mejor camino en menos tiempo. Al menos un worker inicia desde el punto de inicio que se desea evaluar, pues de lo contrario no se podría garantizar que visiten la zona del inicio, y obtengan las estimaciones correctas para llegar al destino.
+			
+			
+	
+	
+	
+	
+	\subsection{DQN}
+	
+		Este algoritmo utiliza redes neuronales para obtener la mejor acción para un determinado estado, así eliminando los problemas que tiene el algoritmo anterior. Con es método podemos abarcar entornos más complejos, y por eso se propone el juego de atari Pac-Man, centrándonos en obtener el mayor número de monedas antes de provocar una condición de finalización. Antes de profundizar en el algoritmo de IA, explicamos el entorno del problema a resolver:
+		\vspace{-0.5cm}
+		\begin{itemize}		
+			\item Acciones disponibles. Como en el algoritmo anterior, son de movimiento. El agente y los fantasmas no pueden atravesar muros.
+			\vspace*{-0.2cm}
+			\item Entorno. Laberinto con muros, del cual no se puede escapar.
+			\item Objetos del juego. 
+			\vspace*{-0.3cm}
+				\subitem Pac-Man, el agente que mueve el usuario. Su objetivo es comer todos los puntos.
+				\vspace*{-0.3cm}
+				\subitem Fantasmas, se mueven siguiendo unos objetivos en el laberinto.
+				\vspace*{-0.3cm}
+				\subitem Túneles. Puntos que se conectan de manera toroidal para no salir del
+				\vspace*{-0.3cm}
+				\subitem Puntos (pellets en ingles). Son las "monedas" que el agente tiene que recoger.
+				\vspace*{-0.3cm}
+				\subitem Puntos de energia (powers). Si el agente consume uno, durante un periodo de tiempo es invencible y puede comer a los fantasmas.
+				
+				 laberinto.				
+			\vspace*{-0.3cm}
+			\item Condiciones de finalización. Ganar obteniendo todas las monedas del laberinto o perder si un fantasma come al agente. 			
+		\end{itemize}
+		
+		\begin{flushleft}
+			Los fantasmas tienen una IA interesante, pues tienen sus propios estados y cada uno tiene unos puntos objetivos que siguen para intentar comer al agente. Los estados son los siguientes:
+		\end{flushleft}
+		\vspace{-0.9cm}
+		\begin{itemize}
+			\item Chase. Cada fantasma sigue unos puntos en movimiento.
+			\vspace*{-0.3cm}
+			\item Scatter. Sigue un punto estático fuera del laberinto para dar vueltas en una determinada zona.
+			\vspace*{-0.3cm}
+			\item Frightened. El agente puede comerlos, se mueve de manera aleatoria al llegar a una intersección.
+			\vspace*{-0.3cm}
+			\item Eaten. Han sido comidos y se encuentran en su casa esperando a salir. (Implementado de forma que espera 3 movimientos del agente para salir)
+		\end{itemize} 
+		
+		\begin{flushleft}
+			En la estado \textit{Chase} los fantasmas se mueven de la siguiente forma:
+		\end{flushleft}
+		
+		\vspace{-0.9cm}
+		\begin{itemize}
+			\item Blinky (Rojo): Persigue directamente al agente.
+			\vspace*{-0.3cm}
+			\item Pinky (Rosa): Persigue la celda cuatro posiciones adelantada a donde apunta el agente. Si el agente mira hacia arriba, también añade cuatro celdas hacia la izquierda
+			\vspace*{-0.3cm}
+			\item Inky (Azul): Persigue una celda en concreto que se calcula de la siguiente forma. Primero se calcula una posición como lo hace el fantasma rosa pero en vez de cuatro celdas, se hace con dos. El objetivo se calcula al añadir el vector de distancia de la posición del fantasma rojo a esta posición.
+			\vspace*{-0.3cm}
+			\item Clyde (Naranja): Si está a ocho o más celdas de distancia del agente, lo persigue. En caso contrario sigue su objetivo del estado Scatter.
+		\end{itemize}
+		
+		El laberinto y el juego han sido creados desde cero para facilitar el aprendizaje del la IA, con estados mas sencillos y poder hacer los cambios necesarios en un futuro. El laberinto se almacena en un fichero de texto, para representar las celdas vacias, muros, puntos o puntos de poder con números enteros (0, 1, 2 y 3 respectivamente).
+		
+		
+		
+		
+		\subsubsection{Entrenamiento}
+			
+			La fase de entrenamiento es crucial, pues modifican los valores de la red neuronal para que tome las mejores decisiones en cada estado, haciendo que el agente pueda terminar el problema sin perder.	El entrenamiento se puede realizar de varias formas.	
+			
+							
+			Si mantenemos el mismo estado inicial, el agente empieza siempre en el mismo punto, y depende mucho de los hiperparámetros, además de la aleatoriedad. El agente empieza a investigar el entorno de manera aleatoria, y es muy probable que los fantasmas alcancen al agente bastante rápido sin explorar mucho el entorno. Por eso es mejor añadir varios estados iniciales para que pueda investigar el entorno de manera más eficiente. Hay que tener en cuenta que los estados iniciales tienen que ser puntos accesibles desde el estado inicial original. El agente no puede saltar a otros puntos sin coger los puntos del laberinto (Figura \ref{fig:pacman_states}), si entrenamos con puntos aleatorios sin cambiar el estado del laberinto, al ejecutar el algoritmo con los mejores valores obtenidos, no habrá servido de nada, pues son estados que el agente no va a alcanzar nunca.
+			
+		
+			\begin{figure}[!h]
+				\centering
+				\includegraphics[width=1\textwidth]{images/chapter_3/pacman_states}	
+				\caption{DQN - Estados del entorno}
+				\label{fig:pacman_states}
+			\end{figure}
+			
+			En la ejecución de la izquierda, el agente empieza en una posición aleatoria, sin cambiar los objetos del entorno. Este estado nunca se va a ejecutar, pues necesita coger los puntos del camino y cambiar las posiciones de los fantasmas, como se puede ver en la ejecución de la derecha.
+			
+		\subsubsection{Mejoras MPI}
+		
+			Al usar redes neuronales, se pueden aplicar las mejoras que se van a comentar en la sección de redes neuronales \ref{sec:redes_neu}. No se pueden aplicar las mejoras del algoritmo anterior, pues no es una matriz que se pueda dividir el trabajo, es una red neuronal cuyos pesos varían al ejecutar acciones en estados.
+		
+			
+		
+		
+		
+			
+		
+		
+	
+		
 	
 	\newpage
 	
@@ -516,6 +619,7 @@
 
 
 \section{Redes Neuronales}
+\label{sec:redes_neu}	
 	Esta poderosa herramienta de aprendizaje supervisado, está diseñada para reconocer patrones complejos y realizar diversas tareas. Aprende con un proceso iterativo de entrenamiento, ajustando las conexiones entre neuronas. Este proceso secuencial es complejo de paralelizar. Al finalizar una predicción el modelo se tiene que actualizar propagando hacia atrás.
 	
 	Nos centramos en la técnica de \textbf{predicción}. La capa de entrada está formada por dos neuronas, cada individuo son variables numéricas que representan, la altura y el peso de una persona, y aprende a predecir el Índice de Masa Corporal (IMC). La capa de entrada y salida no varían, pero la capa oculta se puede modificar libremente, aumentando el tiempo en la fase de entrenamiento.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  1 JUL 2024 10:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  9 JUL 2024 10:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1517,7 +1517,7 @@ Package hyperref Info: Link coloring ON on input line 189.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<images/escudo_ucm.pdf, id=190, 237.74768pt x 271.23311pt>
+<images/escudo_ucm.pdf, id=198, 237.74768pt x 271.23311pt>
 File: images/escudo_ucm.pdf Graphic file (type pdf)
 <use images/escudo_ucm.pdf>
 Package pdftex.def Info: images/escudo_ucm.pdf  used on input line 28.
@@ -1590,7 +1590,7 @@ l.31 	\newpage
 
  (Capitulos/2_Contextualizacion.tex
 Cap\'{\i }tulo 2.
-<images/chapter_2/mpi_1.png, id=319, 627.09282pt x 423.08063pt>
+<images/chapter_2/mpi_1.png, id=329, 627.09282pt x 423.08063pt>
 File: images/chapter_2/mpi_1.png Graphic file (type png)
 <use images/chapter_2/mpi_1.png>
 Package pdftex.def Info: images/chapter_2/mpi_1.png  used on input line 27.
@@ -1604,7 +1604,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 ] [7 <./images/chapter_2/mpi_1.png>]
-<images/chapter_2/mpi_2.png, id=337, 1049.42062pt x 470.50781pt>
+<images/chapter_2/mpi_2.png, id=347, 1049.42062pt x 470.50781pt>
 File: images/chapter_2/mpi_2.png Graphic file (type png)
 <use images/chapter_2/mpi_2.png>
 Package pdftex.def Info: images/chapter_2/mpi_2.png  used on input line 53.
@@ -1621,94 +1621,95 @@ File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 [8 <./images/chapter_2/mpi_2.png>] [9]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 134.
+(mdframed)              on input line 124.
 Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 150.
+ mdframed uses option nobreak mdframed on input line 140.
 Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 150.
+ mdframed uses option nobreak mdframed on input line 140.
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--159
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
 [10]
-<images/chapter_2/ap_nosup_diagramas.jpg, id=384, 1159.33125pt x 390.45876pt>
+<images/chapter_2/pacman.png, id=394, 472.01344pt x 379.4175pt>
+File: images/chapter_2/pacman.png Graphic file (type png)
+<use images/chapter_2/pacman.png>
+Package pdftex.def Info: images/chapter_2/pacman.png  used on input line 171.
+(pdftex.def)             Requested size: 303.45918pt x 243.93214pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[11] [12 <./images/chapter_2/pacman.png>]
+<images/chapter_2/ap_nosup_diagramas.jpg, id=411, 1159.33125pt x 390.45876pt>
 File: images/chapter_2/ap_nosup_diagramas.jpg Graphic file (type jpg)
 <use images/chapter_2/ap_nosup_diagramas.jpg>
 Package pdftex.def Info: images/chapter_2/ap_nosup_diagramas.jpg  used on input
- line 177.
+ line 190.
 (pdftex.def)             Requested size: 466.86469pt x 157.23528pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[11]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[12 <./images/chapter_2/ap_nosup_diagramas.jpg>]
-<images/chapter_2/dendograma.jpg, id=401, 770.88pt x 414.54875pt>
+ [13 <./images/chapter_2/ap_nosup_diagramas.jpg>] [14]
+<images/chapter_2/dendograma.jpg, id=429, 770.88pt x 414.54875pt>
 File: images/chapter_2/dendograma.jpg Graphic file (type jpg)
 <use images/chapter_2/dendograma.jpg>
-Package pdftex.def Info: images/chapter_2/dendograma.jpg  used on input line 22
-1.
+Package pdftex.def Info: images/chapter_2/dendograma.jpg  used on input line 23
+4.
 (pdftex.def)             Requested size: 420.17535pt x 225.95305pt.
+ [15 <./images/chapter_2/dendograma.jpg>]
+<images/chapter_2/kmedias.png, id=440, 759.58781pt x 312.41719pt>
+File: images/chapter_2/kmedias.png Graphic file (type png)
+<use images/chapter_2/kmedias.png>
+Package pdftex.def Info: images/chapter_2/kmedias.png  used on input line 268.
+(pdftex.def)             Requested size: 466.86469pt x 192.02339pt.
+ [16 <./images/chapter_2/kmedias.png>]
+<images/chapter_2/knn.png, id=448, 406.51875pt x 347.2975pt>
+File: images/chapter_2/knn.png Graphic file (type png)
+<use images/chapter_2/knn.png>
+Package pdftex.def Info: images/chapter_2/knn.png  used on input line 323.
+(pdftex.def)             Requested size: 186.74301pt x 159.53621pt.
+<images/chapter_2/redneu.png, id=449, 368.1253pt x 195.73125pt>
+File: images/chapter_2/redneu.png Graphic file (type png)
+<use images/chapter_2/redneu.png>
+Package pdftex.def Info: images/chapter_2/redneu.png  used on input line 330.
+(pdftex.def)             Requested size: 233.43234pt x 124.1177pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[13 <./images/chapter_2/dendograma.jpg>]
-<images/chapter_2/kmedias.png, id=412, 759.58781pt x 312.41719pt>
-File: images/chapter_2/kmedias.png Graphic file (type png)
-<use images/chapter_2/kmedias.png>
-Package pdftex.def Info: images/chapter_2/kmedias.png  used on input line 255.
-(pdftex.def)             Requested size: 466.86469pt x 192.02339pt.
- [14 <./images/chapter_2/kmedias.png>]
-[15]
-<images/chapter_2/knn.png, id=429, 406.51875pt x 347.2975pt>
-File: images/chapter_2/knn.png Graphic file (type png)
-<use images/chapter_2/knn.png>
-Package pdftex.def Info: images/chapter_2/knn.png  used on input line 310.
-(pdftex.def)             Requested size: 186.74301pt x 159.53621pt.
-<images/chapter_2/redneu.png, id=430, 368.1253pt x 195.73125pt>
-File: images/chapter_2/redneu.png Graphic file (type png)
-<use images/chapter_2/redneu.png>
-Package pdftex.def Info: images/chapter_2/redneu.png  used on input line 317.
-(pdftex.def)             Requested size: 233.43234pt x 124.1177pt.
- [16 <./images/chapter_2/knn.png (PNG copy)> <./images/chapter_2/redneu.png>] [
-17]
-<images/chapter_2/AG.png, id=447, 754.82pt x 844.15375pt>
+[17] [18 <./images/chapter_2/knn.png (PNG copy)> <./images/chapter_2/redneu.png
+>] [19]
+<images/chapter_2/AG.png, id=473, 754.82pt x 844.15375pt>
 File: images/chapter_2/AG.png Graphic file (type png)
 <use images/chapter_2/AG.png>
-Package pdftex.def Info: images/chapter_2/AG.png  used on input line 421.
+Package pdftex.def Info: images/chapter_2/AG.png  used on input line 434.
 (pdftex.def)             Requested size: 256.777pt x 287.16304pt.
-) [18 <./images/chapter_2/AG.png>]
+) [20 <./images/chapter_2/AG.png>]
 \openout2 = `Capitulos/3_Diseño_implementaciones.aux'.
 
 
 (Capitulos/3_Diseño_implementaciones.tex
 Cap\'{\i }tulo 3.
-[19
+[21
 
 
 
 
 ]
-<images/chapter_3/matriz_mpi.jpeg, id=460, 1780.6525pt x 1589.94pt>
+<images/chapter_3/matriz_mpi.jpeg, id=485, 1780.6525pt x 1589.94pt>
 File: images/chapter_3/matriz_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/matriz_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/matriz_mpi.jpeg  used on input line 3
 9.
 (pdftex.def)             Requested size: 270.78236pt x 241.78014pt.
- [20 <./images/chapter_3/matriz_mpi.jpeg>]
-<images/chapter_3/sequentialsort_mpi.jpeg, id=468, 2033.5975pt x 1345.025pt>
+ [22 <./images/chapter_3/matriz_mpi.jpeg>]
+<images/chapter_3/sequentialsort_mpi.jpeg, id=493, 2033.5975pt x 1345.025pt>
 File: images/chapter_3/sequentialsort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/sequentialsort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/sequentialsort_mpi.jpeg  used on inpu
 t line 62.
 (pdftex.def)             Requested size: 280.12166pt x 185.26476pt.
- [21 <./images/chapter_3/sequentialsort_mpi.jpeg>]
-<images/chapter_3/mergesort_mpi.jpeg, id=476, 4107.345pt x 1710.39pt>
+ [23 <./images/chapter_3/sequentialsort_mpi.jpeg>]
+<images/chapter_3/mergesort_mpi.jpeg, id=501, 4107.345pt x 1710.39pt>
 File: images/chapter_3/mergesort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/mergesort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/mergesort_mpi.jpeg  used on input lin
@@ -1718,9 +1719,13 @@ e 91.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[22] [23 <./images/chapter_3/mergesort_mpi.jpeg>]
+[24] [25 <./images/chapter_3/mergesort_mpi.jpeg>]
 
-LaTeX Warning: Reference `fig:JA_distribucion' on page 24 undefined on input li
+Package caption Warning: \label without proper reference on input line 161.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:JA_distribucion' on page 26 undefined on input li
 ne 141.
 
 Package mdframed Info: mdframed detected package amsthm 
@@ -1735,32 +1740,32 @@ Package mdframed Info: mdframed inside float
  mdframed uses option nobreak mdframed on input line 160.
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 160.
-<images/chapter_3/aglomerativo_mpi.jpg, id=488, 314.18431pt x 262.45421pt>
+<images/chapter_3/aglomerativo_mpi.jpg, id=515, 314.18431pt x 262.45421pt>
 File: images/chapter_3/aglomerativo_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/aglomerativo_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/aglomerativo_mpi.jpg  used on input l
 ine 176.
 (pdftex.def)             Requested size: 186.74301pt x 155.99998pt.
-<images/chapter_3/aglomerativo_sec.png, id=489, 2212.265pt x 889.3225pt>
+<images/chapter_3/aglomerativo_sec.png, id=516, 2212.265pt x 889.3225pt>
 File: images/chapter_3/aglomerativo_sec.png Graphic file (type png)
 <use images/chapter_3/aglomerativo_sec.png>
 Package pdftex.def Info: images/chapter_3/aglomerativo_sec.png  used on input l
 ine 183.
 (pdftex.def)             Requested size: 242.74228pt x 142.25378pt.
-[24] [25 <./images/chapter_3/aglomerativo_mpi.jpg> <./images/chapter_3/aglomera
+[26] [27 <./images/chapter_3/aglomerativo_mpi.jpg> <./images/chapter_3/aglomera
 tivo_sec.png>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 229.
- [26]
+ [28]
 Package mdframed Info: Not enough space on this page on input line 241.
-<images/chapter_3/kmedias_mpi.jpeg, id=509, 2089.8075pt x 927.465pt>
+<images/chapter_3/kmedias_mpi.jpeg, id=535, 2089.8075pt x 927.465pt>
 File: images/chapter_3/kmedias_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/kmedias_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/kmedias_mpi.jpeg  used on input line 
 250.
 (pdftex.def)             Requested size: 373.49316pt x 165.74773pt.
- [27 <./images/chapter_3/kmedias_mpi.jpeg>]
+ [29 <./images/chapter_3/kmedias_mpi.jpeg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 266.
@@ -1768,14 +1773,14 @@ Package mdframed Info: mdframed inside float
  mdframed uses option nobreak mdframed on input line 282.
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 282.
- [28]
-<images/chapter_3/knn_mpi1.jpg, id=522, 4015.0pt x 4015.0pt>
+ [30]
+<images/chapter_3/knn_mpi1.jpg, id=549, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi1.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi1.jpg>
 Package pdftex.def Info: images/chapter_3/knn_mpi1.jpg  used on input line 323.
 
 (pdftex.def)             Requested size: 210.08768pt x 210.07387pt.
-<images/chapter_3/knn_mpi2.jpg, id=523, 4015.0pt x 4015.0pt>
+<images/chapter_3/knn_mpi2.jpg, id=550, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi2.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi2.jpg>
 Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 330.
@@ -1785,64 +1790,62 @@ Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 330.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[29] [30 <./images/chapter_3/knn_mpi1.jpg> <./images/chapter_3/knn_mpi2.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 356--357
-
- []
-
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 363--364
-
- []
-
-[32]
+[31] [32 <./images/chapter_3/knn_mpi1.jpg> <./images/chapter_3/knn_mpi2.jpg>]
+[33]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 380.
+(mdframed)              on input line 381.
 Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 396.
+ mdframed uses option nobreak mdframed on input line 397.
 Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 396.
- [33]
-<images/chapter_3/rl_mpi.jpg, id=552, 2264.46pt x 2288.55pt>
+ mdframed uses option nobreak mdframed on input line 397.
+ [34]
+<images/chapter_3/rl_mpi.jpg, id=573, 2264.46pt x 2288.55pt>
 File: images/chapter_3/rl_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/rl_mpi.jpg>
-Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 422.
+Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 426.
 (pdftex.def)             Requested size: 303.45918pt x 306.6711pt.
- [34 <./images/chapter_3/rl_mpi.jpg>] [35] [36]
-<images/chapter_3/pev_mpi3.png, id=584, 1670.24pt x 1339.0025pt>
+ [35] [36 <./images/chapter_3/rl_mpi.jpg>] [37] [38]
+<images/chapter_3/pacman_states.png, id=599, 980.16188pt x 408.02437pt>
+File: images/chapter_3/pacman_states.png Graphic file (type png)
+<use images/chapter_3/pacman_states.png>
+Package pdftex.def Info: images/chapter_3/pacman_states.png  used on input line
+ 511.
+(pdftex.def)             Requested size: 466.86469pt x 194.34279pt.
+ [39 <./images/chapter_3/pacman_states.png>] [40] [41]
+<images/chapter_3/pev_mpi3.png, id=633, 1670.24pt x 1339.0025pt>
 File: images/chapter_3/pev_mpi3.png Graphic file (type png)
 <use images/chapter_3/pev_mpi3.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 505.
+Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 608.
 
 (pdftex.def)             Requested size: 303.45918pt x 243.27795pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[37] [38 <./images/chapter_3/pev_mpi3.png>]
-<images/chapter_3/redneu_mpi2.jpeg, id=595, 2164.085pt x 2330.7075pt>
+[42] [43 <./images/chapter_3/pev_mpi3.png>]
+<images/chapter_3/redneu_mpi2.jpeg, id=645, 2164.085pt x 2330.7075pt>
 File: images/chapter_3/redneu_mpi2.jpeg Graphic file (type jpg)
 <use images/chapter_3/redneu_mpi2.jpeg>
 Package pdftex.def Info: images/chapter_3/redneu_mpi2.jpeg  used on input line 
-549.
+653.
 (pdftex.def)             Requested size: 256.777pt x 276.54323pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[39] [40 <./images/chapter_3/redneu_mpi2.jpeg>]) [41]
+[44] [45 <./images/chapter_3/redneu_mpi2.jpeg>]) [46]
 \openout2 = `Capitulos/4_Estudio_empírico.aux'.
 
 
 (Capitulos/4_Estudio_empírico.tex
 Cap\'{\i }tulo 4.
-<images/chapter_4/cluster.jpg, id=616, 1073.39969pt x 793.44853pt>
+<images/chapter_4/cluster.jpg, id=666, 1073.39969pt x 793.44853pt>
 File: images/chapter_4/cluster.jpg Graphic file (type jpg)
 <use images/chapter_4/cluster.jpg>
 Package pdftex.def Info: images/chapter_4/cluster.jpg  used on input line 19.
 (pdftex.def)             Requested size: 303.45918pt x 224.31912pt.
-[42
+[47
 
 
 
@@ -1851,7 +1854,7 @@ Package pdftex.def Info: images/chapter_4/cluster.jpg  used on input line 19.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 42.
- [43]
+ [48]
 PGFPlots: reading {files/sortn2.txt}
 PGFPlots: reading {files/sortn2.txt}
 PGFPlots: reading {files/sortn2.txt}
@@ -1886,13 +1889,13 @@ ics
 Package pgfplots info on input line 168: Setting layers 'axis background,axis g
 rid,axis ticks,axis lines,axis tick labels,pre main,main,axis descriptions,axis
  foreground'...
- [44]
+ [49]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 179.
 Package pgfplots info on input line 216: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
- [45]
+ [50]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 246.
@@ -1905,7 +1908,7 @@ Overfull \hbox (49.53772pt too wide) in paragraph at lines 285--286
  [][] 
  []
 
-[46]
+[51]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 299.
@@ -1923,7 +1926,7 @@ Overfull \hbox (0.88115pt too wide) in paragraph at lines 353--354
  [][] 
  []
 
-[47]
+[52]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 363.
@@ -1936,7 +1939,7 @@ Overfull \hbox (55.41153pt too wide) in paragraph at lines 402--403
  [][] 
  []
 
-[48]
+[53]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 423.
@@ -1945,7 +1948,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 432--437
 
  []
 
-<images/chapter_4/jerarquico.jpg, id=670, 1567.8575pt x 713.66624pt>
+<images/chapter_4/jerarquico.jpg, id=719, 1567.8575pt x 713.66624pt>
 File: images/chapter_4/jerarquico.jpg Graphic file (type jpg)
 <use images/chapter_4/jerarquico.jpg>
 Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 47
@@ -1954,366 +1957,387 @@ Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 47
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[49]
-Package pgfplots info on input line 511: Using 'lua backend=false' for axis: x 
+[54]
+Package pgfplots info on input line 509: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
 
-Overfull \hbox (10.02232pt too wide) in paragraph at lines 527--528
+Overfull \hbox (10.02232pt too wide) in paragraph at lines 525--526
  [][] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[50 <./images/chapter_4/jerarquico.jpg>] [51]
-Package pgfplots info on input line 576: Using 'lua backend=false' for axis: x 
-coord trafo unsupported.
-PGFPlots: reading {files/kmedias.txt}
-PGFPlots: reading {files/kmedias.txt}
-PGFPlots: reading {files/kmedias.txt}
-PGFPlots: reading {files/kmedias.txt}
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[52]
-PGFPlots: reading {files/kmedias_speedup.txt}
-PGFPlots: reading {files/kmedias_speedup.txt}
-PGFPlots: reading {files/kmedias_speedup.txt}
- [53]
+[55 <./images/chapter_4/jerarquico.jpg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 694.
-PGFPlots: reading {files/cluster/kmedias5D.txt}
-PGFPlots: reading {files/cluster/kmedias5D.txt}
-PGFPlots: reading {files/cluster/kmedias5D.txt}
-PGFPlots: reading {files/cluster/kmedias5D.txt}
-PGFPlots: reading {files/cluster/kmedias5D.txt}
-PGFPlots: reading {files/cluster/kmedias5D.txt}
-PGFPlots: reading {files/cluster/kmedias5D.txt}
+(mdframed)              on input line 534.
+PGFPlots: reading {files/jerarquico_aglom_simple.txt}
+PGFPlots: reading {files/jerarquico_aglom_simple.txt}
+PGFPlots: reading {files/jerarquico_aglom_simple.txt}
 
-Overfull \hbox (55.41602pt too wide) in paragraph at lines 738--739
+Overfull \hbox (90.65607pt too wide) in paragraph at lines 574--575
  [][] 
  []
-
-[54]
-PGFPlots: reading {files/cluster/kmediasDs.txt}
-PGFPlots: reading {files/cluster/kmediasDs.txt}
-PGFPlots: reading {files/cluster/kmediasDs.txt}
-PGFPlots: reading {files/cluster/kmediasDs.txt}
-
-Overfull \hbox (79.39764pt too wide) in paragraph at lines 775--776
- [][] 
- []
-
-PGFPlots: reading {files/knn.txt}
-PGFPlots: reading {files/knn.txt}
-PGFPlots: reading {files/knn.txt}
-PGFPlots: reading {files/knn.txt}
-
-Overfull \hbox (10.02861pt too wide) in paragraph at lines 835--836
- [][] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[55]
-<images/chapter_4/knn_mpi.jpeg, id=713, 2376.88pt x 1065.9825pt>
-File: images/chapter_4/knn_mpi.jpeg Graphic file (type jpg)
-<use images/chapter_4/knn_mpi.jpeg>
-Package pdftex.def Info: images/chapter_4/knn_mpi.jpeg  used on input line 847.
-
-(pdftex.def)             Requested size: 373.49316pt x 167.50276pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [56]
-PGFPlots: reading {files/knn_speedup.txt}
-PGFPlots: reading {files/knn_speedup.txt}
-PGFPlots: reading {files/knn_speedup.txt}
- [57 <./images/chapter_4/knn_mpi.jpeg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 897.
-PGFPlots: reading {files/cluster/knn.txt}
-PGFPlots: reading {files/cluster/knn.txt}
-PGFPlots: reading {files/cluster/knn.txt}
-PGFPlots: reading {files/cluster/knn.txt}
-PGFPlots: reading {files/cluster/knn.txt}
-PGFPlots: reading {files/cluster/knn.txt}
-PGFPlots: reading {files/cluster/knn.txt}
+(mdframed)              on input line 584.
+PGFPlots: reading {files/cluster/jerarquico_aglomerativo.txt}
+PGFPlots: reading {files/cluster/jerarquico_aglomerativo.txt}
+PGFPlots: reading {files/cluster/jerarquico_aglomerativo.txt}
+PGFPlots: reading {files/cluster/jerarquico_aglomerativo.txt}
+PGFPlots: reading {files/cluster/jerarquico_aglomerativo.txt}
 
-Overfull \hbox (55.41602pt too wide) in paragraph at lines 943--944
+Overfull \hbox (55.41078pt too wide) in paragraph at lines 628--629
  [][] 
  []
 
+[57]
+Package pgfplots info on input line 663: Using 'lua backend=false' for axis: x 
+coord trafo unsupported.
+PGFPlots: reading {files/kmedias.txt}
+PGFPlots: reading {files/kmedias.txt}
+PGFPlots: reading {files/kmedias.txt}
+PGFPlots: reading {files/kmedias.txt}
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [58]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 970.
-PGFPlots: reading {files/rl.txt}
-PGFPlots: reading {files/rl.txt}
+PGFPlots: reading {files/kmedias_speedup.txt}
+PGFPlots: reading {files/kmedias_speedup.txt}
+PGFPlots: reading {files/kmedias_speedup.txt}
  [59]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 1024.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1041.
- [60] [61]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1077.
+(mdframed)              on input line 781.
+PGFPlots: reading {files/cluster/kmedias5D.txt}
+PGFPlots: reading {files/cluster/kmedias5D.txt}
+PGFPlots: reading {files/cluster/kmedias5D.txt}
+PGFPlots: reading {files/cluster/kmedias5D.txt}
+PGFPlots: reading {files/cluster/kmedias5D.txt}
+PGFPlots: reading {files/cluster/kmedias5D.txt}
+PGFPlots: reading {files/cluster/kmedias5D.txt}
 
-Underfull \hbox (badness 10000) in paragraph at lines 1082--1084
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1085--1089
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1093--1096
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1097--1101
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1102--1106
-
- []
-
-<images/chapter_4/tabla_pev.png, id=754, 1321.18594pt x 545.03625pt>
-File: images/chapter_4/tabla_pev.png Graphic file (type png)
-<use images/chapter_4/tabla_pev.png>
-Package pdftex.def Info: images/chapter_4/tabla_pev.png  used on input line 113
-4.
-(pdftex.def)             Requested size: 466.86469pt x 192.59518pt.
-[62]
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-PGFPlots: reading {files/pev.txt}
-
-Overfull \hbox (38.71852pt too wide) in paragraph at lines 1222--1223
+Overfull \hbox (55.41602pt too wide) in paragraph at lines 825--826
  [][] 
  []
 
-[63 <./images/chapter_4/tabla_pev.png>]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1243.
- [64]
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
+[60]
+PGFPlots: reading {files/cluster/kmediasDs.txt}
+PGFPlots: reading {files/cluster/kmediasDs.txt}
+PGFPlots: reading {files/cluster/kmediasDs.txt}
+PGFPlots: reading {files/cluster/kmediasDs.txt}
 
-Overfull \hbox (38.71852pt too wide) in paragraph at lines 1302--1303
+Overfull \hbox (79.39764pt too wide) in paragraph at lines 862--863
  [][] 
  []
 
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-PGFPlots: reading {files/pev_2mpi_speedup.txt}
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1350.
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
+[61]
+PGFPlots: reading {files/knn.txt}
+PGFPlots: reading {files/knn.txt}
+PGFPlots: reading {files/knn.txt}
+PGFPlots: reading {files/knn.txt}
 
-Overfull \hbox (38.71852pt too wide) in paragraph at lines 1414--1415
+Overfull \hbox (10.02861pt too wide) in paragraph at lines 925--926
  [][] 
  []
 
-[65] [66]
-<images/chapter_4/pev_mpi1.jpeg, id=789, 3629.56pt x 2003.485pt>
-File: images/chapter_4/pev_mpi1.jpeg Graphic file (type jpg)
-<use images/chapter_4/pev_mpi1.jpeg>
-Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 143
-0.
-(pdftex.def)             Requested size: 326.80385pt x 180.367pt.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1488.
+<images/chapter_4/knn_mpi.jpeg, id=769, 2376.88pt x 1065.9825pt>
+File: images/chapter_4/knn_mpi.jpeg Graphic file (type jpg)
+<use images/chapter_4/knn_mpi.jpeg>
+Package pdftex.def Info: images/chapter_4/knn_mpi.jpeg  used on input line 937.
 
-Missing character: There is no x in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no k in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no ] in font nullfont!
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-[67 <./images/chapter_4/pev_mpi1.jpeg>]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1536.
-
-Missing character: There is no x in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no k in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no ] in font nullfont!
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1679.
-[68]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1729.
-PGFPlots: reading {files/cluster/pevReal.txt}
-PGFPlots: reading {files/cluster/pevReal.txt}
-PGFPlots: reading {files/cluster/pevReal.txt}
-PGFPlots: reading {files/cluster/pevReal.txt}
-
-Overfull \hbox (49.53772pt too wide) in paragraph at lines 1766--1767
- [][] 
- []
-
-PGFPlots: reading {files/cluster/pevArbol.txt}
-PGFPlots: reading {files/cluster/pevArbol.txt}
-PGFPlots: reading {files/cluster/pevArbol.txt}
-PGFPlots: reading {files/cluster/pevArbol.txt}
-
-Overfull \hbox (55.41266pt too wide) in paragraph at lines 1803--1804
- [][] 
- []
-
-[69]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1814.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 1828.
-PGFPlots: reading {files/redneu1.txt}
-PGFPlots: reading {files/redneu1.txt}
-PGFPlots: reading {files/redneu1.txt}
-
+(pdftex.def)             Requested size: 373.49316pt x 167.50276pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[70] [71]
+[62]
+PGFPlots: reading {files/knn_speedup.txt}
+PGFPlots: reading {files/knn_speedup.txt}
+PGFPlots: reading {files/knn_speedup.txt}
+ [63 <./images/chapter_4/knn_mpi.jpeg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 1887.
-PGFPlots: reading {files/redneu2.txt}
-PGFPlots: reading {files/redneu2.txt}
-PGFPlots: reading {files/redneu2.txt}
+(mdframed)              on input line 987.
+PGFPlots: reading {files/cluster/knn.txt}
+PGFPlots: reading {files/cluster/knn.txt}
+PGFPlots: reading {files/cluster/knn.txt}
+PGFPlots: reading {files/cluster/knn.txt}
+PGFPlots: reading {files/cluster/knn.txt}
+PGFPlots: reading {files/cluster/knn.txt}
+PGFPlots: reading {files/cluster/knn.txt}
 
-Overfull \hbox (0.87617pt too wide) in paragraph at lines 1922--1923
+Overfull \hbox (55.41602pt too wide) in paragraph at lines 1033--1034
  [][] 
  []
 
-[72]
-Package pgfplots info on input line 1950: Using 'lua backend=false' for axis: x
+[64]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1060.
+PGFPlots: reading {files/rl.txt}
+PGFPlots: reading {files/rl.txt}
+ [65]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1114.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1128.
+ [66] [67]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1159.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1164--1166
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1167--1171
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1175--1178
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1179--1183
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1184--1188
+
+ []
+
+<images/chapter_4/tabla_pev.png, id=810, 1321.18594pt x 545.03625pt>
+File: images/chapter_4/tabla_pev.png Graphic file (type png)
+<use images/chapter_4/tabla_pev.png>
+Package pdftex.def Info: images/chapter_4/tabla_pev.png  used on input line 121
+6.
+(pdftex.def)             Requested size: 466.86469pt x 192.59518pt.
+[68]
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+PGFPlots: reading {files/pev.txt}
+
+Overfull \hbox (38.71852pt too wide) in paragraph at lines 1303--1304
+ [][] 
+ []
+
+[69 <./images/chapter_4/tabla_pev.png>]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1324.
+ [70]
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+
+Overfull \hbox (38.71852pt too wide) in paragraph at lines 1383--1384
+ [][] 
+ []
+
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1431.
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+PGFPlots: reading {files/pev_1_1mpi.txt}
+
+Overfull \hbox (38.71852pt too wide) in paragraph at lines 1495--1496
+ [][] 
+ []
+
+[71] [72]
+<images/chapter_4/pev_mpi1.jpeg, id=845, 3629.56pt x 2003.485pt>
+File: images/chapter_4/pev_mpi1.jpeg Graphic file (type jpg)
+<use images/chapter_4/pev_mpi1.jpeg>
+Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 151
+1.
+(pdftex.def)             Requested size: 326.80385pt x 180.367pt.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1569.
+
+Missing character: There is no x in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no ] in font nullfont!
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+[73 <./images/chapter_4/pev_mpi1.jpeg>]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1617.
+
+Missing character: There is no x in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no ] in font nullfont!
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1760.
+Package mdframed Info: Not enough space on this page on input line 1783.
+[74]
+Package mdframed Info: Not enough space on this page on input line 1783.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1812.
+ [75]
+PGFPlots: reading {files/cluster/pevReal.txt}
+PGFPlots: reading {files/cluster/pevReal.txt}
+PGFPlots: reading {files/cluster/pevReal.txt}
+PGFPlots: reading {files/cluster/pevReal.txt}
+
+Overfull \hbox (49.53772pt too wide) in paragraph at lines 1853--1854
+ [][] 
+ []
+
+PGFPlots: reading {files/cluster/pevArbol.txt}
+PGFPlots: reading {files/cluster/pevArbol.txt}
+PGFPlots: reading {files/cluster/pevArbol.txt}
+PGFPlots: reading {files/cluster/pevArbol.txt}
+
+Overfull \hbox (55.41266pt too wide) in paragraph at lines 1890--1891
+ [][] 
+ []
+
+[76]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1901.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1915.
+PGFPlots: reading {files/redneu1.txt}
+PGFPlots: reading {files/redneu1.txt}
+PGFPlots: reading {files/redneu1.txt}
+ [77] [78]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 1974.
+PGFPlots: reading {files/redneu2.txt}
+PGFPlots: reading {files/redneu2.txt}
+PGFPlots: reading {files/redneu2.txt}
+
+Overfull \hbox (0.87617pt too wide) in paragraph at lines 2009--2010
+ [][] 
+ []
+
+[79]
+Package pgfplots info on input line 2037: Using 'lua backend=false' for axis: x
  coord trafo unsupported.
 
-Overfull \hbox (71.60112pt too wide) in paragraph at lines 1961--1963
+Overfull \hbox (71.60112pt too wide) in paragraph at lines 2048--2050
 [][]
  []
 
-<images/chapter_4/redneu_err.png, id=828, 722.7pt x 433.62pt>
+<images/chapter_4/redneu_err.png, id=888, 722.7pt x 433.62pt>
 File: images/chapter_4/redneu_err.png Graphic file (type png)
 <use images/chapter_4/redneu_err.png>
-Package pdftex.def Info: images/chapter_4/redneu_err.png  used on input line 19
-68.
+Package pdftex.def Info: images/chapter_4/redneu_err.png  used on input line 20
+55.
 (pdftex.def)             Requested size: 205.42026pt x 205.42247pt.
-) [73 <./images/chapter_4/redneu_err.png>]
+) [80 <./images/chapter_4/redneu_err.png>]
 \openout2 = `Capitulos/5_Conclusiones_trabajo_futuro.aux'.
 
 
 (Capitulos/5_Conclusiones_trabajo_futuro.tex
 Cap\'{\i }tulo 5.
-[74
+[81
 
 
 
 
-]) [75] (main.bbl [76
+]) [82] (main.bbl [83
 
 
 
-]) [77]
+]) [84]
 \openout2 = `Cascaras/acronimos.aux'.
 
- (Cascaras/acronimos.tex) [78
+ (Cascaras/acronimos.tex) [85
 
 ]
 
@@ -2336,16 +2360,16 @@ L3 programming layer <2024-01-04>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D3768FA08FE37BC76A56132B26CDD0F9;6902.
+(rerunfilecheck)             Checksum: BA8BB9E5E9456306C5988446406DFFF4;7091.
  ) 
 Here is how much of TeX's memory you used:
- 50608 strings out of 474485
- 1124676 string characters out of 5742791
+ 50691 strings out of 474485
+ 1126407 string characters out of 5742791
  2053542 words of memory out of 5000000
- 71720 multiletter control sequences out of 15000+600000
+ 71776 multiletter control sequences out of 15000+600000
  580971 words of font info for 91 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,21n,131p,2364b,2464s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,21n,131p,2364b,2462s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ec
 ti0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\ecbx0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
@@ -2383,9 +2407,9 @@ msfonts/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1
 /public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/
 fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/Usuario/AppData/Local/Progra
 ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (85 pages, 9467547 bytes).
+Output written on main.pdf (92 pages, 9530607 bytes).
 PDF statistics:
- 1798 PDF objects out of 2073 (max. 8388607)
- 284 named destinations out of 1000 (max. 500000)
- 531 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1866 PDF objects out of 2073 (max. 8388607)
+ 307 named destinations out of 1000 (max. 500000)
+ 557 words of extra memory for PDF output out of 10000 (max. 10000000)
 

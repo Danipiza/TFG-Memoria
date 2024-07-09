@@ -99,37 +99,27 @@ else:                   # Workers
 
 \section{Aprendizaje por Refuerzo}
 
-	Reinforcement Learning (RL), en español, Aprendizaje por Refuerzo, es un tipo de aprendizaje automático donde el agente aprende en base a las decisiones tomadas al interactuar con el entorno. El agente aprende a llegar a una meta o maximizar un cúmulo de recompensas obtenidas al realizar un determinado número de acciones consecutivas, y observar las posibles recompensas al realizar cada acción en los estados del entorno.
-	
-	El agente aprende a con prueba y error, explorando las diferentes acciones y aprendiendo cuáles conducen a mejores resultados. No requiere entradas etiquetadas como en el aprendizaje supervisado, aprende con una serie de feedbacks (recompensas o castigos).
+	Reinforcement Learning (RL), en español, Aprendizaje por Refuerzo, es un tipo de aprendizaje automático donde el agente aprende en base a las decisiones tomadas al interactuar con el entorno. El agente aprende a realizar un objetivo en un entorno ejecutando un determinado número de acciones. No requiere de entradas etiquetadas como en el aprendizaje supervisado, recibe una retroalimentación, feedback en ingles (recompensas o castigos), al realizar acciones en los estados. Aprendiendo con prueba y error, el agente explora el entorno para almacenar las mejores acciones para cada estado. 
 
 	\begin{flushleft}
 		Los componentes esenciales del algoritmo son los siguientes:
 	\end{flushleft}
 	\begin{itemize}
-		\item Agente que interactúa con el entorno y aprende de él. 
-		\item El entorno, con el cual el agente interactúa. Responde a las acciones tomadas por el agente y provee el feedback al agente.
-		\item El conjunto de acciones o decisiones que el agente puede realizar.
-		\item Estados. Situaciones de configuraciones en el entorno.
-		\item Recompensas. Se suele representar como una matriz R(S,A), estados-acción. Almacena el feedback del entorno al realizar una acción en un estado.
-		\item Q-Table Q(S,A). Guarda los valores-Q de las acciones en los estados.
-		\item Condición de finalización. Puede ser desde encontrar la función-Q óptima, hasta realizar un número de épocas (Ejecución por el entorno, hasta finalizar una partida)
+		\item Agente, que interactúa con el entorno y aprende de él, ejecutando sus acciones. 
+		\item Entorno, con el cual el agente interactúa. Responde a las acciones tomadas por el agente y provee el feedback al agente.
+		\item Conjunto de acciones, o decisiones que el agente puede realizar.
+		\item Estados, son las configuraciones que el entorno puede tomar.
+		\item Feedback, recompensas o castigos del entorno al realizar una acción en un estado.		
+		\item Condición de finalización, desde encontrar la función óptima, hasta realizar un número de acciones 
 	\end{itemize}
 
 
 	\subsection{Algoritmo Q-Learning} 
-		Mezcla entre programación dinámica y Monte Carlo \cite{wang2012monte}.
+		Mezcla entre programación dinámica y Monte Carlo \cite{wang2012monte}. Es el más básico de entre los algoritmos de aprendizaje por refuerzo. Se usa para encontrar la mejor política de selección de acciones para un proceso de Decisión de Markov Determinado (MDP en inglés) \cite{garcia2013markov}. 
 		
-		Es el más básico de entre los algoritmos de aprendizaje por refuerzo. Se usa para encontrar la mejor política de selección de acciones para un proceso de Decisión de Markov Determinado (MDP en inglés) \cite{garcia2013markov}. 
+		El procedimiento se realiza actualizando iterativamente las estimaciones de calidad de realizar dicha acción en el estado actual, conocido como valor-Q. Se suele representar en forma de matriz \textit{Q(S,A)}, guardando los valores-Q de las acciones en los estados. Este valor representa cuan buena es la acción a realizar en un estado, despues de realizar una etapa de entrenamiento. Se usa la siguiente fórmula para actualizar los valores.
 		
-		El procedimiento se realiza actualizando iterativamente las estimaciones de calidad de realizar dicha acción en el estado actual, conocido como valor-Q. Este valor representa el feedback que recibirá el agente al realizar la acción desde un estado. Se usa la siguiente fórmula para actualizar los valores.
-		
-		El agente toma las decisiones de ejecutar una acción dependiendo del hiper parámetro $\epsilon$  con valores entre [0,1]. Con un número aleatorio (en el mismo intervalo) calcula la probabilidad de ejecutar la mejor acción aprendida hasta el momento, o una acción aleatoria entre las disponibles. Si el valor es alto, casi siempre se ejecutará la “mejor” y es posible que no aprenda otras formas de alcanzar el objetivo.
-
-
-		\begin{figure}
-			
-		
+		\begin{figure}[!h]				
 		\begin{flushleft}
 		\begin{mdframed}[roundcorner=5pt]
 			\[
@@ -152,16 +142,39 @@ else:                   # Workers
 		\caption{Cálculo del Q-Value de un estado y acción}	
 		\label{fig:qvalue}
 		\end{figure}
-
+		
+		
+		El agente toma las decisiones de ejecutar una acción dependiendo del hiper parámetro $\epsilon$  con valores entre [0,1]. Con un número aleatorio (en el mismo intervalo) calcula la probabilidad de ejecutar la mejor acción aprendida hasta el momento, o una acción aleatoria entre las disponibles. Si el valor es alto, casi siempre se ejecutará la "mejor" y es posible que no aprenda otras formas de alcanzar el objetivo.
+		
 		%\newpage
 		
 		Este algoritmo se ha aplicado en muchos dominios, como puede ser videojuegos de Atari \cite{mnih2013playing}, robótica o problemas de optimización. Sin embargo sufre cuando el entorno tiene muchos estados, ya que la complejidad espacial aumenta muchísimo y no es práctico tener las dos matrices.\\
 		
 	\subsection{Deep Q-Network (DQN)}
 		Por los problemas de escalabilidad mencionados anteriormente, se desarrolló el algoritmo de Redes Neuronales Profundas. Combina redes neuronales, con la base de aprendizaje por refuerzo, así eliminando la Q-Table.
-		% TODO DQN
-		\color{blue} TODO… \color{black}
-
+		
+		El estructura de la red neuronal depende del entorno del problema. Los valores de la capa oculta se pueden modificar al gusto del programador, pero la capa de entrada y salida depende del problema. La entrada se adapta para recibir un estado del entorno, y la salida tendrá tantos nodos como las acciones del agente. 
+		
+		El problema a realizar tendrá dos redes neuronales, una del estado actual y otra de anticipo, es decir, el siguiente estado. Esto sirve para ayudar a tener más contexto del estado actual, pues con una sola imagen, la información del estado puede variar bastante. En la fase de entrenamiento, se realizan varios episodios, que consisten en ejecuciones hasta que se de una condición de finalización, así como ejecutar repeticiones de estados guardados anteriormente (replay buffer). En este algoritmo se usan tres hiper-parámetros: 
+		\begin{enumerate}
+			\item Gamma, factor de descuento. Utilizado para saber cuanto resta a la recompensa adquirida al realizar una acción en un estado.
+			\item Epsilon, tasa de exploración. Probabilidad utilizada para ejecutar una acción aleatoria o la mejor hasta el momento.
+			\item Learning rate, tasa de aprendizaje. Para la propagación hacia atrás de las redes neuronales. Cuanto cambian los pesos de los nodos al tener un fallo.
+		\end{enumerate}	
+		
+		
+		
+		El entorno del problema será un juego de \textit{Atari}, más concreto \textit{Pac-Man} figura \ref{fig:pacman}. El juego consiste en recolectar todas las monedas del laberinto sin ser comido por un fantasma. Implementamos el juego desde cero para moldear a nuestro gusto la implementación y el algoritmo DQN sea más eficiente y sencillo. En el capítulo tres, diseño e implementaciones se desarrolla en profundidad.
+		
+		\begin{figure}[!h]			
+			\centering
+			\includegraphics[width=0.65\textwidth]{images/chapter_2/pacman}	
+			\caption{Atari: Pac-Man}
+			\label{fig:pacman}
+		\end{figure}
+		
+	
+		\newpage
 
 \section{Aprendizaje No-Supervisado}
 
