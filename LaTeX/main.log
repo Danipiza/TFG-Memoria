@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.7.17)  22 JUL 2024 21:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.7.17)  27 JUL 2024 16:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1801,25 +1801,21 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: images/chapter_3/sequentialsort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/sequentialsort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/sequentialsort_mpi.jpeg  used on inpu
-t line 63.
+t line 62.
 (pdftex.def)             Requested size: 280.12166pt x 185.26476pt.
- [24 <./images/chapter_3/matriz_mpi.jpeg> <./images/chapter_3/sequentialsort_mp
-i.jpeg>]
-<images/chapter_3/mergesort_mpi.jpeg, id=506, 4107.345pt x 1710.39pt>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[24 <./images/chapter_3/matriz_mpi.jpeg>] [25 <./images/chapter_3/sequentialsor
+t_mpi.jpeg>]
+<images/chapter_3/mergesort_mpi.jpeg, id=512, 4107.345pt x 1710.39pt>
 File: images/chapter_3/mergesort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/mergesort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/mergesort_mpi.jpeg  used on input lin
-e 92.
-(pdftex.def)             Requested size: 303.45918pt x 126.34242pt.
- [25] [26 <./images/chapter_3/mergesort_mpi.jpeg>]
-
-Package caption Warning: \label without proper reference on input line 162.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:JA_distribucion' on page 27 undefined on input li
-ne 142.
-
+e 90.
+(pdftex.def)             Requested size: 396.83783pt x 165.22906pt.
+ [26 <./images/chapter_3/mergesort_mpi.jpeg>] [27] [28]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 146.
@@ -1829,115 +1825,115 @@ Underfull \hbox (badness 10000) in paragraph at lines 152--153
  []
 
 Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 161.
+ mdframed uses option nobreak mdframed on input line 165.
 Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 161.
-<images/chapter_3/aglomerativo_mpi.jpg, id=519, 314.18431pt x 262.45421pt>
+ mdframed uses option nobreak mdframed on input line 165.
+<images/chapter_3/aglomerativo_mpi.jpg, id=528, 314.18431pt x 262.45421pt>
 File: images/chapter_3/aglomerativo_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/aglomerativo_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/aglomerativo_mpi.jpg  used on input l
-ine 177.
-(pdftex.def)             Requested size: 186.74301pt x 155.99998pt.
-<images/chapter_3/aglomerativo_sec.png, id=520, 2212.265pt x 889.3225pt>
+ine 176.
+(pdftex.def)             Requested size: 256.777pt x 214.517pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[29]
+<images/chapter_3/aglomerativo_sec.png, id=537, 2019.545pt x 736.7525pt>
 File: images/chapter_3/aglomerativo_sec.png Graphic file (type png)
 <use images/chapter_3/aglomerativo_sec.png>
 Package pdftex.def Info: images/chapter_3/aglomerativo_sec.png  used on input l
-ine 184.
-(pdftex.def)             Requested size: 242.74228pt x 142.25378pt.
-[27] [28 <./images/chapter_3/aglomerativo_mpi.jpg> <./images/chapter_3/aglomera
-tivo_sec.png>]
+ine 229.
+(pdftex.def)             Requested size: 303.45918pt x 110.69922pt.
+ [30 <./images/chapter_3/aglomerativo_mpi.jpg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 230.
- [29]
-Package mdframed Info: Not enough space on this page on input line 242.
-<images/chapter_3/kmedias_mpi.jpeg, id=539, 2089.8075pt x 927.465pt>
+(mdframed)              on input line 254.
+ [31 <./images/chapter_3/aglomerativo_sec.png>]
+Package mdframed Info: Not enough space on this page on input line 266.
+<images/chapter_3/kmedias_mpi.jpeg, id=553, 2089.8075pt x 927.465pt>
 File: images/chapter_3/kmedias_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/kmedias_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/kmedias_mpi.jpeg  used on input line 
-251.
+275.
 (pdftex.def)             Requested size: 373.49316pt x 165.74773pt.
- [30 <./images/chapter_3/kmedias_mpi.jpeg>]
+ [32 <./images/chapter_3/kmedias_mpi.jpeg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 267.
+(mdframed)              on input line 292.
 Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 283.
+ mdframed uses option nobreak mdframed on input line 310.
 Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 283.
- [31]
-<images/chapter_3/knn_mpi1.jpg, id=552, 4015.0pt x 4015.0pt>
+ mdframed uses option nobreak mdframed on input line 310.
+ [33] [34]
+<images/chapter_3/knn_mpi1.jpg, id=575, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi1.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi1.jpg>
-Package pdftex.def Info: images/chapter_3/knn_mpi1.jpg  used on input line 324.
+Package pdftex.def Info: images/chapter_3/knn_mpi1.jpg  used on input line 355.
 
 (pdftex.def)             Requested size: 210.08768pt x 210.07387pt.
-<images/chapter_3/knn_mpi2.jpg, id=553, 4015.0pt x 4015.0pt>
+<images/chapter_3/knn_mpi2.jpg, id=576, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi2.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi2.jpg>
-Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 331.
+Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 362.
 
 (pdftex.def)             Requested size: 210.08768pt x 210.07387pt.
+
+[35 <./images/chapter_3/knn_mpi1.jpg> <./images/chapter_3/knn_mpi2.jpg>]
+[36] [37] [38]
+<images/chapter_3/rl_mpi.jpg, id=599, 2264.46pt x 2288.55pt>
+File: images/chapter_3/rl_mpi.jpg Graphic file (type jpg)
+<use images/chapter_3/rl_mpi.jpg>
+Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 447.
+(pdftex.def)             Requested size: 280.12166pt x 283.09981pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[32] [33 <./images/chapter_3/knn_mpi1.jpg> <./images/chapter_3/knn_mpi2.jpg>]
-[34]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 382.
-Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 398.
-Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 398.
- [35]
-<images/chapter_3/rl_mpi.jpg, id=576, 2264.46pt x 2288.55pt>
-File: images/chapter_3/rl_mpi.jpg Graphic file (type jpg)
-<use images/chapter_3/rl_mpi.jpg>
-Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 427.
-(pdftex.def)             Requested size: 303.45918pt x 306.6711pt.
- [36] [37 <./images/chapter_3/rl_mpi.jpg>] [38] [39]
-<images/chapter_3/pacman_states.png, id=602, 980.16188pt x 408.02437pt>
+[39] [40 <./images/chapter_3/rl_mpi.jpg>] [41]
+<images/chapter_3/pacman_states.png, id=616, 980.16188pt x 408.02437pt>
 File: images/chapter_3/pacman_states.png Graphic file (type png)
 <use images/chapter_3/pacman_states.png>
 Package pdftex.def Info: images/chapter_3/pacman_states.png  used on input line
- 512.
+ 533.
 (pdftex.def)             Requested size: 466.86469pt x 194.34279pt.
- [40 <./images/chapter_3/pacman_states.png>] [41] [42]
-<images/chapter_3/pev_mpi3.png, id=637, 1670.24pt x 1339.0025pt>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[42] [43 <./images/chapter_3/pacman_states.png>] [44] [45]
+<images/chapter_3/pev_mpi3.png, id=656, 1670.24pt x 1339.0025pt>
 File: images/chapter_3/pev_mpi3.png Graphic file (type png)
 <use images/chapter_3/pev_mpi3.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 609.
+Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 630.
 
 (pdftex.def)             Requested size: 303.45918pt x 243.27795pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[43] [44 <./images/chapter_3/pev_mpi3.png>]
-<images/chapter_3/redneu_mpi2.jpeg, id=648, 2164.085pt x 2330.7075pt>
+[46] [47 <./images/chapter_3/pev_mpi3.png>]
+<images/chapter_3/redneu_mpi2.jpeg, id=667, 2164.085pt x 2330.7075pt>
 File: images/chapter_3/redneu_mpi2.jpeg Graphic file (type jpg)
 <use images/chapter_3/redneu_mpi2.jpeg>
 Package pdftex.def Info: images/chapter_3/redneu_mpi2.jpeg  used on input line 
-654.
+675.
 (pdftex.def)             Requested size: 256.777pt x 276.54323pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[45] [46 <./images/chapter_3/redneu_mpi2.jpeg>]) [47]
+[48] [49 <./images/chapter_3/redneu_mpi2.jpeg>]) [50]
 \openout2 = `Capitulos/4_Estudio_empírico.aux'.
 
 
 (Capitulos/4_Estudio_empírico.tex
 Cap\'{\i }tulo 4.
-<images/chapter_4/cluster.jpg, id=669, 1073.39969pt x 793.44853pt>
+<images/chapter_4/cluster.jpg, id=689, 1073.39969pt x 793.44853pt>
 File: images/chapter_4/cluster.jpg Graphic file (type jpg)
 <use images/chapter_4/cluster.jpg>
 Package pdftex.def Info: images/chapter_4/cluster.jpg  used on input line 19.
 (pdftex.def)             Requested size: 303.45918pt x 224.31912pt.
-[48
+[51
 
 
 
@@ -1946,7 +1942,7 @@ Package pdftex.def Info: images/chapter_4/cluster.jpg  used on input line 19.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 42.
- [49]
+ [52]
 PGFPlots: reading {files/sortn2.txt}
 PGFPlots: reading {files/sortn2.txt}
 PGFPlots: reading {files/sortn2.txt}
@@ -1981,13 +1977,13 @@ ics
 Package pgfplots info on input line 168: Setting layers 'axis background,axis g
 rid,axis ticks,axis lines,axis tick labels,pre main,main,axis descriptions,axis
  foreground'...
- [50]
+ [53]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 179.
 Package pgfplots info on input line 216: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
- [51]
+ [54]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 246.
@@ -2000,7 +1996,7 @@ Overfull \hbox (49.53772pt too wide) in paragraph at lines 285--286
  [][] 
  []
 
-[52]
+[55]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 299.
@@ -2018,7 +2014,7 @@ Overfull \hbox (0.88115pt too wide) in paragraph at lines 353--354
  [][] 
  []
 
-[53]
+[56]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 363.
@@ -2031,7 +2027,7 @@ Overfull \hbox (55.41153pt too wide) in paragraph at lines 402--403
  [][] 
  []
 
-[54]
+[57]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 423.
@@ -2040,7 +2036,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 432--437
 
  []
 
-<images/chapter_4/jerarquico.jpg, id=723, 1567.8575pt x 713.66624pt>
+<images/chapter_4/jerarquico.jpg, id=742, 1567.8575pt x 713.66624pt>
 File: images/chapter_4/jerarquico.jpg Graphic file (type jpg)
 <use images/chapter_4/jerarquico.jpg>
 Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 47
@@ -2049,7 +2045,7 @@ Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 47
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[55]
+[58]
 Package pgfplots info on input line 509: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
 
@@ -2060,7 +2056,7 @@ Overfull \hbox (10.02232pt too wide) in paragraph at lines 525--526
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[56 <./images/chapter_4/jerarquico.jpg>]
+[59 <./images/chapter_4/jerarquico.jpg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 534.
@@ -2072,7 +2068,7 @@ Overfull \hbox (90.65607pt too wide) in paragraph at lines 574--575
  [][] 
  []
 
-[57]
+[60]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 584.
@@ -2086,7 +2082,7 @@ Overfull \hbox (55.41078pt too wide) in paragraph at lines 628--629
  [][] 
  []
 
-[58]
+[61]
 Package pgfplots info on input line 663: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
 PGFPlots: reading {files/kmedias.txt}
@@ -2097,11 +2093,11 @@ PGFPlots: reading {files/kmedias.txt}
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[59]
+[62]
 PGFPlots: reading {files/kmedias_speedup.txt}
 PGFPlots: reading {files/kmedias_speedup.txt}
 PGFPlots: reading {files/kmedias_speedup.txt}
- [60]
+ [63]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 781.
@@ -2117,7 +2113,7 @@ Overfull \hbox (55.41602pt too wide) in paragraph at lines 825--826
  [][] 
  []
 
-[61]
+[64]
 PGFPlots: reading {files/cluster/kmediasDs.txt}
 PGFPlots: reading {files/cluster/kmediasDs.txt}
 PGFPlots: reading {files/cluster/kmediasDs.txt}
@@ -2127,7 +2123,7 @@ Overfull \hbox (79.39764pt too wide) in paragraph at lines 862--863
  [][] 
  []
 
-[62]
+[65]
 PGFPlots: reading {files/knn.txt}
 PGFPlots: reading {files/knn.txt}
 PGFPlots: reading {files/knn.txt}
@@ -2137,7 +2133,7 @@ Overfull \hbox (10.02861pt too wide) in paragraph at lines 925--926
  [][] 
  []
 
-<images/chapter_4/knn_mpi.jpeg, id=772, 2376.88pt x 1065.9825pt>
+<images/chapter_4/knn_mpi.jpeg, id=791, 2376.88pt x 1065.9825pt>
 File: images/chapter_4/knn_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_4/knn_mpi.jpeg>
 Package pdftex.def Info: images/chapter_4/knn_mpi.jpeg  used on input line 937.
@@ -2146,11 +2142,11 @@ Package pdftex.def Info: images/chapter_4/knn_mpi.jpeg  used on input line 937.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[63]
+[66]
 PGFPlots: reading {files/knn_speedup.txt}
 PGFPlots: reading {files/knn_speedup.txt}
 PGFPlots: reading {files/knn_speedup.txt}
- [64 <./images/chapter_4/knn_mpi.jpeg>]
+ [67 <./images/chapter_4/knn_mpi.jpeg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 987.
@@ -2166,20 +2162,20 @@ Overfull \hbox (55.41602pt too wide) in paragraph at lines 1033--1034
  [][] 
  []
 
-[65]
+[68]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1060.
 PGFPlots: reading {files/rl.txt}
 PGFPlots: reading {files/rl.txt}
- [66]
+ [69]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1114.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1128.
- [67] [68]
+ [70] [71]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1159.
@@ -2208,13 +2204,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1184--1188
 
  []
 
-<images/chapter_4/tabla_pev.png, id=813, 1321.18594pt x 545.03625pt>
+<images/chapter_4/tabla_pev.png, id=832, 1321.18594pt x 545.03625pt>
 File: images/chapter_4/tabla_pev.png Graphic file (type png)
 <use images/chapter_4/tabla_pev.png>
 Package pdftex.def Info: images/chapter_4/tabla_pev.png  used on input line 121
 6.
 (pdftex.def)             Requested size: 466.86469pt x 192.59518pt.
-[69]
+[72]
 PGFPlots: reading {files/pev.txt}
 PGFPlots: reading {files/pev.txt}
 PGFPlots: reading {files/pev.txt}
@@ -2227,11 +2223,11 @@ Overfull \hbox (38.71852pt too wide) in paragraph at lines 1303--1304
  [][] 
  []
 
-[70 <./images/chapter_4/tabla_pev.png>]
+[73 <./images/chapter_4/tabla_pev.png>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1324.
- [71]
+ [74]
 PGFPlots: reading {files/pev_2mpi.txt}
 PGFPlots: reading {files/pev_2mpi.txt}
 PGFPlots: reading {files/pev_2mpi.txt}
@@ -2269,8 +2265,8 @@ Overfull \hbox (38.71852pt too wide) in paragraph at lines 1495--1496
  [][] 
  []
 
-[72] [73]
-<images/chapter_4/pev_mpi1.jpeg, id=848, 3629.56pt x 2003.485pt>
+[75] [76]
+<images/chapter_4/pev_mpi1.jpeg, id=867, 3629.56pt x 2003.485pt>
 File: images/chapter_4/pev_mpi1.jpeg Graphic file (type jpg)
 <use images/chapter_4/pev_mpi1.jpeg>
 Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 151
@@ -2311,7 +2307,7 @@ Missing character: There is no ] in font nullfont!
 PGFPlots: reading {files/pev_3mpi.txt}
 PGFPlots: reading {files/pev_3mpi.txt}
 PGFPlots: reading {files/pev_3mpi.txt}
-[74 <./images/chapter_4/pev_mpi1.jpeg>]
+[77 <./images/chapter_4/pev_mpi1.jpeg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1617.
@@ -2351,12 +2347,12 @@ Package mdframed Info: mdframed detected package amsthm
  changed the theorem header of amsthm
 (mdframed)              on input line 1760.
 Package mdframed Info: Not enough space on this page on input line 1783.
-[75]
+[78]
 Package mdframed Info: Not enough space on this page on input line 1783.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1812.
- [76]
+ [79]
 PGFPlots: reading {files/cluster/pevReal.txt}
 PGFPlots: reading {files/cluster/pevReal.txt}
 PGFPlots: reading {files/cluster/pevReal.txt}
@@ -2375,7 +2371,7 @@ Overfull \hbox (55.41266pt too wide) in paragraph at lines 1890--1891
  [][] 
  []
 
-[77]
+[80]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1901.
@@ -2385,7 +2381,7 @@ Package mdframed Info: mdframed detected package amsthm
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
- [78] [79]
+ [81] [82]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 1974.
@@ -2397,7 +2393,7 @@ Overfull \hbox (0.87617pt too wide) in paragraph at lines 2009--2010
  [][] 
  []
 
-[80]
+[83]
 Package pgfplots info on input line 2037: Using 'lua backend=false' for axis: x
  coord trafo unsupported.
 
@@ -2405,31 +2401,31 @@ Overfull \hbox (71.60112pt too wide) in paragraph at lines 2048--2050
 [][]
  []
 
-<images/chapter_4/redneu_err.png, id=891, 722.7pt x 433.62pt>
+<images/chapter_4/redneu_err.png, id=910, 722.7pt x 433.62pt>
 File: images/chapter_4/redneu_err.png Graphic file (type png)
 <use images/chapter_4/redneu_err.png>
 Package pdftex.def Info: images/chapter_4/redneu_err.png  used on input line 20
 55.
 (pdftex.def)             Requested size: 205.42026pt x 205.42247pt.
-) [81 <./images/chapter_4/redneu_err.png>]
+) [84 <./images/chapter_4/redneu_err.png>]
 \openout2 = `Capitulos/5_Conclusiones_trabajo_futuro.aux'.
 
 
 (Capitulos/5_Conclusiones_trabajo_futuro.tex
 Cap\'{\i }tulo 5.
-[82
+[85
 
 
 
 
-]) [83] (main.bbl [84
+]) [86] (main.bbl [87
 
 
 
-]) [85]
+]) [88]
 \openout2 = `Cascaras/acronimos.aux'.
 
- (Cascaras/acronimos.tex) [86
+ (Cascaras/acronimos.tex) [89
 
 ]
 
@@ -2447,21 +2443,17 @@ LaTeX Info: Redefining \% on input line 22.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9D0F5F4EFFD70D90F665EA0D965A6595;7174.
+(rerunfilecheck)             Checksum: BF51AF4ACC0FECFDEDA4F5BC2E416755;7174.
  ) 
 Here is how much of TeX's memory you used:
- 50694 strings out of 474485
- 1130985 string characters out of 5739450
+ 50695 strings out of 474485
+ 1130873 string characters out of 5739450
  2059542 words of memory out of 5000000
- 71779 multiletter control sequences out of 15000+600000
+ 71773 multiletter control sequences out of 15000+600000
  580634 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,21n,131p,2364b,2462s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,21n,131p,2364b,2464s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\ALICIA GALLEGO\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dp
 i600\ecti0800.pk> <C:\Users\ALICIA GALLEGO\AppData\Local\MiKTeX\fonts/pk/ljfour
 /jknappen/ec/dpi600\ecbx0800.pk> <C:\Users\ALICIA GALLEGO\AppData\Local\MiKTeX\
@@ -2489,21 +2481,22 @@ Data\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\ALI
 CIA GALLEGO\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk
 ><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmex10.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/ALICIA GALLEGO/
-AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/User
-s/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mr12.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/cm/cmr5.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/ALICIA GALLEGO/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/ALICIA GALLE
-GO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/
+/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/ALICIA GALLEGO
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Use
+rs/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmmi8.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/ALICIA GALLEGO/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/ALICIA GAL
+LEGO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/
 Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
-cm/cmsy6.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (93 pages, 9533438 bytes).
+cm/cmsy10.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmsy6.pfb><C:/Users/ALICIA GALLEGO/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on main.pdf (96 pages, 9379335 bytes).
 PDF statistics:
- 1866 PDF objects out of 2073 (max. 8388607)
- 308 named destinations out of 1000 (max. 500000)
+ 1889 PDF objects out of 2073 (max. 8388607)
+ 315 named destinations out of 1000 (max. 500000)
  549 words of extra memory for PDF output out of 10000 (max. 10000000)
 
