@@ -792,36 +792,36 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\begin{figure}[!h]
 				\centering
 				\begin{tikzpicture}
-				\begin{axis}[
-					xlabel={Tam. Población},
-					ylabel={Tiempo de ejecución (s)},
-					legend style={at={(1.02,0.5)}, anchor=west},
-					grid=major,
-					width=\textwidth,
-					height=0.45\textwidth,
-					legend cell align={left},
-					extra description/.code={
-						\node at (1.01, 0.85) [anchor=west] {\textbf{Cores}};
-					}
-					]
-					
-					\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/kmedias5D.txt};
-					\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/kmedias5D.txt};
-					\addplot [mark=triangle*, color=blue, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/kmedias5D.txt};
-					\addplot [mark=star, color=orange, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/kmedias5D.txt};
-					\addplot [mark=diamond*, color=purple, line width=1.2pt] table [x index=0, y index=5, col sep=space] {files/cluster/kmedias5D.txt};
-					\addplot [mark=otimes*, color=cyan, line width=1.2pt] table [x index=0, y index=6, col sep=space] {files/cluster/kmedias5D.txt};
-					\addplot [mark=triangle*, color=darkgreen, line width=1.2pt] table [x index=0, y index=7, col sep=space] {files/cluster/kmedias5D.txt};
-					
-					\addlegendentry{10}
-					\addlegendentry{20}
-					\addlegendentry{35}
-					\addlegendentry{50}
-					\addlegendentry{75}
-					\addlegendentry{100}
-					\addlegendentry{128}
-					
-				\end{axis}
+					\begin{axis}[
+						xlabel={Population size},
+						ylabel={Execution time (s)},
+						legend style={at={(1.02,0.5)}, anchor=west},
+						grid=major,
+						width=\textwidth,
+						height=0.45\textwidth,
+						legend cell align={left},
+						extra description/.code={
+							\node at (1.01, 0.85) [anchor=west] {\textbf{Cores}};
+						}
+						]
+						
+						\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/kmedias5D.txt};
+						\addplot [mark=square*, color=magenta, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/kmedias5D.txt};
+						\addplot [mark=triangle*, color=blue, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/kmedias5D.txt};
+						\addplot [mark=star, color=orange, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/kmedias5D.txt};
+						\addplot [mark=diamond*, color=purple, line width=1.2pt] table [x index=0, y index=5, col sep=space] {files/cluster/kmedias5D.txt};
+						\addplot [mark=otimes*, color=cyan, line width=1.2pt] table [x index=0, y index=6, col sep=space] {files/cluster/kmedias5D.txt};
+						\addplot [mark=triangle*, color=darkgreen, line width=1.2pt] table [x index=0, y index=7, col sep=space] {files/cluster/kmedias5D.txt};
+						
+						\addlegendentry{10}
+						\addlegendentry{20}
+						\addlegendentry{35}
+						\addlegendentry{50}
+						\addlegendentry{75}
+						\addlegendentry{100}
+						\addlegendentry{128}
+						
+					\end{axis}
 				\end{tikzpicture}
 				\caption{KMedias - Pruebas en el cluster}
 			\end{figure}
