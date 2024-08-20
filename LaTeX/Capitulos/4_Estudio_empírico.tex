@@ -9,27 +9,44 @@
 
 \chapter{Estudio empírico}
 \label{cap:c4_estudio}	
-Después de implementar y diseñar los algoritmos y mejoras utilizando MPI, llevamos a cabo un análisis exhaustivo para evaluar los tiempos de ejecución, realizar pruebas, contrastar resultados y extraer conclusiones
+Después de diseñar e implementar las estrategias descritas en la Sección 3, llevamos a cabo un análisis exhaustivo para evaluar los tiempos de ejecución, realizar pruebas, contrastar resultados y extraer conclusiones
 
-Primero se ejecutan distintas pruebas en un ordenador normal, para luego ejecutar las mejores implementaciones en un cluster con varios ordenadores y muchos procesos. El cluster se representa en la siguiente figura:
+Primero, se ejecutan distintas pruebas en un ordenador de propósito general. Seguidamente ejecutar las mejores implementaciones en un sistema distribuido con un número elevado de núcleos de CPU. 
 
+\section{Entornos de ejecución}
+
+Para ejecutar las pruebas y comprobar el funcionamiento de las implementaciones, primero se ejecutan en un ordenador de propósito general. Este sistema computacional tiene las siguientes especificaciones:
+
+\begin{itemize}
+	\item Procesador (CPU): \textit{AMD Ryzen 7}, con 8 núcleos y 16 hilos, es capaz de defenderse con cargas de trabajo y paralelismo de alto nivel.
+	\item Memoria (RAM): 32 GB de \textit{RAM DDR4}, permitiendo una amplia capacidad para manejar grandes volúmenes de datos en memoria. Característica fundamental para ejecutar algoritmos de IA que demandan una cantidad elevada de recursos.
+	\item Tarjeta Gráfica (GPU): \textit{NVIDIA GeForce RTX 3070} con arquitectura \textit{Ampere} \cite{pool2020accelerating}, que cuenta con 5888 núcleos CUDA y 8 GB de memoria GDDR6. La arquitectura \textit{Ampere} es sucesora de la arquitectura \textit{Turing} lanzada en 2020. Fue diseñada para brindar un mejor rendimiento, especialmente en aplicaciones de computación paralela.
+	\item Placa Base: \textit{X570 Gaming}. Soporta las tecnologías de conectividad de alta velocidad, garantizando el rendimiento y estabilidad del sistema en condiciones de carga elevada.
+\end{itemize}
+
+El sistema altamente distribuido, consta de tres ordenadores. Uno que funciona de Front-End y dos como nodos de cómputo, en total 128 núcleos y 256GB de RAM. La figura \ref{fig:cluster} muestra la estructura del cluster.
+
+
+
+
+El Front-End, realiza la conexión remota con los otros dos ordenadores, situados en la Facultad de Informática de la Universidad Complutense de Madrid. Este ordenador no participa en el cómputo, solo mantiene los \textit{scripts} (tipo de fichero de texto con el código escrito en un lenguaje de programación, en este caso Python) y conecta los dos nodos de cómputo para que realicen las tareas.  Durante las pruebas, cada proceso tiene un núcleo dedicado, por lo que el rendimiento de cada proceso no se ve afectado por otros procesos del sistema. Esto permite mayor precisión para evaluar el rendimiento del sistema, y las pruebas ejecutadas no compiten por los recursos de la CPU. 
+
+
+\vspace*{0.2cm}
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.65\textwidth]{images/chapter_4/cluster}
+	\includegraphics[width=0.5\textwidth]{images/chapter_4/cluster}
 	\caption{MPI - Matriz}
 	\label{fig:cluster}
 \end{figure}
 
+En un ordenador de propósito general esto no ocurre, pues están diseñados para ejecutar múltiples procesos simultáneamente, cada uno pudiendo requerir acceso a los mismos recursos del sistema, como la memoria RAM, disco duro o la CPU.
 
-\newpage
+Para realizar las pruebas se usan las funciones \textit{open()} y \textit{write()} de Python para almacenar los tiempos de ejecución en ficheros de texto. Los tiempos se miden con las funciones de
+tiempo de MPI, MPI.Wtime().
 
-El ordenador 0, realiza la conexión remota con los otros dos ordenadores, situados en la facultad. Lee los datos de entrada y dependiendo del numero de procesos ejecutados, reparte los datos para realizar el cómputo en paralelo (como máximo 128 procesos, que son los núcleos totales entre los dos ordenadores). 
-
-Para realizar las pruebas se usa las funciones open() y write() de Python para almacenar los tiempos de ejecución en ficheros de de texto. Los tiempos se miden con las funciones de
-tiempo de MPI, MPI.Wtime()
-
-\section{Programas sencillo}
+\section{Programas sencillos}
 
 Primero realizamos el estudio de los programas más básicos, multiplicación de matrices y ordenación de arrays.
 

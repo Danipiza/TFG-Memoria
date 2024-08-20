@@ -438,7 +438,7 @@
 		
 		Para garantizar el correcto funcionamiento, el \textit{master} no puede recibir agentes de los \textit{workers}, en caso contrario no se podría garantizar el flujo de nuevos episodios. Solo puede existir \textit{M} agentes en todos los procesos (siendo \textit{M} el número de procesos ejecutados), debido a que un proceso solo puede gestionar a lo sumo un agente. 
 		
-		Cada proceso tiene su propio dominio, lo que provoca que la Q-Table se divide entre éstos. Aplicando el preprocesado comentado anteriormente se dividen los dos arrays bidimensionales (acciones y Q-valores). 
+		Cada proceso tiene su propio dominio, lo que provoca que la Q-Table se divida entre éstos. Aplicando el preprocesado comentado anteriormente se dividen los dos arrays bidimensionales (acciones y Q-valores). 
 		
 		
 		
@@ -449,21 +449,16 @@
 			\label{fig:rlmpi}
 		\end{figure}
 	
-		Aplicando la estrategia realizada en la búsqueda de hiper-parámetros, se puede ejecutar en varios procesos el algoritmo. El \textit{master} recolecta las experiencias de los \textit{workers}, haciendo la media de los valor-Q obtenidos de los procesos, calculando así las mejores acciones para cada estado. 
-		
-		Si ejecutamos desde el mismo punto el algoritmo en cada \textit{worker} no se puede garantizar que funcione correctamente, pues puede ser que 
-		
-		
-		Es mucho mejor inicializar el algoritmo desde distintos puntos, para así explorar todo el laberinto y encontrar el mejor camino en menos tiempo. Al menos un worker inicia desde el punto de inicio que se desea evaluar, pues de lo contrario no se podría garantizar que visiten la zona del inicio, y obtengan las estimaciones correctas para llegar al destino.
+		Aplicando la estrategia realizada en la búsqueda de hiper-parámetros, de ejecutar el algoritmo en varios procesos, se puede obtener una mejora. El \textit{master} recolecta las experiencias de los \textit{workers}, haciendo la media de los valor-Q obtenidos de los procesos, calculando así las mejores acciones para cada estado. Hay que tener en cuenta la posición de inicialización de los agentes en los procesos ejecutados. Si todos los procesos comparten el mismo punto de salida, los resultados serán parecidos a ejecutar el algoritmo en un solo proceso. Sin embargo al cambiar el punto de origen, los Q-valores obtenidos al realizar las medias de las experiencias varían y se recorre más espacio en menos tiempo. Y para lograr buenos resultados se asegura que al menos un proceso empieza desde el punto origen, de otra forma no se podría garantizar que el agente haya aprendido a alcanzar el destino desde la celda origen.			
 			
 			
 	
 	
 	
 	
-	\subsection{DQN}
+	\subsection{Deep Q-Network}
 	
-		Este algoritmo utiliza redes neuronales para obtener la mejor acción para un determinado estado, así eliminando los problemas que tiene el algoritmo anterior. Con es método podemos abarcar entornos más complejos, y por eso se propone el juego de atari Pac-Man, centrándonos en obtener el mayor número de monedas antes de provocar una condición de finalización. Antes de profundizar en el algoritmo de IA, explicamos el entorno del problema a resolver:
+		Este algoritmo utiliza redes neuronales para obtener la mejor acción para un determinado estado, eliminando así los problemas que tiene el algoritmo anterior. Con este método podemos abarcar entornos más complejos, y por eso se propone el juego de \textit{Namco} Pac-Man, cuya implementación  creamos desde cero para moldear a nuestro gusto la dificultad del entorno, así como facilitar el aprendizaje de la red neuronal. Nos centrándonos en obtener el mayor número de monedas antes de provocar una condición de finalización (ser comido por un fantasma o recoger todas los puntos). Para simplificar el entorno no se desarrollan niveles en la ejecución, al igual de limitar la vida del agente a un único corazón, por lo que si es comido una única vez se termina la ejecución. Antes de profundizar en el algoritmo de IA, explicamos como funciona y hemos realizado la implementación del entorno.
 		\vspace{-0.5cm}
 		\begin{itemize}		
 			\item Acciones disponibles. Como en el algoritmo anterior, son de movimiento. El agente y los fantasmas no pueden atravesar muros.
@@ -471,25 +466,25 @@
 			\item Entorno. Laberinto con muros, del cual no se puede escapar.
 			\item Objetos del juego. 
 			\vspace*{-0.3cm}
-				\subitem Pac-Man, el agente que mueve el usuario. Su objetivo es comer todos los puntos.
-				\vspace*{-0.3cm}
-				\subitem Fantasmas, se mueven siguiendo unos objetivos en el laberinto.
-				\vspace*{-0.3cm}
-				\subitem Túneles. Puntos que se conectan de manera toroidal para no salir del
-				\vspace*{-0.3cm}
-				\subitem Puntos (pellets en ingles). Son las "monedas" que el agente tiene que recoger.
-				\vspace*{-0.3cm}
-				\subitem Puntos de energia (powers). Si el agente consume uno, durante un periodo de tiempo es invencible y puede comer a los fantasmas.
-				
-				 laberinto.				
+				\subitem - Pac-Man: el agente que mueve el usuario. Su objetivo es comer todos los puntos.
+				\vspace{-1cm}
+				\subitem - Fantasmas: se mueven siguiendo unos objetivos en el laberinto.
+				\vspace{-0.2cm}
+				\subitem - Túneles: puntos que se conectan de manera toroidal para no salir del entorno.
+				\vspace{-0.2cm}
+				\subitem - Puntos (pellets en ingles): son las "monedas" que el agente tiene que recoger.
+				\vspace{-0.2cm}
+				\subitem - Puntos de energia (powers): si el agente consume uno, durante un periodo de \hspace*{1.25cm} tiempo es invencible y puede comer a los fantasmas.				
+				\vspace{-0.2cm}
+				\subitem - Laberinto: entorno por el cual el agente y fantasmas se mueven.
 			\vspace*{-0.3cm}
 			\item Condiciones de finalización. Ganar obteniendo todas las monedas del laberinto o perder si un fantasma come al agente. 			
 		\end{itemize}
 		
-		\begin{flushleft}
-			Los fantasmas tienen una IA interesante, pues tienen sus propios estados y cada uno tiene unos puntos objetivos que siguen para intentar comer al agente. Los estados son los siguientes:
-		\end{flushleft}
-		\vspace{-0.9cm}
+		
+		Los fantasmas tienen una IA interesante, pues tienen sus propios estados y cada uno tiene unos puntos objetivos que siguen para intentar comer al agente. Cabe recalcar que estos puntos están estratégicamente colocados para que los fantasmas trabajen en conjunto para cerrar huecos y comer al agente. El movimiento para alcanzar los puntos objetivos es simple, cuando se encuentran en una intersección (punto en el mapa con un hueco a la izquierda o derecha con respecto a su dirección actual) eligen la celda que minimice la distancia con respecto al punto objetivo. Los estados de los fantasmas son cuatro siguientes:
+		
+		%\vspace{-0.9cm}
 		\begin{itemize}
 			\item Chase. Cada fantasma sigue unos puntos en movimiento.
 			\vspace*{-0.3cm}
@@ -500,6 +495,10 @@
 			\item Eaten. Han sido comidos y se encuentran en su casa esperando a salir. (Implementado de forma que espera 3 movimientos del agente para salir)
 		\end{itemize} 
 		
+		Los estados iteran con una la secuencia principal \textit{[Scatter, Chase]}. La ejecución empieza con \textit{Scatter} para que los fantasmas, al salir de su casa, se dirijan a sus zonas asignadas. Al ejecutar, el agente, treinta acciones, el estado cambia a \textit{Chase} y se mantiene así sesenta acciones y vuelven a repetir la secuencia. Si el agente come un punto de energía, los fantasmas interrumpen su estado actual para pasar al estado \textit{Frightened} en el que están treinta acciones siendo vulnerables. Si el agente colisiona con los fantasmas en este estado, son comidos pasando al estado \textit{Eaten}. Al finalizar este estado vuelven al inicio de la secuencia principal.
+		
+		
+		
 		\begin{flushleft}
 			En la estado \textit{Chase} los fantasmas se mueven de la siguiente forma:
 		\end{flushleft}
@@ -508,44 +507,33 @@
 		\begin{itemize}
 			\item Blinky (Rojo): Persigue directamente al agente.
 			\vspace*{-0.3cm}
-			\item Pinky (Rosa): Persigue la celda cuatro posiciones adelantada a donde apunta el agente. Si el agente mira hacia arriba, también añade cuatro celdas hacia la izquierda
+			\item Pinky (Rosa): Persigue la celda cuatro posiciones adelantada a donde apunta el agente. Si el agente mira hacia arriba, también añade cuatro celdas hacia la izquierda.
 			\vspace*{-0.3cm}
 			\item Inky (Azul): Persigue una celda en concreto que se calcula de la siguiente forma. Primero se calcula una posición como lo hace el fantasma rosa pero en vez de cuatro celdas, se hace con dos. El objetivo se calcula al añadir el vector de distancia de la posición del fantasma rojo a esta posición.
 			\vspace*{-0.3cm}
 			\item Clyde (Naranja): Si está a ocho o más celdas de distancia del agente, lo persigue. En caso contrario sigue su objetivo del estado Scatter.
 		\end{itemize}
 		
-		El laberinto y el juego han sido creados desde cero para facilitar el aprendizaje del la IA, con estados mas sencillos y poder hacer los cambios necesarios en un futuro. El laberinto se almacena en un fichero de texto, para representar las celdas vacias, muros, puntos o puntos de poder con números enteros (0, 1, 2 y 3 respectivamente).
+		
+		El laberinto (mapa del entorno) se almacena en un fichero de texto, para representar las celdas vacías, muros, puntos o puntos de poder con números enteros (0, 1, 2 y 3 respectivamente).
 		
 		
-		
-		
-		\subsubsection{Entrenamiento}
-			
-			La fase de entrenamiento es crucial, pues modifican los valores de la red neuronal para que tome las mejores decisiones en cada estado, haciendo que el agente pueda terminar el problema sin perder.	El entrenamiento se puede realizar de varias formas.	
+		Al igual que en el algoritmo \textit{Q-Learning} la fase de entrenamiento es crucial, pues modifican los valores de la red neuronal para que el agente tome las mejores decisiones en cada estado, y terminar la ejecución sin perder. El entrenamiento se puede realizar de varias formas.	
 			
 							
-			Si mantenemos el mismo estado inicial, el agente empieza siempre en el mismo punto, y depende mucho de los hiperparámetros, además de la aleatoriedad. El agente empieza a investigar el entorno de manera aleatoria, y es muy probable que los fantasmas alcancen al agente bastante rápido sin explorar mucho el entorno. Por eso es mejor añadir varios estados iniciales para que pueda investigar el entorno de manera más eficiente. Hay que tener en cuenta que los estados iniciales tienen que ser puntos accesibles desde el estado inicial original. El agente no puede saltar a otros puntos sin coger los puntos del laberinto (Figura \ref{fig:pacman_states}), si entrenamos con puntos aleatorios sin cambiar el estado del laberinto, al ejecutar el algoritmo con los mejores valores obtenidos, no habrá servido de nada, pues son estados que el agente no va a alcanzar nunca.
+		Si mantenemos el mismo estado inicial, el agente empieza siempre en el mismo punto, y depende mucho de los hiperparámetros, además de la aleatoriedad. El agente empieza a investigar el entorno de manera aleatoria, y es muy probable que los fantasmas alcancen al agente bastante rápido sin explorar en profundidad el entorno. Por eso es mejor añadir varios estados iniciales para que pueda investigar el entorno de manera más eficiente. Hay que tener en cuenta que los estados iniciales tienen que ser puntos accesibles desde el estado inicial original. El agente no puede saltar a otras celdas sin coger los puntos del laberinto. La figura \ref{fig:pacman_states} muestra un estado accesible y otro inaccesible con la misma posición del agente. El estado accesible ha recogido los puntos del laberinto, así como posicionado correctamente los fantasmas, en su contraparte el estado innacesible no ha recogido los puntos simulando una acción de salto por parte del agente. Si entrenamos con puntos aleatorios sin cambiar el estado del entorno, este entrenamiento no habrá surtido efecto, pues son estados que el agente no va a alcanzar nunca.
 			
 		
-			\begin{figure}[!h]
-				\centering
-				\includegraphics[width=1\textwidth]{images/chapter_3/pacman_states}	
-				\caption{DQN - Estados del entorno}
-				\label{fig:pacman_states}
-			\end{figure}
-			
-			En la ejecución de la izquierda, el agente empieza en una posición aleatoria, sin cambiar los objetos del entorno. Este estado nunca se va a ejecutar, pues necesita coger los puntos del camino y cambiar las posiciones de los fantasmas, como se puede ver en la ejecución de la derecha.
-			
-		\subsubsection{Mejoras MPI}
-		
-			Al usar redes neuronales, se pueden aplicar las mejoras que se van a comentar en la sección de redes neuronales \ref{sec:redes_neu}. No se pueden aplicar las mejoras del algoritmo anterior, pues no es una matriz que se pueda dividir el trabajo, es una red neuronal cuyos pesos varían al ejecutar acciones en estados.
+		\begin{figure}[!h]
+			\centering
+			\includegraphics[width=1\textwidth]{images/chapter_3/pacman_states}	
+			\caption{DQN - Estados del entorno}
+			\label{fig:pacman_states}
+		\end{figure}
 		
 			
 		
-		
-		
-			
+		Como se comentó anteriormente, este algoritmo usa redes neuronales para aprender a ejecutar la mejor acción para un estado dado. Se van aplicar las mejoras que comentan en la sección \ref{sec:redes_neu} de redes neuronales. En este caso, no se pueden aplicar las mejoras del algoritmo anterior, pues no es una matriz que se pueda dividir el trabajo, si no una red neuronal cuyos pesos varían al ejecutar acciones en estados. 	
 		
 		
 	
@@ -556,36 +544,44 @@
 
 
 \section{Algoritmos Evolutivos}
-	Los algoritmos evolutivos son sencillos de paralelizar, debido a que son procesos que se repiten muchas veces, y se ejecutan en muchos individuos.
+
+	Los algoritmos evolutivos son sencillos de paralelizar. Trabajan con poblaciones de individuos que evulucionanr a lo largo de las generaciones. Los individuos se someten a operaciones para producir nuevas generaciones. Estas operaciones son son independientes, pues se puede dividir el cálculo entre varios procesos. Y son las siguientes: 
 	
 	\begin{enumerate}
-		\item \textbf{Inicialización.} Dados los parámetros iniciales se crea la población, con los individuos deseados. Hay diferentes tipos, con sus respectivas características.
+		\item \textbf{Inicialización.} Dados los parámetros iniciales se crea la población con los individuos deseados. Hay diferentes tipos, con sus respectivas características.
 		\begin{itemize}
-			\item Binarios. Estos individuos son fáciles de inicializar, pero ralentizan la comunicación entre procesos, debido a tener que enviar muchos bits.
-			\item Reales. Parecidos a los binarios pero estos son más portables.
-			\item Árboles. Más lentos para inicializar y difíciles de tratar.
+			\item Binarios. Estos individuos son fáciles de inicializar, pero ralentizan la comunicación entre procesos, debido al gran elevado número de bits que enviar.
+			\item Reales. Al igual que los binarios son faciles de inicializar, pero esta vez son más portables, al usar la \textit{base 10} como representación de los números, en vez del sistema binario (0's y 1's). 
+			\item Árboles. Más lentos para inicializar y difíciles de tratar. Se usan punteros y aumenta la complejidad al gestionar los punteros.
 		\end{itemize}
 		
-		\item \textbf{Evaluación.} Este es el método que más tiempo de ejecución puede llegar a consumir. Varía dependiendo del tipo de individuo del problema.
+		\item \textbf{Evaluación.} Este es el método que más tiempo de ejecución puede llegar a consumir. Varía dependiendo del tipo de individuo del problema. Como su nombre indica evalúa a todos los individuos dependiendo de una función de fitness, puede ser desde una fórmula matemática hasta una ejecución de un algoritmo en un entorno.
 		
-		\item \textbf{Selección.} Se seleccionan a los individuos. El tiempo depende de los métodos de selección aplicados, pero suelen ser lineales.
+		\item \textbf{Selección.} Se seleccionan a los individuos. La aleatoriedad predomina en este método, y dependiendo de la estrategia escogida se puede dar más o menos probabilidad a los más aptos. 
 		
-		\item \textbf{Cruce.} Con una cierta probabilidad, se cruzan 2 individuos del conjunto seleccionado. Tienen un mayor coste que selección.
+		\item \textbf{Cruce.} Todos los individuos se cruzan, y con una cierta probabilidad se eligen a los hijos de estos cruces. Si no se cumple dicha probabilidad no se cruzan los individuos y se dejan como están. Normal mente tendrán un mayor coste temporal que el método anterior.
 		
-		\item \textbf{Mutación.} Igual que el cruce tiene una probabilidad para mutar. Parecido a cruce, pero un poco más rápido.
+		\item \textbf{Mutación.} Igual que el cruce tiene una probabilidad para mutar. Normalmente es un poco más veloz que el cruce, debido a las estrategias implementadas y que la probabilidad de mutación suele ser menor a la de cruce, provocando una menor tasa de ejecución de la estrategia.
 	\end{enumerate}
 	
-	Para cada tipo de individuos se desarrollan unos problemas.\\
-	1. Binario, con un intervalo dado y una precisión, queremos calcular el valor máximo o mínimo para ciertas funciones. Los valores fitness se calculan con la representación real del cromosoma, que varía dependiendo de la precisión que se le asigna al ejecutar el algoritmo. Por lo que hay que convertir de binario a real.
-	Este problema se ejecuta bastante rápido. Reducir su tiempo de ejecución es desafiante.\\
-	2. Real. Aeropuertos con un número variable de vuelos y pistas. Queremos calcular el sumatorio de tiempos mínimos de retraso para que los aviones aterricen en el aeropuerto. Cada avión tiene asignada la hora de aterrizaje para cada pista, y hay un tiempo mínimo de separación entre vuelos que aterrizan en cada pista. Se puede resolver con vuelta atrás pero tiene un coste exponencial (inviable). El valor fitness tiene coste \textit{O(NumAviones*NumPistas) $\equiv$ O(\(N^{2}\))}. Se calcula:
-	
-	\lstset{language=python, 
-		breaklines=true, 
-		basicstyle=\footnotesize,
-		backgroundcolor=\color{lightergray},
-		commentstyle=\color{green_comment},}
-	\begin{lstlisting}
+	\begin{flushleft}
+		En este trabo se desarrollan los siguientes problemas a optimizar para los tres diferentes individuos implementados.
+	\end{flushleft}
+	\begin{enumerate}
+		\item Los individuos binarios, tienen un intervalo y una precisión como variable de inicialización. Queremos calcular el valor máximo o mínimo para ciertas funciones matemáticas. Los valores \textit{fitness} se calculan con la representación real del cromosoma, que varía dependiendo de la precisión que se le asigna al ejecutar el algoritmo. Por ello hay que convertir la información de binario a real. 
+		
+		Para estos individuos, el algoritmo se ejecuta bastante rápido, además de alcanzar el máximo global con menos generaciones que los otros dos individuos. La función de evaluación es lineal \textit{O(N)}, debido a la conversión del número binario. Reducir su tiempo de ejecución es desafiante, por el poco coste temporal y el tiempo necesario para enviar/recibir los individuos.		
+		\item Los individuos reales, se enfrentan a un problema de mayor complejidad, como es la minimización del retraso total obtenible de una serie de aviones en un aeropuerto. El número vuelos y pistas es variable, y cada vuelo tiene asignado la hora de aterrizaje para cada pista. Hay un tiempo mínimo de separación entre vuelos que aterrizan en cada pista, pues hay que garantizar la seguridad de los pasajeros y la integridad de los aviones. Se puede resolver con vuelta atrás pero tiene un coste exponencial O(\(2^{N}\)). El valor \textit{fitness} tiene coste \textit{O(NumAviones*NumPistas) $\equiv$ O(\(N^{2}\))}. La figura \ref{fig:pev_funcion_ev_2} muestra como se calcula el valor \textit{fitness} de un individuo.
+		
+		\begin{figure}
+		
+		
+			\lstset{language=python, 
+				breaklines=true, 
+				basicstyle=\footnotesize,
+				backgroundcolor=\color{lightergray},
+				commentstyle=\color{green_comment},}
+			\begin{lstlisting}
  fitness=0
  for avion in aviones:
  for pista in range(pistas): # Calculamos TLA para cada pista
@@ -593,79 +589,89 @@
  # Se asigna el vuelo actual a la pista con minimo TLA calculado
  fitness+=(menor_TLA-menor_TEL)^2
  # menor_TEL: menor TEL de ese vuelo con todas las pistas		
-	\end{lstlisting}
+			\end{lstlisting}
+			\caption{PEV - Función de evaluación para los individuos reales}
+			\label{fig:pev_funcion_ev_2}
+		\end{figure}
+		
+		El tiempo de ejecución para este problema depende de la función de evaluación, que varía dependiendo del número de aviones y pistas. 
+		
+		\item Los individuos árbol, han de encontrar una sucesión de acciones en un entorno para maximizar las celdas visitadas en una matriz. Poniendo en contexto, el agente de este problema se encarga de podar un jardín de tamaño \textit{(NxM)} con unos operadores determinados. Estos operadores pueden ser terminales o nodos hoja (nodos del árbol sin hijos) como avanzar podando el cesped o girar a la izquierda (ambos terminales devuelven (0, 0)) y constante, que no altera al agente pero devuelve sus valores (X, Y) para los operadores funciones. Los operadores funciones, expresiones o nodos intermedios (nodos del árbol con al menos un hijo) como Salta(E), operación que provoca que el agente salte y pode la posición destino. O los operadores Progn(E1, E2) y Suma(E1, E2) que aunque no modifiquen al agente aumentan el tamaño del árbol (devuelven la posición de su hijo derecho (E2) y la suma de sus hijos (E1 y E2) respectivamente).
+		
+		El coste temporal de este algoritmo viene dado principalmente por la función de evaluación. Ejecuta la simulación en la matriz hasta cumplir un determinado número de ticks (acciones realizadas), que es proporcional al número de filas y columnas de la matriz. Aunque las funciones de cruce y mutación también tardan en ejecutarse, debido al control de punteros.
+	\end{enumerate}
 	
-	\noindent El tiempo de ejecución para este problema depende de la función de evaluación, que varía dependiendo del número de aviones y pistas. 
 	
-	3. Árbol, tenemos una matriz de enteros que representa un jardín. 1: césped y                 0: césped podado. Queremos maximizar el área podada. Para ello el agente tiene unas acciones que puede ejecutar.
-	El coste temporal de este algoritmo viene dado principalmente por la función de evaluación. Ejecuta la simulación en la matriz hasta cumplir un determinado número de ticks (acciones realizadas), que es proporcional al número de filas y columnas de la matriz. Aunque las funciones de cruce y mutación también tardan en ejecutarse, debido al control de punteros.
-	
-	
-	
+	Cada una de las siguientes estrategias MPI se pueden configurar para cada tipo de individuo:
 	\begin{flushleft}
-		Cada una de las siguientes mejoras MPI se pueden configurar para cada tipo de individuo.\\
 		1. Dividir la población en subpoblaciones.\\
 		2. Modelo de islas.\\
-		3. PipeLine. (Figura \ref{fig:pevpipe})\\
+		3. PipeLine.\\
 	\end{flushleft}
 	
-	La primera implementación, de dividir la poblacion entre procesos, se puede paralelizar fácilmente. El master recibe de los Workers las subpoblaciones inicializadas y evaluadas, y comienza el bucle principal del algoritmo, en el cual:
+	La primera estrategia, que consiste en dividir la poblacion entre los procesos, se puede paralelizar fácilmente. El \textit{master} recibe de los \textit{workers} las subpoblaciones inicializadas y evaluadas, y comienza el bucle principal del algoritmo, en el cual:
 	\begin{itemize}
-		\item El master se encarga de hacer la selección, y enviarla dividida a los workers. Mientras los workers trabajan, el master almacena el progreso de los mejores individuos de cada generación.
-		\item Los workers reciben la selección, la cruzan, mutan y evalúan. Al finalizar estos procesos mandan la subpoblación al master para empezar la siguiente iteración.
+		\item El \textit{master} se encarga de hacer la selección, y enviarla dividida a los \textit{workers}. Mientras que los \textit{workers} procesan los datos recibidos, el \textit{master} almacena el progreso de los mejores individuos de cada generación.
+		\item Los \textit{workers} reciben la selección, la cruzan, mutan y evalúan. Al finalizar estos procesos mandan la subpoblación al \textit{master} para empezar la siguiente iteración.
 	\end{itemize}
 	
-	Para el \textbf{modelo de islas}, se aplica la idea de mejoras pasadas, en cada proceso se ejecuta el algoritmo. Todos tienen el mismo tamaño, pero distintas poblaciones. Hay varios tipos de comunicaciones en esta mejora. Cada cierto tiempo se reinicia la población con los mejores individuos generales (de todos los procesos).
+	Para el modelo de islas (segunda estrategia), se aplica la estrategia que se ha desarrollado anteriormente para otros algoritmos. Cada proceso ejecuta el algoritmo básico, dividiendo la población general en los procesos ejecutados. Con este modelo se reduce la comunicación entre los procesos, pues al contrario que la estrategia anterior, no se reserva funcionalidades para diferentes procesos, si no que cada proceso se encarga de ejecutar todas las funciones para que su subpolación evolucione correctamente. Cada cierto tiempo se reinicia la población con los mejores individuos generales (de todos los procesos). Los tipos de comunicación son los siguientes: 
 
 	\begin{itemize}
-		\item Estrella. Solo hay comunicaciones master-worker. El master recibe los mejores individuos.
-		\item En red. No hay proceso master, todos los procesos ejecutan el algoritmo. Todos los procesos están en comunicación constante, mandando los mejores individuos para el reinicio de la población.
-		\item En anillo. Tampoco hay proceso master, los procesos se comunican como una lista enlazada.
+		\item Estrella. El \textit{master} se posiciona en el centro y solo hay comunicaciones \textit{master-worker} para almacenar los mejores individuos de cada subpoblación.
+		\item En red. No hay proceso \textit{master}, todos los procesos ejecutan el algoritmo. Al finalizar una iteración todos los procesos se comunican entre sí, mandando los mejores individuos para el reinicio de la población.
+		\item En anillo. Igual que el anterior, pero esta vez no se comunican todos los procesos. La comunicación, como nu nombre indica se hace con topología circular, cada proceso se comunica con su predecesor y sucesor.
 	\end{itemize}
 	
-	Segmentar el algoritmo entre los procesos, provoca un flujo constante de generaciones. Cada proceso se encarga de un método. El master se encarga de generar cuatro poblaciones distintas y las evalúa para mandarlas al worker que se encarga de la selección. El master no genera más poblaciones, y pasa a un estado de recepción mejores individuos. Las poblaciones van evolucionando conforme avanzan por el pipeline. El último worker se encarga de la evaluación, que envía al worker de selección, y al master.
+	Segmentar el algoritmo entre los procesos (tercera estrategia, representada en la figura \ref{fig:pevpipe}), provoca un flujo constante de generaciones. Como hay cinco métodos principales se necesitan, al menos, cinco procesos, incluyendo al \textit{master}, que se encarga de inicializar y evaluar las cuatro distintas poblaciones que se van a ejecutar al mismo tiempo. Al principio, todos los procesos \textit{workers} están en espera de recibir una población para ejecutar sus operaciones. El primer \textit{worker} se encarga de la selección y se despierta en la segunda iteración al recibir la primera población inicializada por parte del \textit{master}. Una vez a ejecutado las cuatro selecciones de las poblaciones que el \textit{master} le envía, empieza a recibir las poblaciones del ultimo \textit{worker}. Los otros tres \textit{workers} se encargan del cruce, mutación y el ultimo de la evaluación, despertándose en la tercera, cuarta y quinta iteración respectivamente por parte de su \textit{worker} predecesor. El último \textit{worker} finaliza una generación al enviar la evaluación de la población mutada al \textit{worker 1}, encargado de realizar la selección. No hay conflicto con el \textit{master}, ya que, como se mencionó anteriormente en este párrafo, este crea cuatro poblaciones (terminando en la iteración cuatro, mientras que la primera evaluación del último \textit{worker} se finaliza en la iteración cinco), y al finalizar su trabajo pasa a un estado de recepción de los mejores individuos. Si se ejecutan \textit{100} generaciones, esta estrategia evoluciona cuatro poblaciones distintas, en \textit{104} generaciones en total, de las cuales \textit{96} se ejecutan las cuatro poblaciones simultaneamente.
 	
+	
+		
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=0.65\textwidth]{images/chapter_3/pev_mpi3}
-		\caption{MPI - PEV PipeLine}
+		\caption{PEV - Tercera estrategia: PipeLine }
 		\label{fig:pevpipe}
 	\end{figure}
 
-	Se puede reducir el tiempo de ejecución si comprobamos que métodos tardan más, añadiendo más procesos para reducir la carga de trabajo.
+	El tiempo de ejecución de esta estrategia es proporcional al número de generaciones ejecutadas por el proceso que más tiempo tarda en ejecutarse. Por lo que se puede reducir el tiempo de ejecución si comprobamos que métodos tardan más, añadiendo más procesos para reducir la carga de trabajo. Por ejemplo en los individuos reales y árboles el método que más tiempo consume es la evaluación de individuos, por lo que conviene añadir mas procesos para reducir así el tiempo de ejecución.
 	
 	
 	
 	
 	
-
+\newpage
 
 \section{Redes Neuronales}
 \label{sec:redes_neu}	
-	Esta poderosa herramienta de aprendizaje supervisado, está diseñada para reconocer patrones complejos y realizar diversas tareas. Aprende con un proceso iterativo de entrenamiento, ajustando las conexiones entre neuronas. Este proceso secuencial es complejo de paralelizar. Al finalizar una predicción el modelo se tiene que actualizar propagando hacia atrás.
+	Esta poderosa herramienta de aprendizaje supervisado, está diseñada para reconocer patrones complejos y realizar diversas tareas. Aprende con un proceso iterativo de entrenamiento, ajustando las conexiones entre neuronas. Este proceso secuencial es complejo de paralelizar. Al finalizar una predicción, el modelo se tiene que actualizar propagando hacia atrás.
 	
-	Nos centramos en la técnica de \textbf{predicción}. La capa de entrada está formada por dos neuronas, cada individuo son variables numéricas que representan, la altura y el peso de una persona, y aprende a predecir el Índice de Masa Corporal (IMC). La capa de entrada y salida no varían, pero la capa oculta se puede modificar libremente, aumentando el tiempo en la fase de entrenamiento.
+	Nos centramos en la técnica de predicción. Para comenzar, vamos a crear una red neuronal que aprenda a predecir el Índice de Masa Corporal (IMC) de una persona. Cada individuo está formado de dos variables, la altura en centimetros y el peso el kilogramos. Para moldear la red neuronal a los individuos, la capa de entrada se estructura con dos neuronas, una para cada variable, y la salida es el IMC, por lo que la capa de salida es una única neurona. La capa de entrada y salida no varían, pero la capa oculta se puede modificar libremente, aumentando el tiempo en la fase de entrenamiento.
 	
 	
-	Como en algoritmos pasados, necesitamos encontrar la mejor tasa de aprendizaje, para que aprenda lo mejor posible. Por lo que diseñamos una programa MPI, en el cual se ejecutan en varios procesos el mismo algoritmo con diferentes tasas de aprendizaje y repeticiones para el entrenamiento. El speedup es proporcional al número de procesos.
+	Como en algunos de los algoritmos anteriores, necesitamos encontrar la mejor configuración de los hiper-parámetros. En las redes neuronales solo hay uno. La tasa de aprendizaje, controla la magnitud de los ajustes a realizar en los pesos de las neuronas durante el proceso de entrenamiento. Específicamente, determina cuánto deben cambiar los pesos en respuesta al error cometido a predecir un individuo.
 	
-	\begin{flushleft}
-		Como en el algoritmo anterior, se puede aplicar un pipeline para que haya un flujo de mensajes, pero esta vez en vez de ser unidireccional es bidireccional, al tener que actualizar los pesos de las neuronas al predecir un individuo.\\	
-		1. PipeLine\\
-		2. Dividir el trabajo en procesos
+	
+	Por ello, diseñamos una estrategia para encontrar la mejor tasa de aprendizaje para una red neuronal en concreto. El proceso \textit{master} envía intervalos de tasas de aprendizaje a todos los procesos \textit{workers} ejecutados, para que estos ejecuten el algoritmo y envíen el sumatorio de errores obtenidos en la predicción. La inicialización de los pesos, normalmente es aleatoria, pero para hacer más igualitario el calculo de los errores, todos los procesos inicializan la red neuronal con los mismos pesos.
+	
+	
+	
+	\begin{flushleft}		
+		Las estrategias MPI realizadas son las siguientes:
+		1. PipeLine. Como en el algoritmo anterior, pero esta vez con un flujo de mensajes bidireccional.\\
+		2. Dividir el trabajo entre los procesos.
 	\end{flushleft}
 	
-	Segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el master el encargado de enviar individuos de la población categorizada. El último worker controla la capa de salida, con las etiquetas calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes. Figura \ref{fig:redneumpipipe}.
-	
+	Segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el \textit{master} el encargado de enviar individuos de la población categorizada. El último \textit{worker} controla la capa de salida, con las etiquetas de los individuos, calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes, la figura \ref{fig:redneumpipipe} muestra dicho flujo y el trabajo de los procesos es el siguiente:	
 	
 	
 	\begin{enumerate}
-		\item El master envía un número proporcional de individuos al número de procesos ejecutándose. Luego entra en un bucle en el cual recibe el error, actualiza, y envía otro individuo. Para finalizar recibe el mismo número de individuos que envió al principio y actualiza.
-		\item El último worker solo recibe las predicciones y calcula el error.
-		\item Los workers de la capa oculta tienen un proceso más complejo. Primero reciben un número de individuos proporcional a su id, los procesan y envían. Después entran en un bucle en el cual:			
+		\item El \textit{master} envía un número proporcional de individuos a los procesos en ejecución. Luego, antes de enviar otro individuo, entra en un bucle en el cual recibe el error de un individuo ya enviado, actualizando sus neuronas, y envía otro individuo. Para finalizar recibe el mismo número de errores (actualizando las neuronas) que individuos envió al principio.
+		\item El último \textit{worker} solo recibe las predicciones y calcula el error.
+		\item Los workers de la capa oculta tienen un proceso más complejo. Primero, reciben un número de individuos proporcional a su \textit{id}, los procesan y envían. Después entran en un bucle en el cual:			
 		\begin{itemize}
-			\item Reciben, de la capa siguiente, los errores, actualizan sus pesos y envían a la capa anterior.			
-			\item Reciben, de la capa anterior, los nuevos individuos, procesan y propagan hacia adelante.
+			\item Reciben de la capa siguiente: los errores, actualizan sus pesos y lo propagan enviando lo a la capa anterior.			
+			\item Reciben de la capa anterior: los nuevos individuos, procesan y propagan hacia adelante.
 		\end{itemize}		
 		
 	\end{enumerate}
@@ -677,17 +683,22 @@
 		\label{fig:redneumpipipe}
 	\end{figure}
 	
-	Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado fine tuning \cite{malladi2023fine} que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos, y en paralelo ejecutamos la fase de entrenamiento. Una vez finalizadas el master recibe los pesos de cada worker y hace la media. 
-	
-	Cuanto más grande sea la red neuronal mejor, tanto en rendimiento como en evaluación. En las redes neuronales grandes, un nodo se especializa en unos ciertos parámetros, por lo que no hay demasiadas intersecciones entre los entrenamientos de los procesos. Pero hay que dividir correctamente la población inicial entre los procesos. 
+	Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos (segunda estrategia) no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado \textit{fine tuning} \cite{malladi2023fine} que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos y, en paralelo, ejecutamos la fase de entrenamiento. Una vez finalizadas, el \textit{master} recibe los pesos de cada worker y hace la media. Cuanto más grande sea la red neuronal mayor será -a priori- el rendimiento.
+		
+	Las neuronas varían sus pesos para adaptarse a las variables recibidas. Para predecir un individuo, todas las neuronas trabajan en conjunto. Lo que supone que una neurona perteneciente a una red de menor tamaño tendrá mas relevancia en comparación con una neurona en una red de mayor escala. Esto plantea un interrogante: ¿es posible paralelizar el trabajo de una red neuronal de gran escala y conservar o reducir el porcentaje de error al predecir individuos? Para ponerlo a prueba hay que probar varias estrategias de agrupaciones en la población que se va a utilizar para entrenar la red neuronal, además de tener en cuenta la inicialización de los pesos.
 	
 	\begin{enumerate}
-		\item Con una población distinta, depende del tamaño de la red. 
+		\item Misma población en todos los procesos. 
+		
 		\begin{itemize}
-			\item Si es una red pequeña, esta técnica no es muy efectiva. La diferencia de pesos entre procesos puede llegar a ser grande, y al hacer la media dar evaluaciones incorrectas. 		
-			\item Sin embargo con muchas capas se mejora la evaluación. Cada proceso especializa unas neuronas y al juntarlas en el master no intersecan.			
-		\end{itemize}		
-		\item Si enviamos una población parecida, depende de la inicialización de los pesos, pero muy seguramente no surta efecto. Es como ejecutar varias veces el algoritmo en diferentes ejecuciones.
+			\item Si cada proceso tiene la misma población y los mismos pesos en la red, si reduce el tiempo de ejecución, pero no mejora la predicción. Sería como ejecutar el algoritmo sin paralelizar, pero con menos iteraciones, pues se ejecutan en los procesos la misma ejecución y la media no varía con respecto a los resultados obtenidos.
+			\item Inicializando las distintas redes neuronales con pesos diferentes, puede predecir correctamente para este problema en particular pero no tener unos buenos resultados de manera global o viceversa. Además, depende de la aleatoriedad, pues el porcentaje de errores en una ejecución puede variar bastante con respecto a otra. 
+		\end{itemize} 
+		
+		\item Diferentes poblaciones para cada proceso. 
+		
+		Esta estrategia suena mejor que la anterior. Al no haber intersección de poblaciones en los procesos ejecutados, los valores de los pesos se modificaran de diferente forma y puede que al hacer la media la red se estructure de forma que se obtenga un correcto funcionamiento. La inicialización de los pesos no provoca una gran diferencia, al contrario que mantener la misma población para todos los procesos. Pero conviene probar ambas inicializaciones.	
+		
 		
 	\end{enumerate}	
 	
