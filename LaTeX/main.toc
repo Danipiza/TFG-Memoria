@@ -33,40 +33,37 @@
 \contentsline {section}{\numberline {4.1}Entornos de ejecución}{55}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Programas sencillos}{57}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Ordenaciones}{57}{subsection.4.2.1}%
-\contentsline {subsubsection}{Algoritmos cuadráticas sin mejoras}{57}{section*.33}%
-\contentsline {subsubsection}{SequentialSort con mejoras}{58}{section*.35}%
-\contentsline {subsubsection}{MergeSort}{59}{section*.37}%
-\contentsline {subsubsection}{Cluster}{60}{section*.39}%
-\contentsline {subsection}{\numberline {4.2.2}Multiplicación de matrices}{61}{subsection.4.2.2}%
-\contentsline {subsubsection}{Ordenador de propósito general}{61}{section*.41}%
-\contentsline {subsubsection}{Cluster}{62}{section*.43}%
-\contentsline {section}{\numberline {4.3}Algoritmos de Agrupación}{63}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Jerárquico Aglomerativo}{63}{subsection.4.3.1}%
-\contentsline {subsubsection}{Distancias sin mejoras}{63}{section*.45}%
-\contentsline {subsubsection}{Distancia Centroide con mejoras}{64}{section*.47}%
-\contentsline {subsubsection}{Distancia por enlace Simple/Completo con mejoras}{65}{section*.49}%
-\contentsline {subsubsection}{Cluster}{66}{section*.51}%
-\contentsline {subsection}{\numberline {4.3.2}K-Medias}{67}{subsection.4.3.2}%
-\contentsline {subsubsection}{Ordenador de propósito general}{67}{section*.54}%
-\contentsline {subsubsection}{Cluster}{69}{section*.57}%
-\contentsline {subsection}{\numberline {4.3.3}KNN}{70}{subsection.4.3.3}%
-\contentsline {subsubsection}{Algoritmo sin mejoras}{71}{section*.60}%
-\contentsline {subsubsection}{Algoritmo con mejoras}{71}{section*.62}%
-\contentsline {subsubsection}{Cluster}{73}{section*.65}%
-\contentsline {section}{\numberline {4.4}RL}{74}{section.4.4}%
-\contentsline {subsubsection}{Algoritmo sin mejoras}{74}{section*.67}%
-\contentsline {subsubsection}{Búsqueda de los mejores hiperparámetros}{74}{section*.69}%
-\contentsline {subsubsection}{Mejora: Dividir el entorno entre los procesos}{75}{section*.70}%
-\contentsline {subsubsection}{Mejora: Ejecuciones en paralelo}{75}{section*.71}%
-\contentsline {subsubsection}{Cluster}{76}{section*.72}%
-\contentsline {section}{\numberline {4.5}PEV}{77}{section.4.5}%
-\contentsline {subsubsection}{Algoritmos sin mejoras}{78}{section*.74}%
-\contentsline {subsubsection}{Mejora 2: Modelo de islas}{79}{section*.76}%
-\contentsline {subsubsection}{Mejora 1: Dividir con el master}{80}{section*.79}%
-\contentsline {subsubsection}{Mejora 3: PipeLine}{82}{section*.82}%
-\contentsline {subsubsection}{Cluster}{84}{section*.86}%
-\contentsline {section}{\numberline {4.6}Redes Neuronales}{86}{section.4.6}%
-\contentsline {subsubsection}{Mejora 1: PipeLine}{86}{section*.89}%
-\contentsline {subsubsection}{Mejora 2: Dividir el trabajo en procesos}{88}{section*.91}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{90}{chapter.5}%
-\contentsline {chapter}{Bibliography}{94}{chapter*.94}%
+\contentsline {subsubsection}{\numberline {4.2.1.1}Algoritmos de complejidad cuadrática}{57}{subsubsection.4.2.1.1}%
+\contentsline {subsubsection}{\numberline {4.2.1.2}Algoritmo \textit {MergeSort}}{59}{subsubsection.4.2.1.2}%
+\contentsline {subsection}{\numberline {4.2.2}Multiplicación de matrices}{62}{subsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.1}Cluster}{63}{subsubsection.4.2.2.1}%
+\contentsline {section}{\numberline {4.3}Algoritmos de Agrupación}{64}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Jerárquico Aglomerativo}{65}{subsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.1.1}Distancias sin mejoras}{65}{subsubsection.4.3.1.1}%
+\contentsline {subsubsection}{\numberline {4.3.1.2}Distancia Centroide con mejoras}{66}{subsubsection.4.3.1.2}%
+\contentsline {subsubsection}{\numberline {4.3.1.3}Distancia por enlace Simple/Completo con mejoras}{67}{subsubsection.4.3.1.3}%
+\contentsline {subsubsection}{\numberline {4.3.1.4}Cluster}{68}{subsubsection.4.3.1.4}%
+\contentsline {subsection}{\numberline {4.3.2}K-Medias}{69}{subsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.1}Ordenador de propósito general}{69}{subsubsection.4.3.2.1}%
+\contentsline {subsubsection}{\numberline {4.3.2.2}Cluster}{71}{subsubsection.4.3.2.2}%
+\contentsline {subsection}{\numberline {4.3.3}KNN}{72}{subsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.3.1}Algoritmo sin mejoras}{73}{subsubsection.4.3.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.3.2}Algoritmo con mejoras}{73}{subsubsection.4.3.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3.3}Cluster}{75}{subsubsection.4.3.3.3}%
+\contentsline {section}{\numberline {4.4}RL}{76}{section.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.0.1}Algoritmo sin mejoras}{76}{subsubsection.4.4.0.1}%
+\contentsline {subsubsection}{\numberline {4.4.0.2}Búsqueda de los mejores hiperparámetros}{76}{subsubsection.4.4.0.2}%
+\contentsline {subsubsection}{\numberline {4.4.0.3}Mejora: Dividir el entorno entre los procesos}{77}{subsubsection.4.4.0.3}%
+\contentsline {subsubsection}{\numberline {4.4.0.4}Mejora: Ejecuciones en paralelo}{77}{subsubsection.4.4.0.4}%
+\contentsline {subsubsection}{\numberline {4.4.0.5}Cluster}{78}{subsubsection.4.4.0.5}%
+\contentsline {section}{\numberline {4.5}PEV}{79}{section.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.0.1}Algoritmos sin mejoras}{80}{subsubsection.4.5.0.1}%
+\contentsline {subsubsection}{\numberline {4.5.0.2}Mejora 2: Modelo de islas}{81}{subsubsection.4.5.0.2}%
+\contentsline {subsubsection}{\numberline {4.5.0.3}Mejora 1: Dividir con el master}{82}{subsubsection.4.5.0.3}%
+\contentsline {subsubsection}{\numberline {4.5.0.4}Mejora 3: PipeLine}{84}{subsubsection.4.5.0.4}%
+\contentsline {subsubsection}{\numberline {4.5.0.5}Cluster}{86}{subsubsection.4.5.0.5}%
+\contentsline {section}{\numberline {4.6}Redes Neuronales}{88}{section.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.0.1}Mejora 1: PipeLine}{88}{subsubsection.4.6.0.1}%
+\contentsline {subsubsection}{\numberline {4.6.0.2}Mejora 2: Dividir el trabajo en procesos}{90}{subsubsection.4.6.0.2}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{92}{chapter.5}%
+\contentsline {chapter}{Bibliography}{96}{chapter*.68}%

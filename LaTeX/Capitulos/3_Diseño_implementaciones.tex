@@ -14,6 +14,7 @@
 
 %\newpage %TODO QUITAR
 \section{Programas sencillos}
+\label{cap:c3_1}
 
 	Para introducir MPI en el proyecto se implementan y comentan varios programas sencillos. Primero la multiplicación de matrices, que tiene un coste cúbico O(\(N^{3}\)), al tener que recorrer, para cada elemento de la matriz, una fila y columna entera. Segundo, algoritmos de ordenación, que para simplificar, solo se realiza un estudio de las ordenaciones que más tiempo de ejecución consumen, O(\(N^{2}\)) y MergeSort con coste O(N*logN).
 
@@ -55,7 +56,8 @@
 	Los algoritmos de ordenación tienen que iterar varias veces hasta que el array de elementos esté completamente ordenado. Y los métodos pueden variar considerablemente el tiempo de ejecución.
 	
 	Para las ordenaciones cuadráticas, los métodos populares como BubbleSort, InsertionSort y SelectionSort, han sido estudiados y optimizados para que, aunque tengan un coste cuadrático O(\(N^{2}\)), en el caso peor, proporcionen un buen rendimiento. Basándose en estos algoritmos, se ha diseñado uno adicional llamado SequentialSort. Este algoritmo recorre todas las posiciones del array, y para cada elemento compara todos los datos, sumando en un contador los elementos mayores que el, para calcular así su posición en el array ordenado. Una vez finalizada una iteración, se coloca el elemento en el array ordenado, si la posición actual esta ocupada es porque hay una repetición del elemento, y se tiene que colocar en la siguiente celda libre. La Figura \ref{fig:sequentialsortmpi} representa el proceso de ordenación, marcando en gris el elemento que ha de compararse con los demás en la iteración i-ésima.
-
+	
+	\newpage
 
 	\begin{figure}[!h]
 		\centering
@@ -66,7 +68,16 @@
 	
 	Este método siempre tendrá coste cuadrático O(\(N^{2}\)). No es como los anteriores que van reduciendo el espacio conforme aumentan las iteraciones, pero es fácilmente paralelizable. 
 	
-	Para lograr el objetivo, antes de procesar los datos el \textit{master} envía a todos los \textit{workers} el array entero. Una vez recibido el array de elementos, comienza la etapa de enviar y recibir elementos para realizar las comparaciones y enviar las posiciones de los elementos en el array ordenado. 
+	Para lograr el objetivo, se desarrollan las siguientes dos estrategias. Cada con sus ventajas e inconvenientes.
+	
+	\begin{enumerate}
+		\item Enviar a todos los \textit{workers} el array entero para que trabajen de manera independiente.
+		\item Dividir el array entre los \textit{workers} para trabajar conjuntamente.
+	\end{enumerate}
+	
+	En la primera estrategia el \textit{master} envía a todos los \textit{workers} el array entero. Una vez recibido el array de elementos, el \textit{master} envía elementos sin procesar del array orginal a los \textit{workers} disponibles. Al recibir un elemento lo procesan (hacen las comparaciones), y envían la posición del elemento al \textit{master}, recibiendo de vuelta otro si todavía faltan elementos por procesar. 
+	
+	No obstante la segunda estrategia se logra reducir el uso de memoria de tal forma que entre todos los procesos ejecutados solo haya dos copias del array que hay que ordenar, en lugar de mantener \textit{M} copias (siendo \textit{M} el número de procesos ejecutados). En cada iteración, el \textit{master} envía un elemento a todos los \textit{workers}. Estos hacen todas las comparaciones en sus subarrays y devuelven cuantos elementos son mayores que el recibido por parte del \textit{master}. Ambas estrategias tienen la misma complejidad temporal.
 
 
 

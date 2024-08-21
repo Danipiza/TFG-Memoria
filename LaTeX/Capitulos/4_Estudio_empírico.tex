@@ -48,44 +48,103 @@ tiempo de MPI, MPI.Wtime().
 
 \section{Programas sencillos}
 
-Primero realizamos el estudio de los programas más básicos, multiplicación de matrices y ordenación de arrays.
+Primero realizamos el estudio de los programas básicos descritos en la Seccion \ref{cap:c3_1}, ordenación de arrays y multiplicación de matrices.
 
 	% ------------------------------------------------------------------------------------------------
 	% --- ORDENACIONES  ------------------------------------------------------------------------------
 	% ------------------------------------------------------------------------------------------------
 	\subsection{Ordenaciones}
 	
-	\begin{flushleft}
-	\begin{mdframed}[roundcorner=5pt]
+	Las pruebas realizadas para estos algoritmos se realizan para el peor de los casos, es decir, un array de enteros sin repeticiones ordenado de forma decreciente. Cada algoritmo tiene que hacer el mayor número de comparaciones posibles para ordenar el array de manera creciente. El resultado de cada prueba (tiempo de ejecución en segundos) es almacenado en un fichero de texto y aumentado el tamaño del array para ejecutar la siguiente prueba, así hasta llegar a \textit{100.000} elementos.	
 	
-		\textbf{\underline{Pruebas}}
-		\vspace{0.1cm}
+		\subsubsection{Algoritmos de complejidad cuadrática}		
 		
-		\scriptsize	
-		\textbf{Arrays de enteros, siempre en el caso peor,} es decir, ordenados de forma \textbf{decreciente}, por lo que tiene que ejecutar el mayor número de comparaciones para ordenarlo de forma creciente.\\	
-		Las pruebas se ejecutan sobre el mismo array de enteros, y se van aumentando el tamaño para medir los tiempos de ejecución. En cada prueba se añaden \textit{x} elementos más a ordenar.	
+		Debido al coste cuadrático de estos algoritmos, el incremento entre pruebas del tamaño de los arrays se obtiene de la siguiente forma:
+		\begin{itemize}
+			\vspace*{-0.2cm}	
+			\item \([20-1.000)\) $\rightarrow$ 20 elementos.
+			\vspace*{-0.4cm}	
+			\item \([1.000-10.000)\) $\rightarrow$ 250 elementos.
+			\vspace*{-0.4cm}	
+			\item \([10.000-100.000)\) $\rightarrow$ 1.000 elementos.					
+		\end{itemize}
 		
 		
-	\end{mdframed}
-	\end{flushleft}	
+		%\subsubsection{Algoritmo \textit{SequentialSort} aplicando las estrategias de HPC}			
+		
+		\textit{SelectionSort} es fácilmente paralelizable, pues para cada elemento se comprueba cuantos elementos en el array son mayores. Las estrategias implementadas utilizan el modelo \textit{Master-Worker}. El \textit{master} envía a cada proceso \textit{worker} un elemento del array para que hagan las comparaciones y devuelvan el indice del elemento, junto con el número de elementos mayores que el recibido, y así el \textit{master} se encarga de ordenar el array y enviar elementos sin procesar. La figura \ref{fig:sequentialsort_mpi} muestra los tiempos de ejecución. En rojo el algoritmo sin mejora, y en verde y negro la dos estrategias estrategias ejecutadas con cinco procesos. Se puede apreciar una considerable reducción del tiempo de ejecución. 
+		
+		Al comparar las dos estrategias MPI, se obtiene que la primera estrategia es un \textit{34\%} más rápida que la segunda. Sin embargo, la segunda estrategia tiene una menor complejidad espacial, mostrando en la gráfica de la derecha, en negro, que la memoria no varía al aumentar los procesos ejecutados.
+						
+		% Sequential sort + Uso de memoria
+		\begin{figure}[h!]
+			\centering
+			\begin{tikzpicture}
+				\begin{groupplot}[group style={
+						group size=2 by 1,
+						horizontal sep=1.5cm, 
+						vertical sep=0.5cm}, 
+					grid=major,
+					width=0.5\textwidth, height=0.37\textwidth, 
+					tick label style={font=\tiny}
+					]
+					
+					% Grafico de la izquierda --------------
+					\nextgroupplot[
+					title={}, 
+					ylabel=Tiempo (s), 
+					xlabel=Tam. Array ($10^4$),
+					legend pos=north west,					
+					scaled x ticks=false,
+					]
+					\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/sequential.txt};
+					\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/sequential.txt};
+					\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/sequential.txt};
+					
+					% Leyendas
+					\addlegendentry{Básico}
+					\addlegendentry{MPI\_1}
+					\addlegendentry{MPI\_2}
+					
+					% Grafico de la derecha --------------
+					\nextgroupplot[
+					title={},
+					xtick={2,3,4,5,6,7,8,9,10}, 
+					ytick={0,2,4,6,8,10,12}, 
+					legend pos=north west,			
+					xlabel=Num. Procesadores,
+					ylabel=Memoria \tiny(Copias del array)
+					]
+					\addplot[name path=darkgreen, color=darkgreen, mark=square] table {files/sequentialMem.txt};
+					
+					
+					\addplot[name path=black, color=black, mark=triangle] table [y index=2] {files/sequentialMem.txt};
+					
+					
+					\addplot [color=darkgreen!50, fill=darkgreen!50, fill opacity=0.3] fill between [of=darkgreen and black, soft clip={domain=2:10}];
+					
+					\addplot [name path=axis, draw=none] coordinates {(2,0) (10,0) };	
+					
+					\addplot [color=black!50, fill=black!50, fill opacity=0.3] fill between [of=black and axis, soft clip={domain=2:10}];
+					
+					% Leyendas
+					\addlegendentry{MPI\_1}
+					\addlegendentry{MPI\_2}
+					
+				\end{groupplot}  				
+			\end{tikzpicture}
+			\caption{SequentialSort - Tiempos de ejecución de las estrategias MPI y su uso de Memoria}
+			\label{fig:sequentialsort_mpi}
+		\end{figure}
+		
 	
-	
-		\subsubsection{Algoritmos cuadráticas sin mejoras}		
 		
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize
-			Para las ordenaciones cuadráticas, debido a su coste, las pruebas se incrementan de la siguiente forma:\\
-			- [20-1.000) $\rightarrow$ 20 elementos.\\
-			- [1.000-10.000) $\rightarrow$ 250 elementos.\\
-			- [10.000-100.000) $\rightarrow$ 1.000 elementos.		
-		\end{tcolorbox}
+		%Primero ejecutamos las pruebas para los algoritmos sin mejora, comprobando así cual es el mejor.
 		
-			
+		Una vez comparado las estrategias MPI con el algoritmo secuencial, podemos comprobar el rendimiento frente a los algoritmos famosos. La figura \ref{fig:ordenaciones_cuadraticas} muestra que \textit{SelectionSort} (la función de color negro) es la ordenación que mejores resultados obtiene, y \textit{BubbleSort} (la roja) la que peores. \textit{SelectionSort} es, aproximadamente, \textit{3.5} veces más rápida al ordenar \textit{70.000} elementos. La ordenación \textit{SequentialSort} sin paralelizar, es incluso más rápida que dos de las más famosas. Esto es debido a la simpleza de las operaciones aplicadas en la ordenación, pues solo hace \(N^{2}\) comparaciones. En \textit{BubbleSort} e \textit{InsertionSort}, además de realizar comparaciones, modifican las posiciones de los elementos en el array, aumentando el tiempo de ejecución.
 		
-		De las ordenaciones básicas, SelectionSort es la que mejores resultados obtiene, y BubbleSort la que peores, siendo aproximadamente 3.5 veces más lenta con 70.000 elementos. 
-		La ordenación diseñada, SequentialSort, es incluso más rápida que dos de las más famosas, debido a la simpleza de las operaciones aplicadas en la ordenación. Esta ordenación hace \(N^{2}\) comparaciones, pero al no modificar elementos del array sigue siendo más rápida que las otras.
+		La estrategia MPI de \textit{SequentialSort} que menos tiempo consume (la primera) no obtiene mejores resultados que la mejor ordenación sin mejoras (\textit{SelectionSort}) hasta llegar a los cuatro procesadores ejecutados, siendo un \textit{20\%} más veloz. Para mostrar de forma más clara la diferencia de tiempos entre estas dos ordenaciones, se muestra la ejecución de la primera estrategia con cinco procesadores, obteniendo un \textit{50\%} de mejora.
 		
-		\newpage
 		
 		\begin{figure}[!h]
 			\centering
@@ -93,10 +152,12 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\begin{axis}[
 				xlabel={Tam. Array ($10^4$)},
 				ylabel={Tiempo (s)},
+				xtick={0,1,2,3,4,5,6,7,8},
 				legend pos=north west,
 				grid=major,
 				width=0.70\textwidth,
-				height=0.4\textwidth
+				height=0.4\textwidth,
+				scaled x ticks=false,
 				]				
 				
 				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/sortn2.txt};
@@ -115,102 +176,16 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\end{axis}
 			\end{tikzpicture}
 			\caption{Tiempo de ejecución de los algoritmos de ordenación cuadráticos}
+			\label{fig:ordenaciones_cuadraticas}
 		\end{figure}
 		
-		La implementación aplicando MPI sobre SequentialSort tiene un speed-up proporcional al número de procesos ejecutándose al llegar a un cierto número de elementos a ordenar.  %TODO
-		Al paralelizar el trabajo de SequentialSort, se pueden obtener mejores resultados que SelectionSort al usar cinco o más procesos workers.
 		
-		\subsubsection{SequentialSort con mejoras}
+		\subsubsection{Algoritmo \textit{MergeSort}}
 		
-		\begin{flushleft}
-		\begin{mdframed}[roundcorner=5pt]		
-			\textbf{\underline{Procesos}}
-			\vspace{0.1cm}
-			
-			\scriptsize	
-			Esta ordenación cuadrática utiliza el modelo \textit{Maste-Worker}. El Master envía a cada proceso Worker un elemento del array para que hagan las comparaciones y devuelvan el indice del elemento, junto con el número de elementos mayores que el recibido, y así el Master se encarga de ordenar el array y enviar elementos sin procesar.							
-		\end{mdframed}
-		\end{flushleft}	
+		Este algoritmo no tiene un coste tan elevado como los anteriores. La complejidad es logarítmica O(NLogN) lo que provoca que se pueda aumentar el tamaño del array a ordenar. Para la estrategia implementada, no se aplica el modelo \textit{Master-Worker}, todos los procesos creados trabajan de manera igualitaria. Como se dijo en la seccion \ref{cap:c3_1}, esta estrategia usa potencias de dos procesos para ordenar el array. En cada iteración los procesos se comunican con el más cercano, uno le envía su subarray ordenado y termina su ejecución (el de mayor \textit{id} de cada pareja), mientras que el otro reordena los dos subarrays y continua a la siguiente iteración.
+					
 		
-		%Sequential sort + Uso de memoria
-		\begin{figure}[h!]
-			\centering
-			\begin{tikzpicture}
-			\begin{groupplot}[group style={
-					group size=2 by 1,
-					horizontal sep=1.5cm, % Adjust horizontal separation between plots
-					vertical sep=0.5cm}, % Adjust vertical separation between plots           
-				grid=major,
-				width=0.45\textwidth, height=0.37\textwidth, % Adjust size as needed      
-				tick label style={font=\tiny} % Adjust font size of tick labels  
-				]
-				
-				% First plot
-				\nextgroupplot[
-				title={}, 
-				ylabel=Tiempo \tiny de ejecución (s), 
-				xlabel=Tam. Array,
-				legend pos=north west
-				]
-				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/sequential.txt};
-				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/sequential.txt};
-				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/sequential.txt};
-				
-				% Add legends
-				\addlegendentry{Básico}
-				\addlegendentry{MPI\_1}
-				\addlegendentry{MPI\_2}
-				
-				% Second plot
-				\nextgroupplot[
-				title={},
-				xtick={2,3,4,5,6,7,8,9,10}, % Adjust x-tick positions as needed
-				ytick={0,2,4,6,8,10,12}, % Adjust y-tick positions as needed
-				legend pos=north west,			
-				xlabel=Num. Procesadores,
-				ylabel=Memoria \tiny(Copias del array)
-				]
-				\addplot[name path=blue, color=blue, mark=square] table {files/sequentialMem.txt};
-				\addlegendentry{MPI\_1}
-				
-				\addplot[name path=orange, color=orange, mark=triangle] table [y index=2] {files/sequentialMem.txt};
-				\addlegendentry{MPI\_2}
-				
-				\addplot [color=blue!50, fill=blue!50, fill opacity=0.3] fill between [of=blue and orange, soft clip={domain=2:10}];
-				
-				\addplot [name path=axis, draw=none] coordinates {(2,0) (10,0) };	
-				
-				\addplot [color=orange!50, fill=orange!50, fill opacity=0.3] fill between [of=orange and axis, soft clip={domain=2:10}];
-				
-			\end{groupplot}  				
-			\end{tikzpicture}
-			\caption{SequentialSort - Mejoras MPI + Memoria}
-		\end{figure}
-		
-		La primera mejora es un poco más eficiente pero consume mucho más memoria que la segunda. En cuestión de complejidad temporal es un poco mejor repartir el array entero entre los workers, pero la complejidad espacial para esta implementación aumenta de manera lineal en proporción al número de procesadores. Por lo que teniendo en cuenta ambos aspectos es mejor la segunda implementación, dividir el array entre los workers y recibir elementos para comprobar su posición ordenada.
-		
-		
-		\subsubsection{MergeSort}
-		
-		\begin{flushleft}
-		\begin{mdframed}[roundcorner=5pt]			
-			\textbf{\underline{Procesos}}
-			\vspace{0.1cm}
-			
-			\scriptsize	
-			Esta ordenación usa todos los procesos creados. El proceso con id=0 se encarga de dividir el array desordenado entre todos los procesos (incluyendo a si mismo). En cada iteración los procesos se comunican con el más cercano, uno le envía los elementos ordenados y termina su ejecución, mientras que el otro reordena los dos subarrays y continua a la siguiente iteración.
-		
-		\end{mdframed}
-		\end{flushleft}		
-		
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize
-			Esta ordenación es mucho más eficiente. El incremento no cambia al llegar a 10.000 elementos, se mantiene en 250.		
-		\end{tcolorbox}
-		
-		\vspace*{-0.2cm}
-		
-		Con un coste temporal sin mejora de O(NlogN), al paralelizar la ordenación con la mejora comentada, se puede apreciar una notoria reducción del tiempo de ejecución, llegando a tener un speedup aproximado de 15.5 usando dieciséis workers (casi el speedup ideal). Es cierto que se podrían aplicar otras técnicas para reducir mucho más el tiempo, pero así se demuestra que en la computación de alto rendimiento se pueden obtener buenos resultados con estrategias no tan efectivas pero bien paralelizadas.
+		En esta ocasión, la prueba realizada consiste en ordenar de manera creciente cuatro arrays de enteros inicializados de manera decreciente (peor de los casos), empezando con \textit{25.000} elementos e incrementar esa misma cantidad entre pruebas. Pese a tener solo ocho núcleos en el ordenador de propósito general, se comprueba el rendimiento de la estrategia con \textit{4}, \textit{8}, \textit{16} y \textit{32} procesos. La figura \ref{fig:mergesort_hist} muestra los resultados obtenidos en forma de histograma. Como la estrategia aplica ordenaciones cuadráticas en los subarrays al comienzo del algoritmo, no se obtienen buenos resultados con pocos procesos, debido al elevado tamaño del array a ordenar. Con dos procesos ejecutándose no reduce el tiempo de ejecución, lo duplica. El cómputo es equivalente a aplicar una ordenación cuadrática con la mitad del array a ordenar. No obstante, se puede apreciar una notoria reducción del tiempo de ejecución apartir de \textit{16} procesos, llegando a tener un speedup aproximado de \textit{15.5}. Es cierto que se podrían aplicar otras ordenaciones con menor complejidad para reducir más el tiempo, pero así se demuestra que en la computación de alto rendimiento se pueden obtener buenos resultados con estrategias no tan efectivas pero bien paralelizadas.
 		
 		% HISTOGRAMA CON VARIOS PROCESOS
 		\begin{figure}[!h]
@@ -247,39 +222,35 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\legend{Secuencial, MPI(4),MPI(8),MPI(16),MPI(32)}
 			\end{axis}	
 		\end{tikzpicture}
-		\caption{MergeSort MPI - Tiempo de ejecución}
+		\caption{Tiempo de ejecuciçon del algoritmo \textit{MergeSort} en ordenador de propósito general}
+		\label{fig:mergesort_hist}
 		\end{figure}
+		
+			
+		
+		La memoria está optimizada, puesto que el array esta dividido entre los procesos. Al terminar un proceso con la sincronización en mariposa comentada en la sección \ref{cap:c3_1}, se termina la ejecución del proceso liberando memoria una vez ha enviado al proceso correspondiente su subarray ordenado.
 		
 		\newpage
 		
-		Con dos workers ejecutándose no reduce el tiempo de ejecución, lo duplica. Al aplicar ordenaciones cuadráticas y solo tener dos workers, el cómputo es igual que aplicar una ordenación cuadrática con la mitad del array original.
 		
-		La memoria está optimizada puesto que el master se encarga de dividir eficientemente el array entero entre todos los workers, teniendo solo dos copias del array, la que tiene el master y la otra dividida entre los procesos que se encargan de ordenarlo. Al terminar un proceso con la sincronización en mariposa, se termina la ejecución del proceso liberando memoria una vez ha enviado al proceso correspondiente su subarray ordenado.
+		%%\subsubsection{Cluster}
+		Habiendo obtenido buenos resultados con muchos procesos, pasamos a comentar las pruebas realizadas en el sistema altamente distribuido.
 		
+		El algoritmo secuencial de \textit{MergeSort} tarda unos \textit{20.16} segundos en ordenar de manera creciente, un array de \textit{100.000} elementos ordenados de manera decreciente (el peor de los casos). Por esos se realiza una prueba para saber cuanto tiempo tarda la estrategia en ordenar un array con un millón de elementos. Las pruebas comienzan con \textit{100.000} elementos, incrementando nueve veces su tamaño hasta llegar al millón de elementos. Estas pruebas se realizan con \textit{16}, \textit{32}, \textit{64} y \textit{128} procesos. La figura \ref{fig:mergesort_cluster} muestra los resultados obtenidos. 
 		
-		\subsubsection{Cluster}
-		
-		\begin{flushleft}
-		\begin{mdframed}[roundcorner=5pt]			
-			\textbf{\underline{Datos y número de procesos}}
-			\vspace{0.1cm}
-			
-			\scriptsize	
-			MergeSort, con un coste logarítmico, tarda 20.16s en ordenar 100.000 elementos. Por eso se realiza una prueba para saber cuanto tiempo tarda la mejora realizada para ordenar \textbf{[100000*i for i in range(1,11)]} con 16, 32, 64 y 128 procesos.
-			
-		\end{mdframed}
-		\end{flushleft}	
+		De manera secuencial, sin mejoras, el algoritmo tarda, \textit{20.16} segundos en ordenar \textit{100.000} elementos, mientras que con 128 procesos tarda \textit{0.16} segundos, obteniendo un \textit{speedup} de \textit{125}. 
 		
 		\begin{figure}[!h]
 			\centering
 			\begin{tikzpicture}
 			\begin{axis}[
-				xlabel={Tam. Array},
+				xlabel={Tam. Array ($10^5$)},
 				ylabel={Tiempo de ejecución (s)},
 				legend style={at={(1.02,0.5)}, anchor=west},
 				grid=major,
 				width=\textwidth,
-				height=0.45\textwidth,
+				height=0.45\textwidth,				
+				scaled x ticks=false,
 				legend cell align={left},
 				extra description/.code={
 					\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
@@ -300,45 +271,47 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{MergeSort - Tiempo de ejecución en el Cluster}
+			\caption{Tiempo de ejecuciçon del algoritmo \textit{MergeSort} en Cluster}
+			\label{fig:mergesort_cluster}
 		\end{figure}
 		
-		Una vez realizadas las pruebas de esta función de ordenación, obtenemos un speedup aproximado al número de procesos ejecutados. De manera secuencial, sin mejoras, el algoritmo tarda, 20.16s en ordenar 100.000 elementos, mientras que con 128 procesos tarda 0.16s \textit{(speedup = 125)}. No llega a ser el speedup ideal debido al tiempo que se pierde al dividir y enviar el array entero con todos los procesos.
+		Al incrementar del tamaño del array, todas las pruebas funcionan correctamente. Ejecutar el algoritmo secuencial con un millón de elementos tardaría mucho. Sin embargo, se puede hacer una estimación como muestra la tabla \ref{tab:estimacion_mergesort}, en la cual, aplicando factores de conversión, se obtiene que \textit{X = 241.67} segundos, y llegando a tener un \textit{speedup} de \textit{78} al aplicar \textit{128} procesos.
 		
-
+		\begin{table}[!h]
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\rowcolor{lightgray}
+				\textbf{Tamaño (N)} & \textbf{Funcion = N*Log2(N)} & \textbf{Tiempo (s)} \\
+				\hline
+				100000 & 1.66e06 & 20.16s \\
+				\hline
+				1000000 & 1.99e07 & X \\
+				\hline
+				
+			\end{tabular}
+			\caption{Estimación del tiempo de ejecución de \textit{MergeSort} con un millón de elementos}
+			\label{tab:estimacion_mergesort}
+		\end{table}
+		
+		
 
 	% ------------------------------------------------------------------------------------------------
 	% --- MATRIZ -------------------------------------------------------------------------------------
 	% ------------------------------------------------------------------------------------------------
 	\subsection{Multiplicación de matrices}
-	
-	\begin{flushleft}
-	\begin{mdframed}[roundcorner=5pt]	
-	
-		\textbf{\underline{Pruebas}}
-		\vspace{0.1cm}
-	
-		\scriptsize	
-		Se usa la misma matriz cuadrada, generada previamente de manera aleatoria con valores que oscilan en el siguiente intervalo [1-9]. Inicialmente la matriz tiene diez filas y columnas, al finalizar una prueba se mide el tiempo que tarda y se aumenta el tamaño en diez, así hasta llegar a 1750 filas y columnas.\\		
 		
+		Para este algoritmo, al contrario que los anteriores, no hay caso peor, pues siempre se ejecutan el mismo numero de multiplicaciones para cualquier combinación de una matriz. 
+		
+		Las pruebas se realizan con una única matriz cuadrada de tamaño \textit{2000}. Se genera de manera aleatoria con valores que oscilan entre \textit{[1-9]}, y es almacenada para usar en cada prueba. Inicialmente, la matriz empieza con diez filas y columnas, al finalizar una prueba, se almacena el tiempo de ejecución y se incrementa el tamaño en diez, así hasta llegar a \textit{1750} filas y columnas. 
+		
+		La distribución de tareas de los procesos se realiza mediante el modelo \textit{Master-Worker}. El proceso \textit{master} se encarga de enviar una matriz completa \textit{(B)}, y enviar filas de la matriz \textit{(A)} a los \textit{workers} para que realicen el cálculo de dicha fila. Al finalizar el procesado envían de vuelta la fila al \textit{master} y esperan otra fila sin procesar, para poder, al final de la ejecución formar, entre todos, la matriz final \textit{(C)}. \textit{(A*B=C)}
 	
-		\normalsize
+		Cada proceso necesita, al menos, una copia de una matriz completa. El uso de memoria es proporcional al número de procesos ejecutados. No hace falta tener las dos matrices porque el \textit{master} se encarga de repartir filas para que vayan realizando el cálculo.
 		
-		\textbf{\underline{Procesos}}
-		
-		\vspace{0.1cm}
-		
-		\scriptsize	
-		La distribución de tareas de los procesos es mediante el modelo \textit{Master-Worker}. El proceso master se encarga de enviar una matriz completa (B), y enviar filas de la matriz (A) a los workers para que realicen el cálculo de dicha fila y lo envíen de vuelta al maestro y poder formar la matriz final (C). (A*B=C)
+		\vspace*{0.2cm}
 	
-	\end{mdframed}
-	\end{flushleft}		
-	
-		Al necesitar al menos una copia en cada proceso de una matriz completa, el uso de memoria es elevado. El  coste espacial es de \textit{M*\(N^{2}\) + \(N^{2}\)}, siendo N el numero de filas/columnas de la matriz y M el número de procesos ejecutados. No hace falta tener las dos matrices porque el master se encarga de repartir filas para que vayan realizando el cálculo.
-		
-		
-	
-		\subsubsection{Ordenador de propósito general}
+		Seguidamente se ejecutan los programas de multiplicación de matrices en el ordenador de propósito general. La figura \ref{fig:matrices} muestra la ejecución del algoritmo secuencial, además de la estrategia implementada en la sección \ref{cap:c3_1}, con \textit{2}, \textit{4} y \textit{6} procesos \textit{workers}. Se puede apreciar, la reducción, aplicando la estrategia con los diferentes números de procesos, llegando a obtener un \textit{speedup} de \textit{8.4} al ejecutar el algoritmo con seis \textit{workers} en una multiplicación de \textit{1750x1750}.
 		
 		\begin{figure}[!h]
 		\centering
@@ -369,10 +342,12 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\end{axis}
 		\end{tikzpicture}
 		\caption{Tiempo de ejecución de multiplicación de matrices}
+		\label{fig:matrices}
 		\end{figure}
 		
-		Se pueden apreciar oscilaciones en la gráfica debido a la complejidad del cálculo O($N^{2}$), y guardar los tiempos cada diez elementos. Estas oscilaciones son mas pronunciadas en la multiplicación sin mejoras, debido a que el tiempo de ejecución se mayor.
 		\newpage
+		
+		Las oscilaciones en la gráfica se deben al incremento de diez elementos entre pruebas en un algoritmo con complejidad cúbica O($N^{3}$). Estas oscilaciones son mas pronunciadas en la multiplicación sin paralelizar, pues el tiempo de ejecución es mayor.
 		
 		\subsubsection{Cluster}
 		
@@ -615,12 +590,14 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 					\begin{axis}[
-						xlabel={Tam. Población},
+						xlabel={Tam. Población ($10^3$)},
 						ylabel={Tiempo de ejecución (s)},
+						xtick={5,7.5,10},
 						legend style={at={(1.02,0.5)}, anchor=west},
 						grid=major,
 						width=\textwidth,
 						height=0.45\textwidth,
+						scaled x ticks=false,
 						legend cell align={left},
 						extra description/.code={
 							\node at (1.01, 0.77) [anchor=west] {\textbf{Cores}};
@@ -721,12 +698,14 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\centering
 			\begin{tikzpicture}
 			\begin{axis}[
-				xlabel={Tam. Población ($10^5$)},
+				xlabel={Tam. Población ($10^4$)},
 				ylabel={Tiempo de ejeución (s)},
+				xtick={0,1,2,3,4,5,6,7,8,9,10},
 				legend pos=north west,
 				grid=major,
 				width=\textwidth,
-				height=0.4\textwidth
+				height=0.4\textwidth,
+				scaled x ticks=false,
 				]
 				
 				
@@ -760,12 +739,14 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 			\centering
 			\begin{tikzpicture}
 			\begin{axis}[
-				xlabel={Tam. Población},
+				xlabel={Tam. Población ($10^4$)},
 				ylabel={SpeedUp},
+				xtick={0,1,2,3,4,5,6,7,8,9,10},
 				legend pos=north east,
 				grid=major,
 				width=0.85\textwidth,
-				height=0.40\textwidth
+				height=0.40\textwidth,
+				scaled x ticks=false,
 				]
 				
 				
@@ -810,12 +791,14 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 					\begin{axis}[
-						xlabel={Population size},
-						ylabel={Execution time (s)},
+						xlabel={Tam. Poblacion ($10^4$)},
+						ylabel={Tiempo de ejecución (s)},
+						xtick={2,4,6,8,10,12,14,16,18,20,22,24},
 						legend style={at={(1.02,0.5)}, anchor=west},
 						grid=major,
 						width=\textwidth,
 						height=0.45\textwidth,
+						scaled x ticks=false,
 						legend cell align={left},
 						extra description/.code={
 							\node at (1.01, 0.85) [anchor=west] {\textbf{Cores}};
@@ -852,12 +835,14 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 					\begin{axis}[
-						xlabel={Tam. Población},
+						xlabel={Tam. Población ($10^4$)},
 						ylabel={Tiempo de ejecución (s)},
+						xtick={2,4,6,8,10,12,14,16,18,20,22,24},
 						legend style={at={(1.02,0.5)}, anchor=west},
 						grid=major,
 						width=\textwidth,
 						height=0.45\textwidth,
+						scaled x ticks=false,
 						legend cell align={left},
 						extra description/.code={
 							\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
@@ -914,13 +899,15 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
-					xlabel={Tam. Población},
+					xlabel={Tam. Población ($10^4$)},
 					ylabel={Tiempo de ejeución (s)},
+					xtick={0,1,2,3,4,5,6,7,8,9,10},
 					legend pos=north west,
 					legend columns=2,
 					grid=major,
 					width=\textwidth,
-					height=0.45\textwidth
+					height=0.45\textwidth,
+					scaled x ticks=false,
 					]
 					
 					
@@ -972,13 +959,15 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
-					xlabel={Tam. Población},
+					xlabel={Tam. Población ($10^4$)},
 					ylabel={SpeedUp},
+					xtick={0,1,2,3,4,5,6,7,8,9,10},
 					legend pos=south east,			
 					legend columns=3,
 					grid=major,
 					width=0.85\textwidth,
-					height=0.35\textwidth
+					height=0.35\textwidth,
+					scaled x ticks=false,
 					]
 									
 					\addplot [mark=none, color=darkgreen, line width=0.8pt] table [x index=0, y index=1, col sep=space] {files/knn_speedup.txt};
@@ -1016,12 +1005,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
-					xlabel={Tam. Población},
+					xlabel={Tam. Población ($10^4$)},
 					ylabel={Tiempo de ejecución (s)},
 					legend style={at={(1.02,0.5)}, anchor=west},
 					grid=major,
 					width=\textwidth,
 					height=0.45\textwidth,
+					scaled x ticks=false,
 					legend cell align={left},
 					extra description/.code={
 						\node at (1.01, 0.85) [anchor=west] {\textbf{Cores}};
@@ -1411,12 +1401,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 		\centering
 		\begin{tikzpicture}
 			\begin{axis}[
-				xlabel={Num. Generaciones},
+				xlabel={Num. Generaciones ($10^3$)},
 				ylabel={SpeedUp},
 				legend pos=south east,
 				grid=major,
 				width=0.45\textwidth,
 				height=0.35\textwidth,
+				scaled x ticks=false,
 				ymin=0, 
 				ymax=5
 				]
@@ -1843,12 +1834,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
-					xlabel={Tam. Población},
+					xlabel={Tam. Población ($10^3$)},
 					ylabel={Tiempo de ejecución (s)},
 					legend style={at={(1.02,0.5)}, anchor=west},
 					grid=major,
 					width=\textwidth,
 					height=0.45\textwidth,
+					scaled x ticks=false,
 					legend cell align={left},
 					extra description/.code={
 						\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
@@ -1880,12 +1872,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
-					xlabel={Tam. Población},
+					xlabel={Tam. Población ($10^3$)},
 					ylabel={Tiempo de ejecución (s)},
 					legend style={at={(1.02,0.5)}, anchor=west},
 					grid=major,
 					width=\textwidth,
 					height=0.45\textwidth,
+					scaled x ticks=false,
 					legend cell align={left},
 					extra description/.code={
 						\node at (1.01, 0.72) [anchor=west] {\textbf{Cores}};
@@ -1951,12 +1944,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 					\begin{axis}[
-						xlabel={Num. Repeticiones},
+						xlabel={Num. Repeticiones ($10^3$)},
 						ylabel={Tiempo de ejeución (s)},
 						legend pos=north west,
 						grid=major,
 						width=\textwidth,
-						height=0.45\textwidth
+						height=0.45\textwidth,
+						scaled x ticks=false,
 						]
 						
 						% Plot data from the file without markers, with different colors, and thicker lines
@@ -2003,12 +1997,13 @@ Primero realizamos el estudio de los programas más básicos, multiplicación de
 				\centering
 				\begin{tikzpicture}
 				\begin{axis}[
-					xlabel={Num. Repeticiones},
+					xlabel={Num. Repeticiones ($10^3$)},
 					ylabel={Tiempo de ejeución (s)},
 					legend pos=north west,
 					grid=major,
 					width=\textwidth,
-					height=0.45\textwidth
+					height=0.45\textwidth,
+					scaled x ticks=false,
 					]
 					
 					
