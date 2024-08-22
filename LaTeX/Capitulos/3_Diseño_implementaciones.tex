@@ -139,6 +139,7 @@
 	Una vez introducido MPI con programas básicos, podemos presentar las implementaciones de los algoritmos relacionados con la inteligencia artificial. Las técnicas de clustering toman una población y, dependiendo del conjunto de datos, categoriza los individuos. Los algoritmos pueden ser supervisados, si ademas de la población a categorizar, tenemos un poblacion categorizada previamente, o no-supervisados, si no contamos con esta población etiquetada.
 
 	\subsection{Jerárquico Aglomerativo}
+	\label{cap:3_2_1}
 		Este algoritmo usa una matriz para calcular las agrupaciones. Como es una matriz simétrica, podemos reducir la complejidad espacial usando solo el triángulo superior. 
 		
 		La distancia entre clusters es muy importante. Además de calcular agrupaciones distintas, también varía la complejidad temporal. La más eficaz y rápida es la de centroides. Para calcular la distancia entre dos cluster solo necesita el cálculo entre dos puntos (los centros de los clusters). 
@@ -248,6 +249,7 @@
 		
 		
 	\subsection{K-Medias}
+	\label{cap:3_2_2}
 		Perteneciente al aprendizaje no supervisado, es una técnica de clustering en la cual tenemos una población inicial de individuos sin clasificar, y un valor K sujeto a una asignación flexible según nuestros criterios. Al contrario del algoritmo anterior, no se usa una matriz, y solo se usa distancia por centroides. Una posible mejora puede consistir en las siguientes estrategias:
 		
 		
@@ -327,7 +329,7 @@
 		
 		
 	\subsection{K-Vecinos más cercanos (KNN)}
-		
+	\label{cap:3_2_3}
 		Al contrario de los algoritmos anteriores, KNN (K-Nearest Neighbors en inglés) pertenece al aprendizaje supervisado, por lo que necesita una población ya categorizada para poder agrupar los nuevos individuos. Al igual que el algoritmo K-Medias, y como menciona su nombre, esta técnica de clustering utiliza una variable \textit{K}, que representa los vecinos que se van utilizar para categorizar los individuos.
 		
 		Aplicando una cola de prioridad de máximos para el cálculo de los \textit{K} vecinos más cercanos, reducimos la complejidad del algoritmo. Al recorrer la población categorizada, se compara con la cima de la cola. Si la distancia a comparar es menor que la cima, se elimina la cima y se introduce la nueva distancia. Los valores de la cola se mueven con la restricción de prioridad, y al finalizar la búsqueda en la población se cuentan los elementos de la cola para saber qué cluster se repite más.
@@ -395,11 +397,11 @@
 
 
 \section{Aprendizaje por refuerzo}
-
+	\label{cap:3_3}
 	Los algoritmos de este tipo de aprendizaje actualizan iterativamente las estimaciones de calidad de las acciones permitidas en el entorno de desarrollo. 
 	
 	\subsection{Q-Learning}
-		
+	\label{cap:3_3_1}
 		El algoritmo Q-Learning, es el más básico del aprendizaje por refuerzo. Las estimaciones de las mejores acciones para cada estado se almacenan en una Q-Table representada como una matriz en la que cada fila es un estado, y las columnas son las acciones disponibles. 
 		
 		Este algoritmo tiene numerosas aplicaciones. Nos centramos en la técnica de minimizar las acciones, para llegar desde una celda origen a un destino. El laberinto tiene un tamaño y semilla variable por parámetros de inicialización. Para lograr su objetivo dispone de acciones de movimiento en los dos ejes cardinales, norte, sur, este y oeste. No puede atravesar ni situarse en un muro del laberinto, y para que el agente aprenda a moverse por el laberinto y llegar a la meta hay que fijar unas recompensas:
@@ -468,7 +470,7 @@
 	
 	
 	\subsection{Deep Q-Network}
-	
+	\label{cap:3_3_2}
 		Este algoritmo utiliza redes neuronales para obtener la mejor acción para un determinado estado, eliminando así los problemas que tiene el algoritmo anterior. Con este método podemos abarcar entornos más complejos, y por eso se propone el juego de \textit{Namco} Pac-Man, cuya implementación  creamos desde cero para moldear a nuestro gusto la dificultad del entorno, así como facilitar el aprendizaje de la red neuronal. Nos centrándonos en obtener el mayor número de monedas antes de provocar una condición de finalización (ser comido por un fantasma o recoger todas los puntos). Para simplificar el entorno no se desarrollan niveles en la ejecución, al igual de limitar la vida del agente a un único corazón, por lo que si es comido una única vez se termina la ejecución. Antes de profundizar en el algoritmo de IA, explicamos como funciona y hemos realizado la implementación del entorno.
 		\vspace{-0.5cm}
 		\begin{itemize}		
@@ -544,7 +546,7 @@
 		
 			
 		
-		Como se comentó anteriormente, este algoritmo usa redes neuronales para aprender a ejecutar la mejor acción para un estado dado. Se van aplicar las mejoras que comentan en la sección \ref{sec:redes_neu} de redes neuronales. En este caso, no se pueden aplicar las mejoras del algoritmo anterior, pues no es una matriz que se pueda dividir el trabajo, si no una red neuronal cuyos pesos varían al ejecutar acciones en estados. 	
+		Como se comentó anteriormente, este algoritmo usa redes neuronales para aprender a ejecutar la mejor acción para un estado dado. Se van aplicar las mejoras que comentan en la sección \ref{sec:3_5} de redes neuronales. En este caso, no se pueden aplicar las mejoras del algoritmo anterior, pues no es una matriz que se pueda dividir el trabajo, si no una red neuronal cuyos pesos varían al ejecutar acciones en estados. 	
 		
 		
 	
@@ -555,7 +557,7 @@
 
 
 \section{Algoritmos Evolutivos}
-
+	\label{cap:3_4}
 	Los algoritmos evolutivos son sencillos de paralelizar. Trabajan con poblaciones de individuos que evulucionanr a lo largo de las generaciones. Los individuos se someten a operaciones para producir nuevas generaciones. Estas operaciones son son independientes, pues se puede dividir el cálculo entre varios procesos. Y son las siguientes: 
 	
 	\begin{enumerate}
@@ -654,7 +656,8 @@
 \newpage
 
 \section{Redes Neuronales}
-\label{sec:redes_neu}	
+\label{cap:3_5}
+%\label{sec:redes_neu}	
 	Esta poderosa herramienta de aprendizaje supervisado, está diseñada para reconocer patrones complejos y realizar diversas tareas. Aprende con un proceso iterativo de entrenamiento, ajustando las conexiones entre neuronas. Este proceso secuencial es complejo de paralelizar. Al finalizar una predicción, el modelo se tiene que actualizar propagando hacia atrás.
 	
 	Nos centramos en la técnica de predicción. Para comenzar, vamos a crear una red neuronal que aprenda a predecir el Índice de Masa Corporal (IMC) de una persona. Cada individuo está formado de dos variables, la altura en centimetros y el peso el kilogramos. Para moldear la red neuronal a los individuos, la capa de entrada se estructura con dos neuronas, una para cada variable, y la salida es el IMC, por lo que la capa de salida es una única neurona. La capa de entrada y salida no varían, pero la capa oculta se puede modificar libremente, aumentando el tiempo en la fase de entrenamiento.

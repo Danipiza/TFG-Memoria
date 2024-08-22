@@ -58,6 +58,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 	Las pruebas realizadas para estos algoritmos se realizan para el peor de los casos, es decir, un array de enteros sin repeticiones ordenado de forma decreciente. Cada algoritmo tiene que hacer el mayor número de comparaciones posibles para ordenar el array de manera creciente. El resultado de cada prueba (tiempo de ejecución en segundos) es almacenado en un fichero de texto y aumentado el tamaño del array para ejecutar la siguiente prueba, así hasta llegar a \textit{100.000} elementos.	
 	
 		\subsubsection{Algoritmos de complejidad cuadrática}		
+		\label{cap:4_2_1_1}
 		
 		Debido al coste cuadrático de estos algoritmos, el incremento entre pruebas del tamaño de los arrays se obtiene de la siguiente forma:
 		\begin{itemize}
@@ -194,7 +195,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 				ybar,
 				bar width=0.35cm,
 				ylabel={Tiempo de ejecución (s)},
-				xlabel={Tamaño del array (miles de elementos)},
+				xlabel={Tam. array ($10^3$)},
 				symbolic x coords={25, 50, 75, 100},
 				xtick=data,
 				enlarge x limits=0.2,
@@ -203,7 +204,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 				%height=10cm,
 				width=\textwidth,
 				height=0.38\textwidth,
-				legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+				legend style={at={(0.5,1.16)}, anchor=north, legend columns=-1},
 				area legend
 				]
 				
@@ -222,7 +223,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 				\legend{Secuencial, MPI(4),MPI(8),MPI(16),MPI(32)}
 			\end{axis}	
 		\end{tikzpicture}
-		\caption{Tiempo de ejecuciçon del algoritmo \textit{MergeSort} en ordenador de propósito general}
+		\caption{Tiempo de ejecución del algoritmo \textit{MergeSort} en ordenador de propósito general}
 		\label{fig:mergesort_hist}
 		\end{figure}
 		
@@ -271,7 +272,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{Tiempo de ejecuciçon del algoritmo \textit{MergeSort} en Cluster}
+			\caption{Tiempo de ejecución del algoritmo \textit{MergeSort} en Cluster}
 			\label{fig:mergesort_cluster}
 		\end{figure}
 		
@@ -311,28 +312,26 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 		
 		\vspace*{0.2cm}
 	
-		Seguidamente se ejecutan los programas de multiplicación de matrices en el ordenador de propósito general. La figura \ref{fig:matrices} muestra la ejecución del algoritmo secuencial, además de la estrategia implementada en la sección \ref{cap:c3_1}, con \textit{2}, \textit{4} y \textit{6} procesos \textit{workers}. Se puede apreciar, la reducción, aplicando la estrategia con los diferentes números de procesos, llegando a obtener un \textit{speedup} de \textit{8.4} al ejecutar el algoritmo con seis \textit{workers} en una multiplicación de \textit{1750x1750}.
+		Seguidamente se ejecutan los programas de multiplicación de matrices en el ordenador de propósito general. La figura \ref{fig:mult_matrices} muestra la ejecución del algoritmo secuencial, además de la estrategia implementada en la sección \ref{cap:c3_1}, con \textit{2}, \textit{4} y \textit{6} procesos \textit{workers}. Se puede apreciar, la reducción, aplicando la estrategia con los diferentes números de procesos, llegando a obtener un \textit{speedup} de \textit{8.4} al ejecutar el algoritmo con seis \textit{workers} en una multiplicación de \textit{1750x1750}.
 		
 		\begin{figure}[!h]
 		\centering
 		\begin{tikzpicture}
 			\begin{axis}[
-				xlabel={Tam. Matriz (NxN)},
+				xlabel={Matriz (NxN)},
 				ylabel={Tiempo de ejeución (s)},
 				legend pos=north west,
 				grid=major,
 				width=\textwidth,
 				height=0.4\textwidth
-				]
-				
-				% Plot data from the file without markers, with different colors, and thicker lines
+				]				
+
 				\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/multiplicacion1.txt};
 				\addplot [mark=none, color=blue, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/multiplicacion1.txt};
 				\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/multiplicacion1.txt};
 				\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/multiplicacion1.txt};
-				
-				
-				% Add legends
+							
+
 				\addlegendentry{Secuencial}
 				\addlegendentry{MPI(2)}
 				\addlegendentry{MPI(4)}
@@ -340,37 +339,31 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 				
 				
 			\end{axis}
-		\end{tikzpicture}
-		\caption{Tiempo de ejecución de multiplicación de matrices}
-		\label{fig:matrices}
+		\end{tikzpicture} 
+		\caption{Tiempo de ejecución de multiplicación de matrices en ordenador de propósito general}
+		\label{fig:mult_matrices}
 		\end{figure}
+		
+		
 		
 		\newpage
 		
 		Las oscilaciones en la gráfica se deben al incremento de diez elementos entre pruebas en un algoritmo con complejidad cúbica O($N^{3}$). Estas oscilaciones son mas pronunciadas en la multiplicación sin paralelizar, pues el tiempo de ejecución es mayor.
 		
-		\subsubsection{Cluster}
-		
-			\begin{flushleft}
-			\begin{mdframed}[roundcorner=5pt]			
-				\textbf{\underline{Datos y número de procesos}}
-				\vspace{0.1cm}
+		En el cluster, al poder ejecutar muchos procesos, se puede aumentar el tamaño de las matrices de las pruebas a ejecutar. Utilizamos \textit{16}, \textit{32}, \textit{64} y \textit{128} procesos para medir el tiempo que tarda el algoritmo con la misma estrategia que la prueba anterior. En este caso comenzando con \textit{500} elementos por fila, e incrementando ese mismo tamaño hasta llegar a una matriz de \textit{5000} filas y columnas. 
 				
-				\scriptsize	
-				El coste cúbico de esta operación, converge en ejecuciones con mayor tiempo de cómputo. Por este motivo, para la siguiente prueba se hace un estudio incrementando en quinientos el número de filas y columnas de la matriz, ejecutando 16, 32, 64 y 128 procesos.				
-			\end{mdframed}
-			\end{flushleft}	
+		La figura \ref{fig:mult_matrices_cluster} muestra los tiempos de ejecución con los procesos y tamaños comentados en el párrafo anterior. No se puede apreciar, pero con una matriz de \textit{1000} filas, ejecutar \textit{128} procesos reduce el tiempo de ejecución hasta unos \textit{1.06} segundos, logrando un \textit{speedup} de \textit{84} con respecto a los \textit{89.1} segundos del cálculo sin paralelizar. La comunicación entre procesos no es tan óptima como en la estrategia de \textit{MergeSort}, debido a que en esta implementación aplicamos el modelo \textit{Master-Worker} y es posible que un proceso \textit{worker}, al finalizar de procesar una fila, tenga que esperar a que el \textit{master} esté libre (puede estar recibiendo y colocando otros datos recibidos de otro proceso) para recibir nuevos datos que procesar. En cada prueba, se pierden \textit{(N/M)*T} segundos en la comunicación entre procesos. Siendo \textit{N} el número de filas de la matriz, \textit{M} el número de \textit{workers} y \textit{T} el tiempo de comunicación.
 
-
-			\begin{figure}[!h]
-				\centering
-				\begin{tikzpicture}
+		\begin{figure}[!h]
+			%\centering % AL QUITAR ESTA OPCION SE PUEDE MOVER LA FIGURA
+			\hspace{-0.07\textwidth} 
+			\begin{tikzpicture}
 				\begin{axis}[
 					xlabel={Tam. Matriz (NxN)},
 					ylabel={Tiempo de ejecución (s)},
 					legend style={at={(1.02,0.5)}, anchor=west},
 					grid=major,
-					width=\textwidth,
+					width=\textwidth, 
 					height=0.45\textwidth,
 					legend cell align={left},
 					extra description/.code={
@@ -378,32 +371,26 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 					}
 					]
 					
-				\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/mult.txt};
-				\addplot [mark=square*, color=blue, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/mult.txt};
-				\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/mult.txt};
-				\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/mult.txt};
-					
+					\addplot [mark=*, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/cluster/mult.txt};
+					\addplot [mark=square*, color=blue, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/cluster/mult.txt};
+					\addplot [mark=triangle*, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/cluster/mult.txt};
+					\addplot [mark=star, color=darkgreen, line width=1.2pt] table [x index=0, y index=4, col sep=space] {files/cluster/mult.txt};
 					
 					\addlegendentry{16}
 					\addlegendentry{32}
 					\addlegendentry{64}
 					\addlegendentry{128}
 					
-					
 				\end{axis}
-				\end{tikzpicture}
-				\caption{Multiplicación de Matrices - Tiempo de ejecución en el Cluster}
-			\end{figure}
-			
-			
-			Pese a tener una implementación no tan optima, tiene un buen speedup. Para una matriz de \textit{1000x1000} tarda un total de 89.1 segundos para realizar el cálculo sin mejora, y al paralelizar el cálculo con 128 procesos, tarda 1.06 segundos (speedup = 84). La comunicación no es tan óptima como en la mejora de MergeSort, debido a que en esta implementación aplicamos el modelo \textit{Master-Worker} y cada vez que un proceso \textit{Worker} termina una fila, tiene que esperar a que el \textit{Master} esté libre para recibir nuevos datos que procesar. 
-			
-			En cada prueba, se pierden \textit{(N/M)*T} segundos en la comunicación entre procesos. Siendo \textit{N} el número de filas de la matriz, \textit{M} el número de \textit{Workers} y \textit{T} el tiempo de comunicación.
-			
-			
+			\end{tikzpicture}
+			\caption{Tiempo de ejecución de multiplicación de matrices en Cluster}
+			\label{fig:mult_matrices_cluster}
+		\end{figure}
 		
-
-\newpage
+		
+			
+			
+	
 % ------------------------------------------------------------------------------------------------
 % --- JERARQUICO AGLOMERATIVO --------------------------------------------------------------------
 % ------------------------------------------------------------------------------------------------
@@ -411,130 +398,102 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 
 \section{Algoritmos de Agrupación}
 
-	\begin{flushleft}
-	\begin{mdframed}[roundcorner=5pt]		
-		\textbf{\underline{Pruebas}}
-		\vspace{0.1cm}
-		
-		\scriptsize	
-		\textbf{Las poblaciones que se usan en cada algoritmo se han generado previamente de manera aleatoria}, delimitando un intervalo [-10, 10] para todas las dimensiones disponibles. Para crear los gráficos se ejecutó muchas veces con diferentes tamaños para guardar los tiempos de ejecución con poblaciones de diferentes tamaños. Se añaden \textit{x} elementos a las poblaciones.
-		
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize
-			Para las implementaciones de Jerárquico Aglomerativo y K-Medias se aplican el mismo incremento que en las ordenaciones:
-			El incremento del tamaño viene dado de la siguiente forma:\\
-			- [20-1.000) $\rightarrow$ 20 elementos.\\
-			- [1.000-10.000) $\rightarrow$ 250 elementos.\\
-			- [10.000-100.000) $\rightarrow$ 1.000 elementos.\\
-			
-			Para K-Vecinos más cercanos (KNN), al ser un algoritmo lineal, se guarda el tiempo de ejecución cada veinte nuevos individuos categorizados.
-			
-		\end{tcolorbox}
-		
-		\normalsize
-		
-		\textbf{\underline{Procesos}}
-		
-		\vspace{0.1cm}
-		
-		\scriptsize	
-		Para los tres algoritmos implementados, se usa el modelo \textit{Master-Worker}. El proceso Master se encarga de dividir los datos de entrada y los Workers los procesan, para enviar el resultado. El Master hace el siguiente trabajo:
-		\begin{itemize}
-			\item Jerarquico Aglomerativo: se encarga de gestionar que proceso tiene que eliminar y actualizar filas.
-			\item KMedias: se encarga de recibir las asignaciones para comprobar la condicion de finalización.
-			\item KNN: depende de la mejora tiene más o menos trabajo. Pero en ambas se encarga de enviar a los workers los individuos nuevos categorizados, para tener una agrupación más precisa.
-		\end{itemize} 
-		
-		
-	\end{mdframed}
-	\end{flushleft}		
+	Las poblaciones que se utilizan en las pruebas de esta sección se han almacenado en un fichero para usar la misma población generada de manera aleatoria, delimitando un intervalo \textit{[-10, 10]} para todas las dimensiones disponibles. Los tamaños de las poblaciones se incrementan dependiendo de la complejidad temporal de cada algoritmo. En sus secciones se especifica en profundidad.	
+	
+	Los tres algoritmos de esta sección, se basan en el modelos \textit{Master-Worker}. El \textit{master} divide los datos de entrada para que los \textit{workers} hagan el procesado. El \textit{master} en cada algoritmo tiene las siguientes funciones:	
+	
+	\begin{itemize}
+		\item Jerarquico Aglomerativo. En cada iteración se encarga de gestionar que procesos tienen que eliminar o actualizar las filas y columnas de la matriz. El \textit{master} no tiene una copia de la matriz, así mejorando el uso de memoria al estar dividida entre los procesos \textit{workers}.
+		\item KMedias. Su funcion principal es comprobar la condición de finalización. En cada iteración recibe las asignaciones de los datos procesados de los \textit{workers}, y si esta asignación no varía se finaliza la ejecución.
+		\item K-Vecinos más Cercanos (KNN). En las dos estrategias se encarga, de diferente forma, de actualizar las poblaciones de los \textit{workers} para que haya mas precisión a la hora de categorizar nuevos individuos.
+	\end{itemize} 
+
+	%Los algoritmos de aprendizaje no supervisado, Jerárquico Aglomerativo y K-Medias, categorizan una población entera, y además tienen una complejidad cuadrática O(\(N^{2}\)). Por eso, para las pruebas, se incrementan las poblaciones de la siguiente forma:
+	
+	%\begin{itemize}
+	%	\vspace*{-0.2cm}	
+	%	\item \([20-1.000)\) $\rightarrow$ 20 elementos.
+	%	\vspace*{-0.4cm}	
+	%	\item \([1.000-10.000)\) $\rightarrow$ 250 elementos.
+	%	\vspace*{-0.4cm}	
+	%	\item \([10.000-100.000)\) $\rightarrow$ 1.000 elementos.					
+	%\end{itemize}
 
 
 	\subsection{Jerárquico Aglomerativo}
 	
-		De los tres algoritmos de agrupación, este es el más lento, al tener hacer N iteraciones, y actualizar una matriz. Siendo N el numero de individuos en la población a categorizar.
+		De los tres algoritmos de agrupación, este es el más lento. Su bucle principal itera \textit{N-C} veces, siendo \textit{N} el numero de individuos de la población y \textit{C} el número de clusters deseados. En cada iteración, recorre una matriz entera para juntar dos clusters, los que se encuentren a menor distancia. 
 		
-		Para este algoritmo el calculo de las distancias es muy importante, debido a que cada tipo genera diferentes agrupaciones, además de tener diferentes complejidades temporales.
+	%\subsubsection{Distancias sin mejoras}		
 		
-		\subsubsection{Distancias sin mejoras}		
+		En este algoritmo, el cálculo de las distancias entre clusters es muy importante. Cada tipo genera diferentes agrupaciones, además de tener diferentes complejidades temporales. La distancia por \textit{centroides} es la que menos tiempo consume, siendo constante, al solo importar los centros de los clusters. Mientras que \textit{enlace simple} y \textit{completo} tienen una complejidad cuadrática O(\(N^{2}\)), recorriendo todos los individuos de los ambos clusters para calcular la distancia. Además hay que añadir el cálculo de la distancia entre individuos, que puede ser \textit{Manhattan} o Euclídea, siendo esta última un poco más tardía que la primera.
+		
 
-			Cuando la complejidad del cálculo de las distancias entre clusters es constante (aplicando centroide), el tiempo de ejecución no varía al usar un determinado tipo de distancia.
-			No obstante, cuando se aplican distancias entre clusters con coste cuadrático (enlace simple o completo), la distancia euclídea tarda más, porque para realizar el cálculo, usa potencias y raíces cuadradas.
-	
-	
-			\begin{figure}[!h]
-				\centering
-				\includegraphics[width=0.8\textwidth]{images/chapter_4/jerarquico}
-				\caption{Tiempo de ejecución del algoritmo básico Jerarquíco Aglomerativo}
-				\label{fig:prueba_jerarquicosec}
-			\end{figure}
-	
-			\newpage 
-			
-			Al principio no hay tanta diferencia, pero conforme se aumenta la población, los tiempos de ejecución empiezan a distinguirse. El tiempo de ejecución para calcular la distancia entre dos clusters depende del número de individuos de los mismos, y conforme se aumenta la población aumenta el número de repeticiones del cálculo de las distancias, además de aumentar los individuos en cada cluster lo que también perjudica al tiempo de ejecución.
+		Para mostrar la importancia de las distancias entre clusters y entre individuos, se realiza un estudio de los algoritmos sin aplicar ninguna estrategia computo de alto rendimiento (HPC). Con la población almacenada, se ejecutan las diferentes combinaciones de distancias (entre cluster e individuo), generando 4 tipos, pues enlace \textit{simple} y \textit{completo} solo varia almacenar la menor o menor distancia entre clusters. Empezando con veinte individuos, y aumentando ese mismo tamaño hasta llegar a mil. A partir de este punto, es mejor incrementar entre prueba \textit{250} individuos, pues ya empieza a tardar bastante. La figura \ref{fig:prueba_jerarquicosec} muestra dicho estudio. 
+		
+		Al principio no hay tanta diferencia, pero conforme aumenta el tamaño de la población, los tiempos de ejecución empiezan a distinguirse. Como muestra el circulo rojo, la distancia entre clusters por \textit{centroide} no varia mucho usar una distancia \textit{euclídea} o \textit{manhattan} entre individuos. No obstante, aplicando enlace \textit{simple} (o \textit{completo}) es mejor usar distancia \textit{manhattan}. El cálculo de distancias entre individuos no usa potencias o raices cuadradas, operaciones con un mayor coste que restas en valor absoluto. Cabe recalcar la diferencia de las distancias entre clusters por \textit{centroide} y por enlace \textit{simple} y \textit{completo}. Al aumentar la población a categorizar aumentan los tamaños de los clusters, sobrecargando el calculo de nuevas distancias.
 		
 		
-		\subsubsection{Distancia Centroide con mejoras}	
-		
-			La segunda mejora de dividir entre los workers el cálculo de distancias, no se puede aplicar. Debido a que el cálculo de distancias es constante, no surte mucho efecto dividir la fila que se tiene que recalcular, porque el coste total es lineal. Pero la mejora principal reduce considerablemente el tiempo de ejecución.
-			
-			Esta mejora provoca que en cada iteración, el proceso que tiene que actualizar la fila pare al resto de los procesos. Con un tamaño de población elevado, en la primera mitad de las iteraciones se pierde tiempo esperando a la actualización. 
-			
-			
-			% JERARQUICO AGLOMERATIVO: HISTOGRAMA CON VARIOS PROCESOS
-			\begin{figure}[!h]
+		\begin{figure}[!h]
 			\centering
-			\begin{tikzpicture}
-			\begin{axis}[
-				ybar,
-				bar width=0.35cm,
-				ylabel={Tiempo de ejecución (s)},
-				xlabel={Tam. Array},
-				symbolic x coords={1000, 2500, 5000},
-				xtick=data,
-				enlarge x limits=0.2,
-				ymin=0,
-				width=\textwidth,
-				height=0.45\textwidth,
-				legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
-				area legend
-				]
-				
-				\addplot+[ybar, pattern=vertical lines, draw=black] plot coordinates 
-				{(1000, 7.61) (2500, 141.59) (5000, 1098.29)};
-				\addplot+[ybar, pattern=grid, draw=black] plot coordinates 
-				{(1000, 4.81) (2500, 79.61) (5000, 617.44)};
-				\addplot+[ybar, pattern=dots, draw=black] plot coordinates 
-				{(1000, 2.75) (2500, 47.36) (5000, 379.42) };
-				\addplot+[ybar, pattern=crosshatch, draw=black] plot coordinates 
-				{(1000, 2.24) (2500, 38.55) (5000, 304.12) };
-				\addplot+[ybar, pattern=checkerboard, draw=black] plot coordinates 
-				{(1000, 1.98) (2500, 33.13) (5000, 260.77)};
-				
-				
-				\legend{Secuencial, MPI(2),MPI(4),MPI(6),MPI(8)}
-			\end{axis}
-			\end{tikzpicture}
-			\caption{Jerarquico Aglomerativo - Mejoras MPI de la distancia por Centroide}
-			\end{figure}
+			\includegraphics[width=0.8\textwidth]{images/chapter_4/jerarquico}
+			\caption{Tiempo de ejecución de las combinaciones de distancias en el algoritmo secuencial Jerarquíco Aglomerativo}
+			\label{fig:prueba_jerarquicosec}
+		\end{figure}
+	
 			
-			\newpage
-
-		\subsubsection{Distancia por enlace Simple/Completo con mejoras}
+			
 		
-			\begin{flushleft}
-				\begin{mdframed}[roundcorner=5pt]			
-					\textbf{\underline{Datos y número de procesos}}
-					\vspace{0.1cm}
-					
-					\scriptsize	
-					Con un coste cúbico, este algoritmo es bastante complicado de mejorar. Ambas mejoras, sin dividir el cálculo de las nuevas distancias y dividiendo, no mejoran mucho el tiempo de ejecución, debido a que están mucho tiempo esperando a poder continuar. 
-					
-					En la prueba realizada las poblaciones estudiadas son de tamaño [100, 200, 500, 1.000, 1.500 y 2.000]. Y se usan cuatro procesos, uno para el proceso Master y los demás como Workers.
-				\end{mdframed}
-			\end{flushleft}	
+		
+	%\subsubsection{Distancia Centroide con mejoras}	
+		Una vez comprobado los tiempos de ejecución del algoritmo sin paralelizar, podemos pasar a las pruebas de las estrategias comentadas en la sección \ref{cap:3_2_1}. Primero estudiamos la distancia entre cluster con menor tiempo de ejecución, por \textit{centroide}. Ejecutamos, con \textit{2}, \textit{4}, \textit{6} y \textit{8} procesos la primera estrategia en tres diferentes poblaciones. No aplicamos la segunda y tercera estrategia, pues estas están diseñadas para las distancias por enlace \textit{simple} y \textit{completo}.
+		
+		
+		La figura \ref{fig:JA_centroide} muestra un buen rendimiento, reduciendo los tiempos de ejecución hasta con tamaños de poblaciones elevados. Para una población de \textit{5000} individuos se consiguen los siguientes \textit{speedups [1.78, 2.89, 3.61, 4.21]}. Los \textit{speedups} no crecen en proporción a los procesos ejecutados. La estrategia implementada, para tamaños de poblaciones elevados, no es optima. Si un proceso no elimina filas en muchas iteraciones, acumula muchos más datos que procesar que los demás procesos, provocando que los procesos con menos datos esperen para seguir con la ejecución.
+			
+		% JERARQUICO AGLOMERATIVO: HISTOGRAMA CON VARIOS PROCESOS
+		\begin{figure}[!h]
+		\centering
+		\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			bar width=0.35cm,
+			ylabel={Tiempo de ejecución (s)},
+			xlabel={Tam. Array},
+			symbolic x coords={1000, 2500, 5000},
+			xtick=data,
+			enlarge x limits=0.2,
+			ymin=0,
+			width=\textwidth,
+			height=0.45\textwidth,
+			legend style={at={(0.5,1.13)}, anchor=north, legend columns=-1},
+			area legend
+			]
+			
+			\addplot+[ybar, pattern=vertical lines, draw=black] plot coordinates 
+			{(1000, 7.61) (2500, 141.59) (5000, 1098.29)};
+			\addplot+[ybar, pattern=grid, draw=black] plot coordinates 
+			{(1000, 4.81) (2500, 79.61) (5000, 617.44)};
+			\addplot+[ybar, pattern=dots, draw=black] plot coordinates 
+			{(1000, 2.75) (2500, 47.36) (5000, 379.42) };
+			\addplot+[ybar, pattern=crosshatch, draw=black] plot coordinates 
+			{(1000, 2.24) (2500, 38.55) (5000, 304.12) };
+			\addplot+[ybar, pattern=checkerboard, draw=black] plot coordinates 
+			{(1000, 1.98) (2500, 33.13) (5000, 260.77)};
 			
 			
+			\legend{Secuencial, MPI(2),MPI(4),MPI(6),MPI(8)}
+		\end{axis}
+		\end{tikzpicture}
+		\caption{Tiempo de ejecución de la distancia entre clusters por \textit{centroide} del algoritmo Jerarquíco Aglomerativo en ordenador de propósito general}
+		\label{fig:JA_centroide}
+		\end{figure}
+		
+		
+			
+	%\subsubsection{Distancia por enlace Simple/Completo con mejoras}
+	
+		Ahora veamos el comportamiento de las estrategias para la distancia entre cluster con mayor complejidad, enlace \textit{simple} o \textit{completo}. Las pruebas se realizan con tamaños de poblaciones inferiores a las pruebas anteriores. Estos son los siguientes \textit{[100, 200, 500, 1000, 1500, 2000]}, y se ejecutan las estrategias con cuatro procesos para comprobar el rendimiento. Antes de nada, la tercera estrategia tiene un mismo rendimiento que la segunda, pero con más procesos. Reservar procesos unicamente para el calculo de nuevas distancias no es eficaz, es mejor dividir entre los procesos activos (segunda estrategia). La figura \ref{fig:JA_simple} muestra los resultados obtenidos del estudio. Aunque si reduce el tiempo de ejecución, no se obtienen buenos resultados, pues el \textit{speedup} con \textit{2000} individuos de población para la estrategia con mejores resultados es de \textit{1.88}. Al usar cuatro procesos, podemos concluir que los tres \textit{workers} pierden mucho tiempo calculando las distancias en cada iteración. Es posible que mediante la refinación progresiva de la segunda estrategia a través de un proceso iterativo de prueba y error, se logre reducir el tiempo de ejecución. No obstante, hasta el momento, no hemos logrado reducirlo más allá del tiempo actual.
 		
 			\begin{figure}[!h]
 				\centering
@@ -564,27 +523,14 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 						
 					\end{axis}
 				\end{tikzpicture}
-				\caption{Jerarquico Aglomerativo - Mejoras MPI de la distancia por enlace Simple}
+				\caption{Tiempo de ejecución de la distancia entre clusters por enlace \textit{simple} del algoritmo Jerarquíco Aglomerativo en ordenador de propósito general}
+				\label{fig:JA_simple}
 			\end{figure}
-			\newpage
-			Si se reservan varios Workers exclusivamente para el cálculo de las distancias, tiene un desempeño parecido a la segunda mejora, pues hasta que no se actualizan los centros de los clusters no pueden empezar a trabajar, y no se gana mucho tiempo.
 				
 			
-		\subsubsection{Cluster}	
-			
-			\begin{flushleft}
-				\begin{mdframed}[roundcorner=5pt]			
-					\textbf{\underline{Datos y número de procesos}}
-					\vspace{0.1cm}
-					
-					\scriptsize	
-					Como la distancia simple/completa tiene un coste mucho mayor a la distancia por centroide, no se realiza un estudio en el cluster debido al tiempo que puede llegar a tardar. Además de que se consigue un peor speedup con las mejoras implementadas.
-					
-					La siguiente prueba se hace un estudio con 5.000, 7.500 y 10.000 individuos, ejecutando 20, 50, 75, 100 y 128 procesos.				
-				\end{mdframed}
-			\end{flushleft}	
-			
-			
+	%\subsubsection{Cluster}	
+		Los resultados de la prueba anterior, con la complejidad del algoritmo indican que no es viable probar las estrategias implementadas sobre estas distancias entre cluster en el sistema altamente distribuido. Por este motivo, solo se prueba la distancia por \textit{centroides} con tres grandes poblaciones. Los tamaños son los siguientes \textit{[5000, 7500, 10000]}, y se prueban con \textit{20}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos. La figura \ref{fig:JA_cluster} muestra los resultados, y concluimos que para agrupar tamaños de poblaciones elevados no conviene aplicar este algoritmo. O por lo menos las estrategias implementadas no dan resultados notorios, pues el \textit{speedup} entre usar \textit{20} o \textit{128} procesos en una población de \textit{10000} individuos es de \textit{2.32}.
+						
 			
 			\begin{figure}[!h]
 				\centering
@@ -620,22 +566,23 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 						
 					\end{axis}
 				\end{tikzpicture}
-				\caption{Jerarquico Aglomerativo - Pruebas en el cluster}
+				\caption{Tiempo de ejecución de la distancia entre clusters por \textit{centroide} del algoritmo Jerarquíco Aglomerativo en Cluster}
+				\label{fig:JA_cluster}
 			\end{figure}
 			
-			
-			Como se puede ver, con tamaños de poblaciones muy grandes no surge mucho efecto aumentar el tamaño de los procesos ejecutados. El tiempo de espera en cada iteración al calcular las nuevas distancias sigue siendo el mismo, solo mejora el tiempo que no está en espera.
+					
 	
 	
-	
-			\newpage
 % ------------------------------------------------------------------------------------------------
 % --- KMEDIAS ------------------------------------------------------------------------------------
 % ------------------------------------------------------------------------------------------------
-
+	\newpage
+	
 	\subsection{K-Medias}	
 
-		El algoritmo anterior no tiene ninguna variable que modifique el tiempo de ejecución. Sin contar la distancia entre clusters. Esta técnica de agrupación tiene un coste temporal mucho menor que el aglomerativo, \textit{O(N*K*iter)} siendo N el tamaño de la población, iter las iteraciones  hasta que no cambien los centros. \textit{(N $\gg$ K,iter)} K e iter no son valores muy altos por lo que la complejidad no llega a ser cuadrática. Cuanto mayor sea el valor de K más tiempo va a consumir para realizar la asignación, debido a que tiene que iterar con mas centros. Pero esto puede no ser así, dependiendo de la asignación de los individuos, puede que una ejecución con mas centros tarde menos tiempo que otra con menos si consigue llegar a la condición de finalización (que los centros no cambien entre dos iteraciones) en menos iteraciones.
+		El algoritmo anterior no tiene ninguna variable que modifique el tiempo de ejecución (sin contar la distancia entre clusters). Esta técnica de agrupación tiene un coste temporal mucho menor que el aglomerativo, \textit{O(N*K*iter)} siendo \textit{N} el tamaño de la población, \textit{iter} las iteraciones  hasta que no cambien los centros. \textit{(N $\gg$ K,iter)} \textit{K} e \textit{iter} no son valores muy altos, por lo que la complejidad no llega a ser cuadrática. Cuanto mayor sea el valor de \textit{K} más tiempo va a consumir para realizar la asignación, pues cada individuo de la población es comparado con más centros. No obstante, dependiendo de la asignación de los individuos,  una ejecución con más centros puede ser más rápida que otra con menos centros. Todo depende de la variable \textit{iter}, es decir, si consigue llegar antes a la condición de finalización (que los centros no cambien entre dos iteraciones). La figura \ref{fig:Kmedias_variarK} demuestra precisamente este punto. Para dos poblaciones distintas, \textit{75000} y \textit{100000} aplicando \textit{K=25}  centros (línea roja), tardan aproximadamente lo mismo. La primera población itera muchas veces, más en concreto el doble de veces que la segunda población para finalizar la ejecución. Una ejecución del algoritmo sobre una misma población puede variar considerablemente dependiendo del número de centros, o la disposición de los mismos.
+		
+		
 		
 		\begin{figure}[!h]
 		\centering
@@ -670,20 +617,26 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			{(25000, 0.62) (50000, 1.31) (75000, 1.66) (100000, 2.56)};
 			\addplot[smooth, mark=diamond, blue] plot coordinates
 			{(25000, 1.69) (50000, 4.22) (75000, 5.19)  (100000, 8.76)};
-			\addplot[smooth, mark=diamond, black] plot coordinates
-			{(25000, 8.29) (50000, 33.80) (75000, 79.83) (100000, 79.56)};
 			\addplot[smooth, mark=diamond, red] plot coordinates
+			{(25000, 8.29) (50000, 33.80) (75000, 79.83) (100000, 79.56)};
+			\addplot[smooth, mark=diamond, black] plot coordinates
 			{(25000, 19.93) (50000, 56.03) (75000, 109.96) (100000, 123.16)};
 			
 			\legend{5, 10, 25, 50}
 		\end{axis}
 		\end{tikzpicture}
 		\caption{KMedias - Variaciones en el numero de clusters (K)}
+		\label{fig:Kmedias_variarK}
 		\end{figure}
 		
 	
 		
-		\subsubsection{Ordenador de propósito general}	
+	%\subsubsection{Ordenador de propósito general}	
+	
+		Las distancias entre individuos siguen presentes, pero esta vez, al tener una complejidad menor, no debería afectar tanto usar la distancia \textit{euclídea} o \textit{manhattan}. O eso es lo que parece a simple vista. Como se comprobó en la figura anterior (\ref{fig:Kmedias_variarK}) el número de iteraciones para llegar a la condición de finalización importa, y usar una distancia u otra va a influir en el tiempo de ejecución. El número de iteraciones varia dependiendo de que distancia se usa, pues la \textit{euclídea}, aunque su cálculo es más lento, tiene una mayor precisión, lo que le da una gran ventaja frente a la distancia \textit{manhattan}. Esta última, al no ser tan precisa, puede hacer que aunque sea por poco, un individuo pertenezca a otro cluster, provocando una reacción en cadena que resulte en un aumento considerable en el número de iteraciones. 
+		
+		El estudio realizado para comprobar el rendimiento de la estrategia comentada en la sección \ref{cap:3_2_2} con cuatro procesos frente el algoritmo secuencial, se representa en la figura \ref{fig:KMedias}, utilizando \textit{K=10} centros, y comparando también las distancias entre individuos (\textit{euclídea} y \textit{manhattan}). Los tamaños de las poblaciones utilizadas para medir estas pruebas se realizan como en la las pruebas de las ordenaciones cuadráticas \ref{cap:4_2_1_1}. Se puede apreciar una mejora considerable en el tiempo de ejecución.
+		%todo, picos, mejora, mezclar esta figura con la siguiente de speedups.
 		
 			\begin{flushleft}
 			\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
@@ -724,6 +677,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			\end{axis}
 			\end{tikzpicture}
 			\caption{Tiempo de ejecución de KMedias}
+			\label{fig:KMedias}
 			\end{figure}
 			
 			
