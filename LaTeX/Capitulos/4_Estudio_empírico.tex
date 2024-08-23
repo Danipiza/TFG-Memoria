@@ -398,7 +398,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 
 \section{Algoritmos de Agrupación}
 
-	Las poblaciones que se utilizan en las pruebas de esta sección se han almacenado en un fichero para usar la misma población generada de manera aleatoria, delimitando un intervalo \textit{[-10, 10]} para todas las dimensiones disponibles. Los tamaños de las poblaciones se incrementan dependiendo de la complejidad temporal de cada algoritmo. En sus secciones se especifica en profundidad.	
+	Las poblaciones que se utilizan en las pruebas de esta sección se han almacenado en un fichero para usar la misma población generada de manera aleatoria, con dos variables de entrada, es decir, individuos es un plano bidimensional. Los valores son delimitados en el siguiente intervalo \textit{[-10, 10]}, ya que los valores no influyen en el cálculo de la distancia. Los tamaños de las poblaciones se incrementan dependiendo de la complejidad temporal de cada algoritmo. En sus secciones se especifica en profundidad.	
 	
 	Los tres algoritmos de esta sección, se basan en el modelos \textit{Master-Worker}. El \textit{master} divide los datos de entrada para que los \textit{workers} hagan el procesado. El \textit{master} en cada algoritmo tiene las siguientes funciones:	
 	
@@ -635,16 +635,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 	
 		Las distancias entre individuos siguen presentes, pero esta vez, al tener una complejidad menor, no debería afectar tanto usar la distancia \textit{euclídea} o \textit{manhattan}. O eso es lo que parece a simple vista. Como se comprobó en la figura anterior (\ref{fig:Kmedias_variarK}) el número de iteraciones para llegar a la condición de finalización importa, y usar una distancia u otra va a influir en el tiempo de ejecución. El número de iteraciones varia dependiendo de que distancia se usa, pues la \textit{euclídea}, aunque su cálculo es más lento, tiene una mayor precisión, lo que le da una gran ventaja frente a la distancia \textit{manhattan}. Esta última, al no ser tan precisa, puede hacer que aunque sea por poco, un individuo pertenezca a otro cluster, provocando una reacción en cadena que resulte en un aumento considerable en el número de iteraciones. 
 		
-		El estudio realizado para comprobar el rendimiento de la estrategia comentada en la sección \ref{cap:3_2_2} con cuatro procesos frente el algoritmo secuencial, se representa en la figura \ref{fig:KMedias}, utilizando \textit{K=10} centros, y comparando también las distancias entre individuos (\textit{euclídea} y \textit{manhattan}). Los tamaños de las poblaciones utilizadas para medir estas pruebas se realizan como en la las pruebas de las ordenaciones cuadráticas \ref{cap:4_2_1_1}. Se puede apreciar una mejora considerable en el tiempo de ejecución.
-		%todo, picos, mejora, mezclar esta figura con la siguiente de speedups.
-		
-			\begin{flushleft}
-			\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-				\scriptsize
-				Para las pruebas realizadas se usa un valor K=10, y se usan cuatro procesos workers para la mejora MPI:			
-			\end{tcolorbox}		
-			\end{flushleft}	
-		
+		El estudio realizado para comprobar el rendimiento de la estrategia comentada en la sección \ref{cap:3_2_2} con cinco procesos frente el algoritmo secuencial, se representa en la figura \ref{fig:KMedias}, utilizando \textit{K=10} centros, y comparando también las distancias entre individuos (\textit{euclídea} y \textit{manhattan}). Los tamaños de las poblaciones utilizadas para medir estas pruebas se realizan como en la las pruebas de las ordenaciones cuadráticas \ref{cap:4_2_1_1}. Se puede apreciar que las funciones tienen picos, siendo más pronunciados en los algoritmos sin paralelizar. Como se comentó anteriormente, el tiempo de ejecución para una población puede variar dependiendo de la distancia implementada, además de la posibilidad de que una población con menor tamaño pueda tardar mucho mas que una población mayor, debido a la disposición de los individuos y los clusters en la ejecución. 						
 	
 	
 			\begin{figure}[!h]
@@ -681,13 +672,10 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			\end{figure}
 			
 			
-			A medida que la población crece, los centros varían, debido a la inclusión de más individuos en el cálculo de las nuevas posiciones de los centros, provocando una variación en el número de iteraciones del algoritmo para que los centros no cambien. 
-			El tiempo de ejecución no aumenta en proporción al tamaño, si no que varía dependiendo de la composición de los individuos y por eso hay tantos picos. El aumento de la población no necesariamente implica una ejecución más lenta en comparación con una población menor.
-			Las mejoras MPI, son bastante buenas. Haciendo el mismo número de iteraciones que las implementaciones secuenciales, no hay picos muy pronunciados. Lo más seguro es que al aumentar la población se empiecen a pronunciar.
+			Comparando el algoritmo secuencial y paralelizado se puede apreciar una mejora considerable, y debido a los picos, es interesante medir la evolución de los speedups. La figura \ref{fig:Kmedias_speedup} muestra esta evolución, cuyos \textit{speedups} son calculados con los tiempos utilizados en la anterior figura. Ambas distancias comienzan siendo volátiles, siendo algunas veces peor que el algoritmo secuencial (\textit{speedup<1}) y otras veces superando por mucho el \textit{speedup} ideal. A partir de diez mil individuos de población, el \textit{speedup} es equivalente al numero de \textit{workers} ejecutados. Y lo más curioso es,  que pese a que la distancia \textit{euclídea} es más precisa, a la larga es mejor aplicar distancia \textit{manhattan}, pues aunque itere más veces, el coste es menor, llevando a conseguir mejores resultados. Se puede apreciar la linea azul superando en la mayoría de las veces a la línea roja, probando lo recien comentado.
 			
 			
 			
-			El speedup es muy curioso. 
 			
 			\begin{figure}[!h]
 			\centering
@@ -717,28 +705,14 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			\end{axis}
 			\end{tikzpicture}
 			\caption{KMedias - SpeedUp}
+			\label{fig:Kmedias_speedup}
 			\end{figure}
 			
-			A partir de diez mil individuos de población, el speedup es aproximadamente el ideal para ambas distancias, contando solo que los workers son los que trabajan y el master solo recibe la asignación y calcula los nuevos centros. Pero lo curioso es que con la población generada aleatoria, y un tamaño relativamente pequeño llega a duplicar el speedup ideal. Lo primero que se puede venir a la mente es que hace menos iteraciones, pero esto no es así, puesto que ejecuta el mismo número de iteraciones en ambas implementaciones. 
-			
-			% TODO ¿Poner gráfico con el número de iteraciones para cada tamaño? Serían 2 líneas iguales.
-			
-			
-		
-			
 					
-		\subsubsection{Cluster}
+					
+	%\subsubsection{Cluster}
 		
-			\begin{flushleft}
-			\begin{mdframed}[roundcorner=5pt]			
-				\textbf{\underline{Datos y número de procesos}}
-				\vspace{0.1cm}
-				
-				\scriptsize	
-				La complejidad de esta técnica es menor al algoritmo anterior. No tiene un coste cúbico, tiene un coste amortizado cuadrático, pero depende mucho de la composición de la población. Empezamos con una poblacion de 20.000 individuos con cinco variables, en cada punto incrementamos la población con el tamaño original, llegando hasta 240.000. Los procesos a ejecutar son los siguientes 10, 20, 35, 50, 75, 100 y 128.
-			\end{mdframed}
-			\end{flushleft}	
-
+			Para este algoritmo, al contrario que el anterior, se pueden realizar pruebas con tamaños de poblaciones mayores en el sistema altamente distribuido. La siguiente prueba realizada comienza con una población de \textit{20000} individuos, esta vez con cinco variables de entrada. Entre pruebas se aumenta ese mismo tamaño hasta llegar a \textit{240000} individuos, utilizando en proporción una poblacion seis veces mayor que en el ordenador de propósito general. Se usa el mismo valor de \textit{K} (\textit{K=10}), y se ejecuta la misma estrategia con \textit{10}, \textit{20}, \textit{35}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos. Como se muestra en la figura \ref{fig:Kmedias_cluster}, a partir de veinte procesos, la reducción del tiempo de ejecución se ralentiza. Con un número elevado de procesos, esta estrategia no consigue reducir el tiempo de ejecución en proporción a los procesos ejecutados, esto se debe a la gran cantidad de comunicaciones que se deben realizar para finalizar la ejecución.
 			
 			
 			\begin{figure}[!h]
@@ -778,10 +752,15 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 					\end{axis}
 				\end{tikzpicture}
 				\caption{KMedias - Pruebas en el cluster}
+				\label{fig:Kmedias_cluster}
 			\end{figure}
 			
 			
-			No se logra obtener el speedup ideal, más bien se pierde tiempo al paralelizar el cómputo con muchos procesos. La constante comunicación, en el bucle principal (al tener que comprobar las asignaciones para saber si termina la ejecución debido a la condición de finalización), de todos los procesos con el \textit{Master} hace que no sea viable tener tantas comunicaciones.
+			
+			\begin{comment}	
+			
+			Ahora bien, veamos la 
+			
 			
 			\newpage
 			
@@ -820,7 +799,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			\end{figure}
 			
 			La diferencia entre usar más dimensiones en este algoritmo es abismal, llegando a ser cinco veces más lento tener una población tan elevada, con tres dimensiones (variables) más. Esto se debe a que el algoritmo está constantemente calculando distancias, lo que provoca, aplicando distancia euclidea, una diferencia significativa.
-			
+			\end{comment}
 		
 			
 
@@ -830,22 +809,15 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 	\subsection{KNN}
 
 
-		En cada iteración de este algoritmo de aprendizaje supervisado, usa una población categorizada para agrupar un único individuo, no como en los anteriores que tiene que terminar todas las iteraciones para agrupar toda una población.
+		En cada iteración de este algoritmo de aprendizaje supervisado, se clasifica un individuo utilizando una población previamente categorizada. Al contrario que los algoritmos de aprendizaje no supervisado, que agrupan una población entera al finalizar la población. La complejidad temporal de este algoritmo es menor, y el valor de \textit{K} no influye en el tiempo de ejecución como el algoritmo de \textit{K-Medias}, pues al aumentar este valor solo aumenta el número de los individuos mas cercanos que se comprueban para categorizar el nuevo individuo. Este algoritmo usa dos poblaciones, y como se comentó en la sección \ref{cap:3_2_3} las dos estrategias dividen una de las poblaciones para paralelizar el algoritmo. 
 		
+			Para las siguientes pruebas realizadas en el ordenador de propósito general, se fija la misma población utilizada en el algoritmo anterior, con un tamaño de \textit{100000} individuos, para la población a categorizar. Y la población inicial se obtiene al realizar una búsqueda del mejor número de clusters y agrupación la final con el algoritmo de \textit{K-Medias}, sobre una población de mil individuos, obteniendo cuatro clusters. Con estas dos poblaciones se ejecuta el algoritmo de \textit{K-Vecinos más Cercanos} con un valor de \textit{K=15}, un número impar para que no haya posibilidad de empates a la hora de asignar un cluster a cada individuo.
+			
+		%\subsubsection{Algoritmo sin mejoras}
 		
-		\begin{flushleft}
-		\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize
-			Para las pruebas realizadas se usa un valor de K=15, impar para que no pueda existir empates.		
-		\end{tcolorbox}		
-		\end{flushleft}
-		
-		
-		Hay dos formas de realizar la agrupación. Si se actualiza la población conforme se categorizan los individuos nuevos, la población final será mucho más precisa que si no se actualiza, pero tardará más tiempo en ejecutarse. 
-		
-		\newpage
-		
-		\subsubsection{Algoritmo sin mejoras}
+			Primero comprobamos las dos métodos para el algoritmo secuencial, actualizar o no actualizar al categorizar un nuevo individuo. Si se actualiza la población conforme avanzan las iteraciones, la población final será mucho más precisa que si no se actualiza, pero el tiempo de ejecución aumentará considerablemente. La figura \ref{fig:knn_secuencial} muestra este aumento. Si no se actualiza, la complejidad es lineal, pues la población categorizada se mantiene constante, y no se puede diferenciar cual de las dos distancias ralentiza más la ejecución. Sin embargo, cuando se actualiza la poblacion, se comprueba una vez más que la distancia \textit{euclídea} es más lenta que la \textit{manhattan}.
+			
+			\newpage
 		
 
 			% KNN BASICO
@@ -882,32 +854,26 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 				\end{axis}
 				\end{tikzpicture}
 				\caption{KNN - Tiempo de ejecución del algoritmo sin mejoras }
+				\label{fig:knn_secuencial}
 			\end{figure}
 
-			Cuando la población se actualiza, aumenta el tiempo de ejecución, y se puede apreciar la diferencia entre los tipos de distancia. A largo plazo la distancia Euclídea tardará mucho más que la Manhattan, por tener una complejidad de cálculo mayor. 
-			Cuando la población es constante, los tiempos de ejecución aumentan con el tamaño de la población a predecir de forma lineal, y el uso de distancias no afecta casi al rendimiento.
+			
 		
-		\subsubsection{Algoritmo con mejoras}
-
+		%\subsubsection{Algoritmo con mejoras}
+			Despues de comprobar el algoritmo secuencial pasamos a las estrategias para reducir el tiempo de ejecución. El algoritmo sin actualizar es veloz y es mejor estudiar el comportamiento con una población variable con el tiempo. Por esos se ejecutan las dos estrategias con cinco procesos. La primera, de dividir la poblacion categorizada entre los \textit{workers}, se realizan dos versiones, una en la que cada \textit{worker} espera el individuo categorizado de la iteracón anterior y otra en la que no se espera, sino que los \textit{workers} trabajan en la siguiente iteración mientras que el \textit{master} agrupa el individuo. Podemos ver los resultados en la figura \ref{fig:knn_ordenador}, con una reducción notoria en el tiempo de ejecución. La primera estrategia es ligeramente más veloz que la segunda, y aun perdiendo tiempo esperando a la categorización del individuo (la primera versión), sigue finalizando antes que la segunda estrategia. 
+			
+			En cuestión de complejidad espacial la segunda estrategia consume mucha más memoria. Al finalizar la ejecución, cada \textit{worker} tiene una copia entera de la población categorizada, mientras que la primera mejora se divide esta población entre los procesos. 
+			
 
 			\begin{figure}[!h]
 				\centering
-				\includegraphics[width=0.8\textwidth]{images/chapter_4/knn_mpi}
+				\includegraphics[width=1\textwidth]{images/chapter_4/knn_mpi}
 				\caption{KNN - Tiempo de ejecución con las mejoras MPI}
-				\label{fig:example}
+				\label{fig:knn_ordenador}
 			\end{figure}
 			
-			Las dos implementaciones son aproximadamente iguales, siendo mejor la segunda implementación de la primera mejora. Añadir los individuos categorizados de la iteración anterior cuando cada worker finaliza la búsqueda de los K vecinos más cercanos en la iteración actual, elimina el tiempo de espera que tenía la primera implementación, reduciendo levemente el tiempo.
-			La segunda mejora, además de ser levemente peor en cuestión de complejidad temporal, es mucho peor en complejidad espacial. Dividir la población a predecir conlleva un mayor consumo de memoria, al tener que tener la población entera en cada proceso. En la primera mejora se reparten equitativamente los individuos nuevos, es decir, en cada iteración el master envía a un único proceso el individuo categorizado.
 			
-			
-			\begin{enumerate}
-				\item La primera mejora acaba con dos copias de la población inicial y predicha (una en el master y la otra repartida entre los procesos).
-				\item La segunda mejora acaba con N copias, siendo N el número de procesos ejecutados.
-			\end{enumerate}
-		
-
-			Viendo el speedup de las implementaciones, se puede concluir que al principio es mejor dividir la población a predecir, pero a largo plazo es más efectivo dividir la población categorizada, además de tener menos complejidad espacial. 
+			Comparando las evoluciones de los \textit{speedups} de las estrategias, se puede concluir que al principio es mejor dividir la población a predecir, pero a largo plazo es más efectivo dividir la población categorizada, además de tener menos complejidad espacial. 
 		
 			\begin{figure} [!h]
 				\centering
@@ -919,7 +885,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 					legend pos=south east,			
 					legend columns=3,
 					grid=major,
-					width=0.85\textwidth,
+					width=1\textwidth,
 					height=0.35\textwidth,
 					scaled x ticks=false,
 					]
@@ -941,19 +907,12 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			
 			\newpage
 		
-		\subsubsection{Cluster}
+		%\subsubsection{Cluster}
 		
-			\begin{flushleft}
-			\begin{mdframed}[roundcorner=5pt]			
-				\textbf{\underline{Datos y número de procesos}}
-				\vspace{0.1cm}
-				
-				\scriptsize	
-				Este algoritmo, al contrario que KMedias, calcula la asignación de un individuo con coste lineal. Tiene coste cuadrático al procesar una población nueva. Medimos el tiempo que tarda en categorizar una nueva población de 100.000 individuos con dos variables de entrada, guardando el tiempo que tarda cada mil individuos. Ejecutando 10, 20, 35, 50, 75, 100 y 128 procesos para ver si es óptimo usar muchos procesos o genera mucha sobrecarga.
-			\end{mdframed}
-			\end{flushleft}	
+			En algoritmos pasados ya hemos visto el funcionamiento de varias estrategias con tamaños de poblaciones elevados. Esta vez, para las pruebas en el sistema altamente distribuido, ejecutamos la misma prueba que antes, pero con más procesos en paralelo. Se ejecutan \textit{10}, \textit{20}, \textit{35}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos sobre la mejor estrategia obtenida en el estudio anterior, para ver si es óptimo usar muchos procesos o genera mucha sobrecarga. La figura \ref{fig:knn_cluster} muestra que, al aumentar los procesos no reduce considerablemente el tiempo de ejecución, generando sobrecarga a partir de veinte procesos ejecutándose. Al igual que en el algoritmo de \textit{K-Medias}, aumentar el número de procesos provoca que, aunque se reduce el tiempo de ejecución en cada iteración, el tiempo de comunicación entre iteraciones aumenta. 
+			
 
-			% TODO KNN SIN ACTUALIZAR?
+			
 			
 			\begin{figure}[!h]
 				\centering
@@ -993,43 +952,23 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 				\end{axis}
 				\end{tikzpicture}
 				\caption{KNN - Pruebas en el cluster}
+				\label{fig:knn_cluster}
 			\end{figure} 
 			
 			
 			
-		
-			
-			Los tiempos de ejecución que muestra la gráfica, marca ciertos puntos de optimalidad para distintos números de procesos ejecutados. El incremento en el número de procesos no resulta en mejoras significativas, añadiendo sobrecarga apartir de 35 procesos ejecutados, pues es similar a la ejecución con 20 procesos.
-			
-			
-			
-			
-			
-			
-			\newpage
-
-
 % ------------------------------------------------------------------------------------------------
 % --- RL -----------------------------------------------------------------------------------------
 % ------------------------------------------------------------------------------------------------
 
-\section{RL}	
+\section{Q-Learning}	
 	
-		
-		
-	\begin{flushleft}
-	\begin{mdframed}[roundcorner=5pt]		
-		\textbf{\underline{Pruebas}}
-		\vspace{0.1cm}
-		
-		\scriptsize	
-		Estas pruebas se realizan con tres distintos laberintos, ejecutando varias veces para hacer un cálculo más eficaz del tiempo de ejecución para cada laberinto. Las matrices son cuadradas, y se generan de manera aleatoria con \textit{30, 50 y 100 filas.}
-	\end{mdframed}
-	\end{flushleft}	
-		
-		
-		
-	\subsubsection{Algoritmo sin mejoras}
+	Para el aprendizaje por refuerzo, cuyos dos algoritmos se comentaron en la sección \ref{cap:2_2}, primero se estudia el algoritmo de \textit{Q-Learning}. El otro algoritmo, \textit{Deep Q-Network}, se basa en redes neuronales, estudio que se realiza posteriormente en la sección \ref{cap:4_6}.
+	
+	
+	%\subsubsection{Algoritmo sin mejoras}
+		Antes de entrar en profundidad con las estrategias comentadas en la seccion \ref{cap:3_3}, primero estudiamos el comportamiento del algoritmo de manera secuencial, con y sin preprocesado del entorno. Este preprocesado consiste en recorrer la matriz entera eliminando estados inaccesibles (el agente se situa en un muro) y acciones que no queremos que el agente ejecute, como chocar contra una pared. Se ejecuta con tres diferentes laberintos, con \textit{30}, \textit{50} y \textit{100} filas. La figura \ref{fig:rl_preprocesado} muestra una leve reducción en el tiempo de ejecución. Además, obtiene mejores resultados con una variedad mayor de combinaciones de hiperparámetros. Al reducir las acciones disponibles, el agente tiene una mayor probabilidad de explorar más el laberinto, generando maás combinaciones con las cuales aprender el camino óptimo hasta la meta.			
+	
 
 		\begin{figure}[!h]
 			\centering
@@ -1055,21 +994,24 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			\end{axis}
 			\end{tikzpicture}
 			\caption{Tiempo de ejecución para RL}
+			\label{fig:rl_preprocesado}
 		\end{figure}
 		
-		Una vez implementada este preprocesado y comparándolo con el sin procesar, los resultados son parecidos. Pero con en la búsqueda de los mejores hiper parámetros, da mejores resultados al preprocesar. No hace acciones innecesarias y le permite explorar mejor el entorno y no entrar en bucles.
 		
-	\subsubsection{Búsqueda de los mejores hiperparámetros}
-
-
-		Para realizar la búsqueda mencionada se aplica la mejora de dividir el trabajo entre varios procesos. El master se encarga de mandar combinaciones a los workers. Dependiendo de la precisión, puede llegar a haber muchas por el poder de la combinatoria, y este proceso ser muy lento. El speedup es proporcional al número de nodos ejecutando combinaciones en paralelo.
 		
-		Esta búsqueda es muy útil para encontrar configuraciones que funcionen en el entorno.
-		La mejora de matriz dividida no funciona correctamente, se queda en bucles en la mayoría de configuraciones que funcionan para la implementación secuencial del algoritmo. Con unos valores-Q previamente entrenados si funciona, pero la etapa de entrenamiento no funciona.
+	%\subsubsection{Búsqueda de los mejores hiperparámetros}
+		
+		Una buena configuración de hiperparámetros, genera que el agente logre alcanzar su objetivo. En entornos de gran tamaño, algunas veces, es complicado encontrar configuraciones que funcionen, lo que provoca un aumento en el tiempo de dicado a la fase de entrenamiento para encontrar estas combinaciones. Por este motivo se desarrolla una estrategia para encontrar combinaciones de los hiperparámetros realizando una búsqueda exhaustiva. 
+		
+		Consiste en ejecutar en muchos procesos el algoritmo secuencial sin preprocesar con diferentes combinaciones. Se inicializa \textit{100} filas y columnas, y con una precisión de \textit{0.01}, es decir un \textit{1\%}, el \textit{master} aumenta los valores de los hiperparámetros. Cuando uno de estos llega al \textit{100\%} se reinicia y aumenta el siguiente, así hasta cubrir todas las posibles combinaciones. Al ser tres hiperparámetros hay \(10^{6}\) combinaciones distintas. El \textit{master} envía a cada \textit{worker} diferentes combinaciones, y cuando terminan de procesar una combinación, envían de vuelta un mensaje de confirmación. Si termina con éxito, el \textit{master} almacena en un fichero la conbinación de hiperparámetros, junto con los movimientos requeridos, así como las veces que el algoritmo falla y llega a la meta. En caso contrario no almacena nada. Dicha prueba se realizó en el sistema altamente distribuido, con \textit{128} procesos, y ha tardado siete días completos en finalizar la prueba, obteniendo \textit{500} combinaciones distintas, de las cuales, solo la mitad dan con el camino óptimo.
+		
+
 
 		
 	
-	\subsubsection{Mejora: Dividir el entorno entre los procesos}
+	%\subsubsection{Mejora: Dividir el entorno entre los procesos}
+	
+		La primera %TODO...
 	
 		\begin{flushleft}
 		\begin{mdframed}[roundcorner=5pt]		
@@ -1859,7 +1801,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			\newpage
 			
 \section{Redes Neuronales}
-
+\label{cap:4_6}
 
 		\begin{flushleft}
 		\begin{mdframed}[roundcorner=5pt]	
