@@ -676,7 +676,7 @@
 		2. Dividir el trabajo entre los procesos.
 	\end{flushleft}
 	
-	Segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el \textit{master} el encargado de enviar individuos de la población categorizada. El último \textit{worker} controla la capa de salida, con las etiquetas de los individuos, calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes, la figura \ref{fig:redneumpipipe} muestra dicho flujo y el trabajo de los procesos es el siguiente:	
+	Segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el \textit{master} el encargado de enviar individuos de la población categorizada. El último \textit{worker} controla la capa de salida, con las etiquetas de los individuos, calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes, los cuales pueden ser síncronos, es decir, que esperan a recibir los mensajes, o asíncronos, siendo estos últimos solamente admisibles en la etapa de recibir mensaje de una propagación hacia atrás anterior y enviar mensaje hacia adelante del individuo actual. La figura \ref{fig:redneumpipipe} muestra dicho flujo y el trabajo de los procesos es el siguiente:	
 	
 	
 	\begin{enumerate}

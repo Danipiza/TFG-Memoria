@@ -41,16 +41,12 @@
 \contentsline {subsection}{\numberline {4.3.2}K-Medias}{69}{subsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.3.3}KNN}{73}{subsection.4.3.3}%
 \contentsline {section}{\numberline {4.4}Q-Learning}{76}{section.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.0.1}Mejora: Ejecuciones en paralelo}{78}{subsubsection.4.4.0.1}%
-\contentsline {subsubsection}{\numberline {4.4.0.2}Cluster}{79}{subsubsection.4.4.0.2}%
-\contentsline {section}{\numberline {4.5}PEV}{80}{section.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.0.1}Algoritmos sin mejoras}{81}{subsubsection.4.5.0.1}%
+\contentsline {section}{\numberline {4.5}PEV}{79}{section.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.0.1}Algoritmos sin mejoras}{80}{subsubsection.4.5.0.1}%
 \contentsline {subsubsection}{\numberline {4.5.0.2}Mejora 2: Modelo de islas}{82}{subsubsection.4.5.0.2}%
 \contentsline {subsubsection}{\numberline {4.5.0.3}Mejora 1: Dividir con el master}{83}{subsubsection.4.5.0.3}%
 \contentsline {subsubsection}{\numberline {4.5.0.4}Mejora 3: PipeLine}{85}{subsubsection.4.5.0.4}%
 \contentsline {subsubsection}{\numberline {4.5.0.5}Cluster}{87}{subsubsection.4.5.0.5}%
 \contentsline {section}{\numberline {4.6}Redes Neuronales}{89}{section.4.6}%
-\contentsline {subsubsection}{\numberline {4.6.0.1}Mejora 1: PipeLine}{89}{subsubsection.4.6.0.1}%
-\contentsline {subsubsection}{\numberline {4.6.0.2}Mejora 2: Dividir el trabajo en procesos}{91}{subsubsection.4.6.0.2}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{93}{chapter.5}%
-\contentsline {chapter}{Bibliography}{97}{chapter*.67}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{94}{chapter.5}%
+\contentsline {chapter}{Bibliography}{98}{chapter*.68}%

@@ -143,6 +143,7 @@
 		Este algoritmo se ha aplicado en muchos dominios, como puede ser videojuegos de Atari \cite{mnih2013playing}, robótica o problemas de optimización. Sin embargo sufre cuando el entorno tiene muchos estados, ya que la complejidad espacial aumenta considerablemente, y no es práctico tener las dos matrices. Por eso se diseñó el algoritmo DQN que usa una red neuronal. Así eliminamos la maldición de dimensionalidad \cite{kuo2005lifting}, problemas que surgen con el exceso de variables independientes en un dataset. En este algoritmo, el problema es el elevado número de estados que el agente ha de recorrer.\\
 		
 	\subsection{Deep Q-Network (DQN)}
+	\label{cap:2_2_2}
 		Deido a los problemas de escalabilidad mencionados anteriormente, se desarrolló el algoritmo de Redes Neuronales Profundas (DQN,por sus siglas en inglés). Este algoritmo combina redes neuronales con la base de aprendizaje por refuerzo, eliminando así la Q-Table.
 		
 		La estructura de la red neuronal depende del entorno del problema. Los valores de la capa oculta se pueden modificar dependiendo de las necesidades del programador, pero la capa de entrada y salida depende del problema. La entrada se adapta para recibir un estado del entorno, y la salida tendrá tantos nodos como las acciones del agente. 

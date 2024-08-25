@@ -4,6 +4,7 @@
 \definecolor{green_comment}{RGB}{0,128,0}
 \definecolor{redcell}{RGB}{238,176,176}
 \definecolor{greencell}{RGB}{217,234,211}
+\definecolor{lightblack}{RGB}{159,159,152}
 
 
 
@@ -1009,49 +1010,43 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 
 		
 	
-	%\subsubsection{Mejora: Dividir el entorno entre los procesos}
 	
-		La primera %TODO...
-	
-		\begin{flushleft}
-		\begin{mdframed}[roundcorner=5pt]		
-			\textbf{\underline{Procesos}}
-			\vspace{0.1cm}
-			
-			\scriptsize	
-			Esta mejora se basa en el modelo \textit{Master-Worker}. El proceso Master divide el entorno entre todos los procesos (incluyéndose). También se encarga del punto de partida del agente (parte superior izquierda) y genera nuevos agentes conforme salen de su perímetro. Los demás procesos esperan a recibir un agente de algún proceso para poder explorar su entorno.
-		\end{mdframed}
-		\end{flushleft}	
+	%\subsubsection{Mejora: Ejecuciones en paralelo}
+		Una vez estudiado las combinaciones de hiperparámetros, podemos pasar a las pruebas de las estrategias para reducir el tiempo de ejecución del algoritmo. Para ello, se usa un laberinto de cien filas y columnas, con una combinacion de hiperparámetros que se óptima (alguna de las previamente encontradas). El algoritmo secuencial ejecuta \textit{100} episodios (iteraciones que finalizan al llegar a la meta), mientras que la estrategia paralelizada, ejecuta, con cinco procesos, \textit{400} episodios. Esta estrategia, usando el modelo \textit{Master-Worker} se basa en la misma idea de encotrar las combinaciones de hiperparámetros, pues se ejecuta en paralelo el algoritmo secuencial, pero esta vez en diferentes posiciones. Al final de la ejecución, el \textit{master} realiza la media de las experiencias obtenidas en todo el entorno. 
 		
-		Esta mejora no da buenos resultados. No hemos encontrado una configuración de hiperparámetros para que el agente aprenda a llegar al destino, se queda dando vueltas en cualquier proceso. Si en vez de inicializar las experiencias a 0, usamos el mapa aprendido usando el algoritmo sin mejoras, si llega al destino. Hay una probabilidad de que el problema sea de la comunicación entre los procesos, sino de encontrar unos buenos hiperparámetros para que llegue al destino.
+		La imagen a la izquierda de la figura \ref{fig:RL_estrategia1} muestra el mapa de calor del algoritmo secuencial y la estrategia. En rojo se representan las celdas que más veces han sido visitadas por el algoritmo secuencial, mientras que en verde las del paralelizado. En amarillo se representa los puntos de salida, siendo el superior izquierdo el del algoritmo secuencial y un \textit{worker} de la estrategia paralelizada. Para obtener este mapa se hacen una comparaciones de las celdas visitadas, haciendo la media en el caso de la estrategia, pues sin hacerla se obtendría una mapa completamente verde. Se puede observar que el algoritmo secuencial visita mas veces la parte superior izquierda, debido a que la media de veces que se visita esa zona en la estrategia se divide entre cuatro, y al ser menos probable que todos los \textit{workers} la visiten, hace que la ejecución secuencial la visite más veces, ya que siempre se inicializa por esa zona. 
 		
-	
-	\subsubsection{Mejora: Ejecuciones en paralelo}
-		\begin{flushleft}
-		\begin{mdframed}[roundcorner=5pt]		
-			\textbf{\underline{Procesos}}
-			\vspace{0.1cm}
-			
-			\scriptsize	
-			Usando el modelo \textit{Master-Worker}. El proceso Master envia las posiciones aleatorias y el laberinto a los Workers, para que estos investiguen el laberinto y devuelven las experiencias obtenidas para que el Master haga la media y aprenda las mejores acciones para cada estado del entorno.
-		\end{mdframed}
-		\end{flushleft}	
+		Los tiempos de ejecución son aproximadamente iguales. El tiempo de ejecución de la estrategia paralelizada viene dada por el mayor tiempo de ejecución de los \textit{workers} ejecutados. El \textit{worker} que más tiempo consume es el que está posicionado en la misma salida que el algoritmo secuencial, por lo que por la aleatoriedad y el tiempo de comunicación con el proceso \textit{master} provoca que la ejecución total de la estrategia sea más lenta. No obstante, esta estrategia visita muchas más celdas en el laberinto, además de ejecutar cuatro veces más episodios sumando los ejecutados en cada proceso.		
 		
-		Esta mejora aplica la misma idea que la búsqueda de hiperparámetros, pero esta vez para investigar por completo el laberinto, desde distintos puntos de partida, para encontrar más rápidamente el mejor camino para llegar a la meta. Al ejecutar N Workers, el Master recibe la experiencia de estos procesos, provocando una reducción en el tiempo de ejecución proporcional al número de procesos ejecutados.	
-		
+		\begin{figure}[!h]
+			\centering
+			\begin{subfigure}[t]{0.4\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{images/chapter_4/mapa_calor}
+				\caption{Mapa de calor del laberinto \textit{100x100}}
+				\label{fig:RL_mapa_calor}
+			\end{subfigure}
+			\hfill
+			\begin{subfigure}[t]{0.5\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{images/chapter_4/histo}
+				\caption{Tiempo de ejecución para la primera estrategia de Q-Learning}
+				\label{fig:RL_histo}
+			\end{subfigure}
+			\caption{Primera estrategia de Q-Learning}
+			\label{fig:RL_estrategia1}
+		\end{figure}
 		
 		\newpage
 		
-	\subsubsection{Cluster}
-	
-			
+		La segunda estrategia, dividir el entorno entre los procesos ejecutados, no funciona correctamente. En la fase de entrenamiento no se ha conseguido finalizar, en ninguna de las pruebas realizadas en una matriz de treinta filas y columnas (el laberinto de menor tamaño generado previamente). No obstante, al ejecutar la estrategia con valores aprendidos en un entrenamiento secuencial, si se logra llegar a la meta. Hemos comprobado con varios hiperparámetros y ninguno termina el entrenamiento. La teoría más razonable es que esta estrategia está muy influenciada por la combinación de hiperparámetros, provocando que una mala configuración desemboque en un mal aprendizaje y llevar a bucles infinitos.
+				
 		
-		% TODO RL CLUSTER
-		\color{blue}
-		TODO CLUSTER, ejecutado el 27 de junio.
-		\color{black}
-		\newpage
-
+		
+	
+		
+	
+		
 
 % ------------------------------------------------------------------------------------------------
 % --- PEV ----------------------------------------------------------------------------------------
@@ -1802,38 +1797,12 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 			
 \section{Redes Neuronales}
 \label{cap:4_6}
-
-		\begin{flushleft}
-		\begin{mdframed}[roundcorner=5pt]	
-			
-			\textbf{\underline{Pruebas}}
-			\vspace{0.1cm}
-			
-			\scriptsize	
-			Se usa una población de 80 individuos, generados previamente de manera no aleatoria, para tener una concordancia con valores reales, de altura y masa corporal, y así calcular IMCs con concordancia. Se generan con combinaciones en las cuales se aumenta la altura cada vez que se crean 10 individuos con diferentes pesos. Los individuos oscilan en alturas de [150, 200]cms.										
-			
-		\end{mdframed}
-		\end{flushleft}
 		
-		\subsubsection{Mejora 1: PipeLine}
+	Este modelo de inteligencia artificial necesita una cantidad elevada de datos, utilizados en la etapa de entrenamiento, para, de manera correcta, predecir los individuos. Para el algoritmo de DQN, comentado en la sección \ref{cap:2_2_2}, no se necesita de un conjunto de datos, al ser un entorno en el cual un agente ejecuta acciones. Su estapa de entrenamiento consiste ene ejecutar muchas veces diferentes ejecuciones para que aprenda a moverse por el entorno, modificando la red neuronal. Pero si es verdad que se pueden cambiar los estados con los cuales el agente comienza cada iteración, cambiando los variables del entorno para que sean accesibles. Ahora bien, para la predicción del índice de masa corporal (IMC) de un individuo se necesita de una población con la cual enseñar a la red neuronal a predecir. Es por eso que se generan individuos de manera secuencial, variando sus valores para que no sean idénticos, y lograr una población con la cual poder ejecutar el entrenamiento. Es importante resaltar que estos individuos tendrán una conexión con la realidad. Los individuos tienen alturas dado el siguiente intervalo en centimetros \textit{[150, 200]}, y el peso varia con valores entre de 25 kilogramos por encima y debajo de su altura. Esto quiere decir que si una individuo mide \textit{180} centimetros, su peso se genera aleatoriamente con el siguiente intervalo de kilogramos \textit{[55, 105]}.
 		
-			\begin{flushleft}			
-				\begin{mdframed}[roundcorner=5pt]
-					\textbf{\underline{Procesos}}
-					\vspace{0.1cm}
-					
-					\scriptsize		
-					Aplicando el modelo \textit{Master-Worker} junto con segmentación, cada proceso se encarga de un determinado numero de capas. El proceso Master se encarga de empezar a categorizar los individuos, ejecutando el metodo forward() en sus capas, una vez llega a su última capa envía los datos que ha procesado al siguiente proceso, y genera otro individuo. Los procesos procesan los individuos que reciben, generando un flujo de individuos. El último proceso se encarga de evaluar y gestionar los errores para enviar hacia atrás (método de propagación hacia atrás).
-				\end{mdframed}
-			\end{flushleft}
-		
-		
-		
-			\begin{tcolorbox}[boxrule=0.5pt]
-				\scriptsize
-				Para la siguiente prueba se utiliza una red neuronal con capa oculta de 1x5, es decir, una capa y cinco nodos.		
-			\end{tcolorbox}
-
+	
+	%\subsubsection{Mejora 1: PipeLine}
+		La primera estrategia, \textit{PipeLine} de individuos, se logra generando en la capa de salida los individuos, siendo gestionados por el proceso \textit{master}. Los demás procesos (los \textit{workers}) gestionan las posteriores capas creadas. La siguiente prueba tiene una población de \textit{2000} individuos, previamente generados como se comentó en el párrafo anterior. La red neuronal tiene una capa oculta con \textit{2} capas y \textit{50} neuronas cada una (\textit{2x50}). Con cinco repeticiones, se entrena la red neuronal con \textit{10000} individuos en total. Dando los resultados que se muestran en la figura \ref{fig:redneu_estrategia1}. Esta estrategia, tanto aplicando mensajes síncronos y asíncronos, no surte mucho efecto, pues en vez de reducir el tiempo de ejecución lo aumenta. En programación evolutiva, el flujo de mensajes es unidireccional, y no se pierde tanto tiempo entre mensajes. Este algoritmo, al tener dos métodos en diferentes direcciones, provoca un \textbf{flujo bidireccional}, y la comunicación entre procesos se ralentiza. Usando mensajes \textbf{asíncronos}, permite a cada proceso ejecutar antes el cálculo de \textit{forward} (hacia adelante) y cuando recibe los errores los actualiza. Reduce muy poco el tiempo comparándolo con la versión síncrona. Además, hay que tener en cuenta que el flujo de mensajes hace que el modelo aprenda con valores desactualizados. Y dependiendo de la población puede situarse en un bucle en el cual aumenta y reduce los pesos, provocando un entrenamiento erróneo.
 
 
 			\begin{figure}[!h]
@@ -1863,60 +1832,52 @@ Primero realizamos el estudio de los programas básicos descritos en la Seccion 
 					\end{axis}
 				\end{tikzpicture}
 				\caption{MPI1 - Red Neuronal}
+				\label{fig:redneu_estrategia1}
 			\end{figure}
 
-			Una vez implementado para una red neuronal pequeña, no reduce el tiempo de ejecución. En programación evolutiva, el flujo de mensajes es unidireccional, y no se pierde tanto tiempo entre mensajes. Este algoritmo tiene dos métodos en diferentes direcciones, provocando un \textbf{flujo bidireccional}, y la comunicación entre procesos se ralentiza. Usando mensajes \textbf{asíncronos}, permite a cada proceso ejecutar antes el cálculo de forward y cuando recibe los errores los actualiza. Reduce muy poco el tiempo comparándolo con la versión síncrona, pero empeora la predicción del modelo.
-			También hay que tener en cuenta que el flujo de mensajes hace que el modelo aprenda con valores desactualizados. Y dependiendo de la población puede haber un bucle en el cual aumenta y reduce los pesos, provocando un entrenamiento erróneo.
+			
+			
+		%\subsubsection{Mejora 2: Dividir el trabajo en procesos}
 
-			% TODO REDNEU 5X50
-			
-			\color{blue} TODO PROBAR CON 5X50
-			
-			\color{black}
-			\newpage
-			
-		\subsubsection{Mejora 2: Dividir el trabajo en procesos}
+			La estrategia de dividir el proceso en entrenamiento entre varios procesos, ya se ha comprobado que funciona correctamente en otros algoritmos como pueden ser \textit{Q-Learning} y programación evolutiva con el modelo de islas, además de basarse ligeramente en la idea de \textit{fine-tuning}. Esta vez, hay que tener en cuenta que la etapa de entrenamiento es un proceso iterativo en el cual se predice un individuo y se actualiza los errores cometidos, siendo un proceso complicado de lograr satisfactoriamente. La figura \ref{fig:redneu_estrategia2} muestra la prueba realizada con una población de \textit{80} individuos y \textit{1000} repeticiones, sumando un total de \textit{80000} individuos predichos en el entrenamiento. Se aplica el modelo \textit{Master-Worker} para paralelizar el entrenamiento con \textit{3} y \textit{5} procesos, y una vez terminado enviar los pesos al \textit{master} para realizar la media, intentando maximizar las predicciones finales. El \textit{master} se encarga de dividir la población, siguiendo alguno de los métodos comentados en el final de la sección \ref{cap:3_5}. Se puede apreciar una reducción del tiempo de ejecución proporcional al número pe procesos \textit{worker} ejecutados.
 		
-			\begin{flushleft}			
-			\begin{mdframed}[roundcorner=5pt]
-				\textbf{\underline{Procesos}}
-				\vspace{0.1cm}
-				
-				\scriptsize		
-				Para esta mejora se aplica el modelo \textit{Master-Worker}. El proceso Master se encarga de dividir eficazmente la población, para el máximo rendimiento de la red neuronal. Cada Worker se encarga de entrenar con una población distinta para aprender correctamente como categorizar los individuos. Una vez se ha terminado la fase de entrenamiento, envían al Master todas sus experiencias para que este haga la media y pueda aprender a predecir correctamente. (Para el correcto funcionamiento la red neuronal tiene que ser grande, si no no se puede garantizar que prediga correctamente para todos los individuos de la población)
-			\end{mdframed}
-			\end{flushleft}
-
-			Para dividir la población de entrenamiento, aplicando la idea de fine-tuning, entre los procesos hay que tener mucho cuidado. La repartición de individuos es crucial para un correcto aprendizaje de la red. Si cada proceso tiene la misma población de entrenamiento, se reduce el tiempo de ejecución en relación al número de procesos ejecutados, pero no garantiza buenas predicciones, pues la media sería parecida. A no ser que cada proceso inicialmente tuviese pesos distintos, aunque no se podría garantizar un buen entrenamiento. Sin embargo dividiendo la población de manera eficiente se podría intentar provocar que cada proceso aprendiese unos ciertos intervalos, y con una red grande ciertos nodos se especializan en unos datos, y no se entrelazan los resultados, llegando a reducir el tiempo y entrenar correctamente.
-			
 			\begin{figure}[!h]
 				\centering
 				\begin{tikzpicture}
-				\begin{axis}[
-					xlabel={Num. Repeticiones ($10^3$)},
-					ylabel={Tiempo de ejeución (s)},
-					legend pos=north west,
-					grid=major,
-					width=\textwidth,
-					height=0.45\textwidth,
-					scaled x ticks=false,
-					]
-					
-					
-					\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/redneu2.txt};
-					\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/redneu2.txt};
-					\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/redneu2.txt};
-					
-					
-					\addlegendentry{Secuencial}
-					\addlegendentry{MPI(2)}
-					\addlegendentry{MPI(4)}
-					
-					
-				\end{axis}
+					\begin{axis}[
+						xlabel={Num. Repeticiones ($10^3$)},
+						ylabel={Tiempo de ejeución (s)},
+						legend pos=north west,
+						grid=major,
+						width=\textwidth,
+						height=0.45\textwidth,
+						scaled x ticks=false,
+						]
+						
+						
+						\addplot [mark=none, color=red, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/redneu2.txt};
+						\addplot [mark=none, color=darkgreen, line width=1.2pt] table [x index=0, y index=2, col sep=space] {files/redneu2.txt};
+						\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/redneu2.txt};
+						
+						
+						\addlegendentry{Secuencial}
+						\addlegendentry{MPI(2)}
+						\addlegendentry{MPI(4)}
+						
+						
+					\end{axis}
 				\end{tikzpicture}
 				\caption{MPI2 - Red Neuronal Dividiendo entrenamiento}
+				\label{fig:redneu_estrategia2}
 			\end{figure}
+			
+			\newpage
+
+		%TODO\subsubsection{REPARTICION DE INDIVIDUOS PARA MINIMIZAR LOS ERRORES DE PREDICCION}
+			
+			La repartición de individuos es crucial para un correcto aprendizaje de la red. Si cada proceso tiene la misma población de entrenamiento, se reduce el tiempo de ejecución en relación al número de procesos ejecutados, pero no garantiza buenas predicciones, pues la media sería parecida. A no ser que cada proceso inicialmente tuviese pesos distintos, aunque no se podría garantizar un buen entrenamiento. Sin embargo dividiendo la población de manera eficiente se podría intentar provocar que cada proceso aprendiese unos ciertos intervalos, y con una red grande ciertos nodos se especializan en unos datos, y no se entrelazan los resultados, llegando a reducir el tiempo y entrenar correctamente.
+			
+			
 			
 			Esta prueba se ejecutó con 80 individuos en la población de entrenamiento, sobre una red neuronal con diez capas ocultas y diez nodos por capa (10x10). Si aumentamos o reducimos la población o la estructura de la red, el tiempo será proporcional.
 			Al dividir la fase de entrenamiento se puede alcanzar un speedup aproximado al ideal, pero lo difícil es encontrar los valores concretos de los hiper parámetros y la repartición del entrenamiento para tener una buena red neuronal que cumpla con el funcionamiento deseado. Para ello se puede realizar una búsqueda en paralelo comprobando los mejores resultados, tanto variando la tasa de aprendizaje como la repartición de los individuos con los cuales se entrena al modelo.
