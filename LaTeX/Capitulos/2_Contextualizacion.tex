@@ -8,15 +8,15 @@
 \definecolor{greencell}{RGB}{217,234,211}
 
 
-	En este capítulo se presenta una descripción de los algoritmos de Inteligencia Artificial que se van a utilizar en el proyecto, así como sus usos y características. 
+	En este capítulo se presenta una descripción de los algoritmos de Inteligencia Artificial que se van a utilizar en el proyecto, profundizando es sus usos y características. Además de describir la biblioteca de paso de mensajes empleada en el proyecto para la paralelización de los algoritmos.
 	
 
 \section{MPI}
 
-	Message Passing Interface\cite{barker2015message}  (MPI)  es un estándar para una biblioteca de paso de mensajes, diseñado para funcionar en una amplia variedad de arquitecturas informáticas paralelas. Permite la comunicación entre procesos, mediante el envío y recepción de mensajes. Comúnmente se utiliza en sistemas de alto rendimiento\cite{stone1990high} (HPC) y entornos informáticos paralelos para desarrollar aplicaciones paralelas escalables y eficientes.
+	Message Passing Interface\cite{barker2015message}  (MPI) es un estándar para una biblioteca de paso de mensajes, diseñado para funcionar en una amplia variedad de arquitecturas informáticas paralelas. Permite la comunicación entre procesos, mediante el envío y recepción de mensajes. Comúnmente se utiliza en sistemas de alto rendimiento\cite{stone1990high} (HPC) y entornos informáticos paralelos para desarrollar aplicaciones paralelas escalables y eficientes.
 	
 	
-	Al crear el entorno MPI en una aplicación, se ejecutan en paralelo varios procesos, cada uno con su correspondiente \textit{id}, también llamado \textit{rank}. El programador elige cuál va a ser el desempeño de los procesos. Por ejemplo, en el modelo \textit{Master-Worker}, el primer proceso (rank=0) generalmente, es llamado \textit{Master}, y se encarga de distribuir los datos entre los demás procesos, llamados \textit{Workers}. La Figura \ref{fig:comunicacion_mw}, muestra la comunicación entre los procesos en este modelo. El proceso \textit{Master} reparte los datos mientras que los \textit{Workers} los procesan y los devuelven.
+	Al crear el entorno MPI en una aplicación, se ejecutan en paralelo varios procesos, cada uno con su correspondiente \textit{id}, también llamado \textit{rank}. El programador elige cuál va a ser el desempeño de los procesos. Por ejemplo, en el modelo \textit{Master-Worker}, el primer proceso (\textit{rank=0}) generalmente, es llamado \textit{master}, y se encarga de distribuir los datos entre los demás procesos, llamados \textit{workers}. La Figura \ref{fig:comunicacion_mw}, muestra la comunicación entre los procesos en este modelo. El proceso \textit{master} reparte los datos mientras que los \textit{workers} los procesan y los devuelven.
 
 
 	\begin{figure}[!h]
@@ -28,32 +28,31 @@
 
 	\newpage
 
-	Esta técnica para paralelizar utiliza memoria distribuida, es decir, cada proceso tiene su propia memoria local. Así los procesos no tienen que preocuparse por los problemas de la memoria compartida, como la sincronización para el acceso de variables compartidas, ¡es de carrera o \textit{deadlocks}. Asimismo, la memoria compartida no es fácilmente escalable a un gran número de procesadores\cite{jjruiz2016compartida}.
+	Esta técnica de paralelización utiliza memoria distribuida, es decir, cada proceso tiene su propia memoria local. Así, los procesos no tienen que preocuparse por los problemas de la memoria compartida, como la sincronización para el acceso de variables compartidas, condiciones de carrera o \textit{deadlocks} (dos o más procesos quedan atrapados en un estado en el que ninguno puede continuar con su ejecución, pues están esperando a que otro proces, también bloqueado, libere un recurso necesario para continuar). Asimismo, la memoria compartida no es fácilmente escalable a un gran número de procesadores\cite{jjruiz2016compartida}.
 
 
-	Un programa ejecutado en paralelo, donde múltiples procesos se ejecutan en el mismo programa de manera independiente, pero trabajan con diferentes conjuntos de datos. Se denomina SPMD, este modelo es comúnmente utilizado en computación de alto rendimiento y en entornos de procesamiento paralelo. La escalabilidad y eficiencia de este modelo son sus principales ventajas.
+	Un programa ejecutado en paralelo, donde múltiples procesos se ejecutan en el mismo programa de manera independiente, pero trabajan con diferentes conjuntos de datos. Se denomina, por sus siglas en inglés, SPMD (Single Program Multiple Data), este modelo es comúnmente utilizado en computación de alto rendimiento y en entornos de procesamiento paralelo. La escalabilidad y eficiencia de este modelo son sus principales ventajas.
 
-	Un proceso (\textit{Master}) contiene los datos del programa y se encarga de gestionar los mismos y repartirlos de manera eficiente. Los mensajes pueden ser:
-
+	Un proceso (en el modelo \textit{Master-Worker}, el \textit{master}) contiene los datos del programa y se encarga de gestionar los mismos y repartirlos de manera eficiente. Los mensajes pueden ser:
 	\begin{itemize}
-		\item Síncronos: al ejecutar la función recv() el proceso receptor se queda bloqueado.
+		\item Síncronos: al ejecutar la función \textit{recv}() el proceso receptor se queda bloqueado.
 		\item Asíncrono: el receptor no se bloquea, por lo que puede adelantar código mientras espera a recibir el mensaje.
-		\item Broadcast: un mensaje se envía a todos los procesos. Los emisores tienen que llamar a la misma función para recibir el mensaje.
+		\item Broadcast: un mensaje se envía a todos los procesos. Los emisores tienen que llamar a la misma función que los procesos que reciben el mensaje.
 	\end{itemize}
 
-
+	
+	Un programa MPI (ver Figura \ref{fig:ejecucion_mpi}), comparte el mismo código para todos los procesos ejecutados. Un proceso lee el conjunto de datos y los carga en su memoria, para luego dividirlos y enviarlos a los procesos disponibles. Una vez repartido el \textit{dataset}, se ejecutan en paralelo y procesan los datos recibidos. Cuando un proceso finaliza el procesado de los datos, envía los datos procesados al proceso correspondiente. La Figura \ref{fig:esquema_mpi} representa en código esta idea.
+	
 	\vspace{-0.2cm}
-
+	
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.9\textwidth]{images/chapter_2/mpi_2}
+		\includegraphics[width=0.80\textwidth]{images/chapter_2/mpi_2}
 		\caption{Ejecución MPI}
 		\label{fig:ejecucion_mpi}
 	\end{figure}
-
-	\vspace{-0.2cm}
 	
-	Un programa MPI (ver Figura \ref{fig:ejecucion_mpi}), comparte el mismo código para todos los procesos ejecutados. Un proceso lee el conjunto de datos y los carga en su memoria, para luego dividirlos y enviarlos a los procesos disponibles. Una vez repartido el \textit{dataset} se ejecutan en paralelo y procesan los datos recibidos. Cuando un proceso finaliza el procesado de los datos, envía los datos procesados al proceso correspondiente. La Figura \ref{fig:esquema_mpi} representa en código esta idea.
+	\vspace{-0.2cm}
 	
 	\vspace{-0.1cm}
 
@@ -61,18 +60,17 @@
 		\lstset{language=python, 
 			language=python,
 			breaklines=true,
-			basicstyle=\footnotesize\ttfamily,
+			basicstyle=\scriptsize, %\footnotesize\ttfamily
 			backgroundcolor=\color{lightergray},
-			keywordstyle=\color{blue}, % Keywords will be blue
-			commentstyle=\color{green!60!black}, % Comments will be green
-			stringstyle=\color{purple}, % Strings will be purple
-			numbers=left, % Line numbers will appear on the left
-			numberstyle=\tiny\color{gray}, % Line numbers will be small and gray
+			keywordstyle=\color{blue}, 
+			commentstyle=\color{green!60!black},
+			stringstyle=\color{purple}, 
+			numbers=left, 
+			numberstyle=\tiny\color{gray}, 
 			frame=single,}
 		
 		\begin{lstlisting}[frame=single]
- from mpi4py import MPI 
- # Al importar la biblioteca en Python se genera el entorno.
+ from mpi4py import MPI # Al importar la biblioteca en Python se genera el entorno.
 
  comm = MPI.COMM_WORLD     	# Comunicador
  status = MPI.Status()   	# Status
@@ -84,8 +82,7 @@
     # Recibe todos los datos procesados.
  else:                   	# Workers
     # Recibe el subconjunto de datos que le asigna el Master.
-    # Procesa los datos.
-    # Envia los datos procesados.
+    # Procesa los datos. Los envia.
 		\end{lstlisting}
 		\caption{Esquema básico para ejecutar un programa MPI en Python}
 		\label{fig:esquema_mpi}
@@ -106,7 +103,7 @@
 		\item Conjunto de acciones o decisiones que el agente puede realizar.
 		\item Estados, son las configuraciones que el entorno puede tomar.
 		\item Feedback, recompensas o castigos del entorno al realizar una acción en un estado.		
-		\item Condición de finalización. La cual abarca desde encontrar la función óptima, hasta realizar un número de acciones 
+		\item Condición de finalización. La cual puede ser desde encontrar la función óptima, hasta realizar un número de acciones 
 	\end{itemize}
 
 
@@ -136,15 +133,15 @@
 		\end{figure}
 		
 		
-		El agente toma las decisiones de ejecutar una acción dependiendo del hiper-parámetro $\epsilon$  con valores entre [0,1]. Con un número aleatorio (en el mismo intervalo) calcula la probabilidad de ejecutar la mejor acción aprendida hasta el momento, o una acción aleatoria entre las disponibles. Si el valor es alto, casi siempre se ejecutará la mejor acción aprendida hasta el momento, y es posible que no aprenda otras formas de alcanzar el objetivo.
+		El agente toma la decisión de ejecutar una acción dependiendo del hiper-parámetro $\epsilon$  con valores entre \textit{[0,1]}. Con un número aleatorio (en el mismo intervalo) calcula la probabilidad de ejecutar la mejor acción aprendida hasta el momento, o una acción aleatoria entre las disponibles. Si el valor es alto, casi siempre se ejecutará la mejor acción aprendida hasta el momento, y es posible que no aprenda otras formas de alcanzar el objetivo.
 		
 		%\newpage
 		
-		Este algoritmo se ha aplicado en muchos dominios, como puede ser videojuegos de Atari \cite{mnih2013playing}, robótica o problemas de optimización. Sin embargo sufre cuando el entorno tiene muchos estados, ya que la complejidad espacial aumenta considerablemente, y no es práctico tener las dos matrices. Por eso se diseñó el algoritmo DQN que usa una red neuronal. Así eliminamos la maldición de dimensionalidad \cite{kuo2005lifting}, problemas que surgen con el exceso de variables independientes en un dataset. En este algoritmo, el problema es el elevado número de estados que el agente ha de recorrer.\\
+		Este algoritmo se ha aplicado en muchos dominios, como puede ser videojuegos de Atari \cite{mnih2013playing}, robótica o problemas de optimización. Sin embargo sufre cuando el entorno tiene muchos estados, ya que la complejidad espacial aumenta considerablemente, y no es práctico tener las dos matrices. Por eso se diseñó el algoritmo DQN que usa una red neuronal. Así eliminamos la maldición de dimensionalidad \cite{kuo2005lifting}, problemas que surgen con el exceso de variables independientes en un dataset. En este algoritmo, el problema es el elevado número de estados que el agente ha de recorrer.
 		
 	\subsection{Deep Q-Network (DQN)}
 	\label{cap:2_2_2}
-		Deido a los problemas de escalabilidad mencionados anteriormente, se desarrolló el algoritmo de Redes Neuronales Profundas (DQN,por sus siglas en inglés). Este algoritmo combina redes neuronales con la base de aprendizaje por refuerzo, eliminando así la Q-Table.
+		Debido a los problemas de escalabilidad mencionados anteriormente, se desarrolló el algoritmo de Redes Neuronales Profundas (DQN, por sus siglas en inglés). Este algoritmo combina redes neuronales con la base de aprendizaje por refuerzo, eliminando así la Q-Table.
 		
 		La estructura de la red neuronal depende del entorno del problema. Los valores de la capa oculta se pueden modificar dependiendo de las necesidades del programador, pero la capa de entrada y salida depende del problema. La entrada se adapta para recibir un estado del entorno, y la salida tendrá tantos nodos como las acciones del agente. 
 		
@@ -161,40 +158,36 @@
 		
 		\begin{figure}[!h]			
 			\centering
-			\includegraphics[width=0.50\textwidth]{images/chapter_2/pacman}	
-			\caption{Juego Pac-Man version Atari 2600}
+			\includegraphics[width=0.60\textwidth]{images/chapter_2/pacman}	
+			\caption{Juego Pac-Man implementado desde cero. Versión Atari 2600}
 			\label{fig:pacman}
 		\end{figure}
 		
 	
-		\newpage
 
 \section{Aprendizaje No-Supervisado}
 
-	Los métodos no supervisados (unsupervised methods, en inglés) son algoritmos de aprendizaje automático que basan su proceso en un entrenamiento con datos sin etiquetar. Es decir, a priori, no se conoce ningún valor objetivo, ya sea categórico o numérico. 
+	Los métodos no supervisados (unsupervised methods, en inglés) son algoritmos de aprendizaje automático que basan su proceso en un entrenamiento con datos sin etiquetar. Es decir, a priori, no se conoce ningún valor objetivo, ya sea categórico o numérico. La meta de este aprendizaje es encontrar patrones o estructuras en los datos proporcionados. Estos algoritmos son útiles en escenarios en los cuales hay escasez de datos etiquetados o éstos no están disponibles.
 	
-	La meta de este aprendizaje es encontrar patrones o estructuras en los datos proporcionados. Estos algoritmos son útiles en escenarios en los cuales hay escasez de datos etiquetados o no están disponibles.
-	
-	Hay muchos tipos de técnicas de aprendizaje no supervisado, como, entre otros, la detección de anomalías, reducción de dimensionalidad o \textit{clustering}. En este proyecto vamos a reducir el tiempo de ejecución de las técnicas de \textit{clustering} que se encargan de agrupar individuos, basándose en alguna medida de similitud. Como no es aprendizaje supervisado, no disponemos de información categorizada previamente, por lo que hay que calcular el número óptimo de \textit{clusters}. Para ello, cual medidas ya estudiadas como el diagrama de ``codo'', cuyo valor óptimo de clusters se calcula visualmente, cuando empieza a crearse un codo (la diferencia con el número anterior no es tan pronunciada como en puntos anteriores). Hay otros coeficientes que calculan la optimalidad con algoritmos, como el coeficiente de Davies-Bouldin, cuyo valor mínimo indica el número óptimo de clusters, o el coeficiente de Silhouette, siendo similar al anterior, pero con el valor máximo. Se pueden apreciar los diferentes coeficientes en la Figura \ref{fig:coeficientes}. 
+	Hay muchos tipos de técnicas de aprendizaje no supervisado, como, entre otros, la detección de anomalías, reducción de dimensionalidad o \textit{clustering}. En este proyecto vamos a reducir el tiempo de ejecución de las técnicas de \textit{clustering} que se encargan de agrupar individuos basándose en alguna medida de similitud. Como no es aprendizaje supervisado, no disponemos de información categorizada previamente, por lo que hay que calcular el número óptimo de \textit{clusters}. Para ello, hay medidas ya estudiadas como el diagrama de ``codo'', cuyo valor óptimo de clusters se calcula visualmente, cuando empieza a crearse un codo (la diferencia con el número anterior no es tan pronunciada como en puntos anteriores). Hay otros coeficientes que calculan la optimalidad con algoritmos, como el coeficiente de Davies-Bouldin, cuyo valor mínimo indica el número óptimo de clusters, o el coeficiente de Silhouette, similar al anterior, pero con el valor máximo. Se pueden apreciar los diferentes coeficientes en la Figura \ref{fig:coeficientes}. 
 
 
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.90\textwidth]{images/chapter_2/ap_nosup_diagramas}
-		\caption{Coeficientes}
+		\includegraphics[width=0.95\textwidth]{images/chapter_2/ap_nosup_diagramas}
+		\caption{Coeficientes de agrupación}
 		\label{fig:coeficientes}
 	\end{figure}
 	
-	\newpage
 
 
 	Los llamados métodos jerárquicos \cite{ackermann2014analysis} tienen por objetivo agrupar \textit{clusters} para formar uno nuevo o bien separar alguno ya existente para dar origen a otros dos, de tal forma que, si sucesivamente se va efectuando este proceso de aglomeración, se minimice alguna distancia o bien se maximice alguna medida de similitud.
 
 	\subsection{Clustering jerárquico aglomerativo}
 
-		Este algoritmo usa una matriz para realizar la agrupación de los individuos. Comienza teniendo N clusters, uno por cada individuo de la población. La matriz se representa por las filas, es decir, la fila i-ésima representa el cluster i-ésimo. La matriz se rellena con las distancias entre los \textit{clusters}, por lo que la celda (i,j) representa la distancia entre el cluster \textit{i} y el \textit{j}.  
+		Este algoritmo usa una matriz para realizar la agrupación de los individuos. Comienza teniendo N clusters, uno por cada individuo de la población. La matriz se representa por las filas, es decir, la fila i-ésima representa el cluster i-ésimo. La matriz se rellena con las distancias entre los \textit{clusters}, por lo que la celda \textit{(i, j}) representa la distancia entre el cluster \textit{i} y el \textit{j}.  
 		
-		En cada iteración, se busca en la matriz la distancia mínima, y se juntan los \textit{clusters} que representan la fila \textit{i} con la columna \textit{j}. La matriz se actualiza, eliminando la fila y la columna con mayor índice (entre \textit{i},\textit{j}), y actualizando la fila y columna de menor índice. Este proceso se repite hasta que solo haya un \textit{cluster}. Las distancias entre \textit{clusters} pueden ser:
+		En cada iteración, se busca en la matriz la celda \textit{(i, j)} con menor valor (distancia mínima), y se juntan los \textit{clusters} que representan la fila \textit{i} con la columna \textit{j}. La matriz se actualiza, eliminando la fila y la columna con mayor índice (entre \textit{i}, \textit{j}), y actualizando la fila y columna de menor índice. Este proceso se repite hasta que solo haya un \textit{cluster}. Las distancias entre \textit{clusters} pueden ser:
 		\begin{itemize}
 		\vspace{-0.25cm}
 		\item Centroides: cada cluster tiene un centro.
@@ -211,14 +204,13 @@
 			\KwResult{agrupacion // Clusters para cada individuo de la población}
 			D := init() // Inicializar la matriz de distancias\\
 			\While{number of rows in $matrix$ $> C$}{
-				// Recorrer la matriz en búsqueda del menor valor (i, j)\\
-				busqueda\_min(poblacion)
-				// Agrupar los cluster (i, j)\\
-				agrupar\_clusters(poblacion, i, j);
-				// Eliminar la fila y columna de mayor índice\\
-				eliminar\_cluster(poblacion, max(i, j))		
-				
-				// Calcular nuevas distancias al cluster agrupado (i)
+				// Recorre la matriz en búsqueda del menor valor (i, j)\\
+				i, j :=busqueda\_min(poblacion)\\
+				// Agrupa los cluster (i, j)\\
+				agrupar\_clusters(poblacion, i, j);\\
+				// Elimina la fila y columna de mayor índice\\
+				eliminar\_cluster(poblacion, max(i, j))\\	
+				// Calcula nuevas distancias al cluster agrupado (i)
 				nuevas\_distancias(poblacion, min(i, j))
 			}
 			
@@ -227,34 +219,34 @@
 
 		\noindent La complejidad en los enlaces simple y completo tienen un coste cúbico O(\(N^{3}\)), al tener que comparar todos los individuos uno a uno entre dos cluster.
 		
-		\newpage
 
-
-		Al finalizar la ejecución se puede representar la agrupación mediante un dendrograma \cite{espinoza2012using}, y comprobar el número óptimo de \textit{clusters} para la población calculada. Sin embargo, no es igual de preciso que los coeficientes mencionados anteriormente. (ver Figura \ref{fig:dendograma})
+		Al finalizar la ejecución se puede representar la agrupación mediante un dendrograma \cite{espinoza2012using} (ver Figura \ref{fig:dendograma}), y comprobar el número óptimo de \textit{clusters} para la población calculada. Sin embargo, no es igual de preciso que los coeficientes mencionados anteriormente. 
 		
 		\begin{figure}[!h]
 			\centering
-			\includegraphics[width=0.9\textwidth]{images/chapter_2/dendograma}
-			\caption{Dendograma}
+			\includegraphics[width=0.75\textwidth]{images/chapter_2/dendograma}
+			\caption{Dendograma de una población de 20 individuos}
 			\label{fig:dendograma}
 		\end{figure}
 
 
 	\subsection{Clustering basado en particiones: K-Medias}
 
-		La meta de este algoritmo es particionar la población inicial en \textit{K} clusters, cada individuo se agrupa con el \textit{cluster} más próximo. Para ello se busca minimizar el sumatorio de distancias entre los individuos y el centroide de su \textit{cluster}. 
+		La meta de este algoritmo es particionar la población inicial en \textit{K} clusters, cada individuo se agrupa con el \textit{cluster} más próximo. El algoritmo itera en un bucle en el cual calcula la asignación de todos los individuos. Al final de cada iteración calcula los nuevos centros, si estos no cambian con respecto a la iteracón anterior termina la ejecución. La optimalidad de la agrupación se calcula mediante el sumatorio de las distancias todos los individuos y los centroides de sus \textit{cluster}. 
 		
 		
 		\begin{algorithm}[!h]
 			\caption{K-Medias}
 			\KwData{poblacion, K}
 			\KwResult{agrupacion}
-			centrosNuevos := init(K) // Inicializar los centros de manera aleatoria\\
+			centrosNuevos := init(K) // Inicializa los centros de manera aleatoria\\
 			
 			\Repeat{$centros$ $!= centrosNuevos$}
 			{
 				centros := centrosNuevos\\
+				// Asigna a cada individuo el cluster mas cercano\\
 				agrupacion := asignar(poblacion)\\
+				// Calcula las posiciones de los nuevos centros\\
 				centrosNuevos := calculaCentros(poblacion, asignacion)
 			}
 			
@@ -262,21 +254,19 @@
 			\Return $agrupacion$\;
 		\end{algorithm}
 		
-		Sin embargo, hay que tener en cuenta que la inicialización de los centros es estocástica, por lo que el algoritmo puede converger en un óptimo local. Por eso es importante repetir el algoritmo varias veces para encontrar el óptimo general. La Figura \ref{fig:kmediasBusqueda} muestra una ejemplo de ejecución de este algoritmo. En este caso, se ejecuta varias veces el algoritmo, para ver las posibles asignaciones. El intento con menor valor del sumatorio de distancias de individuos y su cluster asignado, es la mejor asignación entre los intentos ejecutados.
+		Sin embargo, hay que tener en cuenta que la inicialización de los centros es estocástica, por lo que el algoritmo puede converger en un óptimo local. Por eso es importante repetir el algoritmo varias veces para encontrar el óptimo general. La Figura \ref{fig:kmediasBusqueda} muestra una ejemplo de ejecución, junto con la búsqueda de la mejor agrupación. Esta figura representa la búsqueda al ejecutar tres veces el algoritmo. El intento con menor valor del sumatorio de distancias de individuos y su cluster asignado, es la mejor asignación entre los intentos ejecutados. El tercer intento es la agrupación que muestra la figura.
 
 
-
-		% TODO CAMBIAR IMAGEN
 		\begin{figure}[!h]
 			\centering
 			\includegraphics[width=1\textwidth]{images/chapter_2/kmedias}
-			\caption{KMedias - Búsqueda}
+			\caption{Búsqueda del óptimo general en el algoritmo de K-Medias}
 			\label{fig:kmediasBusqueda}
 		\end{figure}
 
 
 \section{Aprendizaje Supervisado}
-	Al contrario que el apartado anterior, este tipo de aprendizaje automático, es entrenado con un \textit{dataset} categorizado con su salida correcta. El algoritmo aprende de este conjunto para hacer predicciones sobre unos datos desconocidos.
+	Al contrario que el apartado anterior, este tipo de aprendizaje automático es entrenado con un \textit{dataset} categorizado con su salida correcta. El algoritmo aprende de este conjunto para hacer predicciones sobre unos datos desconocidos.
 	
 	El objetivo de este algoritmo es aprender la función que mapea las variables de entrada en las categorías correctas de salida. Para ello, ajusta los parámetros con técnicas de optimización iterativas para minimizar el error en sus predicciones.
 	
@@ -292,7 +282,7 @@
 			\item Basado en instancias: usa todos los individuos disponibles y ante un ejemplo nuevo recupera los más relevantes para componer la solución.	
 		\end{itemize}
 		
-		No hay una forma de determinar el mejor valor para K, de forma que hay que probar con varias ejecuciones. Valores pequeños de K crea sonido, provocando que inicialmente se categorice con un cluster no tan idoneo, y a la larga se categoricen muchos de forma incorrecta. Valores grandes con pocos datos favorece a los \textit{clusters} con mas individuos. Un valor diferente de K puede cambiar la categoría de un individuo. En la Figura \ref{fig:knn} se puede apreciar el proceso de asignación de un cluster a un nuevo individuo. Como se puede ver con los círculos que delimitan los K vecinos más cercanos, si variamos K, la asignación del nuevo individuo puede cambiar.
+		No hay una forma de determinar el mejor valor para K, de forma que hay que probar con varias ejecuciones. Valores pequeños de K crea sonido, provocando que inicialmente se categorice con un cluster no tan idoneo, y a la larga se categoricen muchos de forma incorrecta. Valores grandes con pocos datos favorece a los \textit{clusters} con más individuos. Un valor diferente de K puede cambiar la categoría de un individuo. En la primera imagen de la Figura \ref{fig:aprendizaje_supervisado} se puede apreciar el proceso de asignación de un cluster a un nuevo individuo. Como se puede ver con los círculos que delimitan los K vecinos más cercanos, si variamos K, la asignación del nuevo individuo puede cambiar.
 
 		\begin{algorithm}
 			\caption{KNN}
@@ -300,9 +290,9 @@
 			\KwResult{agrupacion // Clusters para cada individuo de la población}
 			agrupacion := $\emptyset$\\
 			\For{each individuo $ind$ in $poblacionPred$}{
-				// Recorrer toda la población guardando los K individuos más cercanos\\
+				// Recorre toda la población guardando los K individuos más cercanos\\
 				vecinos := recorrer\_poblacion(poblacion, individuo)\\
-				// Clasificar según los K vecinos\\
+				// Clasifica según los K vecinos\\
 				cluster := clasificar\_individuo(vecinos)\\
 				agrupacion.append(cluster, etiquetas)
 			}
@@ -321,31 +311,16 @@
 		%\end{figure}
 		
 		
-		\begin{figure}[!h]
+		\begin{figure}[!ht]
 			\centering
-			
-			
-			\begin{subfigure}[t]{0.4\textwidth}
-				\centering
-				\includegraphics[width=\textwidth]{images/chapter_2/knn}
-				\caption{KNN}
-				\label{fig:knn}
-			\end{subfigure}
-			\hfill
-			\begin{subfigure}[t]{0.5\textwidth}
-				\centering
-				\includegraphics[width=\textwidth]{images/chapter_2/redneu}
-				\caption{Red Neuronal}
-				\label{fig:redneu}
-			\end{subfigure}
-			
-			\caption{Aprendizaje Supervisado}
-			\label{fig:aprendizajeSupervisado}
+			\includegraphics[width=\textwidth]{images/chapter_2/knn_redneu}
+			\caption{Algoritmos de aprendizaje supervisado}
+			\label{fig:aprendizaje_supervisado}
 		\end{figure}
 
 	\subsection{Redes Neuronales}
 
-		Las redes neuronales son un modelo computacional inspirado en el funcionamiento y estructura de las neuronas del cerebro humano. Consiste en capas de nodos interconectados, llamadas neuronas artificiales. La estructura del modelo se muestra en la Figura \ref{fig:redneu}. En este modelo se aprecian:
+		Las redes neuronales son un modelo computacional inspirado en el funcionamiento y estructura de las neuronas del cerebro humano. Consiste en capas de nodos interconectados, llamadas neuronas artificiales. La estructura del modelo se muestra en la imagen de la derecha de la Figura \ref{fig:aprendizaje_supervisado}. En este modelo se aprecian:
 
 
 		\begin{itemize}
@@ -364,7 +339,7 @@
 		%	\centering
 		%	\includegraphics[width=0.5\textwidth]{images/chapter_2/redneu}
 		%	\caption{Red Neuronal}
-		%	\label{fig:redneu}
+		%	\label{}
 		%\end{figure}
 		
 		En el proceso de entrenamiento aprende a realizar una tarea específica ajustando los parámetros internos (pesos en las conexiones), gracias al \textit{dataset} proporcionado. Normalmente, este ajuste se lleva a cabo con algoritmos de optimización como descenso de gradiente, donde se comparan las predicciones del modelo con la categoría correcta, y se actualizan los parámetros del modelo con un método de propagación hacia atrás, \textit{backpropagation} en inglés. Estos valores se actualizan dependiendo del error cometido y la tasa de aprendizaje proporcionada al modelo.
@@ -428,20 +403,22 @@
 
 
 
-\section{Programación Evolutiva}
+\section{Algoritmos Evolutivos}
 
 
 	La programación evolutiva es una técnica de optimización inspirada en la teoría de la evolución biológica. Se basa en el concepto de selección natural y evolución de las poblaciones para encontrar soluciones a problemas complejos. 
 	
-	La población está compuesta por individuos, que pueden ser representados con arrays de números reales, binarios o un árbol, en programación genética. Los individuos tienen un cromosoma, que a su vez tiene uno o varios genes, con uno o más alelos. Esta población es sometida a métodos de selección, mutación y evaluación para, con el paso de las generaciones, maximizar o minimizar un valor \textit{fitness}.
+	La población está compuesta por individuos, que pueden ser representados con arrays de números reales, binarios o un árbol, en programación genética. Los individuos tienen un cromosoma, que a su vez tiene uno o varios genes, con uno o más alelos. Esta población es sometida a métodos de evaluación, selección, cruce y mutación para, con el paso de las generaciones, maximizar o minimizar un valor \textit{fitness}.
 	
-	Esta técnica es muy útil para problemas de optimización donde los métodos tradicionales son no proporcionan el rendimiento deseado.  Se han aplicado a varios dominios, como por ejemplo la bioinformática o robótica \cite{contreras2015mobile}.
+	Esta técnica es muy útil para problemas de optimización donde los métodos tradicionales no proporcionan el rendimiento deseado.  Se han aplicado a varios dominios, como por ejemplo la bioinformática o robótica \cite{contreras2015mobile}.
+	
+	La siguiente Figura \ref{fig:AG} muestra el diagrama de estados del algoritmo más básico. Cada método se puede modificar para cualquier individuo, así como añadir más técnicas para garantizar y/o mejorar los resultados finales. Como puede ser el elitismo, que garantiza la supervivencia de los mejores individuos, o un desplazamiento de los valores \textit{fitness} para evitar valores negativos. 
 
 
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=0.45\textwidth]{images/chapter_2/AG}
-		\caption{Algoritmo Evolutivo}
+		\caption{Algoritmo Evolutivo básico}
 		\label{fig:AG}
 	\end{figure}
 

@@ -4,44 +4,44 @@
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Definición y alcance del proyecto}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Motivación}{3}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Objetivo}{5}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Estructura del documento}{6}{section.1.4}%
-\contentsline {chapter}{\numberline {2}Contextualización}{7}{chapter.2}%
-\contentsline {section}{\numberline {2.1}MPI}{7}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Aprendizaje por Refuerzo}{10}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Algoritmo Q-Learning}{11}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Deep Q-Network (DQN)}{12}{subsection.2.2.2}%
-\contentsline {section}{\numberline {2.3}Aprendizaje No-Supervisado}{14}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Clustering jerárquico aglomerativo}{15}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Clustering basado en particiones: K-Medias}{16}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{17}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}K-Vecinos más Cercanos - KNN}{18}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Redes Neuronales}{19}{subsection.2.4.2}%
-\contentsline {section}{\numberline {2.5}Programación Evolutiva}{20}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Diseño e Implementación de estrategias para aumentar el rendimiento de algoritmos de IA}{22}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Programas sencillos}{22}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Algoritmos de Clustering}{28}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Jerárquico Aglomerativo}{28}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}K-Medias}{31}{subsection.3.2.2}%
+\contentsline {section}{\numberline {1.3}Objetivo}{4}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Estructura del documento}{5}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Contextualización}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}MPI}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Aprendizaje por Refuerzo}{9}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Algoritmo Q-Learning}{9}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Deep Q-Network (DQN)}{11}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Aprendizaje No-Supervisado}{12}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Clustering jerárquico aglomerativo}{13}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Clustering basado en particiones: K-Medias}{14}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{16}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}K-Vecinos más Cercanos - KNN}{17}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Redes Neuronales}{18}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}Algoritmos Evolutivos}{19}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Diseño e Implementación de estrategias para aumentar el rendimiento de algoritmos de IA}{21}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Programas sencillos}{21}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Algoritmos de Clustering}{27}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Jerárquico Aglomerativo}{27}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}K-Medias}{30}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}K-Vecinos más cercanos (KNN)}{33}{subsection.3.2.3}%
 \contentsline {section}{\numberline {3.3}Aprendizaje por refuerzo}{36}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Q-Learning}{36}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Deep Q-Network}{40}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Algoritmos Evolutivos}{45}{section.3.4}%
+\contentsline {section}{\numberline {3.4}Algoritmos Evolutivos}{43}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Redes Neuronales}{50}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Estudio empírico}{55}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Entornos de ejecución}{55}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Programas sencillos}{57}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Ordenaciones}{57}{subsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.1.1}Algoritmos de complejidad cuadrática}{57}{subsubsection.4.2.1.1}%
-\contentsline {subsubsection}{\numberline {4.2.1.2}Algoritmo \textit {MergeSort}}{59}{subsubsection.4.2.1.2}%
-\contentsline {subsection}{\numberline {4.2.2}Multiplicación de matrices}{62}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Algoritmos de Agrupación}{64}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Jerárquico Aglomerativo}{65}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}K-Medias}{69}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}KNN}{73}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}Q-Learning}{76}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Algoritmos Evolutivos}{79}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Redes Neuronales}{89}{section.4.6}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{94}{chapter.5}%
-\contentsline {chapter}{Bibliography}{98}{chapter*.68}%
+\contentsline {chapter}{\numberline {4}Estudio empírico}{54}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Entornos de ejecución}{54}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Programas sencillos}{56}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Ordenaciones}{56}{subsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.1.1}Algoritmos de complejidad cuadrática}{56}{subsubsection.4.2.1.1}%
+\contentsline {subsubsection}{\numberline {4.2.1.2}Algoritmo \textit {MergeSort}}{58}{subsubsection.4.2.1.2}%
+\contentsline {subsection}{\numberline {4.2.2}Multiplicación de matrices}{61}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Algoritmos de Agrupación}{63}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Jerárquico Aglomerativo}{64}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}K-Medias}{68}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}KNN}{72}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Q-Learning}{75}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Algoritmos Evolutivos}{78}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Redes Neuronales}{88}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{92}{chapter.5}%
+\contentsline {chapter}{Bibliography}{96}{chapter*.68}%
