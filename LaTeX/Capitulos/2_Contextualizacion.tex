@@ -200,14 +200,14 @@
 
 		\begin{algorithm}[!h]
 			\caption{Jerárquico Aglomerativo}
-			\KwData{poblacion, C // Número de clusters deseados}
-			\KwResult{agrupacion // Clusters para cada individuo de la población}
+			\KwData{poblacion, C  // Numero de clusters deseados}
+			\KwResult{agrupacion // Clusters para cada individuo de la poblacion}
 			D := init() // Inicializar la matriz de distancias\\
 			\While{number of rows in $matrix$ $> C$}{
 				// Recorre la matriz en búsqueda del menor valor (i, j)\\
 				i, j :=busqueda\_min(poblacion)\\
 				// Agrupa los cluster (i, j)\\
-				agrupar\_clusters(poblacion, i, j);\\
+				agrupacion := agrupar\_clusters(poblacion, i, j)\\
 				// Elimina la fila y columna de mayor índice\\
 				eliminar\_cluster(poblacion, max(i, j))\\	
 				// Calcula nuevas distancias al cluster agrupado (i)
@@ -245,7 +245,7 @@
 			{
 				centros := centrosNuevos\\
 				// Asigna a cada individuo el cluster mas cercano\\
-				agrupacion := asignar(poblacion)\\
+				agrupacion := asignar(poblacion, centros)\\
 				// Calcula las posiciones de los nuevos centros\\
 				centrosNuevos := calculaCentros(poblacion, asignacion)
 			}
@@ -286,15 +286,15 @@
 
 		\begin{algorithm}
 			\caption{KNN}
-			\KwData{poblacion, etiquetas, poblacionPred}
+			\KwData{poblacion, etiquetas, poblacionPred, K}
 			\KwResult{agrupacion // Clusters para cada individuo de la población}
 			agrupacion := $\emptyset$\\
 			\For{each individuo $ind$ in $poblacionPred$}{
 				// Recorre toda la población guardando los K individuos más cercanos\\
-				vecinos := recorrer\_poblacion(poblacion, individuo)\\
+				vecinos := recorrer\_poblacion(poblacion, individuo, K)\\
 				// Clasifica según los K vecinos\\
 				cluster := clasificar\_individuo(vecinos)\\
-				agrupacion.append(cluster, etiquetas)
+				agrupacion.append(cluster)
 			}
 			\Return $agrupacion$
 		\end{algorithm}
@@ -353,7 +353,7 @@
 			\KwResult{pesos // Opcionalmente, devolver los pesos de la red}
 			pesos := init() // Inicializar los pesos de manera aleatoria\\
 			\For{$rep \leftarrow 0$ \KwTo $repeticiones$}{
-				cont := 0
+				cont := 0\\
 				\For{each $ind$ in $entrenamiento$}{
 					// Suma el valor recibido de la capa anterior multiplicada por los pesos de la capa actual con la siguiente. Así se determina la importancia de conexión entre las neuronas. \\
 					// Con el valor calculado se aplica a una función de activación y se pasa a la siguiente capa hasta llegar a la salida.\\			
