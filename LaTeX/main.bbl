@@ -1,15 +1,16 @@
 \begin{thebibliography}{10}
 
 \bibitem{BloomAI}
-Bloom ai.
-\newblock Último acceso: 2024-02-08.
+Bloom {AI}.
+\newblock Último acceso: 2024-02-08. \url{https://bloomai.co/}.
 
 \bibitem{MazeGenerator}
-Chlouispy - maze generator.
+Chlouis{P}y - {M}aze generator.
 \newblock Último acceso: 2024-02-21.
+  \url{https://github.com/ChlouisPy/maze-generator-maze-solver}.
 
 \bibitem{ackermann2014analysis}
-Marcel~R Ackermann, Johannes Bl{\"o}mer, Daniel Kuntze, and Christian Sohler.
+Marcel~R. Ackermann, Johannes Bl{\"o}mer, Daniel Kuntze, and Christian Sohler.
 \newblock Analysis of agglomerative clustering.
 \newblock {\em Algorithmica}, 69:184--215, 2014.
 
@@ -25,13 +26,14 @@ Brandon Barker.
   262. Cornell University Publisher Houston, TX, USA, 2015.
 
 \bibitem{contreras2015mobile}
-Marco~A Contreras-Cruz, Victor Ayala-Ramirez, and Uriel~H Hernandez-Belmonte.
+Marco~A. Contreras-Cruz, V{\'i}ctor Ayala-Ram{\'i}rez, and Uriel~H.
+  Hernandez-Belmonte.
 \newblock Mobile robot path planning using artificial bee colony and
   evolutionary programming.
 \newblock {\em Applied Soft Computing}, 30:319--328, 2015.
 
 \bibitem{espinoza2012using}
-Flor~A Espinoza, Janet~M Oliver, Bridget~S Wilson, and Stanly~L Steinberg.
+Flor~A. Espinoza, Janet~M. Oliver, Bridget~S. Wilson, and Stanly~L. Steinberg.
 \newblock Using hierarchical clustering and dendrograms to quantify the
   clustering of membrane proteins.
 \newblock {\em Bulletin of mathematical biology}, 74:190--211, 2012.
@@ -62,8 +64,8 @@ Frances~Y Kuo and Ian~H Sloan.
 \bibitem{lugano2017virtual}
 Giuseppe Lugano.
 \newblock Virtual assistants and self-driving cars.
-\newblock In {\em 2017 15th International Conference on ITS Telecommunications
-  (ITST)}, pages 1--5. IEEE, 2017.
+\newblock In {\em 2017 15\textsuperscript{th} International Conference on ITS
+  Telecommunications (ITST)}, pages 1--5. IEEE, 2017.
 
 \bibitem{malladi2023fine}
 Sadhika Malladi, Tianyu Gao, Eshaan Nichani, Alex Damian, Jason~D Lee, Danqi
@@ -96,7 +98,7 @@ José~Jaime Ruz~Ortiz.
 
 \bibitem{sainin2021best}
 Mohd~Shamrie Sainin.
-\newblock Best programming languages for ai.
+\newblock Best programming languages for {AI}.
 \newblock 2021.
 
 \bibitem{stone1990high}

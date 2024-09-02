@@ -8,7 +8,7 @@
 @inproceedings{lugano2017virtual,
   title={Virtual assistants and self-driving cars},
   author={Lugano, Giuseppe},
-  booktitle={2017 15th International Conference on ITS Telecommunications (ITST)},
+  booktitle={2017 15\textsuperscript{th} International Conference on ITS Telecommunications (ITST)},
   pages={1--5},
   year={2017},
   organization={IEEE}
@@ -76,7 +76,7 @@
 
 @article{ackermann2014analysis,
   title={Analysis of agglomerative clustering},
-  author={Ackermann, Marcel R and Bl{\"o}mer, Johannes and Kuntze, Daniel and Sohler, Christian},
+  author={Ackermann, Marcel R. and Bl{\"o}mer, Johannes and Kuntze, Daniel and Sohler, Christian},
   journal={Algorithmica},
   volume={69},
   pages={184--215},
@@ -87,7 +87,7 @@
 
 @article{espinoza2012using,
   title={Using hierarchical clustering and dendrograms to quantify the clustering of membrane proteins},
-  author={Espinoza, Flor A and Oliver, Janet M and Wilson, Bridget S and Steinberg, Stanly L},
+  author={Espinoza, Flor A. and Oliver, Janet M. and Wilson, Bridget S. and Steinberg, Stanly L.},
   journal={Bulletin of mathematical biology},
   volume={74},
   pages={190--211},
@@ -98,7 +98,7 @@
 
 @article{contreras2015mobile,
   title={Mobile robot path planning using artificial bee colony and evolutionary programming},
-  author={Contreras-Cruz, Marco A and Ayala-Ramirez, Victor and Hernandez-Belmonte, Uriel H},
+  author={Contreras-Cruz, Marco A. and Ayala-Ram{\'i}rez, V{\'i}ctor and Hernandez-Belmonte, Uriel H.},
   journal={Applied Soft Computing},
   volume={30},
   pages={319--328},
@@ -128,7 +128,8 @@
   title={Multiprocesadores de memoria compartida y distribuida},
   author={Ruz Ortiz, José Jaime },
   year={12/01/2016},
-  organization={Universidad Complutense de Madrid (UCM)}
+  organization={Universidad Complutense de Madrid (UCM)},
+  note = {Universidad Complutense de Madrid (UCM)}
 }
 
 
@@ -194,25 +195,26 @@
 
 
 @article{sainin2021best,
-  title={Best Programming Languages for AI},
+  title={Best Programming Languages for {AI}},
   author={Sainin, Mohd Shamrie},
   year={2021}
 }
 
 
 @online{BloomAI,
-  title = {Bloom AI},
+  title = {Bloom {AI}},
   url = {https://bloomai.co/},
   urldate = {2024-01-23},
   date    = {2024-02-08},  
-  note    = {Último acceso: 2024-02-08}
+  note    = {Último acceso: 2024-02-08. \url{https://bloomai.co/}}  
 }
 
 @online{MazeGenerator,
-  title = {ChlouisPy - Maze Generator},
+  title = {Chlouis{P}y - {M}aze Generator},
   url = {https://github.com/ChlouisPy/maze-generator-maze-solver},
   urldate = {2021-06-06},
-  note    = {Último acceso: 2024-02-21}
+  date    = {2024-02-21},  
+  note    = {Último acceso: 2024-02-21. \url{https://github.com/ChlouisPy/maze-generator-maze-solver}}  
 }
 
 
