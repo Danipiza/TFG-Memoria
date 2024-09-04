@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  2 SEP 2024 21:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  4 SEP 2024 11:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1607,7 +1607,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <images/chapter_2/mpi_2.png, id=357, 1049.42062pt x 470.50781pt>
 File: images/chapter_2/mpi_2.png Graphic file (type png)
 <use images/chapter_2/mpi_2.png>
-Package pdftex.def Info: images/chapter_2/mpi_2.png  used on input line 50.
+Package pdftex.def Info: images/chapter_2/mpi_2.png  used on input line 47.
 (pdftex.def)             Requested size: 373.49316pt x 167.45143pt.
 
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
@@ -1615,50 +1615,50 @@ File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) [8 <./images/chapter_2/mpi_2.png>] [9]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 118.
+(mdframed)              on input line 115.
 Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 129.
+ mdframed uses option nobreak mdframed on input line 126.
 Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 129.
- [10] [11]
-<images/chapter_2/pacman.png, id=415, 1258.7025pt x 1011.78pt>
+ mdframed uses option nobreak mdframed on input line 126.
+ [10]
+<images/chapter_2/pacman.png, id=406, 1258.7025pt x 1011.78pt>
 File: images/chapter_2/pacman.png Graphic file (type png)
 <use images/chapter_2/pacman.png>
-Package pdftex.def Info: images/chapter_2/pacman.png  used on input line 161.
-(pdftex.def)             Requested size: 280.12166pt x 225.17052pt.
- [12 <./images/chapter_2/pacman.png>]
-<images/chapter_2/ap_nosup_diagramas.jpg, id=424, 1159.33125pt x 390.45876pt>
+Package pdftex.def Info: images/chapter_2/pacman.png  used on input line 149.
+(pdftex.def)             Requested size: 256.777pt x 206.3973pt.
+ [11 <./images/chapter_2/pacman.png>] [12]
+<images/chapter_2/ap_nosup_diagramas.jpg, id=423, 1159.33125pt x 390.45876pt>
 File: images/chapter_2/ap_nosup_diagramas.jpg Graphic file (type jpg)
 <use images/chapter_2/ap_nosup_diagramas.jpg>
 Package pdftex.def Info: images/chapter_2/ap_nosup_diagramas.jpg  used on input
- line 177.
+ line 178.
 (pdftex.def)             Requested size: 443.52002pt x 149.37679pt.
  [13 <./images/chapter_2/ap_nosup_diagramas.jpg>]
-<images/chapter_2/dendograma.jpg, id=434, 988.9579pt x 648.90852pt>
+<images/chapter_2/dendograma.jpg, id=433, 988.9579pt x 648.90852pt>
 File: images/chapter_2/dendograma.jpg Graphic file (type jpg)
 <use images/chapter_2/dendograma.jpg>
 Package pdftex.def Info: images/chapter_2/dendograma.jpg  used on input line 22
-7.
+8.
 (pdftex.def)             Requested size: 350.14851pt x 229.75519pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [14] [15 <./images/chapter_2/dendograma.jpg>]
-<images/chapter_2/kmedias.png, id=453, 759.58781pt x 312.41719pt>
+<images/chapter_2/kmedias.png, id=452, 759.58781pt x 312.41719pt>
 File: images/chapter_2/kmedias.png Graphic file (type png)
 <use images/chapter_2/kmedias.png>
-Package pdftex.def Info: images/chapter_2/kmedias.png  used on input line 262.
+Package pdftex.def Info: images/chapter_2/kmedias.png  used on input line 263.
 (pdftex.def)             Requested size: 466.86469pt x 192.02339pt.
  [16 <./images/chapter_2/kmedias.png>] [17]
-<images/chapter_2/knn_redneu.png, id=468, 915.42pt x 347.2975pt>
+<images/chapter_2/knn_redneu.png, id=467, 915.42pt x 347.2975pt>
 File: images/chapter_2/knn_redneu.png Graphic file (type png)
 <use images/chapter_2/knn_redneu.png>
 Package pdftex.def Info: images/chapter_2/knn_redneu.png  used on input line 31
-6.
+7.
 (pdftex.def)             Requested size: 466.86469pt x 177.11937pt.
  [18 <./images/chapter_2/knn_redneu.png>] [19]
-<images/chapter_2/AG.png, id=484, 754.82pt x 844.15375pt>
+<images/chapter_2/AG.png, id=483, 754.82pt x 844.15375pt>
 File: images/chapter_2/AG.png Graphic file (type png)
 <use images/chapter_2/AG.png>
 Package pdftex.def Info: images/chapter_2/AG.png  used on input line 420.
@@ -1674,7 +1674,7 @@ Cap\'{\i }tulo 3.
 
 
 ]
-<images/chapter_3/matriz_mpi.jpeg, id=497, 1780.6525pt x 1589.94pt>
+<images/chapter_3/matriz_mpi.jpeg, id=496, 1780.6525pt x 1589.94pt>
 File: images/chapter_3/matriz_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/matriz_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/matriz_mpi.jpeg  used on input line 4
@@ -1685,14 +1685,14 @@ Package pdftex.def Info: images/chapter_3/matriz_mpi.jpeg  used on input line 4
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [22] [23 <./images/chapter_3/matriz_mpi.jpeg>]
-<images/chapter_3/sequentialsort_mpi.jpeg, id=509, 2033.5975pt x 1345.025pt>
+<images/chapter_3/sequentialsort_mpi.jpeg, id=508, 2033.5975pt x 1345.025pt>
 File: images/chapter_3/sequentialsort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/sequentialsort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/sequentialsort_mpi.jpeg  used on inpu
 t line 59.
 (pdftex.def)             Requested size: 280.12166pt x 185.26476pt.
  [24 <./images/chapter_3/sequentialsort_mpi.jpeg>] [25]
-<images/chapter_3/mergesort_mpi.jpeg, id=525, 4107.345pt x 1710.39pt>
+<images/chapter_3/mergesort_mpi.jpeg, id=524, 4107.345pt x 1710.39pt>
 File: images/chapter_3/mergesort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/mergesort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/mergesort_mpi.jpeg  used on input lin
@@ -1711,7 +1711,7 @@ Package mdframed Info: mdframed inside float
  mdframed uses option nobreak mdframed on input line 165.
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 165.
-<images/chapter_3/aglomerativo_mpi.jpg, id=537, 314.18431pt x 262.45421pt>
+<images/chapter_3/aglomerativo_mpi.jpg, id=536, 314.18431pt x 262.45421pt>
 File: images/chapter_3/aglomerativo_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/aglomerativo_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/aglomerativo_mpi.jpg  used on input l
@@ -2242,7 +2242,7 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Here is how much of TeX's memory you used:
  50720 strings out of 474485
  1127290 string characters out of 5742791
- 2053542 words of memory out of 5000000
+ 2052542 words of memory out of 5000000
  71806 multiletter control sequences out of 15000+600000
  580557 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2282,9 +2282,9 @@ Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6
 s/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (104 pages, 9048745 bytes).
+Output written on main.pdf (104 pages, 9047479 bytes).
 PDF statistics:
- 1874 PDF objects out of 2073 (max. 8388607)
+ 1875 PDF objects out of 2073 (max. 8388607)
  309 named destinations out of 1000 (max. 500000)
  583 words of extra memory for PDF output out of 10000 (max. 10000000)
 

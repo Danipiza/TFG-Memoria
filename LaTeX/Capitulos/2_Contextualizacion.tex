@@ -8,15 +8,15 @@
 \definecolor{greencell}{RGB}{217,234,211}
 
 
-	En este capítulo se presenta una descripción de los algoritmos de Inteligencia Artificial que se van a utilizar en el proyecto, profundizando es sus usos y características. Además de describir la biblioteca de paso de mensajes empleada en el proyecto para la paralelización de los algoritmos.
+	En este capítulo se presenta una descripción de los algoritmos de Inteligencia Artificial que se van a utilizar en el proyecto, profundizando es sus usos y características. Además, se presenta la biblioteca de paso de mensajes (MPI) empleada en el proyecto para la paralelización de los algoritmos.
 	
 
 \section{MPI}
 
-	Message Passing Interface\cite{barker2015message}  (MPI) es un estándar para una biblioteca de paso de mensajes, diseñado para funcionar en una amplia variedad de arquitecturas informáticas paralelas. Permite la comunicación entre procesos, mediante el envío y recepción de mensajes. Comúnmente se utiliza en sistemas de alto rendimiento\cite{stone1990high} (HPC) y entornos informáticos paralelos para desarrollar aplicaciones paralelas escalables y eficientes.
+	Message Passing Interface\cite{barker2015message}  (MPI) es un estándar para una biblioteca de paso de mensajes, diseñado para funcionar en una amplia variedad de arquitecturas informáticas paralelas. MPI permite la comunicación entre procesos, mediante el envío y recepción de mensajes. Comúnmente se utiliza en sistemas de alto rendimiento\cite{stone1990high} (HPC, por sus siglas en inglés) y entornos informáticos paralelos para desarrollar aplicaciones paralelas escalables y eficientes.
 	
 	
-	Al crear el entorno MPI en una aplicación, se ejecutan en paralelo varios procesos, cada uno con su correspondiente \textit{id}, también llamado \textit{rank}. El programador elige cuál va a ser el desempeño de los procesos. Por ejemplo, en el modelo \textit{Master-Worker}, el primer proceso (\textit{rank=0}) generalmente, es llamado \textit{master}, y se encarga de distribuir los datos entre los demás procesos, llamados \textit{workers}. La Figura \ref{fig:comunicacion_mw}, muestra la comunicación entre los procesos en este modelo. El proceso \textit{master} reparte los datos mientras que los \textit{workers} los procesan y los devuelven.
+	Al crear el entorno MPI en una aplicación, se ejecutan en paralelo varios procesos, cada uno con su correspondiente \textit{id}, también llamado \textit{rank}. El programador elige cuál va a ser el desempeño de los procesos. Por ejemplo, en el modelo \textit{Master-Worker}, el primer proceso (\textit{rank=0}) generalmente, es llamado \textit{master}, y se encarga de distribuir los datos entre los demás procesos, llamados \textit{workers}. La Figura \ref{fig:comunicacion_mw}, muestra la comunicación entre los procesos en este modelo. El proceso \textit{master} reparte los datos mientras que los \textit{workers} los procesan y devuelven el resultado.
 
 
 	\begin{figure}[!h]
@@ -28,16 +28,13 @@
 
 	\newpage
 
-	Esta técnica de paralelización utiliza memoria distribuida, es decir, cada proceso tiene su propia memoria local. Así, los procesos no tienen que preocuparse por los problemas de la memoria compartida, como la sincronización para el acceso de variables compartidas, condiciones de carrera o \textit{deadlocks} (dos o más procesos quedan atrapados en un estado en el que ninguno puede continuar con su ejecución, pues están esperando a que otro proces, también bloqueado, libere un recurso necesario para continuar). Asimismo, la memoria compartida no es fácilmente escalable a un gran número de procesadores\cite{jjruiz2016compartida}.
+	Esta técnica de paralelización utiliza memoria distribuida, es decir, cada proceso tiene su propia memoria local. Así, los procesos no tienen que preocuparse por los problemas de la memoria compartida, como la sincronización para el acceso de variables compartidas, condiciones de carrera o \textit{deadlocks} (dos o más procesos quedan bloqueados en un estado en el que ninguno puede continuar con su ejecución, pues están esperando a que otro proceso, también bloqueado, libere un recurso necesario para continuar). Asimismo, la memoria compartida no es fácilmente escalable a un gran número de procesadores\cite{jjruiz2016compartida}.
 
 
-	Un programa ejecutado en paralelo, donde múltiples procesos se ejecutan en el mismo programa de manera independiente, pero trabajan con diferentes conjuntos de datos. Se denomina, por sus siglas en inglés, SPMD (Single Program Multiple Data), este modelo es comúnmente utilizado en computación de alto rendimiento y en entornos de procesamiento paralelo. La escalabilidad y eficiencia de este modelo son sus principales ventajas.
-
-	Un proceso (en el modelo \textit{Master-Worker}, el \textit{master}) contiene los datos del programa y se encarga de gestionar los mismos y repartirlos de manera eficiente. Los mensajes pueden ser:
+	Un programa ejecutado en paralelo, donde múltiples procesos se ejecutan en el mismo programa de manera independiente, pero trabajan con diferentes conjuntos de datos se denomina, por sus siglas en inglés, SPMD (Single Program Multiple Data). Este modelo es comúnmente utilizado en computación de alto rendimiento (HPC) y en entornos de procesamiento paralelo. La escalabilidad y eficiencia de este modelo son sus principales ventajas. Los mensajes pueden ser:
 	\begin{itemize}
-		\item Síncronos: al ejecutar la función \textit{recv}() el proceso receptor se queda bloqueado.
-		\item Asíncrono: el receptor no se bloquea, por lo que puede adelantar código mientras espera a recibir el mensaje.
-		\item Broadcast: un mensaje se envía a todos los procesos. Los emisores tienen que llamar a la misma función que los procesos que reciben el mensaje.
+		\item Síncronos: El proceso receptor se queda bloqueado esperando el mensaje.
+		\item Asíncrono: el receptor no se bloquea, por lo que puede adelantar código mientras espera a recibir el mensaje.		
 	\end{itemize}
 
 	
@@ -98,12 +95,12 @@
 		Los componentes esenciales del algoritmo son los siguientes:
 	\end{flushleft}
 	\begin{itemize}
-		\item Agente, que interactúa con el entorno y aprende de él, ejecutando sus acciones. 
-		\item Entorno, con el cual el agente interactúa. Responde a las acciones tomadas por el agente y provee el \textit{feedback}.
-		\item Conjunto de acciones o decisiones que el agente puede realizar.
-		\item Estados, son las configuraciones que el entorno puede tomar.
-		\item Feedback, recompensas o castigos del entorno al realizar una acción en un estado.		
-		\item Condición de finalización. La cual puede ser desde encontrar la función óptima, hasta realizar un número de acciones 
+		\item \textit{Agente} que interactúa con el entorno y aprende de él, ejecutando sus acciones. 
+		\item \textit{Entorno} con el cual el agente interactúa. Responde a las acciones tomadas por el agente y provee el \textit{feedback}.
+		\item Conjunto de acciones o \textit{decisiones} que el agente puede realizar.
+		\item \textit{Estados}, son las configuraciones que el entorno puede tomar.
+		\item \textit{Feedback}, recompensas o castigos del entorno al realizar una acción en un estado.		
+		\item Condición de \textit{finalización}. La cual puede ser desde encontrar la función óptima, hasta realizar un número de acciones 
 	\end{itemize}
 
 
@@ -117,7 +114,7 @@
 		\begin{flushleft}
 		\begin{mdframed}[roundcorner=5pt]
 			\[
-			Q(S,A) = (1 - \alpha) Q(S,A) + \alpha \left( R(S,A) + \max_{i} \{ Q(S',A_i) \} \right)
+			Q(S,A) = (1 - \alpha) Q(S,A) + \alpha \left( R(S,A) + max_{i} \{ Q(S',A_i) \} \right)
 			\]
 			\begin{itemize}
 				\item \( Q(S,A) \) ← Es el valor-Q de ejecutar la acción \( A \) en el estado \( S \).
@@ -133,11 +130,11 @@
 		\end{figure}
 		
 		
-		El agente toma la decisión de ejecutar una acción dependiendo del hiper-parámetro $\epsilon$  con valores entre \textit{[0,1]}. Con un número aleatorio (en el mismo intervalo) calcula la probabilidad de ejecutar la mejor acción aprendida hasta el momento, o una acción aleatoria entre las disponibles. Si el valor es alto, casi siempre se ejecutará la mejor acción aprendida hasta el momento, y es posible que no aprenda otras formas de alcanzar el objetivo.
+		El agente toma la decisión de ejecutar una acción dependiendo del hiper-parámetro $\epsilon$  con valores entre \textit{[0,1]}. Con un número aleatorio (en el mismo intervalo) calcula la probabilidad de ejecutar la mejor acción aprendida hasta el momento, o una acción aleatoria entre las disponibles. Si el valor es alto, con alta probabilidad se ejecutará la mejor acción aprendida hasta el momento, y es posible que no aprenda otras formas de alcanzar el objetivo.
 		
 		%\newpage
 		
-		Este algoritmo se ha aplicado en muchos dominios, como puede ser videojuegos de Atari \cite{mnih2013playing}, robótica o problemas de optimización. Sin embargo sufre cuando el entorno tiene muchos estados, ya que la complejidad espacial aumenta considerablemente, y no es práctico tener las dos matrices. Por eso se diseñó el algoritmo DQN que usa una red neuronal. Así eliminamos la maldición de dimensionalidad \cite{kuo2005lifting}, problemas que surgen con el exceso de variables independientes en un dataset. En este algoritmo, el problema es el elevado número de estados que el agente ha de recorrer.
+		Este algoritmo se ha aplicado en muchos dominios, como puede ser videojuegos de Atari \cite{mnih2013playing}, robótica o problemas de optimización. Sin embargo, sufre cuando el entorno tiene muchos estados, ya que la complejidad espacial aumenta considerablemente, y no resulta práctico contar con dos matrices. Por eso se diseñó el algoritmo DQN, el cual usa una red neuronal. Así, se elimina la maldición de dimensionalidad \cite{kuo2005lifting}, problemas que surgen con el exceso de variables independientes en un \textit{dataset}. En este algoritmo, el problema es el elevado número de estados que el agente ha de recorrer.
 		
 	\subsection{Deep Q-Network (DQN)}
 	\label{cap:2_2_2}
@@ -145,7 +142,18 @@
 		
 		La estructura de la red neuronal depende del entorno del problema. Los valores de la capa oculta se pueden modificar dependiendo de las necesidades del programador, pero la capa de entrada y salida depende del problema. La entrada se adapta para recibir un estado del entorno, y la salida tendrá tantos nodos como las acciones del agente. 
 		
-		El problema a realizar tendrá dos redes neuronales, una del estado actual y otra de anticipo, es decir, el siguiente estado. Esto sirve para ayudar a tener más contexto del estado actual, pues con una sola imagen (estado del juego), la información del estado puede variar considerablemente. En la fase de entrenamiento se realizan varios episodios, que consisten en ejecuciones hasta que se de una condición de finalización. Además de ejecutar repeticiones de estados guardados anteriormente (replay buffer). En este algoritmo se usan tres hiper-parámetros: 
+		En este trabajo, el entorno del problema será el juego Pacman, diseñado por la empresa \textit{Namco}, y en particular la versión de \textit{Atari 2600}, (ver Figura \ref{fig:pacman}). El juego consiste en recolectar todas las monedas del laberinto sin ser comido por un fantasma. Implementamos el juego -desde cero- para moldear según nuestros intereses la implementación y que el algoritmo DQN sea más eficiente y sencillo. En el capítulo \ref{cap:c3_implementaciones}, diseño e implementaciones, se desarrolla en profundidad.
+		
+		\begin{figure}[!h]			
+			\centering
+			\includegraphics[width=0.55\textwidth]{images/chapter_2/pacman}	
+			\caption{Juego Pac-Man implementado desde cero. Versión Atari 2600}
+			\label{fig:pacman}
+		\end{figure}
+		
+		\newpage
+		
+		El algoritmo DQN a realizar tendrá dos redes neuronales, una del estado actual y otra de anticipo, es decir, el siguiente estado. Esto sirve para ayudar a tener más contexto del estado actual, pues con una sola imagen (estado del juego), la información del estado puede variar considerablemente. En la fase de entrenamiento se realizan varios episodios, que consisten en ejecuciones hasta que se de una condición de finalización. Además de ejecutar repeticiones de estados guardados anteriormente (replay buffer). En este algoritmo se usan tres hiper-parámetros: 
 		\begin{enumerate}
 			\item Gamma, factor de descuento. Utilizado para saber cuanto resta a la recompensa adquirida al realizar una acción en un estado.
 			\item Epsilon, tasa de exploración. Probabilidad utilizada para ejecutar una acción aleatoria o la mejor hasta el momento.
@@ -154,14 +162,7 @@
 		
 		
 		
-		En este trabajo, el entorno del problema será el juego de la empresa \textit{Namco}, la versión de \textit{Atari 2600}, \textit{Pac-Man} (ver Figura \ref{fig:pacman}). El juego consiste en recolectar todas las monedas del laberinto sin ser comido por un fantasma. Implementamos el juego -desde cero- para moldear a nuestro gusto la implementación y que el algoritmo DQN sea más eficiente y sencillo. En el capítulo \ref{cap:c3_implementaciones}, diseño e implementaciones, se desarrolla en profundidad.
 		
-		\begin{figure}[!h]			
-			\centering
-			\includegraphics[width=0.60\textwidth]{images/chapter_2/pacman}	
-			\caption{Juego Pac-Man implementado desde cero. Versión Atari 2600}
-			\label{fig:pacman}
-		\end{figure}
 		
 	
 
@@ -169,7 +170,7 @@
 
 	Los métodos no supervisados (unsupervised methods, en inglés) son algoritmos de aprendizaje automático que basan su proceso en un entrenamiento con datos sin etiquetar. Es decir, a priori, no se conoce ningún valor objetivo, ya sea categórico o numérico. La meta de este aprendizaje es encontrar patrones o estructuras en los datos proporcionados. Estos algoritmos son útiles en escenarios en los cuales hay escasez de datos etiquetados o éstos no están disponibles.
 	
-	Hay muchos tipos de técnicas de aprendizaje no supervisado, como, entre otros, la detección de anomalías, reducción de dimensionalidad o \textit{clustering}. En este proyecto vamos a reducir el tiempo de ejecución de las técnicas de \textit{clustering} que se encargan de agrupar individuos basándose en alguna medida de similitud. Como no es aprendizaje supervisado, no disponemos de información categorizada previamente, por lo que hay que calcular el número óptimo de \textit{clusters}. Para ello, hay medidas ya estudiadas como el diagrama de ``codo'', cuyo valor óptimo de clusters se calcula visualmente, cuando empieza a crearse un codo (la diferencia con el número anterior no es tan pronunciada como en puntos anteriores). Hay otros coeficientes que calculan la optimalidad con algoritmos, como el coeficiente de Davies-Bouldin, cuyo valor mínimo indica el número óptimo de clusters, o el coeficiente de Silhouette, similar al anterior, pero con el valor máximo. Se pueden apreciar los diferentes coeficientes en la Figura \ref{fig:coeficientes}. 
+	Hay muchos tipos de técnicas de aprendizaje no supervisado como, entre otros, la detección de anomalías, reducción de dimensionalidad o \textit{clustering}. En este proyecto vamos a reducir el tiempo de ejecución de las técnicas de \textit{clustering} que se encargan de agrupar individuos basándose en alguna medida de similitud. Como no es aprendizaje supervisado, no disponemos de información categorizada previamente, por lo que hay que calcular el número óptimo de \textit{clusters}. Para ello, hay medidas ya estudiadas como el diagrama de ``codo'', cuyo valor óptimo de clusters se calcula visualmente, cuando empieza a crearse un codo (la diferencia con el número anterior no es tan pronunciada como en puntos anteriores). Hay otros coeficientes que calculan la optimalidad con algoritmos, como el coeficiente de Davies-Bouldin, cuyo valor mínimo indica el número óptimo de clusters, o el coeficiente de Silhouette, similar al anterior, pero con el valor máximo. Se pueden apreciar los diferentes coeficientes en la Figura \ref{fig:coeficientes}. 
 
 
 	\begin{figure}[!h]
@@ -185,12 +186,12 @@
 
 	\subsection{Clustering jerárquico aglomerativo}
 
-		Este algoritmo usa una matriz para realizar la agrupación de los individuos. Comienza teniendo N clusters, uno por cada individuo de la población. La matriz se representa por las filas, es decir, la fila i-ésima representa el cluster i-ésimo. La matriz se rellena con las distancias entre los \textit{clusters}, por lo que la celda \textit{(i, j}) representa la distancia entre el cluster \textit{i} y el \textit{j}.  
+		Este algoritmo usa una matriz para realizar la agrupación de los individuos. Comienza teniendo N \textit{clusters}, uno por cada individuo de la población. La matriz se representa por las filas, es decir, la fila i-ésima representa el \textit{cluster} i-ésimo. La matriz se rellena con las distancias entre los \textit{clusters}, por lo que la celda \textit{(i, j}) representa la distancia entre el \textit{cluster} \textit{i} y el \textit{j}.  
 		
 		En cada iteración, se busca en la matriz la celda \textit{(i, j)} con menor valor (distancia mínima), y se juntan los \textit{clusters} que representan la fila \textit{i} con la columna \textit{j}. La matriz se actualiza, eliminando la fila y la columna con mayor índice (entre \textit{i}, \textit{j}), y actualizando la fila y columna de menor índice. Este proceso se repite hasta que solo haya un \textit{cluster}. Las distancias entre \textit{clusters} pueden ser:
 		\begin{itemize}
 		\vspace{-0.25cm}
-		\item Centroides: cada cluster tiene un centro.
+		\item Centroides: cada \textit{cluster} tiene un centro.
 		\vspace{-0.25cm}
 		\item Enlace simple o compuesto: la distancia entre \textit{clusters} viene dada por la menor o mayor distancia, respectivamente, entre los individuos que representan cada \textit{cluster}.
 		\vspace{-0.30cm}
@@ -217,7 +218,7 @@
 		\end{algorithm}
 		\vspace{-0.20cm}
 
-		\noindent La complejidad en los enlaces simple y completo tienen un coste cúbico O(\(N^{3}\)), al tener que comparar todos los individuos uno a uno entre dos cluster.
+		\noindent La complejidad en los enlaces simple y completo tienen un coste cúbico O(\(N^{3}\)), al tener que comparar todos los individuos uno a uno entre dos \textit{clusters}.
 		
 
 		Al finalizar la ejecución se puede representar la agrupación mediante un dendrograma \cite{espinoza2012using} (ver Figura \ref{fig:dendograma}), y comprobar el número óptimo de \textit{clusters} para la población calculada. Sin embargo, no es igual de preciso que los coeficientes mencionados anteriormente. 
@@ -232,7 +233,7 @@
 
 	\subsection{Clustering basado en particiones: K-Medias}
 
-		La meta de este algoritmo es particionar la población inicial en \textit{K} clusters, cada individuo se agrupa con el \textit{cluster} más próximo. El algoritmo itera en un bucle en el cual calcula la asignación de todos los individuos. Al final de cada iteración calcula los nuevos centros, si estos no cambian con respecto a la iteracón anterior termina la ejecución. La optimalidad de la agrupación se calcula mediante el sumatorio de las distancias todos los individuos y los centroides de sus \textit{cluster}. 
+		La meta de este algoritmo es particionar la población inicial en \textit{K} \textit{clusters}, donde cada individuo se agrupa con el \textit{cluster} más próximo. El algoritmo itera en un bucle en el cual calcula la asignación de todos los individuos. Al final de cada iteración calcula los nuevos centros, si estos no cambian con respecto a la iteración anterior, termina la ejecución. La optimalidad de la agrupación se calcula mediante el sumatorio de las distancias de todos los individuos y los centroides de sus \textit{clusters}. 
 		
 		
 		\begin{algorithm}[!h]
@@ -254,7 +255,7 @@
 			\Return $agrupacion$\;
 		\end{algorithm}
 		
-		Sin embargo, hay que tener en cuenta que la inicialización de los centros es estocástica, por lo que el algoritmo puede converger en un óptimo local. Por eso es importante repetir el algoritmo varias veces para encontrar el óptimo general. La Figura \ref{fig:kmediasBusqueda} muestra una ejemplo de ejecución, junto con la búsqueda de la mejor agrupación. Esta figura representa la búsqueda al ejecutar tres veces el algoritmo. El intento con menor valor del sumatorio de distancias de individuos y su cluster asignado, es la mejor asignación entre los intentos ejecutados. El tercer intento es la agrupación que muestra la figura.
+		Sin embargo, hay que tener en cuenta que la inicialización de los centros es estocástica, por lo que el algoritmo puede converger en un óptimo local. Por eso es importante repetir el algoritmo varias veces para encontrar el óptimo general. La Figura \ref{fig:kmediasBusqueda} muestra una ejemplo de ejecución, junto con la búsqueda de la mejor agrupación. Esta figura representa la búsqueda al ejecutar tres veces el algoritmo. El intento con menor valor del sumatorio de distancias de individuos, y su \textit{cluster} asignado, es la mejor asignación entre los intentos ejecutados. El tercer intento es la agrupación que muestra la figura.
 
 
 		\begin{figure}[!h]
@@ -275,17 +276,17 @@
 
 	\subsection{K-Vecinos más Cercanos - KNN}
 
-		KNN es un algoritmo simple pero potente, es muy efectivo para tareas de clasificación y regresión. Se basa en la idea de que los puntos de datos similares tienden a agruparse en el espacio de características. Pertenece al paradigma de aprendizaje perezoso o basado en instancias.
+		KNN (K-Nearest Neighbors en ingles) es un algoritmo simple pero potente, resultando muy efectivo para tareas de clasificación y regresión. Se basa en la idea de que los puntos de datos similares tienden a agruparse en el espacio de características. Este algoritmo pertenece al paradigma de aprendizaje perezoso o basado en instancias.
 		
 		\begin{itemize}
 			\item Perezoso: no calcula ningún modelo y demora todos los cálculos hasta el momento en que se le presenta un ejemplo nuevo.			
 			\item Basado en instancias: usa todos los individuos disponibles y ante un ejemplo nuevo recupera los más relevantes para componer la solución.	
 		\end{itemize}
 		
-		No hay una forma de determinar el mejor valor para K, de forma que hay que probar con varias ejecuciones. Valores pequeños de K crea sonido, provocando que inicialmente se categorice con un cluster no tan idoneo, y a la larga se categoricen muchos de forma incorrecta. Valores grandes con pocos datos favorece a los \textit{clusters} con más individuos. Un valor diferente de K puede cambiar la categoría de un individuo. En la primera imagen de la Figura \ref{fig:aprendizaje_supervisado} se puede apreciar el proceso de asignación de un cluster a un nuevo individuo. Como se puede ver con los círculos que delimitan los K vecinos más cercanos, si variamos K, la asignación del nuevo individuo puede cambiar.
+		No hay una forma de determinar el mejor valor para K, de forma que hay que probar con varias ejecuciones. Valores pequeños de K crea sonido, provocando que inicialmente se categorice con un \textit{cluster} no idoneo, y a la larga se categoricen muchos de forma incorrecta. Valores grandes con pocos datos favorece a los \textit{clusters} con más individuos. Un valor diferente de K puede cambiar la categoría de un individuo. En la imagen izquierda de la Figura \ref{fig:aprendizaje_supervisado} se puede apreciar el proceso de asignación de un \textit{cluster} a un nuevo individuo. Como se puede ver con los círculos que delimitan los K vecinos más cercanos, si variamos K, la asignación del nuevo individuo puede cambiar.
 
 		\begin{algorithm}
-			\caption{KNN}
+			\caption{K-Vecinos más Cercanos}
 			\KwData{poblacion, etiquetas, poblacionPred, K}
 			\KwResult{agrupacion // Clusters para cada individuo de la población}
 			agrupacion := $\emptyset$\\
@@ -320,7 +321,7 @@
 
 	\subsection{Redes Neuronales}
 
-		Las redes neuronales son un modelo computacional inspirado en el funcionamiento y estructura de las neuronas del cerebro humano. Consiste en capas de nodos interconectados, llamadas neuronas artificiales. La estructura del modelo se muestra en la imagen de la derecha de la Figura \ref{fig:aprendizaje_supervisado}. En este modelo se aprecian:
+		Las redes neuronales son un modelo computacional inspirado en el funcionamiento y estructura de las neuronas del cerebro humano. Ensencialmente, consisten en capas de nodos interconectados, llamadas neuronas artificiales. La estructura del modelo se muestra en la imagen de la derecha de la Figura \ref{fig:aprendizaje_supervisado}. En este modelo se aprecian:
 
 
 		\begin{itemize}
@@ -333,7 +334,7 @@
 		
 		\vspace{-0.2cm}
 		
-		Se ha demostrado que tiene un rendimiento notable en muchas tareas, como el reconocimiento de imágenes o procesamiento de lenguaje natural. Aprenden patrones complejos al someterse a un entrenamiento específico con un amplio \textit{dataset} categorizado.	
+		Se ha demostrado que las redes neuronales tienen un rendimiento notable en muchas tareas, como el reconocimiento de imágenes o procesamiento de lenguaje natural. Aprenden patrones complejos al someterse a un entrenamiento específico con un amplio \textit{dataset} categorizado.	
 		
 		%\begin{figure}[!h]
 		%	\centering
@@ -355,8 +356,7 @@
 			\For{$rep \leftarrow 0$ \KwTo $repeticiones$}{
 				cont := 0\\
 				\For{each $ind$ in $entrenamiento$}{
-					// Suma el valor recibido de la capa anterior multiplicada por los pesos de la capa actual con la siguiente. Así se determina la importancia de conexión entre las neuronas. \\
-					// Con el valor calculado se aplica a una función de activación y se pasa a la siguiente capa hasta llegar a la salida.\\			
+					// Suma el valor recibido de la capa anterior multiplicada por los pesos de la capa actual con la siguiente. Así se determina la importancia de conexión entre las neuronas. Con el valor calculado se aplica a una función de activación y se pasa a la siguiente capa hasta llegar a la salida.\\			
 					predicion := \textbf{forward(pesos, ind)}\\
 					// El valor predicho calculado en la salida es comparado con la etiqueta, y se calcula el error. Este error se manda para atrás actualizando los pesos. Se suma la multiplicación del valor predicho en cada capa con la tasa de aprendizaje y el error.\\			
 					\textbf{backpropagation(pesos, predicion, etiqueta[cont])}
@@ -410,9 +410,9 @@
 	
 	La población está compuesta por individuos, que pueden ser representados con arrays de números reales, binarios o un árbol, en programación genética. Los individuos tienen un cromosoma, que a su vez tiene uno o varios genes, con uno o más alelos. Esta población es sometida a métodos de evaluación, selección, cruce y mutación para, con el paso de las generaciones, maximizar o minimizar un valor \textit{fitness}.
 	
-	Esta técnica es muy útil para problemas de optimización donde los métodos tradicionales no proporcionan el rendimiento deseado.  Se han aplicado a varios dominios, como por ejemplo la bioinformática o robótica \cite{contreras2015mobile}.
+	Esta técnica es muy útil para problemas de optimización donde los métodos tradicionales no proporcionan el rendimiento deseado. Los Algoritmos Evolutivos se han aplicado a varios dominios, como por ejemplo la bioinformática o robótica \cite{contreras2015mobile}.
 	
-	La siguiente Figura \ref{fig:AG} muestra el diagrama de estados del algoritmo más básico. Cada método se puede modificar para cualquier individuo, así como añadir más técnicas para garantizar y/o mejorar los resultados finales. Como puede ser el elitismo, que garantiza la supervivencia de los mejores individuos, o un desplazamiento de los valores \textit{fitness} para evitar valores negativos. 
+	La Figura \ref{fig:AG} muestra el diagrama de estados del algoritmo más básico. Cada método se puede modificar para cualquier individuo, así como añadir más técnicas para garantizar y/o mejorar los resultados finales, como puede ser el elitismo, que garantiza la supervivencia de los mejores individuos, o un desplazamiento de los valores \textit{fitness} para evitar valores negativos. 
 
 
 	\begin{figure}[!h]
