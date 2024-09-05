@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  4 SEP 2024 11:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  5 SEP 2024 16:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1674,61 +1674,75 @@ Cap\'{\i }tulo 3.
 
 
 ]
-<images/chapter_3/matriz_mpi.jpeg, id=496, 1780.6525pt x 1589.94pt>
-File: images/chapter_3/matriz_mpi.jpeg Graphic file (type jpg)
-<use images/chapter_3/matriz_mpi.jpeg>
-Package pdftex.def Info: images/chapter_3/matriz_mpi.jpeg  used on input line 4
-2.
-(pdftex.def)             Requested size: 270.78236pt x 241.78014pt.
+<images/chapter_3/matriz_mpi.png, id=496, 881.2925pt x 780.9175pt>
+File: images/chapter_3/matriz_mpi.png Graphic file (type png)
+<use images/chapter_3/matriz_mpi.png>
+Package pdftex.def Info: images/chapter_3/matriz_mpi.png  used on input line 40
+.
+(pdftex.def)             Requested size: 270.78236pt x 239.93707pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[22] [23 <./images/chapter_3/matriz_mpi.jpeg>]
-<images/chapter_3/sequentialsort_mpi.jpeg, id=508, 2033.5975pt x 1345.025pt>
+[22]
+<images/chapter_3/sequentialsort_mpi.jpeg, id=503, 2033.5975pt x 1345.025pt>
 File: images/chapter_3/sequentialsort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/sequentialsort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/sequentialsort_mpi.jpeg  used on inpu
-t line 59.
+t line 57.
 (pdftex.def)             Requested size: 280.12166pt x 185.26476pt.
- [24 <./images/chapter_3/sequentialsort_mpi.jpeg>] [25]
-<images/chapter_3/mergesort_mpi.jpeg, id=524, 4107.345pt x 1710.39pt>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[23 <./images/chapter_3/matriz_mpi.png>] [24 <./images/chapter_3/sequentialsort
+_mpi.jpeg>]
+<images/chapter_3/mergesort_mpi.jpeg, id=520, 4107.345pt x 1710.39pt>
 File: images/chapter_3/mergesort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/mergesort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/mergesort_mpi.jpeg  used on input lin
-e 93.
+e 91.
 (pdftex.def)             Requested size: 396.83783pt x 165.22906pt.
- [26 <./images/chapter_3/mergesort_mpi.jpeg>] [27]
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[25] [26 <./images/chapter_3/mergesort_mpi.jpeg>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 146.
+(mdframed)              on input line 144.
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--153
+Underfull \hbox (badness 10000) in paragraph at lines 150--151
 
  []
 
 Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 165.
+ mdframed uses option nobreak mdframed on input line 163.
 Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 165.
-<images/chapter_3/aglomerativo_mpi.jpg, id=536, 314.18431pt x 262.45421pt>
+ mdframed uses option nobreak mdframed on input line 163.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[27]
+<images/chapter_3/aglomerativo_mpi.jpg, id=537, 314.18431pt x 262.45421pt>
 File: images/chapter_3/aglomerativo_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/aglomerativo_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/aglomerativo_mpi.jpg  used on input l
-ine 176.
+ine 174.
 (pdftex.def)             Requested size: 256.777pt x 214.517pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [28] [29 <./images/chapter_3/aglomerativo_mpi.jpg>] [30]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 241.
-<images/chapter_3/kmedias_mpi.jpeg, id=560, 2089.8075pt x 927.465pt>
+(mdframed)              on input line 239.
+<images/chapter_3/kmedias_mpi.jpeg, id=563, 2089.8075pt x 927.465pt>
 File: images/chapter_3/kmedias_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/kmedias_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/kmedias_mpi.jpeg  used on input line 
-262.
+260.
 (pdftex.def)             Requested size: 373.49316pt x 165.74773pt.
 
 
@@ -1737,26 +1751,22 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [31]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 279.
+(mdframed)              on input line 277.
 Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 297.
+ mdframed uses option nobreak mdframed on input line 295.
 Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 297.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[32 <./images/chapter_3/kmedias_mpi.jpeg>] [33]
-<images/chapter_3/knn_mpi1.jpg, id=582, 4015.0pt x 4015.0pt>
+ mdframed uses option nobreak mdframed on input line 295.
+ [32 <./images/chapter_3/kmedias_mpi.jpeg>] [33]
+<images/chapter_3/knn_mpi1.jpg, id=585, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi1.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi1.jpg>
-Package pdftex.def Info: images/chapter_3/knn_mpi1.jpg  used on input line 340.
+Package pdftex.def Info: images/chapter_3/knn_mpi1.jpg  used on input line 338.
 
 (pdftex.def)             Requested size: 210.08768pt x 210.07387pt.
-<images/chapter_3/knn_mpi2.jpg, id=583, 4015.0pt x 4015.0pt>
+<images/chapter_3/knn_mpi2.jpg, id=586, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi2.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi2.jpg>
-Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 347.
+Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 345.
 
 (pdftex.def)             Requested size: 210.08768pt x 210.07387pt.
 
@@ -1765,68 +1775,81 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [34] [35 <./images/chapter_3/knn_mpi1.jpg> <./images/chapter_3/knn_mpi2.jpg>]
 [36] [37] [38]
-<images/chapter_3/rl_mpi.jpg, id=616, 2264.46pt x 2288.55pt>
+<images/chapter_3/rl_mpi.jpg, id=617, 2264.46pt x 2288.55pt>
 File: images/chapter_3/rl_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/rl_mpi.jpg>
-Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 427.
-(pdftex.def)             Requested size: 280.12166pt x 283.09981pt.
- [39 <./images/chapter_3/rl_mpi.jpg>] [40] [41] [42]
-<images/chapter_3/pacman_states.png, id=636, 980.16188pt x 408.02437pt>
+Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 425.
+(pdftex.def)             Requested size: 256.777pt x 259.4936pt.
+ [39 <./images/chapter_3/rl_mpi.jpg>] [40] [41]
+<images/chapter_3/pacman_states.png, id=631, 980.16188pt x 408.02437pt>
 File: images/chapter_3/pacman_states.png Graphic file (type png)
 <use images/chapter_3/pacman_states.png>
 Package pdftex.def Info: images/chapter_3/pacman_states.png  used on input line
- 509.
+ 506.
 (pdftex.def)             Requested size: 466.86469pt x 194.34279pt.
- [43 <./images/chapter_3/pacman_states.png>] [44] [45] [46]
-<images/chapter_3/pev_mpi1.png, id=680, 1853.92625pt x 1257.69875pt>
-File: images/chapter_3/pev_mpi1.png Graphic file (type png)
-<use images/chapter_3/pev_mpi1.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi1.png  used on input line 600.
-
-(pdftex.def)             Requested size: 303.45918pt x 205.86092pt.
- [47 <./images/chapter_3/pev_mpi1.png>]
-<images/chapter_3/pev_mpi2.png, id=688, 1800.7275pt x 561.09625pt>
-File: images/chapter_3/pev_mpi2.png Graphic file (type png)
-<use images/chapter_3/pev_mpi2.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi2.png  used on input line 615.
-
-(pdftex.def)             Requested size: 466.86469pt x 145.47063pt.
- [48 <./images/chapter_3/pev_mpi2.png>]
-<images/chapter_3/pev_mpi3.png, id=696, 1670.24pt x 1339.0025pt>
-File: images/chapter_3/pev_mpi3.png Graphic file (type png)
-<use images/chapter_3/pev_mpi3.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 626.
-
-(pdftex.def)             Requested size: 303.45918pt x 243.27795pt.
- [49 <./images/chapter_3/pev_mpi3.png>] [50]
-<images/chapter_3/redneu_mpi2.jpeg, id=708, 2164.085pt x 2330.7075pt>
-File: images/chapter_3/redneu_mpi2.jpeg Graphic file (type jpg)
-<use images/chapter_3/redneu_mpi2.jpeg>
-Package pdftex.def Info: images/chapter_3/redneu_mpi2.jpeg  used on input line 
-673.
-(pdftex.def)             Requested size: 256.777pt x 276.54323pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[51] [52 <./images/chapter_3/redneu_mpi2.jpeg>]) [53]
+[42] [43 <./images/chapter_3/pacman_states.png>] [44] [45] [46]
+<images/chapter_3/pev_mpi1.png, id=677, 1853.92625pt x 1257.69875pt>
+File: images/chapter_3/pev_mpi1.png Graphic file (type png)
+<use images/chapter_3/pev_mpi1.png>
+Package pdftex.def Info: images/chapter_3/pev_mpi1.png  used on input line 618.
+
+(pdftex.def)             Requested size: 303.45918pt x 205.86092pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[47]
+<images/chapter_3/pev_mpi2.png, id=688, 1784.6675pt x 552.0625pt>
+File: images/chapter_3/pev_mpi2.png Graphic file (type png)
+<use images/chapter_3/pev_mpi2.png>
+Package pdftex.def Info: images/chapter_3/pev_mpi2.png  used on input line 633.
+
+(pdftex.def)             Requested size: 466.86469pt x 144.41736pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[48 <./images/chapter_3/pev_mpi1.png>]
+<images/chapter_3/pev_mpi3.png, id=697, 1670.24pt x 1339.0025pt>
+File: images/chapter_3/pev_mpi3.png Graphic file (type png)
+<use images/chapter_3/pev_mpi3.png>
+Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 644.
+
+(pdftex.def)             Requested size: 303.45918pt x 243.27795pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[49 <./images/chapter_3/pev_mpi2.png>] [50 <./images/chapter_3/pev_mpi3.png>]
+[51]
+<images/chapter_3/redneu_mpi2.png, id=716, 2125.9425pt x 2298.5875pt>
+File: images/chapter_3/redneu_mpi2.png Graphic file (type png)
+<use images/chapter_3/redneu_mpi2.png>
+Package pdftex.def Info: images/chapter_3/redneu_mpi2.png  used on input line 6
+91.
+(pdftex.def)             Requested size: 256.777pt x 277.60735pt.
+ [52 <./images/chapter_3/redneu_mpi2.png (PNG copy)>] [53]) [54]
 \openout2 = `Capitulos/4_Estudio_empírico.aux'.
 
 
 (Capitulos/4_Estudio_empírico.tex
 Cap\'{\i }tulo 4.
-[54
+[55
 
 
 
 
 ]
-<images/chapter_4/cluster.jpg, id=739, 891.58357pt x 777.47305pt>
+<images/chapter_4/cluster.jpg, id=744, 891.58357pt x 777.47305pt>
 File: images/chapter_4/cluster.jpg Graphic file (type jpg)
 <use images/chapter_4/cluster.jpg>
 Package pdftex.def Info: images/chapter_4/cluster.jpg  used on input line 40.
 (pdftex.def)             Requested size: 233.43234pt x 203.54996pt.
- [55 <./images/chapter_4/cluster.jpg>] [56]
+ [56 <./images/chapter_4/cluster.jpg>] [57]
 PGFPlots: reading {files/sequential.txt}
 PGFPlots: reading {files/sequential.txt}
 PGFPlots: reading {files/sequential.txt}
@@ -1853,16 +1876,16 @@ ics
 Package pgfplots info on input line 136: Setting layers 'axis background,axis g
 rid,axis ticks,axis lines,axis tick labels,pre main,main,axis descriptions,axis
  foreground'...
- [57]
-PGFPlots: reading {files/sortn2.txt}
-PGFPlots: reading {files/sortn2.txt}
-PGFPlots: reading {files/sortn2.txt}
-PGFPlots: reading {files/sortn2.txt}
-PGFPlots: reading {files/sortn2.txt}
  [58]
+PGFPlots: reading {files/sortn2.txt}
+PGFPlots: reading {files/sortn2.txt}
+PGFPlots: reading {files/sortn2.txt}
+PGFPlots: reading {files/sortn2.txt}
+PGFPlots: reading {files/sortn2.txt}
+ [59]
 Package pgfplots info on input line 210: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
- [59]
+ [60]
 PGFPlots: reading {files/cluster/sort.txt}
 PGFPlots: reading {files/cluster/sort.txt}
 PGFPlots: reading {files/cluster/sort.txt}
@@ -1875,7 +1898,7 @@ Overfull \hbox (19.46426pt too wide) in paragraph at lines 246--276
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[60]
+[61]
 PGFPlots: reading {files/multiplicacion1.txt}
 PGFPlots: reading {files/multiplicacion1.txt}
 PGFPlots: reading {files/multiplicacion1.txt}
@@ -1888,7 +1911,7 @@ Overfull \hbox (0.88115pt too wide) in paragraph at lines 343--344
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[61]
+[62]
 PGFPlots: reading {files/cluster/mult.txt}
 PGFPlots: reading {files/cluster/mult.txt}
 PGFPlots: reading {files/cluster/mult.txt}
@@ -1898,14 +1921,14 @@ Overfull \hbox (25.3392pt too wide) in paragraph at lines 360--387
 []  [] 
  []
 
-[62] [63] [64]
-<images/chapter_4/jerarquico.jpg, id=809, 1567.8575pt x 713.66624pt>
+[63] [64] [65]
+<images/chapter_4/jerarquico.jpg, id=814, 1567.8575pt x 713.66624pt>
 File: images/chapter_4/jerarquico.jpg Graphic file (type jpg)
 <use images/chapter_4/jerarquico.jpg>
 Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 44
 0.
 (pdftex.def)             Requested size: 466.86469pt x 212.50073pt.
- [65 <./images/chapter_4/jerarquico.jpg>]
+ [66 <./images/chapter_4/jerarquico.jpg>]
 Package pgfplots info on input line 472: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
 
@@ -1913,7 +1936,7 @@ Overfull \hbox (10.02232pt too wide) in paragraph at lines 488--489
  [][] 
  []
 
-[66]
+[67]
 PGFPlots: reading {files/jerarquico_aglom_simple.txt}
 PGFPlots: reading {files/jerarquico_aglom_simple.txt}
 PGFPlots: reading {files/jerarquico_aglom_simple.txt}
@@ -1935,10 +1958,10 @@ Overfull \hbox (25.33733pt too wide) in paragraph at lines 537--570
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[67]
+[68]
 Package pgfplots info on input line 605: Using 'lua backend=false' for axis: x 
 coord trafo unsupported.
- [68] [69]
+ [69] [70]
 PGFPlots: reading {files/kmedias.txt}
 PGFPlots: reading {files/kmedias.txt}
 PGFPlots: reading {files/kmedias.txt}
@@ -1950,7 +1973,7 @@ PGFPlots: reading {files/kmedias_speedup.txt}
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[70]
+[71]
 PGFPlots: reading {files/cluster/kmedias5D.txt}
 PGFPlots: reading {files/cluster/kmedias5D.txt}
 PGFPlots: reading {files/cluster/kmedias5D.txt}
@@ -1963,7 +1986,7 @@ Overfull \hbox (25.34256pt too wide) in paragraph at lines 720--755
 []  [] 
  []
 
-[71] [72]
+[72] [73]
 PGFPlots: reading {files/knn.txt}
 PGFPlots: reading {files/knn.txt}
 PGFPlots: reading {files/knn.txt}
@@ -1973,7 +1996,7 @@ Overfull \hbox (10.02524pt too wide) in paragraph at lines 856--857
  [][] 
  []
 
-<images/chapter_4/knn_mpi.jpeg, id=866, 2376.88pt x 1065.9825pt>
+<images/chapter_4/knn_mpi.jpeg, id=871, 2376.88pt x 1065.9825pt>
 File: images/chapter_4/knn_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_4/knn_mpi.jpeg>
 Package pdftex.def Info: images/chapter_4/knn_mpi.jpeg  used on input line 871.
@@ -1988,7 +2011,7 @@ PGFPlots: reading {files/knn_speedup.txt}
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[73] [74 <./images/chapter_4/knn_mpi.jpeg>]
+[74] [75 <./images/chapter_4/knn_mpi.jpeg>]
 PGFPlots: reading {files/cluster/knn.txt}
 PGFPlots: reading {files/cluster/knn.txt}
 PGFPlots: reading {files/cluster/knn.txt}
@@ -2003,14 +2026,14 @@ Overfull \hbox (25.34256pt too wide) in paragraph at lines 919--955
 
 PGFPlots: reading {files/rl.txt}
 PGFPlots: reading {files/rl.txt}
-[75] [76]
-<images/chapter_4/mapa_calor.png, id=893, 380.17032pt x 380.17032pt>
+[76] [77]
+<images/chapter_4/mapa_calor.png, id=898, 380.17032pt x 380.17032pt>
 File: images/chapter_4/mapa_calor.png Graphic file (type png)
 <use images/chapter_4/mapa_calor.png>
 Package pdftex.def Info: images/chapter_4/mapa_calor.png  used on input line 10
 26.
 (pdftex.def)             Requested size: 186.74301pt x 186.74916pt.
-<images/chapter_4/histo.png, id=894, 529.98pt x 381.67593pt>
+<images/chapter_4/histo.png, id=899, 529.98pt x 381.67593pt>
 File: images/chapter_4/histo.png Graphic file (type png)
 <use images/chapter_4/histo.png>
 Package pdftex.def Info: images/chapter_4/histo.png  used on input line 1033.
@@ -2019,9 +2042,9 @@ Package pdftex.def Info: images/chapter_4/histo.png  used on input line 1033.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[77] [78 <./images/chapter_4/mapa_calor.png> <./images/chapter_4/histo.png>]
-[79]
-<images/chapter_4/tab_pev_variables.png, id=915, 1492.8272pt x 190.46156pt>
+[78] [79 <./images/chapter_4/mapa_calor.png> <./images/chapter_4/histo.png>]
+[80]
+<images/chapter_4/tab_pev_variables.png, id=920, 1492.8272pt x 190.46156pt>
 File: images/chapter_4/tab_pev_variables.png Graphic file (type png)
 <use images/chapter_4/tab_pev_variables.png>
 Package pdftex.def Info: images/chapter_4/tab_pev_variables.png  used on input 
@@ -2042,14 +2065,14 @@ Overfull \hbox (13.31828pt too wide) in paragraph at lines 1115--1166
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[80 <./images/chapter_4/tab_pev_variables.png>]
-<images/chapter_4/tabla_pev.png, id=925, 1321.18594pt x 545.03625pt>
+[81 <./images/chapter_4/tab_pev_variables.png>]
+<images/chapter_4/tabla_pev.png, id=930, 1321.18594pt x 545.03625pt>
 File: images/chapter_4/tabla_pev.png Graphic file (type png)
 <use images/chapter_4/tabla_pev.png>
 Package pdftex.def Info: images/chapter_4/tabla_pev.png  used on input line 117
 7.
 (pdftex.def)             Requested size: 466.86469pt x 192.59518pt.
- [81 <./images/chapter_4/tabla_pev.png>]
+ [82 <./images/chapter_4/tabla_pev.png>]
 PGFPlots: reading {files/pev_2mpi.txt}
 PGFPlots: reading {files/pev_2mpi.txt}
 PGFPlots: reading {files/pev_2mpi.txt}
@@ -2071,7 +2094,7 @@ PGFPlots: reading {files/pev_2mpi_speedup.txt}
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[82] [83]
+[83] [84]
 PGFPlots: reading {files/pev_1_1mpi.txt}
 PGFPlots: reading {files/pev_1_1mpi.txt}
 PGFPlots: reading {files/pev_1_1mpi.txt}
@@ -2087,7 +2110,7 @@ Overfull \hbox (13.31828pt too wide) in paragraph at lines 1327--1378
 []  [] 
  []
 
-<images/chapter_4/pev_mpi1.jpeg, id=949, 2302.6025pt x 2003.485pt>
+<images/chapter_4/pev_mpi1.jpeg, id=955, 2302.6025pt x 2003.485pt>
 File: images/chapter_4/pev_mpi1.jpeg Graphic file (type jpg)
 <use images/chapter_4/pev_mpi1.jpeg>
 Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 138
@@ -2096,7 +2119,7 @@ Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 138
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[84] [85 <./images/chapter_4/pev_mpi1.jpeg>]
+[85] [86 <./images/chapter_4/pev_mpi1.jpeg>]
 Missing character: There is no x in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no i in font nullfont!
@@ -2162,7 +2185,7 @@ PGFPlots: reading {files/pev_3mpi.txt}
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[86]
+[87]
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
@@ -2181,11 +2204,11 @@ Overfull \hbox (13.5907pt too wide) in paragraph at lines 1610--1639
 []  [] 
  []
 
-[87] [88]
+[88] [89]
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
- [89]
+ [90]
 PGFPlots: reading {files/redneu2.txt}
 PGFPlots: reading {files/redneu2.txt}
 PGFPlots: reading {files/redneu2.txt}
@@ -2194,31 +2217,31 @@ Overfull \hbox (0.87617pt too wide) in paragraph at lines 1719--1720
  [][] 
  []
 
-[90]) [91]
+[91]) [92]
 \openout2 = `Capitulos/5_Conclusiones_trabajo_futuro.aux'.
 
  (Capitulos/5_Conclusiones_trabajo_futuro.tex
 Cap\'{\i }tulo 5.
-[92
+[93
 
 
 
 
-]) [93] (main.bbl
+]) [94] (main.bbl
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 5
 .
 
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-[94
+[95
 
 
 
-] [95]) [96]
+] [96]) [97]
 \openout2 = `Cascaras/acronimos.aux'.
 
- (Cascaras/acronimos.tex) [97
+ (Cascaras/acronimos.tex) [98
 
 ]
 
@@ -2240,10 +2263,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: EDAC26004F59D30B0617829AD801C6BE;7965.
  ) 
 Here is how much of TeX's memory you used:
- 50720 strings out of 474485
- 1127290 string characters out of 5742791
+ 50710 strings out of 474485
+ 1126852 string characters out of 5742791
  2052542 words of memory out of 5000000
- 71806 multiletter control sequences out of 15000+600000
+ 71795 multiletter control sequences out of 15000+600000
  580557 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  101i,20n,131p,2364b,2468s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2282,9 +2305,9 @@ Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6
 s/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (104 pages, 9047479 bytes).
+Output written on main.pdf (105 pages, 9026001 bytes).
 PDF statistics:
- 1875 PDF objects out of 2073 (max. 8388607)
- 309 named destinations out of 1000 (max. 500000)
+ 1882 PDF objects out of 2073 (max. 8388607)
+ 310 named destinations out of 1000 (max. 500000)
  583 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -10,32 +10,30 @@
 
 
 	
-	En este capítulo se presentan los diseños e implementaciones desarrollados a lo largo del trabajo. Inicialmente se presenta una introducción a la liberia MPI, mejorando programas sencillos fuera del ámbito de la inteligencia artificial. Posteriormente, se desarrollan los algoritmos de IA, empezando por los más sencillos y terminando por los más complejos.
+	En este capítulo se presentan los diseños e implementaciones desarrollados a lo largo del trabajo. Inicialmente se presenta una introducción a la biblioteca MPI, con varios ejemplos donde se mejora el rendimiento de programas sencillos fuera del ámbito de la inteligencia artificial. Posteriormente, se describen los algoritmos de IA ordenados -de menor a mayor- según su complejidad.
 
 %\newpage %TODO QUITAR
 \section{Programas sencillos}
 \label{cap:c3_1}
 
-	Para introducir MPI en el proyecto, se implementan y comentan varios programas sencillos. Primero la multiplicación de matrices, que tiene un coste cúbico O(\(N^{3}\)), al tener que recorrer, para cada elemento de la matriz, una fila y columna entera. Segundo, algoritmos de ordenación, que para simplificar, solo se realiza un estudio de las ordenaciones con mayor complejidad temporal, O(\(N^{2}\)) y MergeSort con coste O(\(N*logN\)).
+	Para introducir MPI en el proyecto se implementan -utilizando esta biblioteca- varios programas sencillos. Primero, la multiplicación de matrices, que tiene un coste cúbico O(\(N^{3}\)), al tener que recorrer, para cada elemento de la matriz, una fila y columna entera. Segundo, algoritmos de ordenación que, para simplificar, solo se realiza un estudio de las ordenaciones con mayor complejidad temporal, O(\(N^{2}\)) y MergeSort con coste O(\(N*logN\)).
 
 
-	Las matrices son un concepto matemático muy relevante en el mundo de los videojuegos y en el ámbito de la inteligencia artificial. Hay muchas técnicas de IA que conllevan la gestión de imágenes, como en el algoritmo DQN cuya red neuronal tiene como entrada varios fotogramas para poder aprender. Estas imágenes, pueden en mayor o menor medida ser implementadas con matrices.
+	Las matrices son un concepto matemático muy relevante en el mundo de los videojuegos y en el ámbito de la inteligencia artificial. Hay muchas técnicas de IA que conllevan la gestión de imágenes -representadas digitalmente como matrices de píxeles- como en el algoritmo DQN cuya red neuronal tiene como entrada varios fotogramas para poder aprender
 	
-	El cálculo de la multiplicación de dos matrices es cúbico O(\(N^{3}\)). Ensencialmente, es necesario recorrer toda la matriz, y para cada elemento, realizar el sumatorio de las multiplicaciones fila, columna. 
-	
-	Por estos motivos, es un buen primer ejemplo para presentar una estrategia basada en MPI, debido al alto coste computacional. Para ello hay que plantear cómo dividir el trabajo entre los procesos. Inicialmente, se puede pensar que es mejor enviar los datos conforme se finaliza una operación, pero en esta operación se necesitan las filas de una matriz y columnas de otra, por lo que conviene que cada proceso tenga una matriz entera en su memoria local para agilizar el proceso y poder enviar más datos al mismo tiempo. Cada \textit{worker} se va a encargar de un determinado número de filas, paralelizando así el cálculo. El \textit{master} se encarga de dividir la matriz entre los procesos. Se puede abordar con dos enfoques distintos:
+	La multiplicación de matrices es un buen ejemplo para presentar una estrategia basada en MPI, debido su alto coste computacional. Para ello, hay que plantear cómo dividir el trabajo entre los procesos. Inicialmente, se puede pensar que es mejor enviar los datos conforme se finaliza una operación, pero en esta operación se necesitan las filas de una matriz y columnas de otra, por lo que conviene que cada proceso tenga una matriz entera en su memoria local para agilizar el proceso y poder enviar más datos al mismo tiempo. Cada \textit{worker} se va a encargar de un determinado número de filas, paralelizando así el cálculo. El \textit{master} se encarga de dividir la matriz entre los procesos. Se puede abordar con dos enfoques distintos:
 	\begin{itemize}
-		\item Reparto estático: los datos se dividen antes de empezar el cálculo. 
-		\item Reparto dinámico: los datos se reparten en tiempo de ejecución, asignando lso mismos de forma proporcional a la velocidad de cada proceso.
+		\item Reparto estático: los datos se asignan antes de empezar el cálculo. 
+		\item Reparto dinámico: los datos se reparten en tiempo de ejecución, asignando los mismos de forma proporcional a la velocidad de cada proceso.
 	\end{itemize}
 
 
 
 	
 	
-	En la primera estrategia, dividimos la matriz entre todos los \textit{workers}, dejando al \textit{master} en espera de recibir datos. Esta mejora depende de la velocidad de los procesos, pues se puede generar un cuello de botella si todos terminan y envían los datos al mismo tiempo. Además de aumentar la complejidad espacial entre los procesos, pues se divide la matriz entera entre los \textit{workers}. 
+	En la primera estrategia, dividimos la segunda matriz entre todos los \textit{workers}, dejando al \textit{master} en espera de recibir datos. Esta mejora depende de la velocidad de los procesos, pues se puede generar un cuello de botella si todos terminan y envían los datos al mismo tiempo. Además, se aumenta la complejidad espacial entre los procesos, pues se divide la matriz entera entre los \textit{workers}. 
 	
-	En la segunda estrategia, hay un flujo constante de nuevos datos y resultados obtenidos, reduciendo el tiempo perdido en un posible cuello de botella. En la Figura \ref{fig:matrizmpi} se muestra como el \textit{master} divide la matriz, marcando en negro la parte ya procesada. A su vez cada \textit{worker} tiene una sola fila en su memoria, reduciendo la complejidad espacial.
+	En la segunda estrategia, hay un flujo constante de nuevos datos y resultados obtenidos, reduciendo el tiempo perdido en un posible cuello de botella. En la Figura \ref{fig:matrizmpi} se muestra como el \textit{master} divide la matriz, marcando en negro la parte ya procesada. A su vezm cada \textit{worker} tiene una sola fila en su memoria, reduciendo la complejidad espacial.
 	
 	\begin{figure}[!h]
 	 	\centering
@@ -46,14 +44,14 @@
 
 
 	%\vspace*{0.2cm}
-	\newpage	
+		
 	
-	Los algoritmos de ordenación tienen que iterar varias veces hasta que el array de elementos esté completamente ordenado. Y los métodos pueden variar considerablemente el tiempo de ejecución.
+	Los algoritmos de ordenación tienen que iterar varias veces hasta que el array de elementos esté completamente ordenado. Los métodos pueden variar considerablemente el tiempo de ejecución.
 	
-	Para las ordenaciones cuadráticas, los métodos populares como BubbleSort, InsertionSort y SelectionSort, han sido estudiados y optimizados para que, aunque tengan un coste cuadrático O(\(N^{2}\)), en el caso peor, proporcionen un buen rendimiento. Basándose en estos algoritmos, se ha diseñado uno adicional llamado SequentialSort. Este algoritmo recorre todas las posiciones del array, y para cada elemento compara todos los datos, sumando en un contador los elementos mayores que el, para calcular así su posición en el array ordenado. Una vez finalizada una iteración, se coloca el elemento en el array ordenado, si la posición actual esta ocupada es porque hay una repetición del elemento, y se tiene que colocar en la siguiente celda libre. La Figura \ref{fig:sequentialsortmpi} representa el proceso de ordenación, marcando en gris el elemento que ha de compararse con los demás en la iteración i-ésima.
-	
-	\newpage
 
+	
+	Para las ordenaciones cuadráticas, los métodos populares como BubbleSort, InsertionSort y SelectionSort, han sido estudiados y optimizados para que, aunque tengan un coste cuadrático O(\(N^{2}\)), en el caso peor, proporcionen un buen rendimiento. Basándose en estos algoritmos, se ha diseñado uno adicional llamado SequentialSort. Este algoritmo recorre todas las posiciones del array y, para cada elemento, compara todos los datos, sumando en un contador los elementos mayores que él, para calcular así su posición en el array ordenado. Una vez finalizada una iteración, se coloca el elemento en el array ordenado, si la posición actual esta ocupada es porque hay una repetición del elemento, y se tiene que colocar en la siguiente celda libre. La Figura \ref{fig:sequentialsortmpi} representa el proceso de ordenación, marcando en gris el elemento que ha de compararse con los demás en la iteración i-ésima.
+	
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=0.6\textwidth]{images/chapter_3/sequentialsort_mpi}
@@ -63,7 +61,7 @@
 	
 	Este método siempre tendrá coste cuadrático O(\(N^{2}\)). No es como los anteriores que van reduciendo el espacio conforme aumentan las iteraciones, pero es fácilmente paralelizable. 
 	
-	Para lograr reducir el tiempo de ejecución para esta ordenación cuadrática, se desarrollan las siguientes dos estrategias. Cada con sus ventajas e inconvenientes.
+	Para lograr reducir el tiempo de ejecución para esta ordenación cuadrática, se desarrollan las dos estrategias siguientes, cada cual con sus ventajas e inconvenientes.
 	
 	\begin{enumerate}
 		\item Enviar a todos los \textit{workers} el array entero para que trabajen de manera independiente.
@@ -72,19 +70,19 @@
 	
 	En la primera estrategia el \textit{master} envía a todos los \textit{workers} el array entero. Una vez recibido el array de elementos, el \textit{master} envía elementos sin procesar del array orginal a los \textit{workers} disponibles. Al recibir un elemento lo procesan (hacen las comparaciones), y envían la posición del elemento al \textit{master}, recibiendo de vuelta otro si todavía faltan elementos por procesar. 
 	
-	No obstante la segunda estrategia se logra reducir el uso de memoria de tal forma que entre todos los procesos ejecutados solo haya dos copias del array que hay que ordenar, en lugar de mantener \textit{M} copias (siendo \textit{M} el número de procesos ejecutados). En cada iteración, el \textit{master} envía un elemento a todos los \textit{workers}. Estos hacen todas las comparaciones en sus subarrays y devuelven cuantos elementos pertenecientes a su subarray son mayores que el recibido. Ambas estrategias tienen la misma complejidad temporal.
+	No obstante la segunda estrategia logra reducir el uso de memoria de tal forma que entre todos los procesos ejecutados solo haya dos copias del array que hay que ordenar, en lugar de mantener \textit{M} copias (siendo \textit{M} el número de procesos ejecutados). En cada iteración, el \textit{master} envía un elemento a todos los \textit{workers}. Estos hacen todas las comparaciones en sus subarrays y devuelven cuantos elementos pertenecientes a su subarray son mayores que el recibido. Ambas estrategias tienen la misma complejidad temporal.
 
 
 
-	Los algoritmos de ordenación logarítmicos son muy útiles y eficientes. QuickSort tiene varios problemas como la profundidad de recursión y en el caso peor es cuadrático. Los algoritmos de RadixSort y HeapSort son eficientes sin aplicar mejoras, y MergeSort es muy popular, tanto que se aplica en Python para el método de ordenación por defecto, TimSort\cite{auger2015merge}. Este último combina InsertionSort, una ordenación cuadrática muy eficiente para ordenar para ordenar pequeños conjuntos de datos, teniendo una baja sobrecarga en términos de operaciones. Para luego usar las mitades ordenadas con MergeSort. Sin embargo, el algoritmo básico de MergeSort no es tan eficiente.
+	Los algoritmos de ordenación logarítmicos son muy útiles y eficientes. QuickSort tiene varios problemas como la profundidad de recursión y en el caso peor es cuadrático. Los algoritmos de RadixSort y HeapSort son eficientes sin aplicar mejoras, y MergeSort es muy popular, tanto que se aplica en TimSort\cite{auger2015merge} método de ordenación por defecto en Python. Este último combina InsertionSort, una ordenación cuadrática muy eficiente para ordenar pequeños conjuntos de datos, teniendo una baja sobrecarga en términos de operaciones, para luego usar las mitades ordenadas con MergeSort. Sin embargo, el algoritmo básico de MergeSort no es tan eficiente.
 	
 	Aplicando la misma idea que TimSort, se puede mejorar el tiempo de ejecución de MergeSort, aplicando combinaciones de los métodos básicos con complejidad cuadrática y comprobar la eficiencia. Esta estrategia consiste en crear varios procesos (para mayor eficacia y simplicidad, el número de procesos tiene que ser potencia de dos), y se divide el array entre los procesos. Las fases de esta estrategia son:
 	\begin{itemize}
-		\item Primera fase de ordenación: cada proceso ordena su sub-array con el método de ordenación correspondiente. En el capítulo \ref{cap:c4_estudio}, se realiza un estudio de los algoritmos cuadráticos y SelectionSort es el algoritmo que mejores resultados obtiene.
+		\item Primera fase de ordenación: cada proceso ordena su sub-array con el método de ordenación correspondiente. En el capítulo \ref{cap:c4_estudio}, se realiza un estudio de los algoritmos cuadráticos, donde SelectionSort es el algoritmo que mejores resultados obtiene.
 		\item Segunda fase de reagrupación y ordenación: esta fase se repite hasta solo tener un proceso activo, es decir, el array esté completamente ordenado.
 	\end{itemize}
 	
-	En la comunicación entre procesos, cada uno se conecta con el proceso activo más cercano. El proceso de mayor \textit{id} (\textit{rank}) envía su array ordenado y finaliza su ejecución. El proceso receptor se encarga de ordenar ambas mitades en una sola. Utilizando una barrera (barrier MPI), garantizamos que todos terminen al mismo tiempo. Esta mejora aplica la idea de sincronización con \textit{barrera simétrica mariposa}, técnica de sincronización que conecta los procesos dos a dos, aumentando la distancia de los procesos para que, en aproximadamente M iteraciones (\(2^{M}\) = número de procesos), todos los procesos estén sincronizados. Para la estrategia implementada, se sincronizan por orden de cercanía entre \textit{ids}. La Figura \ref{fig:mergesortmpi} muestra el proceso de sincronización. En cada iteración se finaliza la ejecución de los procesos en rojo, así hasta tener un único proceso con el array entero ordenado.  
+	En la comunicación entre procesos, cada uno se conecta con el proceso activo más cercano (según su \textit{rank}). El proceso de mayor \textit{id} (\textit{rank}) envía su array ordenado y finaliza su ejecución. El proceso receptor se encarga de ordenar ambas mitades en una sola. Utilizando una barrera llamada MPI\_Barrier, garantizamos que todos terminen al mismo tiempo. Esta mejora aplica la idea de sincronización con \textit{barrera simétrica mariposa}, técnica de sincronización que conecta los procesos dos a dos, aumentando la distancia de los procesos para que, en aproximadamente \textit{K} iteraciones (\(2^{K}\) = M = número de procesos), todos los procesos estén sincronizados. Para la estrategia implementada, se sincronizan por orden de cercanía entre \textit{ids}. La Figura \ref{fig:mergesortmpi} muestra el proceso de sincronización. En cada iteración se finaliza la ejecución de los procesos en rojo, así hasta tener un único proceso con el array entero ordenado.  
 	
 	\vspace{0.2cm}
 	
@@ -127,7 +125,7 @@
 
 \section{Algoritmos de Clustering}
 
-	Una vez introducido MPI con programas básicos, podemos presentar las implementaciones de los algoritmos relacionados con la inteligencia artificial. Las técnicas de clustering toman una población y, dependiendo del conjunto de datos, categoriza los individuos. Los algoritmos pueden ser supervisados, si ademas de la población a categorizar, tenemos un población categorizada previamente, o no-supervisados, si no contamos con esta población etiquetada.
+	Una vez introducido MPI con programas básicos, podemos presentar las implementaciones de los algoritmos relacionados con la inteligencia artificial. Las técnicas de clustering toman una población y, dependiendo del conjunto de datos, categorizan los individuos. Los algoritmos pueden ser supervisados, si ademas de la población a categorizar, tenemos un población categorizada previamente, o no-supervisados, si no contamos con esta población etiquetada.
 
 	\subsection{Jerárquico Aglomerativo}
 	\label{cap:3_2_1}
@@ -138,7 +136,7 @@
 	
 		Una vez comentadas las estrategias en el cálculo de multiplicación de matrices, podemos usar estas para mejorar este algoritmo. La primera idea de enviar las filas conforme se realizan los cálculos no se puede aplicar. El algoritmo es más complejo que realizar sumatorios de multiplicaciones (suma de productos, para la multiplicación de matrices), pues la matriz está en constante cambio. Tendría que realizarse un proceso de comunicación costante para gestionar la matriz. Esto y añadir más operaciones del algoritmo para agrupar los individuos, provoca que no sea viable realizar esta mejora. 
 		
-		La estrategia que se va a implementar consiste en dividir la matriz entre los \textit{workers}. Cada proceso se encarga de una zona, paralelizando así el trabajo a realizar. Como es una matriz simétrica y se representa con el triángulo superior, hay que dividir la carga de trabajo equitativamente. No podemos implementar una mejora sin dividir el espacio de forma óptima entre los \textit{workers}. Si dividimos las filas de forma secuencial, el primer \textit{worker} tendrá muchos más elementos que el último, parando la ejecución por ``culpa'' del primer proceso. La Figura \ref{fig:prueba} muestra el cálculo de elementos a procesar entre el primer y último \textit{worker} si no se divide el espacio de manera óptima. 
+		La estrategia que se va a implementar consiste en dividir la matriz entre los \textit{workers}. Cada proceso se encarga de una zona, paralelizando así el trabajo a realizar. Como es una matriz simétrica y se representa con el triángulo superior, hay que dividir la carga de trabajo equitativamente. No podemos implementar una mejora sin dividir el espacio de forma equitativa entre los \textit{workers}. Si dividimos las filas de forma secuencial, el primer \textit{worker} tendrá muchos más elementos que el último, parando la ejecución por ``culpa'' del primer proceso. La Figura \ref{fig:prueba} muestra el cálculo de elementos a procesar entre el primer y último \textit{worker} si no se divide el espacio de manera equitativa. 
 		
 		
 		
@@ -169,7 +167,7 @@
 		\end{figure}
 		
 		
-		Dividiendo las filas por pares (parte superior e inferior) conseguimos una distribución mucho más eficiente. La Figura \ref{fig:aglomerativo} muestra como se distribuyen las filas en cada \textit{worker}. Así cada \textit{worker} tiene aproximadamente el mismo número de elementos que calcular y analizar, inicialmente. Puede variar si el número de filas no es divisible entre en número de procesos \textit{workers} 
+		Dividiendo las filas por pares (parte superior e inferior) conseguimos una distribución mucho más eficiente. La Figura \ref{fig:aglomerativo} muestra como se distribuyen las filas en cada \textit{worker}. Así, cada \textit{worker} tiene aproximadamente el mismo número de elementos que calcular y analizar, inicialmente. Sin embargo, puede variar si el número de filas no es divisible entre en número de procesos \textit{workers} 
 		
 		\begin{figure}[!h]
 			\centering
@@ -212,7 +210,7 @@
 		\end{enumerate}
 								
 		
-		El cálculo de las distancias de la nueva fila (actualización) usando la distancia centroide es lineal, no se puede reducir el tiempo de ejecución. Pero para los enlaces simples y completos, que tienen un coste cuadrático, se debe intentar reducir el tiempo de cómputo. Para lograrlo se generan otras dos estrategias más, que lo único que cambian de esta primera estrategia es como se divide el cálculo de la actualización de la fila entre todos los \textit{workers}. 
+		El cálculo de las distancias de la nueva fila (actualización) usando la distancia centroide es lineal, no se puede reducir el tiempo de ejecución. Pero para los enlaces simples y completos, que tienen un coste cuadrático, se debe intentar reducir el tiempo de cómputo. Para lograrlo se generan otras dos estrategias más, que lo único que cambian de esta primera estrategia es cómo se divide el cálculo de la actualización de la fila entre todos los \textit{workers}. 
 		
 		El objetivo es encontrar una manera lo más optimizada posible de realizar el cálculo. 
 		\begin{itemize}
@@ -220,7 +218,7 @@
 			\item Sin embargo, cuando aumenta el número de individuos, se reducen las columnas y esta idea ya no resulta viable. Cada nueva distancia requiere de un cómputo significativo realizando los cálculos. Por eso, es mejor juntar a todos los procesos para calcular las distancias de forma escalonada, dividiendo los individuos del \textit{cluster} para encontrar la distancia mínima (simple) o máxima (completa).
 		\end{itemize}
 		
-		La segunda estrategia se basa en esto, es por eso que el \textit{worker} con la fila a actualizar tiene en cuenta cuantos clusters tiene el algoritmo en el momento de la actualización. Si es mayor a la mitad, el cálculo de las nuevas distancias se reparte entre los procesos. En caso contrario, el \textit{worker} envía a todos los \textit{workers} disponibles la misma celda, para que se divida la búsqueda de la menor o mayor distancia.
+		La segunda estrategia se basa en esto, por lo cual el \textit{worker} con la fila a actualizar tiene en cuenta cuantos clusters tiene el algoritmo en el momento de la actualización. Si es mayor a la mitad, el cálculo de las nuevas distancias se reparte entre los procesos. En caso contrario, el \textit{worker} envía a todos los \textit{workers} disponibles la misma celda, para que se divida la búsqueda de la menor o mayor distancia.
 		
 		La tercera estrategia no tiene en cuenta esto, siempre se dividen las celdas de las nuevas distancias, pero esta vez añadiendo procesos extra que se encargan exclusivamente de realizar estos cálculos. Además de los procesos \textit{workers} que trabajan en el bucle principal del algoritmo.
 		
@@ -232,10 +230,10 @@
 		
 		\begin{enumerate}
 			\item Reparto estático. Dividir la población entre los \textit{workers}, como muestra la Figura \ref{fig:kmediasdiv}. 
-			\item Reparto dinámico. En cada iteración del algoritmo, wl \textit{master} envia individuos a los \textit{workers}. Cuando finalicen el procesado, envían de vuelta la agrupación y esperen a recibir otros individuos. 
+			\item Reparto dinámico. En cada iteración del algoritmo, el \textit{master} envía individuos a los \textit{workers}. Cuando finalizan el procesado, envían de vuelta la agrupación y esperan a recibir otros individuos. 
 		\end{enumerate}
 		
-		La primera idea es la más simple y la que mejor suena en un primer momento. El \textit{master} se encarga de generar los centroides de manera aleatoria, eligiendo K individuos al azar, sin repeticiones. Mediante broadcast los \textit{workers} reciben estos centros, y con conexiones punto-a-punto se recibe la población dividida sin intersecciones. Cada \textit{worker} se encarga de una subpoblación. 
+		La primera idea es la más simple y la que -a priori- parece más prometedora en un primer momento. El \textit{master} se encarga de generar los centroides de manera aleatoria, eligiendo K individuos al azar, sin repeticiones. Mediante \textit{broadcast} los \textit{workers} reciben estos centros, y con conexiones punto-a-punto se recibe la población dividida sin intersecciones. Cada \textit{worker} se encarga de una subpoblación. 
 		
 				
 		\begin{mdframed}[roundcorner=5pt]
@@ -254,7 +252,7 @@
 		
 	
 		
-		Después de implementar la primera opción, reparto estático, no es una buena idea implementar un reparto dinámico. El constante flujo de mensajes aumenta el tiempo de ejecución y la población a categorizar no cambia, por lo que distribuir la población una única vez en toda la ejecución es más eficiente. Lo único que cambia en cada iteración es la asignación de los individuos, el algoritmo finaliza cuando la asignación no varíe entre iteraciones (centros de los clusters). El algoritmo se repite \textit{iter} veces, valor que depende de la asignación de los individuos y los centros de los clusters. Si además de parar la ejecución al recibir todos los individuos, se para de nuevo para reenviarlos al final de cada iteración, perdemos \textit{iter} veces más tiempo al enviar los individuos a los procesos \textit{workers}. 
+		Después de implementar la primera opción, reparto estático, no es una buena idea implementar un reparto dinámico. El constante flujo de mensajes aumenta el tiempo de ejecución y la población a categorizar no cambia, por lo que distribuir la población una única vez en toda la ejecución es más eficiente. Lo único que cambia en cada iteración es la asignación de los individuos. Así, el algoritmo finaliza cuando la asignación no varía entre iteraciones (centros de los clusters). El algoritmo se repite \textit{iter} veces, valor que depende de la asignación de los individuos y los centros de los clusters. Si además de parar la ejecución al recibir todos los individuos, se para de nuevo para reenviarlos al final de cada iteración, perdemos \textit{iter} veces más tiempo al enviar los individuos a los procesos \textit{workers}. 
 		
 		
 		\begin{figure} [!h]
@@ -264,7 +262,7 @@
 			\label{fig:kmediasdiv}
 		\end{figure}
 		
-		\newpage
+		
 		
 		Como se comentó en el capítulo anterior, este algoritmo se tiene que repetir varias veces para encontrar la mejor asignacion, el óptimo general. A su vez, también hay que variar el valor de \textit{K} para buscar la mejor asignación para los individuos. Para lograr este objetivo se puede enfocar de dos diferentes formas:
 		
@@ -273,7 +271,7 @@
 			\item Ejecutar en cada proceso \textit{worker} el algoritmo sin mejoras. Los \textit{workers} ejecutan la búsqueda con valores distintos de \textit{K} y el \textit{master} se encarga de almacenar los mejores resultados.
 		\end{enumerate}
 		
-		Como muestra la Figura \ref{fig:KMedias_comp}, ambas ideas tienen el mismo coste temporal, sin contar el overhead (tiempo consumido para la comunicación de mensajes entre procesos). Pero, la segunda opción, al tener en cada proceso una copia de la población entera, tiene mayor complejidad espacial. Este aumento del uso de memoria para poblaciones elevadas, provoca que no se pueda ejecutar esta estrategia con muchos procesos. A no ser que el ordenador donde se ejecuta la estrategia tenga disponible mucha memoria libre.
+		Como muestra la Figura \ref{fig:KMedias_comp}, ambas ideas tienen el mismo coste temporal, sin contar el overhead (tiempo consumido para la comunicación de mensajes entre procesos). Pero, la segunda opción, al tener en cada proceso una copia de la población entera, tiene mayor complejidad espacial. Este aumento del uso de memoria para poblaciones elevadas, provoca que no sea viable ejecutar esta estrategia en ejecuciones con un elevado número de procesos.
 		
 		\begin{figure} [!h]
 			\begin{mdframed}[roundcorner=5pt]
@@ -308,7 +306,7 @@
 		
 		Aplicando una cola de prioridad de máximos para el cálculo de los \textit{K} vecinos más cercanos, reducimos la complejidad del algoritmo. Al recorrer la población categorizada, se compara con la cima de la cola. Si la distancia a comparar es menor que la cima, se elimina la cima y se introduce la nueva distancia. Los valores de la cola se mueven con la restricción de prioridad, y al finalizar la búsqueda en la población se cuentan los elementos de la cola para saber qué cluster se repite más.
 		
-		Es importante actualizar la población conforme se van prediciendo los valores, para tener más puntos de referencia. Si no actualizamos la población, la agrupación de los individuos puede variar de forma significativa. Aunque es menos precisa a la hora de predecir, el algoritmo es más veloz, al no aumentar la población categorizada no tiene que recorrer un individuo más conforme se categoriza la población a predecir. Al contar con una población extra (la categorizada) se proponen dos estrategias posibles:
+		Es importante actualizar la población conforme se van prediciendo los valores, para tener más puntos de referencia. Si no actualizamos la población, la agrupación de los individuos puede variar de forma significativa. Aunque es menos precisa a la hora de predecir, el algoritmo es más rápido, ya que al no aumentar la población categorizada, no tiene que recorrer un individuo más conforme se categoriza la población a predecir. Al contar con una población extra (la categorizada) se proponen dos estrategias posibles:
 		
 		
 		\begin{enumerate}
@@ -316,9 +314,9 @@
 			\item Dividir la población a predecir entre los \textit{workers} (ver Figura \ref{fig:knn2})
 		\end{enumerate}
 		
-		Si dividimos la población categorizada (primera estrategia), los \textit{workers} cuentan con menos cómputo en cada individuo. Comparan el individuo a predecir con su subpoblación, y el \textit{master} tiene una mayor carga de trabajo, al recibir los \textit{K} vecinos de cada \textit{worker} y tener que ver los \textit{K} mejores de todos los individuos recibidos.  Mientras que el \textit{master} comprueba las distancias recibidas, los \textit{workers} operan en la siguiente iteración, enfocándose en el próximo individuo a predecir. Si se actualizan los individuos, el \textit{master} reparte de forma equitativa los individuos que se categorizan. En cada iteración envía el individuo categorizado a uno distinto, utilizando un contador con el \textit{id} del \textit{worker} respectivo y aplicando la operación módulo con el número de \textit{workers} ejecutados.
+		Si dividimos la población categorizada (primera estrategia), los \textit{workers} cuentan con menos cómputo en cada individuo. Comparan el individuo a predecir con su subpoblación, y el \textit{master} tiene una mayor carga de trabajo, al recibir los \textit{K} vecinos de cada \textit{worker} y tener que ver los \textit{K} mejores de todos los individuos recibidos.  Mientras que el \textit{master} comprueba las distancias recibidas, los \textit{workers} operan en la siguiente iteración, enfocándose en el próximo individuo a predecir. Si se actualizan los individuos, el \textit{master} reparte de forma equitativa los individuos que se categorizan. En cada iteración envía el individuo categorizado a un \textit{worker} distinto, utilizando un contador con el \textit{id} del \textit{worker} respectivo y aplicando la operación módulo con el número de \textit{workers} ejecutados.
 		
-		Con la división de la población a predecir (segunda estrategia), cada \textit{worker} realiza un cómputo equitativo, pero predicen menos individuos. El \textit{master} no realiza tantas tareas como en la estrategia anterior, solo recibe la categorización de los \textit{workers}. El proceso de actualizar la población se puede realizar de varias formas, ya que todos los \textit{workers} comparten la población categorizada. Una posible solución consiste en enviar \textit{M} nuevos individuos a los \textit{M} \textit{workers} ejecutados en cada iteración, es decir, al recibir un individuo predicho de cada \textit{worker}. O cada \textit{X} iteraciones, enviar los nuevos individuos categorizados.
+		Con la división de la población a predecir (segunda estrategia), cada \textit{worker} realiza un cómputo equitativo, pero predicen menos individuos. El \textit{master} no realiza tantas tareas como en la estrategia anterior, solo recibe la categorización de los \textit{workers}. El proceso de actualizar la población se puede realizar de varias formas, ya que todos los \textit{workers} comparten la población categorizada. Una posible solución consiste en enviar, en cada iteración, el individuo categorizado a todos los \textit{workers}. O en vez de actualizar en cada iteración, enviar cada \textit{X} iteraciones los \textit{X} nuevos individuos categorizados.
 		
 		\vspace{-0.25cm}
 		\begin{flushleft}
@@ -353,7 +351,7 @@
 			\label{fig:knnmpi}
 		\end{figure}
 
-		El proceso \textit{master} (el de la esquina superior izquierda en ambas figuras) tiene el dataset completo. En la primera estrategia (gráfico de la izquierda) divide la población categorizada (individuos representados con colores) entre los procesos y mantiene una copia en todos los procesos de la población a predecir (individuos representados en gris). La segunda estrategia (gráfico de la derecha) tiene una copia de la población categorizada en todos los procesos y una subpoblación de la población a predecir.
+		El proceso \textit{master} (ver la Figura \ref{fig:knnmpi}) tiene el dataset completo. En la primera estrategia (gráfico de la izquierda) divide la población categorizada (individuos representados con colores azul, verde y amarillo) entre los procesos y mantiene una copia en todos los procesos de la población a predecir (individuos representados en gris). La segunda estrategia (gráfico de la derecha) tiene una copia de la población categorizada en todos los procesos y una subpoblación de la población a predecir.
 		
 		
 		En este algoritmo también hay que realizar una búsqueda del mejor valor para \textit{K}. Sin embargo, al contrario que en K-Medias, no hace falta repetir varias veces el mismo algoritmo, ya que el proceso es determinista. Es decir, con la misma población, siempre se obtiene la misma predicción. Aunque puede llegar a cambiar dependiendo del orden de categorización de la población a predecir. 
@@ -374,40 +372,40 @@
 	
 	\subsection{Q-Learning}
 	\label{cap:3_3_1}
-		El algoritmo Q-Learning, es el más básico del aprendizaje por refuerzo. Las estimaciones de las mejores acciones para cada estado se almacenan en una Q-Table representada como una matriz en la que cada fila es un estado, y las columnas son las acciones disponibles. 
+		El algoritmo Q-Learning es el más básico del aprendizaje por refuerzo. Las estimaciones de las mejores acciones para cada estado se almacenan en una Q-Table representada como una matriz en la que cada fila es un estado, y las columnas son las acciones disponibles. 
 		
-		Este algoritmo tiene numerosas aplicaciones. Nos centramos en la técnica de minimizar las acciones, para llegar desde una celda origen a un destino. El laberinto tiene un tamaño y semilla variable por parámetros de inicialización. Para lograr su objetivo dispone de acciones de movimiento en los dos ejes cardinales, norte, sur, este y oeste. No puede atravesar ni situarse en un muro del laberinto, y para que el agente aprenda a moverse por el laberinto y llegar a la meta hay que fijar unas recompensas:
+		Este algoritmo tiene numerosas aplicaciones. Nos centramos en la técnica de minimizar las acciones, para llegar desde una celda origen a un destino. El laberinto tiene un tamaño y semilla variable por parámetros de inicialización. Para lograr su objetivo dispone de acciones de movimiento en los dos ejes cardinales: norte, sur, este y oeste. No puede atravesar ni situarse en un muro del laberinto, y para que el agente aprenda a moverse por el laberinto y llegar a la meta hay que fijar unas recompensas:
 		\begin{itemize}
 			\item Si se choca con un muro castigamos al agente con valores altos para que no añada movimientos innecesarios para alcanzar su objetivo.
 			\vspace*{-0.2cm}
 			\item Al moverse, el agente recibe un castigo pequeño para que aprenda a minimizar las operaciones.
 			\vspace*{-0.2cm}
-			\item Al llegar a la meta le damos una recompensa alta, para que aprenda a la celda destino. 					
+			\item Al llegar a la meta le damos una recompensa alta, para que aprenda llegar a la celda destino. 					
 		\end{itemize}
 	
 		Con estas recompensas, el agente aprende a llegar a la meta minimizando las acciones ejecutadas. El código que genera los laberintos ha sido implementado por @ChlouisPy en github\cite{MazeGenerator}
 
 
-		Antes de enfocarnos en las implementaciones MPI, hay que comentar una mejora que se puede aplicar a el algoritmo básico de Q-Learning. Realizar un preprocesado. Modificar la Q-Table, convertiéndola en un array bidimensional, en el cual no se almacenen las acciones que no deseamos que realice el agente, como puede ser chocarse con un muro. O eliminar estados innacesibles como situarse en un muro.
+		Antes de enfocarnos en las implementaciones basadas en MPI, hay que comentar una mejora que se puede aplicar a el algoritmo básico de Q-Learning: realizar un preprocesado. Modificar la Q-Table, convertiéndola en un array bidimensional, en el cual no se almacenen las acciones que no deseamos que realice el agente, como puede ser chocarse con un muro, o eliminar estados innacesibles como situarse en un muro.
 		
-		Esta mejora puede reducir el tiempo de cómputo, al no perder tiempo realizando acciones innecesarias para alcanzar su objetivo. Además de reducir la complejidad espacial, al reducir el número de estados. Un desventaja es que añade otras estructura adicional (array bidimensional) para almacenar las acciones para cada estado. 
+		Esta mejora puede reducir el tiempo de cómputo, al no perder tiempo realizando acciones innecesarias para alcanzar su objetivo. Además, se reduce la complejidad espacial al reducir el número de estados. Una desventaja es que añade otra estructura adicional (array bidimensional) para almacenar las acciones para cada estado. 
 		
-		Este preprocesado tiene complejidad cuadrática \textit{O(4*N\(^{2}\)) $\equiv$ O(N\(^{2}\))}, siendo \textit{N} el número de filas y columnas. Recorre toda la matriz, comprobando para cada celda si no es un muro, y en caso afirmativo itera en las cuatro direcciones permitidas para almacenar las acciones disponibles para la celda actual (estado). Con tamaños de laberintos pequeños no hace falta paralelizar el preprocesado, porque no se consigue reducir el tiempo significativamente. Laberintos con más de mil filas y columnas si se consigue reducir el tiempo de cómputo.
+		Este preprocesado tiene complejidad cuadrática \textit{O(4*N\(^{2}\)) $\equiv$ O(N\(^{2}\))}, siendo \textit{N} el número de filas y columnas. Recorre toda la matriz, comprobando para cada celda si no es un muro, y, en caso afirmativo, itera en las cuatro direcciones permitidas para almacenar las acciones disponibles para la celda actual (estado). Con tamaños de laberintos pequeños no hace falta paralelizar el preprocesado, porque no se consigue reducir el tiempo significativamente. Al emplear laberintos con más de mil filas y columnas sí se consigue reducir el tiempo de cómputo.
 		
 		
 			
-		En los algoritmos del bloque anterior se necesitaba realizar una búsqueda para encontrar el óptimo general. En este algoritmo conviene realizar otra búsqueda, pero esta vez para encontrar combinaciones de los hiper-parámetros ($\alpha$, $\gamma$, $\epsilon$). Son muy importantes para el desarrollo del agente en el entorno. Una mala configuración de éstos hace que sobre aprenda -o no aprenda- correctamente, generando bucles infinitos. Por este motivo es importante comprobar las diferentes combinaciones de hiper parámetros, y comprobar, cuales funcionan correctamente en el entorno. La búsqueda en laberintos grandes es muy lenta, ya que hay que comprobar muchas combinaciones entre los hiper-parámetros y los episodios del entrenamiento. Por eso es más útil desarrollar el algoritmo Deep Q-Learning que no tiene problemas con los estados, al usar una red neuronal. Pero si queremos usar el algoritmo básico de Q-Learning, hay que realizar una búsqueda exhaustiva en el entorno ejecutando una cantidad significativa de combinaciones de hiper parámetros.
+		En los algoritmos del bloque anterior se necesitaba realizar una búsqueda para encontrar el óptimo general. En este algoritmo conviene realizar otra búsqueda, pero esta vez para encontrar combinaciones de los hiper-parámetros ($\alpha$, $\gamma$, $\epsilon$), los cuales son muy importantes para el desarrollo del agente en el entorno. Una mala configuración de éstos hace que sobre aprenda -o no aprenda- correctamente, generando bucles infinitos. Por este motivo es importante comprobar tanto las diferentes combinaciones de hiper parámetros, como cuáles funcionan correctamente en el entorno. La búsqueda en laberintos grandes es muy lenta, ya que hay que comprobar muchas combinaciones entre los hiper-parámetros y los episodios del entrenamiento. Por eso es más útil desarrollar el algoritmo Deep Q-Learning, que no tiene problemas con los estados al usar una red neuronal. Pero si queremos usar el algoritmo básico de Q-Learning, hay que realizar una búsqueda exhaustiva en el entorno ejecutando una cantidad significativa de combinaciones de hiper parámetros.
 
 		Para paralelizar esta búsqueda se ejecuta el algoritmo básico con el preprocesado mencionado en cada proceso \textit{worker}. Hay que desarrollar una estrategia para que cada \textit{worker} reciba una combinación de parámetros distinta, y así no haya repeticiones, perdiendo tiempo de cómputo. El \textit{master} se encarga de repartir combinaciones de hiper-parámetros. Con una precisión previamente inicializada, el \textit{master} aumenta un hiper-parámetro hasta llegar al \textit{100\%}. Cuando llega a dicho límite, se reinicia la variable y se aumenta la siguiente. Este proceso continua hasta llegar al \textit{100\%} de todos los hiper-parámetros. Cada \textit{worker} se encarga de una combinación recibida. Cuando termina el algoritmo, ya sea por bucle infinito o finalización correcta, envía un mensaje al \textit{master} con la información de finalización y los hiper-parámetros usados.
 		
-		Si el mensaje de finalización indica ``bucle'', el proceso ha terminado para evitar que se convierta en un proceso inactivo, pues dicha conbinación no converge hacia el objetivo. Estos bucles se detectan en el entrenamiento o la evaluación. Hay un bucle en el entrenamiento si un episodio tarda más de \textit{X} segundos en finalizar. En la evaluación se comprueba teniendo en cuenta los últimos cuatro estados visitados. Pues avanza y retrocede constantemente. 
+		Si el mensaje de finalización indica ``bucle'', el proceso termina para evitar que se convierta en un proceso inactivo, pues dicha conbinación no converge hacia el objetivo. Estos bucles se detectan en el entrenamiento o la evaluación. Hay un bucle en el entrenamiento si un episodio tarda más de \textit{X} segundos en finalizar. En la evaluación se comprueba teniendo en cuenta los últimos cuatro estados visitados, pues avanza y retrocede constantemente. 
 		\begin{center}
-			\textit{Estados[0]==Estados[2] and Estados[1]==Estados[3] and Estados[0]!=Estados[1]: }
+			\textit{Estados[0]==Estados[2] and Estados[1]==Estados[3] and Estados[0]!=Estados[1] }
 		\end{center}
 		
 		
 
-		Una vez realizada una búsqueda de las combinaciones de hiper-parámetros eficaces, se pueden emplearse para las siguientes mejoreas:
+		Una vez realizada una búsqueda de las combinaciones de hiper-parámetros eficaces, se pueden emplearse para las siguientes mejoras:
 		
 		\begin{enumerate}
 			\item Dividir el entorno (laberinto) entre los procesos.
@@ -416,20 +414,20 @@
 
 	
 		
-		Al dividir el laberinto entre los procesos (primera mejora), cada proceso controla una zona, y se genera un flujo constante de episodios (iteraciones del algoritmo). Cuando un agente sale del dominio de un proceso, este le manda un mensaje al proceso que controla esa parte del laberinto con la posición en la que entra. La Figura \ref{fig:rlmpi} muestra como se divide un posible laberinto entre los procesos. Además de mostrar tres episodios con sus respectivos agentes (circulo en rojo). El \textit{master} se encarga de iniciar a los agentes en la celda en verde y cuando sale de su dominio envia al respectivo proceso y genera otro agente. 
+		Al dividir el laberinto entre los procesos (primera mejora), cada proceso controla una zona, y se genera un flujo constante de episodios (iteraciones del algoritmo). Cuando un agente sale del dominio de un proceso, éste le manda un mensaje al proceso que controla esa parte del laberinto con la posición en la que entra. La Figura \ref{fig:rlmpi} muestra cómo se divide un posible laberinto entre los procesos, además de mostrar tres episodios con sus respectivos agentes (circulo en rojo). El \textit{master} se encarga de iniciar a los agentes en la celda verde, y cuando sale de su dominio, envía la posición en el laberinto al respectivo proceso y genera otro agente. 
 		
-		Para garantizar el correcto funcionamiento, el \textit{master} no puede recibir agentes de los \textit{workers}, en caso contrario no se podría garantizar el flujo de nuevos episodios. En la ejecución, solo puede existir \textit{M} agentes en todos los procesos (siendo \textit{M} el número de procesos ejecutados), debido a que un proceso solo puede gestionar a lo sumo un agente. Cada proceso tiene su propio dominio, lo que provoca que la Q-Table se divida entre éstos. Aplicando el preprocesado comentado anteriormente se dividen los dos arrays bidimensionales (acciones y Q-valores). 
+		Para garantizar el correcto funcionamiento, el \textit{master} no puede recibir agentes de los \textit{workers}, en caso contrario no se podría garantizar el flujo de nuevos episodios. En la ejecución, solo pueden existir \textit{M} agentes en todos los procesos (siendo \textit{M} el número de procesos ejecutados), debido a que un proceso solo puede gestionar a lo sumo un agente. Cada proceso tiene su propio dominio, lo que provoca que la Q-Table se divida entre éstos. Aplicando el preprocesado comentado anteriormente se dividen los dos arrays bidimensionales (acciones y Q-valores). 
 		
 		
 		
 		\begin{figure}[!h]
 			\centering
-			\includegraphics[width=0.6\textwidth]{images/chapter_3/rl_mpi}	
+			\includegraphics[width=0.55\textwidth]{images/chapter_3/rl_mpi}	
 			\caption{División del entorno de la primera estrategia del agloritmo de Aprendizaje por Refuerzo}
 			\label{fig:rlmpi}
 		\end{figure}
 	
-		Aplicando la estrategia realizada en la búsqueda de hiper-parámetros, de ejecutar el algoritmo en varios procesos, se puede obtener la segunda estrategia. El \textit{master} recolecta las experiencias de los \textit{workers}, haciendo la media de los valor-Q obtenidos de los procesos, calculando así las mejores acciones para cada estado. Hay que tener en cuenta la posición de inicialización de los agentes en los procesos ejecutados. Si todos los procesos comparten el mismo punto de salida, los resultados serán parecidos a ejecutar el algoritmo en un solo proceso. Sin embargo al cambiar el punto de origen, los Q-valores obtenidos al realizar las medias de las experiencias varían y se recorre más espacio en menos tiempo. Y para lograr buenos resultados se asegura que al menos un proceso empieza desde el punto origen, de otra forma no se podría garantizar que el agente haya aprendido a alcanzar el destino desde la celda origen.			
+		Aplicando la estrategia realizada en la búsqueda de hiper-parámetros, consistente en ejecutar el algoritmo en varios procesos, se puede obtener la segunda estrategia. El \textit{master} recolecta las experiencias de los \textit{workers}, haciendo la media de los Q-valor obtenidos de los procesos, calculando así las mejores acciones para cada estado. Hay que tener en cuenta la posición de inicialización de los agentes en los procesos ejecutados. Si todos los procesos comparten el mismo punto de salida, los resultados serán parecidos a ejecutar el algoritmo en un solo proceso. Sin embargo, al cambiar el punto de origen, los Q-valores obtenidos al realizar las medias de las experiencias varían y se recorre más espacio en menos tiempo. Para lograr buenos resultados se asegura que al menos un proceso empieza desde el punto origen, de otra forma no se podría garantizar que el agente haya aprendido a alcanzar el destino desde la celda origen.			
 			
 			
 	
@@ -438,7 +436,7 @@
 	
 	\subsection{Deep Q-Network}
 	\label{cap:3_3_2}
-		Este algoritmo utiliza redes neuronales para obtener la mejor acción para un determinado estado, eliminando así los problemas que tiene el algoritmo anterior. Con este método podemos abarcar entornos más complejos, y por eso se propone el juego de \textit{Namco} Pac-Man, cuya implementación  creamos desde cero para moldear a nuestro gusto la dificultad del entorno, así como facilitar el aprendizaje de la red neuronal. Nos centramos en obtener el mayor número de monedas antes de provocar una condición de finalización (ser comido por un fantasma o recoger todas los puntos). Para simplificar el entorno, no se desarrollan niveles en la ejecución, al igual de limitar la vida del agente a un único corazón, por lo que si es comido una única vez se termina la ejecución. Antes de profundizar en el algoritmo de IA, explicamos como funciona y hemos realizado la implementación del entorno.
+		Este algoritmo utiliza redes neuronales para obtener la mejor acción para un determinado estado, eliminando así los problemas que tiene el algoritmo anterior. Con este método podemos abarcar entornos más complejos, y por eso se propone el juego de \textit{Namco} Pac-Man, cuya implementación  creamos desde cero para moldear a nuestro gusto la dificultad del entorno, así como facilitar el aprendizaje de la red neuronal. Nos centramos en obtener el mayor número de monedas antes de provocar una condición de finalización (ser comido por un fantasma o recoger todos los puntos). Para simplificar el entorno, no se desarrollan niveles en la ejecución, al igual de limitar la vida del agente a un único corazón, por lo que si es comido una única vez se termina la ejecución. Antes de profundizar en el algoritmo de IA, explicamos cómo funciona y hemos realizado la implementación del entorno.
 	
 		\begin{itemize}		
 			\item Acciones disponibles. Como en el algoritmo anterior, son de movimiento. El agente y los fantasmas no pueden atravesar muros.
@@ -475,12 +473,11 @@
 			\item Eaten. Han sido comidos y se encuentran en su casa esperando a salir. (Implementado de forma que espera \textit{3} movimientos del agente para salir)
 		\end{itemize} 
 		
-		Los estados iteran con una secuencia principal \textit{[Scatter, Chase]}. La ejecución empieza con \textit{Scatter} para que los fantasmas, al salir de su casa, se dirijan a sus zonas asignadas. Al ejecutar, el agente, treinta acciones, el estado cambia a \textit{Chase} y se mantiene así sesenta acciones y vuelven a repetir la secuencia. Si el agente come un punto de energía, los fantasmas interrumpen su estado actual para pasar al estado \textit{Frightened} en el que están treinta acciones siendo vulnerables. Si el agente colisiona con un fantasma en este estado, es comido, pasando al estado \textit{Eaten}. Al finalizar este estado vuelven al inicio de la secuencia principal.
+		Los estados iteran con una secuencia principal \textit{[Scatter, Chase]}. La ejecución empieza con \textit{Scatter} para que los fantasmas, al salir de su casa, se dirijan a sus zonas asignadas. Al ejecutar el agente treinta acciones, el estado cambia a \textit{Chase} y se mantiene así sesenta acciones, volviendo a repetirse la secuencia. Si el agente come un punto de energía, los fantasmas interrumpen su estado actual para pasar al estado \textit{Frightened} en el que están treinta acciones siendo vulnerables. Si el agente colisiona con un fantasma en este estado, es comido, pasando al estado \textit{Eaten}. Al finalizar este estado vuelven al inicio de la secuencia principal.
 		
-		\newpage
 		
 		\begin{flushleft}
-			En la estado \textit{Chase} los fantasmas se mueven de la siguiente forma:
+			En el estado \textit{Chase} los fantasmas se mueven de la siguiente forma:
 		\end{flushleft}
 		
 		\vspace{-0.9cm}
@@ -495,7 +492,7 @@
 		\end{itemize}
 		
 		
-		El laberinto (mapa del entorno) se almacena en un fichero de texto, para representar las celdas vacías, muros, puntos o puntos de poder con números enteros (0, 1, 2 y 3 respectivamente).
+		El laberinto (mapa del entorno) se almacena en un fichero de texto, para representar las celdas vacías, muros, puntos, o puntos de poder con números enteros (0, 1, 2 y 3 respectivamente).
 		
 		
 		Al igual que en el algoritmo \textit{Q-Learning} la fase de entrenamiento es crucial, pues modifican los valores de la red neuronal para que el agente tome las mejores decisiones en cada estado, y terminar la ejecución sin perder. El entrenamiento se puede realizar de varias formas.	
@@ -529,28 +526,33 @@
 	\begin{enumerate}
 		\item \textbf{Inicialización.} Dados los parámetros iniciales se crea la población con los individuos deseados. Hay diferentes tipos, con sus respectivas características.
 		\begin{itemize}
-			\item Binarios. Estos individuos son fáciles de inicializar, pero ralentizan la comunicación entre procesos, debido al gran elevado número de bits que enviar.
+			\item Binarios. Estos individuos son fáciles de inicializar, pero ralentizan la comunicación entre procesos, debido al gran elevado número de bits que es necesario enviar. Sin embargo, se puede enviar el número con su representación real en lugar de enviar todos los bits.
 			\item Reales. Al igual que los binarios son faciles de inicializar, pero esta vez son más portables, al usar la \textit{base 10} como representación de los números, en vez del sistema binario (0's y 1's). 
 			\item Árboles. Más lentos para inicializar y difíciles de tratar. Se usan punteros y aumenta la complejidad al gestionar los punteros.
 		\end{itemize}
 		
-		\item \textbf{Evaluación.} Este es el método que más tiempo de ejecución puede llegar a consumir. Varía dependiendo del tipo de individuo del problema. Como su nombre indica evalúa a todos los individuos dependiendo de una función de fitness, puede ser desde una fórmula matemática hasta una ejecución de un algoritmo en un entorno.
+		\item \textbf{Evaluación.} Este es el método que más tiempo de ejecución puede llegar a consumir. Varía dependiendo del tipo de individuo. Como su nombre indica, evalúa a todos los individuos dependiendo de una función de \textit{fitness}, que puede ser desde una fórmula matemática hasta una ejecución de un algoritmo en un entorno.
 		
 		\item \textbf{Selección.} Se seleccionan a los individuos. La aleatoriedad predomina en este método, y dependiendo de la estrategia escogida se puede dar más o menos probabilidad a los más aptos. 
 		
-		\item \textbf{Cruce.} Todos los individuos se cruzan, y con una cierta probabilidad se eligen a los hijos de estos cruces. Si no se cumple dicha probabilidad no se cruzan los individuos y se dejan como están. Normal mente tendrán un mayor coste temporal que el método anterior.
+		\item \textbf{Cruce.} Todos los individuos se cruzan, y con una cierta probabilidad se eligen a los hijos de estos cruces. Si no se cumple dicha probabilidad no se cruzan los individuos y se dejan como están. Normalmente tendrán un mayor coste temporal que el método anterior.
 		
-		\item \textbf{Mutación.} Igual que el cruce tiene una probabilidad para mutar. Normalmente es un poco más veloz que el cruce, debido a las estrategias implementadas y que la probabilidad de mutación suele ser menor a la de cruce, provocando una menor tasa de ejecución de la estrategia.
+		\item \textbf{Mutación.} Igual que el cruce, tiene una probabilidad para mutar. Normalmente es un poco más veloz que el cruce, debido a las estrategias implementadas y que la probabilidad de mutación suele ser menor a la de cruce, provocando una menor tasa de ejecución de la estrategia.
 	\end{enumerate}
 	
-	\begin{flushleft}
-		En este trabo se desarrollan los siguientes problemas a optimizar para los tres diferentes individuos implementados.
-	\end{flushleft}
+	
+		En este trabajo se desarrollan los siguientes problemas a optimizar para los tres tidos de individuos implementados:
+	
 	\begin{enumerate}
 		\item Los individuos binarios, tienen un intervalo y una precisión como variable de inicialización. Queremos calcular el valor máximo o mínimo para ciertas funciones matemáticas. Los valores \textit{fitness} se calculan con la representación real del cromosoma, que varía dependiendo de la precisión que se le asigna al ejecutar el algoritmo. Por ello hay que convertir la información de binario a real. 
 		
-		Para estos individuos, el algoritmo se ejecuta bastante rápido, además de alcanzar el máximo global con menos generaciones que los otros dos individuos. La función de evaluación es lineal \textit{O(N)}, debido a la conversión del número binario. Reducir su tiempo de ejecución es desafiante, por el poco coste temporal y el tiempo necesario para enviar/recibir los individuos.		
-		\item Los individuos reales, se enfrentan a un problema de mayor complejidad, como es la minimización del retraso total obtenible de una serie de aviones en un aeropuerto. El número vuelos y pistas es variable, y cada vuelo tiene asignado la hora de aterrizaje para cada pista. Hay un tiempo mínimo de separación entre vuelos que aterrizan en cada pista, pues hay que garantizar la seguridad de los pasajeros y la integridad de los aviones. Se puede resolver con vuelta atrás pero tiene un coste exponencial O(\(2^{N}\)). El valor \textit{fitness} tiene coste \textit{O(NumAviones*NumPistas) $\equiv$ O(\(N^{2}\))}. La figura \ref{fig:pev_funcion_ev_2} muestra como se calcula el valor \textit{fitness} de un individuo.
+		Para estos individuos, el algoritmo se ejecuta bastante rápido, además de alcanzar el máximo global con menos generaciones que los otros dos tipos. La función de evaluación es lineal \textit{O(N)}, debido a la conversión del número binario. Reducir su tiempo de ejecución es desafiante, por el poco coste temporal y el tiempo necesario para enviar/recibir los individuos.		
+		
+		\item Los individuos reales, se enfrentan a un problema de mayor complejidad, como es la minimización del retraso total obtenible de un número de aviones \textit{NumAv}, en un aeropuerto con \textit{NumP} pistas. Este problema se puede resolver con vuelta atrás pero tiene un coste exponencial O(\(2^{N}\)) siendo inviable para la mayoría de tamaños. 
+		
+		Los aviones tienen unos tiempos de llegada asignados a cada pista, además de contar con un tiempo de separación mínimo entre tipos de aviones para garantizar la seguridad de los pasajeros. El tiempo de separación viene condicionado por el tipo de avión que llegó antes y el que llegará.		
+			
+		La figura \ref{fig:pev_funcion_ev_2} muestra como se calcula el valor \textit{fitness} de un individuo. Tiene un coste \textit{O(NumAv*NumP) $\equiv$ O(\(N^{2}\))}. 
 		
 		\begin{figure}[!h]
 		
@@ -573,11 +575,27 @@
 			\label{fig:pev_funcion_ev_2}
 		\end{figure}
 		
-		El tiempo de ejecución para este problema depende de la función de evaluación, que varía dependiendo del número de aviones y pistas. 
 		
-		\item Los individuos árbol, han de encontrar una sucesión de acciones en un entorno para maximizar las celdas visitadas en una matriz. Poniendo en contexto, el agente de este problema se encarga de podar un jardín de tamaño \textit{(NxM)} con unos operadores determinados. Estos operadores pueden ser terminales o nodos hoja (nodos del árbol sin hijos) como avanzar podando el cesped o girar a la izquierda (ambos terminales devuelven (0, 0)) y constante, que no altera al agente pero devuelve sus valores (X, Y) para los operadores funciones. Los operadores funciones, expresiones o nodos intermedios (nodos del árbol con al menos un hijo) como Salta(E), operación que provoca que el agente salte y pode la posición destino. O los operadores Progn(E1, E2) y Suma(E1, E2) que aunque no modifiquen al agente aumentan el tamaño del árbol (devuelven la posición de su hijo derecho (E2) y la suma de sus hijos (E1 y E2) respectivamente).
+		Este problema consume la mayor parte del tiempo de ejecución en la función de evaluación, que varía dependiendo del número de aviones y pistas. 
 		
-		El coste temporal de este algoritmo viene dado principalmente por la función de evaluación. Ejecuta la simulación en la matriz hasta cumplir un determinado número de ticks (acciones realizadas), que es proporcional al número de filas y columnas de la matriz. Aunque las funciones de cruce y mutación también tardan en ejecutarse, debido al control de punteros.
+		
+		
+		\item Los individuos de tipo árbol, han de encontrar una sucesión de acciones en un entorno para maximizar las celdas visitadas en una matriz. Poniendo en contexto, el agente de este problema se encarga de podar un jardín de tamaño (\textit{NxM}, toroidal, es decir, los extremos de la matriz están conectados) con acciones de movimiento, giro y salto. El individuo es representado en forma de árbol con expresiones (\textit{Exp}). Cada expresión representa un nodo que puede ser una función, si es un nodo intermedio del árbol, o terminal si es una hoja (nodo del árbol sin hijos). Las expresiones terminales son:
+		\begin{itemize}
+			\item Izquierda. El agente gira 90º grados a la izquierda. \textit{Devuelve (0, 0)}.
+			\item Avanza. El agente avanza una posición en con respecto a su dirección, y poda la casilla destino. \textit{Devuelve (0, 0)}.
+			\item Constante aleatoria (i, j). El agente no se mueve. Este terminal devuelve la constante haciendo el modulo con respecto al número de filas y columnas.
+		\end{itemize}
+		
+		Las expresiones funciones tienen, al menos, un hijo, y son las siguientes:
+		\begin{itemize}
+			\item Suma(\textit{Exp}, \textit{Exp}): Ejecuta las dos expresiones. Devuelve la suma vectorial de los resultados de las expresiones.
+			\item Prong(\textit{Exp}, \textit{Exp}): Ejecuta las dos expresiones. Devuelve el resultado de la segunda expresión.
+			\item Salto(\textit{Exp}): Salta a una nueva posición determinada por el desplazamiento que devuelve la expresión. 
+		\end{itemize}
+		
+				
+		El coste temporal de este algoritmo viene dado principalmente por la función de evaluación. Ejecuta la simulación en la matriz hasta cumplir un determinado número de ticks (acciones realizadas), que es proporcional al número de filas y columnas de la matriz. Aunque las funciones de cruce y mutación también tardan en ejecutarse, debido que hay que garantizar un buen uso de los punteros, pues en caso contrario no funcionaría el algoritmo de forma correcta.
 	\end{enumerate}
 	
 	
@@ -589,7 +607,7 @@
 		\item PipeLine. Se crean varias poblaciones, y cada proceso ejecutado se encarga de ejecutar un método del algoritmo.
 	\end{enumerate}
 	
-	La primera estrategia, representada en la Figura \ref{fig:pev_mpi1}, consiste en dividir la población entre los procesos, se puede paralelizar fácilmente. El \textit{master} recibe de los \textit{workers} las subpoblaciones inicializadas y evaluadas, y comienza el bucle principal del algoritmo, en el cual:
+	La primera estrategia, representada en la Figura \ref{fig:pev_mpi1}, consiste en dividir la población entre los procesos, y se puede paralelizar fácilmente. El \textit{master} recibe de los \textit{workers} las subpoblaciones inicializadas y evaluadas, y comienza el bucle principal del algoritmo, en el cual:
 	\begin{itemize}
 		\item El \textit{master} se encarga de hacer la selección, y enviarla dividida a los \textit{workers}. Mientras que los \textit{workers} procesan los datos recibidos, el \textit{master} almacena el progreso de los mejores individuos de cada generación.
 		\item Los \textit{workers} reciben la selección, la cruzan, mutan y evalúan. Al finalizar estos procesos mandan la subpoblación al \textit{master} para empezar la siguiente iteración.
@@ -602,7 +620,7 @@
 		\label{fig:pev_mpi1}
 	\end{figure}
 	
-	Para el modelo de islas (segunda estrategia), se aplica la estrategia que se ha desarrollado anteriormente para otros algoritmos. Cada proceso ejecuta el algoritmo básico, dividiendo la población general en los procesos ejecutados. Con este modelo se reduce la comunicación entre los procesos, pues al contrario que la estrategia anterior, no se reserva funcionalidades para diferentes procesos, si no que cada proceso se encarga de ejecutar todas las funciones para que su subpolación evolucione correctamente. Cada cierto tiempo se reinicia la población con los mejores individuos generales (de todos los procesos). Los tipos de comunicación se representaN en la Figura \ref{fig:pev3_mpi2}, y son los siguientes: 
+	Para el modelo de islas (segunda estrategia), se aplica la estrategia que se ha desarrollado anteriormente para otros algoritmos. Cada proceso ejecuta el algoritmo básico, dividiendo la población general en los procesos ejecutados. Con este modelo se reduce la comunicación entre los procesos, pues al contrario que la estrategia anterior, no se reserva funcionalidades para diferentes procesos, si no que cada proceso se encarga de ejecutar todas las funciones para que su subpolación evolucione correctamente. Cada cierto tiempo se reinicia la población con los mejores individuos generales (de todos los procesos). Los tipos de comunicación se representa en en la Figura \ref{fig:pev3_mpi2}, y son los siguientes: 
 
 	\begin{itemize}
 		\item Estrella. El \textit{master} se posiciona en el centro y solo hay comunicaciones \textit{Master-Worker} para almacenar los mejores individuos de cada subpoblación.
@@ -617,7 +635,7 @@
 		\label{fig:pev3_mpi2}
 	\end{figure}
 	
-	Segmentar el algoritmo entre los procesos (tercera estrategia, representada en la Figura \ref{fig:pev_mpi3}), provoca un flujo constante de generaciones. Como hay cinco métodos principales se necesitan, al menos, cinco procesos, incluyendo al \textit{master}, que se encarga de inicializar y evaluar las cuatro distintas poblaciones que se van a ejecutar al mismo tiempo. Al principio, todos los procesos \textit{workers} están en espera de recibir una población para ejecutar sus operaciones. El primer \textit{worker} se encarga de la selección y se despierta en la segunda iteración al recibir la primera población inicializada por parte del \textit{master}. Una vez ha ejecutado las cuatro selecciones de las poblaciones que el \textit{master} le envía, empieza a recibir las poblaciones del último \textit{worker}. Los otros tres \textit{workers} se encargan del cruce, mutación y el último de la evaluación, despertándose en la tercera, cuarta y quinta iteración respectivamente por parte de su \textit{worker} predecesor. El último \textit{worker} finaliza una generación al enviar la evaluación de la población mutada al \textit{worker 1}, encargado de realizar la selección. No hay conflicto con el \textit{master}, ya que, como se mencionó anteriormente en este párrafo, este crea cuatro poblaciones (terminando en la iteración cuatro, mientras que la primera evaluación del último \textit{worker} se finaliza en la iteración cinco), y al finalizar su trabajo pasa a un estado de recepción de los mejores individuos. Si se ejecutan \textit{100} generaciones, esta estrategia evoluciona cuatro poblaciones distintas, en \textit{104} generaciones en total, de las cuales \textit{96} se ejecutan las cuatro poblaciones simultaneamente.
+	Segmentar el algoritmo entre los procesos (tercera estrategia, representada en la Figura \ref{fig:pev_mpi3}), provoca un flujo constante de generaciones. Como hay cinco métodos principales se necesitan, al menos, cinco procesos, incluyendo al \textit{master}, que se encarga de inicializar y evaluar las cuatro poblaciones distintas que se van a ejecutar al mismo tiempo. Al principio, todos los procesos \textit{worker} están en espera de recibir una población para ejecutar sus operaciones. El primer \textit{worker} se encarga de la selección y se despierta en la segunda iteración al recibir la primera población inicializada por parte del \textit{master}. Una vez ha ejecutado las cuatro selecciones de las poblaciones que el \textit{master} le envía, empieza a recibir las poblaciones del último \textit{worker}. Los otros tres \textit{workers} se encargan del cruce, mutación y el último de la evaluación, despertándose en la tercera, cuarta y quinta iteración respectivamente por parte de su \textit{worker} predecesor. El último \textit{worker} finaliza una generación al enviar la evaluación de la población mutada al \textit{worker 1}, encargado de realizar la selección. No hay conflicto con el \textit{master}, ya que, como se mencionó anteriormente, éste crea cuatro poblaciones (terminando en la iteración cuatro, mientras que la primera evaluación del último \textit{worker} se finaliza en la iteración cinco), y al finalizar su trabajo pasa a un estado de recepción de los mejores individuos. Si se ejecutan \textit{100} generaciones, esta estrategia evoluciona cuatro poblaciones distintas, en \textit{104} generaciones en total, de las cuales \textit{96} se ejecutan en las cuatro poblaciones simultaneamente.
 	
 	
 		
@@ -628,7 +646,7 @@
 		\label{fig:pev_mpi3}
 	\end{figure}
 
-	El tiempo de ejecución de esta estrategia es proporcional al número de generaciones ejecutadas multiplicado por el proceso que más tiempo tarda en ejecutarse. Por lo que se puede reducir el tiempo de ejecución si comprobamos que métodos tardan más, añadiendo más procesos para reducir la carga de trabajo. Por ejemplo en los individuos reales y árboles el método que más tiempo consume es la evaluación de individuos, por lo que conviene añadir más procesos para reducir así el tiempo de ejecución.
+	El tiempo de ejecución de esta estrategia es proporcional al número de generaciones ejecutadas multiplicado por el proceso que más tiempo tarda en ejecutarse. Por ello se puede reducir el tiempo de ejecución si comprobamos qué métodos tardan más, añadiendo más procesos para reducir la carga de trabajo. Por ejemplo, en los individuos reales y árboles, el método que más tiempo consume es la evaluación de individuos, por lo que conviene añadir más procesos para reducir así el tiempo de ejecución.
 	
 	
 	
@@ -637,24 +655,24 @@
 \section{Redes Neuronales}
 \label{cap:3_5}
 %\label{sec:redes_neu}	
-	Esta poderosa herramienta de aprendizaje supervisado, está diseñada para reconocer patrones complejos y realizar diversas tareas. Aprende con un proceso iterativo de entrenamiento, ajustando las conexiones entre neuronas. Este proceso secuencial es complejo de paralelizar. Al finalizar una predicción, el modelo se tiene que actualizar propagando hacia atrás.
+	Esta poderosa herramienta de aprendizaje supervisado está diseñada para reconocer patrones complejos y realizar diversas tareas. Aprende con un proceso iterativo de entrenamiento, ajustando las conexiones entre neuronas. Este proceso secuencial es complejo de paralelizar. Al finalizar una predicción, el modelo se tiene que actualizar propagando hacia atrás.
 	
-	Nos centramos en la técnica de predicción. Para comenzar, vamos a crear una red neuronal que aprenda a predecir el Índice de Masa Corporal (IMC) de una persona. Cada individuo está formado de dos variables, la altura en centimetros y el peso el kilogramos. Para moldear la red neuronal a los individuos, la capa de entrada se estructura con dos neuronas, una para cada variable, y la salida es el IMC, por lo que la capa de salida es una única neurona. La capa de entrada y salida no varían, pero la capa oculta se puede modificar libremente, aumentando el tiempo en la fase de entrenamiento.
+	Nos centramos en la técnica de predicción. Para comenzar, vamos a crear una red neuronal que aprenda a predecir el Índice de Masa Corporal (IMC) de una persona. Cada individuo está formado por dos variables: la altura en centimetros y el peso el kilogramos. Para moldear la red neuronal a los individuos, la capa de entrada se estructura con dos neuronas, una para cada variable, y la salida es el IMC, por lo que la capa de salida es una única neurona. La capa de entrada y salida no varían, pero la capa oculta se puede modificar libremente, aumentando el tiempo de la fase de entrenamiento.
 	
 	
 	Como en algunos de los algoritmos anteriores, necesitamos encontrar la mejor configuración de los hiper-parámetros. En las redes neuronales solo hay uno. La tasa de aprendizaje, controla la magnitud de los ajustes a realizar en los pesos de las neuronas durante el proceso de entrenamiento. Específicamente, determina cuánto deben cambiar los pesos en respuesta al error cometido a predecir un individuo.
 	
 	
-	Por ello, diseñamos una estrategia para encontrar la mejor tasa de aprendizaje para una red neuronal en concreto. El proceso \textit{master} envía intervalos de tasas de aprendizaje a todos los procesos \textit{workers} ejecutados, para que estos ejecuten el algoritmo y envíen el sumatorio de errores obtenidos en la predicción. La inicialización de los pesos, normalmente es aleatoria, pero para hacer más igualitario el calculo de los errores, todos los procesos inicializan la red neuronal con los mismos pesos.
+	Por ello, diseñamos una estrategia para encontrar la mejor tasa de aprendizaje para una red neuronal en concreto. El proceso \textit{master} envía intervalos de tasas de aprendizaje a todos los procesos \textit{workers} ejecutados, para que éstos ejecuten el algoritmo y envíen el sumatorio de errores obtenidos en la predicción. La inicialización de los pesos normalmente es aleatoria, pero para hacer más igualitario el cálculo de los errores, todos los procesos inicializan la red neuronal con los mismos pesos.
 	
 	
 	\noindent Las estrategias MPI realizadas son las siguientes:
 	\begin{enumerate}				
-		\item PipeLine. Como en el algoritmo anterior, pero esta vez con un flujo de mensajes bidireccional.
+		\item Pipeline. Como en el algoritmo anterior, pero esta vez con un flujo de mensajes bidireccional.
 		\item Dividir el trabajo entre los procesos.
 	\end{enumerate}
 	
-	Segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el \textit{master} el encargado de enviar individuos de la población categorizada. El último \textit{worker} controla la capa de salida, con las etiquetas de los individuos, calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes, los cuales pueden ser síncronos, es decir, que esperan a recibir los mensajes, o asíncronos, siendo estos últimos solamente admisibles en la etapa de recibir mensaje de una propagación hacia atrás anterior y enviar mensaje hacia adelante del individuo actual. La figura \ref{fig:redneumpipipe} muestra dicho flujo y el trabajo de los procesos es el siguiente:	
+	Segmentar el proceso de entrenamiento puede llegar a ser beneficioso. Cada proceso se encarga de una capa de la red neuronal, siendo el \textit{master} el encargado de enviar individuos de la población categorizada. El último \textit{worker} controla la capa de salida, y con las etiquetas de los individuos, calcula el error y lo propaga hacia atrás. Para el correcto funcionamiento, hay que crear un buen diseño para tener un flujo constante de mensajes, los cuales pueden ser síncronos, es decir, que esperan a recibir los mensajes, o asíncronos, siendo estos últimos solamente admisibles en la etapa de recibir mensaje de una propagación hacia atrás anterior y enviar mensaje hacia adelante del individuo actual. La Figura \ref{fig:redneumpipipe} muestra dicho flujo y el trabajo de los procesos es el siguiente:	
 	
 	
 	\begin{enumerate}
@@ -675,21 +693,21 @@
 		\label{fig:redneumpipipe}
 	\end{figure}
 	
-	Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos (segunda estrategia) no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado \textit{fine tuning} \cite{malladi2023fine} que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos ligeramente en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos y, en paralelo, ejecutamos la fase de entrenamiento. Una vez finalizadas, el \textit{master} recibe los pesos de cada \textit{worker} y hace la media. Cuanto más grande sea la red neuronal mayor será -a priori- el rendimiento.
+	Al ser un proceso iterativo, en el cual el modelo va aprendiendo en la fase de entrenamiento, a primera vista, dividir la población entre procesos (segunda estrategia) no parece ser beneficioso para el correcto aprendizaje de la red. Sin embargo, en redes neuronales hay un proceso llamado \textit{fine tuning} \cite{malladi2023fine} que consiste en entrenar una red neuronal, con unos pesos ya calculados. Basándonos ligeramente en esta técnica, podemos implementar una mejora en la cual dividamos la población inicial entre procesos y, en paralelo, ejecutamos la fase de entrenamiento. Una vez finalizadas, el \textit{master} recibe los pesos de cada \textit{worker} y hace la media. Cuanto más grande sea la red neuronal mayor será -a priori- el \textit{speedup}.
 		
-	Las neuronas varían sus pesos para adaptarse a las variables recibidas. Para predecir un individuo, todas las neuronas trabajan en conjunto. Lo que supone que una neurona perteneciente a una red de menor tamaño tendrá más relevancia en comparación con una neurona en una red de mayor escala. Esto plantea un interrogante: ¿es posible paralelizar el trabajo de una red neuronal de gran escala y conservar o reducir el porcentaje de error al predecir individuos? Para ponerlo a prueba hay que probar varias estrategias de agrupaciones en la población que se va a utilizar para entrenar la red neuronal, además de tener en cuenta la inicialización de los pesos.
+	Las neuronas varían sus pesos para adaptarse a las variables recibidas. Para predecir un individuo, todas las neuronas trabajan en conjunto. Lo que supone que una neurona perteneciente a una red de menor tamaño tendrá más relevancia en comparación con una neurona en una red de mayor escala. Esto plantea un interrogante: ¿es posible paralelizar el trabajo de una red neuronal de gran escala y conservar -o reducir- el porcentaje de error al predecir individuos? Para ponerlo a prueba hay que probar varias estrategias de agrupaciones en la población que se va a utilizar para entrenar la red neuronal, además de tener en cuenta la inicialización de los pesos.
 	
 	\begin{enumerate}
 		\item Misma población en todos los procesos. 
 		
 		\begin{itemize}
-			\item Si cada proceso tiene la misma población y los mismos pesos en la red, si reduce el tiempo de ejecución, pero no mejora la predicción. Sería como ejecutar el algoritmo sin paralelizar, pero con menos iteraciones, pues se ejecutan en los procesos la misma ejecución y la media no varía con respecto a los resultados obtenidos.
+			\item Si cada proceso tiene la misma población y los mismos pesos en la red, se reduce el tiempo de ejecución, pero no mejora la predicción. Sería como ejecutar el algoritmo sin paralelizar, pero con menos iteraciones, pues se ejecutan en los procesos la misma ejecución y la media no varía con respecto a los resultados obtenidos.
 			\item Inicializando las distintas redes neuronales con pesos diferentes, puede predecir correctamente para este problema en particular pero no tener unos buenos resultados de manera global o viceversa. Además, depende de la aleatoriedad, pues el porcentaje de errores en una ejecución puede variar bastante con respecto a otra. 
 		\end{itemize} 
 		
 		\item Diferentes poblaciones para cada proceso. 
 		
-		Esta estrategia suena mejor que la anterior. Al no haber intersección de poblaciones en los procesos ejecutados, los valores de los pesos se modificaran de diferente forma y puede que al hacer la media la red se estructure de forma que se obtenga un correcto funcionamiento. La inicialización de los pesos no provoca una gran diferencia, al contrario que mantener la misma población para todos los procesos. Pero conviene probar ambas inicializaciones.	
+		Esta estrategia suena mejor que la anterior. Al no haber intersección de poblaciones en los procesos ejecutados, los valores de los pesos se modificarán de diferente forma y puede que al hacer la media la red se estructure de forma que se obtenga un correcto funcionamiento. La inicialización de los pesos no provoca una gran diferencia, al contrario que mantener la misma población para todos los procesos. En cualquier caso, conviene probar ambas inicializaciones.	
 		
 		
 	\end{enumerate}	
