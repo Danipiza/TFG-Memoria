@@ -323,10 +323,24 @@
 
 
 \include{Capitulos/1_Introduccion}
+
+\addcontentsline{toc}{chapter}{1. Introduction}
+
+\setcounter{section}{0}
+
+% Include the translated first chapter, without numbering
+%\chapter*{Introduction (English)}
+\input{Capitulos/1_Introduccion_EN}
+
+
+
 \include{Capitulos/2_Contextualizacion}
 \include{Capitulos/3_Diseño_implementaciones}
 \include{Capitulos/4_Estudio_empírico}
 \include{Capitulos/5_Conclusiones_trabajo_futuro}
+\addcontentsline{toc}{chapter}{5. Conclusions and future work}
+
+\input{Capitulos/5_Conclusiones_trabajo_futuro_EN}
 %\input{chapter4.tex}
 %\input{chapter5.tex}
 

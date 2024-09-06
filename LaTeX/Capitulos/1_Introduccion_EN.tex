@@ -1,0 +1,76 @@
+\chapter*{Introduction}
+
+This chapter presents a general perspective of the context in which the project has been carried out. As well as the difficulties encountered during its development to achieve the aforementioned contributions, each of the purposes pursued in it are detailed.
+
+
+\section{Project definition and scope}
+
+	The development of Artificial Intelligence in our society has been a phenomenon of great relevance, as well as popular, in recent years. These technologies are here to stay and are improving our quality of life. From task automation to virtual assistance\cite{lugano2017virtual}, these AIs play an increasingly important role in our daily lives.
+	With the advent of high-speed Internet and the proliferation of data, technology companies are faced with the growing need to develop high-quality services in a highly competitive market. Currently, a lot of money and time is invested in improving and designing algorithms to implement Artificial Intelligence for public access\cite{thomas2021global}.
+	
+		
+	The training and execution of these algorithms to model artificial intelligence consume a lot of energy, in addition to causing an excessive amount of CO\(_2\) emissions. The technology company \textit{Hugging Face}, developer of \textit{BLOOM}\cite{BloomAI}, the first transparently trained multilanguage LLM (Large Language Model), had the collaboration of many researchers. This project, with \textit{176} billion parameters, is capable of generating text in \textit{46} languages and \textit{13} programming languages. However, they estimated that the training of this artificial intelligence emitted \textit{25} tons of CO\(_2\), a figure that doubled when counting the production cost of the computer equipment used\cite{kirkpatrick2023carbon}. Researchers are focusing on evaluating and reducing the environmental impact of AI technologies. Proof of this is the development of \textit{CarbonTracker}\cite{jeppesen2021carbon} (CTI), a team of financial specialists who assume climate risk as a reality of current financial markets. The objective of this tool is to predict and reduce the carbon footprint of the training stages of AI\cite{mor2021artificial} models.
+	
+		
+	The use of distributed programming, more specifically, MPI-based applications, allows multiple processes to run in parallel, splitting the workload and reducing execution time. Unlike programs based on the shared memory model, in which synchronization problems can occur, each generated process has its own local memory, avoiding these problems. However, correct and efficient implementations must be designed to avoid having more spatial complexity (memory usage) than expected. Connections between processes can be configured to maximize efficiency and reduce computing time. One of the most popular is the \textit{Master-Worker} model. The \textit{master} process is responsible for distributing the work to the \textit{workers} processes so that, in parallel, they can execute the same task with smaller data sets. At the end of the task, each \textit{worker} sends its processed data, and if the \textit{master} process has not finished the execution, it waits to receive more data until it completely processes the initial data-set. MPI enables efficient communication between processes, improving scalability and reducing processing time. This methodology, in addition to improving performance, also simplifies resource management, improving the utilization of the hardware available in the system.
+	
+	
+	AI algorithms typically handle vast numbers of data to train and evaluate desired models. That is why it is essential to design strategies to distribute data and divide workloads equitably, controlling the flow of data to avoid bottlenecks (one process consumes more execution time than the others, leaving the rest waiting), and balance available resources. This includes, in addition to optimization of execution time, effective memory management and a reduction in latency (waiting time for transmitting information packets on a network) in communication between processes. 
+	
+	In this project, several strategies will be designed and implemented for different AI algorithms, with the aim of reducing execution time.
+
+
+
+\section{Motivation}
+	
+	There are currently many implementations of AI algorithms. \textit{Scikit learn} is a \textit{Python} library suitable for testing any technique. This library, like most, runs the algorithms sequentially, without splitting the workload. The implementations are studied and perfected to perform the calculations in a single process, but the execution time can be reduced by applying parallelism. 
+	
+	Distributed architectures, together with high-performance computing (HPC) techniques, are one of the most appropriate solutions for end users: scientists and companies. The search for optimal performance, focused on highly distributed systems, demands adaptive and scalable approaches to implement high-performance scientific applications. Synchronizing processes, distributing data to increase parallelism and reduce \textit{overhead} (additional cost associated with resource management and communication between processes), are recurring challenges in distributed systems. Communication has to be controlled for correct operation and, on some occasions, these improvements lead to more complex implementations.
+	
+	Generally, in these cases, it is challenging to control the actions of each process to obtain the desired specification. Technology companies seek to improve the performance and reduce costs of their systems. For this, efficient use of computational resources is necessary. In addition, there is an interest in reducing energy consumption and CO\(_2\) emissions, when training or processing AI models, since the environmental impact is on the rise today. With great competitiveness in the technological market, any improvement, even if excessively significant, is an advance.
+
+
+\section{Objective}
+
+	
+	The main objective of this work is \textbf{parallelize AI algorithms, using HPC techniques to reduce execution time}. Among the algorithms to be optimized are techniques such as clustering of individuals, prediction of results and optimization of evaluation functions. All of these implementations have been developed in \textit{Python}, the most popular programming language -currently- in the field of artificial intelligence\cite{sainin2021best}. However, being an interpreted language (the code is translated in the same execution), it increases the overhead and makes the program -generally- slower than the same implementation in other languages. For these reasons, \textit{Python} is the ideal programming language to apply high-performance computing techniques and reduce execution time.
+	
+	Likewise, it will be necessary to achieve the following secondary objectives:
+	
+	\begin{enumerate}		
+		\item \textbf{Design of scalable and flexible implementations.} When designing and implementing improvements to each algorithm, it is possible to use -among other parameters- different numbers of processes in the execution. This allows a deep study of the implementations carried out. By varying the number of processes you can check which number is ideal for any implementation. Flexibility in enhancements allows the input data to be varied to work correctly with a variable \textit{dataset} size.
+		\item \textbf{Correct operation of the algorithms.} When making improvements, in addition to improving performance, it is necessary to have cohesion with the original algorithm. That is, if we want to maximize an evaluation function, the implementation of the improvement has to provide similar or better results. It is not useful to implement an improvement that reduces the execution time, but obtains worse results than the algorithm executed sequentially.
+		\item \textbf{Empirical study.} An evaluation of the improvements will be carried out to calculate the increase in performance. First, the execution time of each algorithm is measured without improvements and, subsequently, the different implementations developed are analyzed by varying the number of processes executed. Finally, the best implementations of each algorithm are tested on a personal computer and on a distributed system with \textit{128} cores.
+	\end{enumerate}
+
+
+
+
+
+\section{Document structure}
+	The subsequent chapters of this document are organized as follows:	
+	\begin{itemize}		
+		\item Chapter \hyperref[cap:c2_context]{2}: Contextualization. This chapter provides information on each algorithm studied.
+		\item Chapter \hyperref[cap:c3_implementaciones]{3}: Design and implementations. This chapter describes in detail the implementations developed for the different techniques addressed.
+		\item Chapter \hyperref[cap:c4_estudio]{4}: Empirical study, presents the experimental process carried out, which consists of analyzing the proposed improvements, varying the number of processes and the size of the data, in two different environments, computer personnel and distributed system.
+		\item Chapter \hyperref[cap:c5_conclu]{5}: Conclusions and future work. The last chapter concludes the work with a synthesis of the results obtained, and presents the projection of future work.
+	\end{itemize}
+
+	Todo el trabajo realizado para este proyecto (código, \textit{datasets}, pruebas, memoria, archivos photoshop, etc) está almacenado en el siguiente repositorio de GitHub \href{https://github.com/Danipiza/TFG}{Danipiza/TFG}. Las imágenes utilizadas en la memoria han sido creadas desde cero en photoshop.
+	
+	All the work done for this project (code, datasets, tests, photoshop files, etc.) is stored in the following GitHub repository \href{https://github.com/Danipiza/TFG}{Danipiza/TFG}. The images used in this paper have been created from scratch in Photoshop.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
