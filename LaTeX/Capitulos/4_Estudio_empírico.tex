@@ -10,27 +10,27 @@
 
 \chapter{Estudio empírico}
 \label{cap:c4_estudio}	
-Después de diseñar e implementar las estrategias descritas en la Sección \ref{cap:c3_implementaciones}, llevamos a cabo un análisis exhaustivo para evaluar los tiempos de ejecución, realizar pruebas, contrastar resultados y extraer conclusiones
+Después de diseñar e implementar las estrategias descritas en la Sección \ref{cap:c3_implementaciones}, llevamos a cabo un análisis exhaustivo para evaluar los tiempos de ejecución de cada una, así como contrastar resultados y extraer conclusiones
 
-Primero, se ejecutan distintas pruebas en un ordenador de propósito general. Seguidamente se ejecutan las mejores implementaciones en un sistema distribuido con un número elevado de núcleos de CPU. 
+Primero, se ejecutan los experimentos en un ordenador de propósito general. Seguidamente se ejecutan las mejores implementaciones en un sistema distribuido con un número elevado de núcleos de CPU. 
 
 \section{Entornos de ejecución}
 
-Para ejecutar las pruebas y comprobar el funcionamiento de las implementaciones, primero se ejecutan en un ordenador de propósito general. Este sistema computacional tiene las siguientes especificaciones:
+Para ejecutar los experimentos y comprobar el funcionamiento de las implementaciones, primero se ejecutan en un ordenador de propósito general. Este sistema computacional tiene las siguientes especificaciones:
 
 \begin{itemize}
-	\item Procesador (CPU): \textit{AMD Ryzen 7}, con 8 núcleos y 16 hilos, es capaz de defenderse con cargas de trabajo y paralelismo de alto nivel.
+	\item Procesador (CPU): \textit{AMD Ryzen 7}, con 8 núcleos y 16 hilos, a 4.20 GHzs
 	\item Memoria (RAM): 32 GB de \textit{RAM DDR4}, permitiendo una amplia capacidad para manejar grandes volúmenes de datos en memoria. Característica fundamental para ejecutar algoritmos de IA que demandan una cantidad elevada de recursos.
 	\item Tarjeta Gráfica (GPU): \textit{NVIDIA GeForce RTX 3070} con arquitectura \textit{Ampere} \cite{pool2020accelerating}, que cuenta con 5888 núcleos CUDA y 8 GB de memoria GDDR6. La arquitectura \textit{Ampere} es sucesora de la arquitectura \textit{Turing} lanzada en 2020. Fue diseñada para brindar un mejor rendimiento, especialmente en aplicaciones de computación paralela.
 	\item Placa Base: \textit{X570 Gaming}. Soporta las tecnologías de conectividad de alta velocidad, garantizando el rendimiento y estabilidad del sistema en condiciones de carga elevada.
 \end{itemize}
 
-El sistema altamente distribuido, consta de tres ordenadores. Uno que funciona de Front-End y dos como nodos de cómputo, en total 128 núcleos y 256 GB de RAM. La figura \ref{fig:cluster} muestra la estructura del cluster.
+El sistema altamente distribuido consta de tres ordenadores. Uno que funciona de Front-End y dos como nodos de cómputo, sumando entre estos últimos 128 núcleos de CPU y 256 GB de RAM. La figura \ref{fig:cluster} muestra la estructura del \textit{cluster}.
 
 
 
 
-El Front-End, realiza la conexión remota con los otros dos ordenadores, situados en la Facultad de Informática de la Universidad Complutense de Madrid. Este ordenador no participa en el cómputo, solo mantiene los \textit{scripts} (tipo de fichero de texto con el código escrito en un lenguaje de programación, en este caso Python) y conecta los dos nodos de cómputo para que realicen las tareas.  Durante las pruebas, cada proceso tiene un núcleo dedicado, por lo que el rendimiento de cada proceso no se ve afectado por otros procesos del sistema. Esto permite mayor precisión para evaluar el rendimiento del sistema, y las pruebas ejecutadas no compiten por los recursos de la CPU. 
+El Front-End realiza la conexión remota con los otros dos ordenadores, situados en la Facultad de Informática de la Universidad Complutense de Madrid. Este ordenador no participa en el cómputo, solo mantiene los \textit{scripts} (tipo de fichero de texto con el código escrito en un lenguaje de programación, en este caso Python) y lanza los experimentos sobre los nodos de cómputo.  Durante las pruebas, cada proceso tiene un núcleo dedicado, por lo que el rendimiento de cada proceso no se ve afectado por otros procesos del sistema. Esto permite mayor precisión para evaluar el rendimiento del sistema, y las pruebas ejecutadas no compiten por los recursos de la CPU. 
 
 
 \vspace*{0.2cm}
@@ -42,7 +42,6 @@ El Front-End, realiza la conexión remota con los otros dos ordenadores, situado
 	\label{fig:cluster}
 \end{figure}
 
-En un ordenador de propósito general esto no ocurre, pues están diseñados para ejecutar múltiples procesos simultáneamente, cada uno pudiendo requerir acceso a los mismos recursos del sistema, como la memoria RAM, disco duro o la CPU.
 
 Para realizar las pruebas se usan las funciones \textit{open()} y \textit{write()} de Python para almacenar los tiempos de ejecución en ficheros de texto. Los tiempos se miden con las funciones de
 tiempo de MPI, MPI.Wtime().
@@ -56,7 +55,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 	% ------------------------------------------------------------------------------------------------
 	\subsection{Ordenaciones}
 	
-	Las pruebas realizadas para estos algoritmos se realizan para el peor de los casos, es decir, un array de enteros sin repeticiones ordenado de forma decreciente. Cada algoritmo tiene que hacer el mayor número de comparaciones posibles para ordenar el array de manera creciente. El resultado de cada prueba (tiempo de ejecución en segundos) es almacenado en un fichero de texto y aumentado el tamaño del array para ejecutar la siguiente prueba, así hasta llegar a \textit{100.000} elementos.	
+	Las pruebas realizadas para estos algoritmos se realizan para el peor de los casos, es decir, un array de enteros sin repeticiones ordenado de forma decreciente. Cada algoritmo tiene que realizar el mayor número de comparaciones posible para ordenar el array de manera creciente. El resultado de cada experimento (tiempo de ejecución en segundos) es almacenado en un fichero de texto. Seguidamente se aumenta el tamaño del array para ejecutar el siguiente experimento, hasta llegar a \textit{100.000} elementos.	
 	
 		\subsubsection{Algoritmos de complejidad cuadrática}		
 		\label{cap:4_2_1_1}
@@ -74,7 +73,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 		%\subsubsection{Algoritmo \textit{SequentialSort} aplicando las estrategias de HPC}			
 		
-		\textit{SelectionSort} es fácilmente paralelizable, pues para cada elemento se comprueba cuantos elementos en el array son mayores. Las estrategias implementadas utilizan el modelo \textit{Master-Worker}. El \textit{master} envía a cada proceso \textit{worker} un elemento del array para que hagan las comparaciones y devuelvan el indice del elemento, junto con el número de elementos mayores que el recibido, y así el \textit{master} se encarga de ordenar el array y enviar elementos sin procesar. La figura \ref{fig:sequentialsort_mpi} muestra los tiempos de ejecución. En rojo el algoritmo sin mejora, y en verde y negro la dos estrategias estrategias ejecutadas con cinco procesos. Se puede apreciar una considerable reducción del tiempo de ejecución. 
+		\textit{SelectionSort} es fácilmente paralelizable, pues para cada elemento se comprueba cuantos elementos en el array son mayores. Las estrategias implementadas utilizan el modelo \textit{Master-Worker}. El \textit{master} envía a cada proceso \textit{worker} un elemento del array para que hagan las comparaciones y devuelvan el índice del elemento, junto con el número de elementos mayores que el recibido, y así el \textit{master} se encarga de ordenar el array y enviar elementos sin procesar. La Figura \ref{fig:sequentialsort_mpi} muestra los tiempos de ejecución. En rojo el algoritmo sin mejora, y en verde y negro la dos estrategias estrategias ejecutadas con cinco procesos. Se puede apreciar una considerable reducción del tiempo de ejecución. 
 		
 		Al comparar las dos estrategias MPI, se obtiene que la primera estrategia es un \textit{34\%} más rápida que la segunda. Sin embargo, la segunda estrategia tiene una menor complejidad espacial, mostrando en la gráfica de la derecha, en negro, que la memoria no varía al aumentar los procesos ejecutados.
 						
@@ -104,7 +103,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					\addplot [mark=none, color=black, line width=1.2pt] table [x index=0, y index=3, col sep=space] {files/sequential.txt};
 					
 					% Leyendas
-					\addlegendentry{Básico}
+					\addlegendentry{Secuencial}
 					\addlegendentry{MPI\_1}
 					\addlegendentry{MPI\_2}
 					
@@ -135,7 +134,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					
 				\end{groupplot}  				
 			\end{tikzpicture}
-			\caption{Tiempos de ejecución de las estrategias y su uso de Memoria para el algoritmo SequentialSort}
+			\caption{Tiempos de ejecución de las estrategias y su uso de Memoria para el algoritmo SequentialSort en ordenador de propósito general}
 			\label{fig:sequentialsort_mpi}
 		\end{figure}
 		
@@ -143,9 +142,9 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 		%Primero ejecutamos las pruebas para los algoritmos sin mejora, comprobando así cual es el mejor.
 		
-		Una vez comparado las estrategias MPI con el algoritmo secuencial, podemos comprobar el rendimiento frente a los algoritmos famosos. La figura \ref{fig:ordenaciones_cuadraticas} muestra que \textit{SelectionSort} (la función de color negro) es la ordenación que mejores resultados obtiene, y \textit{BubbleSort} (la roja) la que peores. \textit{SelectionSort} es, aproximadamente, \textit{3.5} veces más rápida al ordenar \textit{70.000} elementos. La ordenación \textit{SequentialSort} sin paralelizar, es incluso más rápida que dos de las más famosas. Esto es debido a la simpleza de las operaciones aplicadas en la ordenación, pues solo hace \(N^{2}\) comparaciones. En \textit{BubbleSort} e \textit{InsertionSort}, además de realizar comparaciones, modifican las posiciones de los elementos en el array, aumentando el tiempo de ejecución.
+		Una vez comparadas las estrategias con el algoritmo secuencial, podemos comprobar el rendimiento frente a los algoritmos conocidos. La Figura \ref{fig:ordenaciones_cuadraticas} muestra que \textit{SelectionSort} (la línea negra) es la ordenación que mejores resultados obtiene, y \textit{BubbleSort} (línea roja) la que peores. \textit{SelectionSort} es, aproximadamente, \textit{3.5} veces más rápida al ordenar \textit{70.000} elementos. La ordenación \textit{SequentialSort} sin paralelizar, es incluso más rápida que dos de las más conocidas. Esto es debido a la simpleza de las operaciones aplicadas en la ordenación, pues solo hace \(N^{2}\) comparaciones. En \textit{BubbleSort} e \textit{InsertionSort}, además de realizar comparaciones, modifican las posiciones de los elementos en el array, aumentando el tiempo de ejecución.
 		
-		La estrategia MPI de \textit{SequentialSort} que menos tiempo consume (la primera) no obtiene mejores resultados que la mejor ordenación sin mejoras (\textit{SelectionSort}) hasta llegar a los cuatro procesadores ejecutados, siendo un \textit{20\%} más veloz. Para mostrar de forma más clara la diferencia de tiempos entre estas dos ordenaciones, se muestra la ejecución de la primera estrategia con cinco procesadores, obteniendo un \textit{50\%} de mejora.
+		La estrategia MPI de \textit{SequentialSort} que menos tiempo requiere (la primera) no obtiene mejores resultados que la mejor ordenación sin mejoras (\textit{SelectionSort}) hasta llegar a los cuatro procesadores, siendo un \textit{20\%} más veloz. Para mostrar de forma más clara la diferencia de tiempos entre estas dos ordenaciones, se muestra la ejecución de la primera estrategia con cinco procesadores (Sequential\_MPI(5)), obteniendo un \textit{50\%} de mejora.
 		
 		
 		\begin{figure}[!h]
@@ -177,17 +176,17 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					
 			\end{axis}
 			\end{tikzpicture}
-			\caption{Tiempo de ejecución de los algoritmos de ordenación cuadráticos}
+			\caption{Tiempo de ejecución de los algoritmos de ordenación cuadráticos en ordenador de propósito general}
 			\label{fig:ordenaciones_cuadraticas}
 		\end{figure}
 		
 		
 		\subsubsection{Algoritmo \textit{MergeSort}}
 		
-		Este algoritmo no tiene un coste tan elevado como los anteriores. La complejidad es logarítmica O(NLogN) lo que provoca que se pueda aumentar el tamaño del array a ordenar. Para la estrategia implementada, no se aplica el modelo \textit{Master-Worker}, todos los procesos creados trabajan de manera igualitaria. Como se dijo en la sección \ref{cap:c3_1}, esta estrategia usa potencias de dos procesos para ordenar el array. En cada iteración los procesos se comunican con el más cercano, uno le envía su subarray ordenado y termina su ejecución (el de mayor \textit{id} de cada pareja), mientras que el otro reordena los dos subarrays y continua a la siguiente iteración.
+		Este algoritmo no tiene un coste tan elevado como los anteriores. La complejidad es logarítmica O(NLogN) lo que provoca que se pueda aumentar el tamaño del array a ordenar. Para la estrategia implementada, no se aplica el modelo \textit{Master-Worker}, sino que todos los procesos creados trabajan de manera equitativa. Como se dijo en la Sección \ref{cap:c3_1}, esta estrategia usa potencias de dos procesos para ordenar el array. En cada iteración los procesos se comunican con el más cercano, uno le envía su subarray ordenado y termina su ejecución (el de mayor \textit{id} de cada pareja), mientras que el otro reordena los dos subarrays y continúa a la siguiente iteración.
 					
 		
-		En esta ocasión, la prueba realizada consiste en ordenar de manera creciente cuatro arrays de enteros inicializados de manera decreciente (peor de los casos), empezando con \textit{25.000} elementos e incrementar esa misma cantidad entre pruebas. Pese a tener solo ocho núcleos en el ordenador de propósito general, se comprueba el rendimiento de la estrategia con \textit{4}, \textit{8}, \textit{16} y \textit{32} procesos. La figura \ref{fig:mergesort_hist} muestra los resultados obtenidos en forma de histograma. Como la estrategia aplica ordenaciones cuadráticas en los subarrays al comienzo del algoritmo, no se obtienen buenos resultados con pocos procesos, debido al elevado tamaño del array a ordenar. Con dos procesos ejecutándose no reduce el tiempo de ejecución, lo duplica. El cómputo es equivalente a aplicar una ordenación cuadrática con la mitad del array a ordenar. No obstante, se puede apreciar una notoria reducción del tiempo de ejecución apartir de \textit{16} procesos, llegando a tener un \textit{speedup} aproximado de \textit{15.5}. Es cierto que se podrían aplicar otras ordenaciones con menor complejidad para reducir más el tiempo, pero así se demuestra que en la computación de alto rendimiento se pueden obtener buenos resultados con estrategias no tan efectivas pero bien paralelizadas.
+		En esta ocasión, la prueba realizada consiste en ordenar de manera creciente cuatro arrays de enteros inicializados de manera decreciente (peor de los casos), empezando con \textit{25.000} elementos e incrementando esa misma cantidad entre los experimentos. Pese a tener solo ocho núcleos en el ordenador de propósito general, se comprueba el rendimiento de la estrategia con \textit{4}, \textit{8}, \textit{16} y \textit{32} procesos. La Figura \ref{fig:mergesort_hist} muestra los resultados obtenidos en forma de histograma. Como la estrategia aplica ordenaciones cuadráticas en los subarrays al comienzo del algoritmo, no se obtienen buenos resultados con pocos procesos, debido al elevado tamaño del array a ordenar. Con dos procesos no reduce el tiempo de ejecución, lo duplica. El cómputo es equivalente a aplicar una ordenación cuadrática con la mitad del array a ordenar. No obstante, se puede apreciar una notoria reducción del tiempo de ejecución apartir de \textit{16} procesos, llegando a tener un \textit{speedup} aproximado de \textit{15.5}. Es cierto que se podrían aplicar otras ordenaciones con menor complejidad para reducir más el tiempo, pero así se demuestra que en la computación de alto rendimiento se pueden obtener buenos resultados con estrategias no tan efectivas pero bien paralelizadas.
 		
 		% HISTOGRAMA CON VARIOS PROCESOS
 		\begin{figure}[!h]
@@ -230,17 +229,16 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 			
 		
-		La memoria está optimizada, puesto que el array esta dividido entre los procesos. Al terminar un proceso con la sincronización en mariposa comentada en la sección \ref{cap:c3_1}, se termina la ejecución del proceso liberando memoria una vez ha enviado al proceso correspondiente su subarray ordenado.
+		La memoria está optimizada, puesto que el array esta dividido entre los procesos. Al terminar un proceso con la sincronización en mariposa comentada en la Sección \ref{cap:c3_1}, se termina la ejecución del proceso liberando memoria una vez ha enviado al proceso correspondiente su subarray ordenado.
 		
-		\newpage
 		
 		
 		%%\subsubsection{Cluster}
-		Habiendo obtenido buenos resultados con muchos procesos, pasamos a comentar las pruebas realizadas en el sistema altamente distribuido.
+		Seguidamente, pasamos a comentar las pruebas realizadas en el sistema distribuido.
 		
-		El algoritmo secuencial de \textit{MergeSort} tarda unos \textit{20.16} segundos en ordenar de manera creciente, un array de \textit{100.000} elementos ordenados de manera decreciente (el peor de los casos). Por esos se realiza una prueba para saber cuanto tiempo tarda la estrategia en ordenar un array con un millón de elementos. Las pruebas comienzan con \textit{100.000} elementos, incrementando nueve veces su tamaño hasta llegar al millón de elementos. Estas pruebas se realizan con \textit{16}, \textit{32}, \textit{64} y \textit{128} procesos. La figura \ref{fig:mergesort_cluster} muestra los resultados obtenidos. 
+		El algoritmo secuencial de \textit{MergeSort} tarda unos \textit{20.16} segundos en ordenar, de manera creciente, un array de \textit{100.000} elementos ordenados de manera decreciente (el peor de los casos). Por ello, realizamos un experimento para saber cuánto tiempo requiere la estrategia en ordenar un array con un millón de elementos. Las pruebas comienzan con \textit{100.000} elementos, incrementando nueve veces su tamaño hasta llegar al millón de elementos. Estas pruebas se realizan con \textit{16}, \textit{32}, \textit{64} y \textit{128} procesos. La Figura \ref{fig:mergesort_cluster} muestra los resultados obtenidos. 
 		
-		De manera secuencial, sin mejoras, el algoritmo tarda, \textit{20.16} segundos en ordenar \textit{100.000} elementos, mientras que con 128 procesos tarda \textit{0.16} segundos, obteniendo un \textit{speedup} de \textit{125}. 
+		De manera secuencial, sin mejoras, el algoritmo requiere \textit{20.16} segundos en ordenar \textit{100.000} elementos, mientras que con 128 procesos requiere \textit{0.16} segundos, obteniendo un \textit{speedup} de \textit{125}. 
 		
 		\begin{figure}[!h]
 			\hspace{-0.07\textwidth}
@@ -273,28 +271,11 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{Tiempo de ejecución del algoritmo \textit{MergeSort} en Cluster}
+			\caption{Tiempo de ejecución del algoritmo \textit{MergeSort} en el Cluster}
 			\label{fig:mergesort_cluster}
 		\end{figure}
 		
-		Al incrementar del tamaño del array, todas las pruebas funcionan correctamente. Ejecutar el algoritmo secuencial con un millón de elementos tardaría mucho. Sin embargo, se puede hacer una estimación como muestra la tabla \ref{tab:estimacion_mergesort}, en la cual, aplicando factores de conversión, se obtiene que \textit{X = 241.67} segundos, y llegando a tener un \textit{speedup} de \textit{78} al aplicar \textit{128} procesos.
 		
-		\begin{table}[!h]
-			\centering
-			\begin{tabular}{|c|c|c|}
-				\hline
-				\rowcolor{lightgray}
-				\textbf{Tamaño (N)} & \textbf{Función = N*Log2(N)} & \textbf{Tiempo (s)} \\
-				\hline
-				100000 & 1.66e06 & 20.16s \\
-				\hline
-				1000000 & 1.99e07 & X \\
-				\hline
-				
-			\end{tabular}
-			\caption{Estimación del tiempo de ejecución de \textit{MergeSort} con un millón de elementos}
-			\label{tab:estimacion_mergesort}
-		\end{table}
 		
 		
 
@@ -305,15 +286,15 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 		Para este algoritmo, al contrario que los anteriores, no hay caso peor, pues siempre se ejecutan el mismo número de multiplicaciones para cualquier combinación de una matriz. 
 		
-		Las pruebas se realizan con una única matriz cuadrada de tamaño \textit{2000}. Se genera de manera aleatoria con valores que oscilan entre \textit{[1-9]}, y es almacenada para usar en cada prueba. Inicialmente, la matriz empieza con diez filas y columnas, al finalizar una prueba, se almacena el tiempo de ejecución y se incrementa el tamaño en diez, así hasta llegar a \textit{1750} filas y columnas. 
+		Las pruebas se realizan con una única matriz cuadrada de tamaño \textit{1750}. Se genera de manera aleatoria con valores enteros que oscilan entre \textit{[1-9]}, y es almacenada para usar en cada prueba. Inicialmente, la matriz empieza con diez filas y columnas, al finalizar una prueba, se almacena el tiempo de ejecución y se incrementa el tamaño en diez, así hasta llegar a \textit{1750} filas y columnas. 
 		
-		La distribución de tareas de los procesos se realiza mediante el modelo \textit{Master-Worker}. El proceso \textit{master} se encarga de enviar una matriz completa \textit{(B)}, y enviar filas de la matriz \textit{(A)} a los \textit{workers} para que realicen el cálculo de dicha fila. Al finalizar el procesado envían de vuelta la fila al \textit{master} y esperan otra fila sin procesar, para poder, al final de la ejecución formar, entre todos, la matriz final \textit{(C)}. \textit{(A*B=C)}
+		La distribución de tareas de los procesos se realiza mediante el modelo \textit{Master-Worker}. El proceso \textit{master} se encarga de enviar una matriz completa \textit{(B)} y filas de la matriz \textit{(A)} a los \textit{workers} para que realicen el cálculo. Al finalizar el procesado envían de vuelta el resultado al \textit{master} y esperan otras filas sin procesar, para poder, al final de la ejecución, formar entre todos la matriz final \textit{(C)}. \textit{(A*B=C)}
 	
 		Cada proceso necesita, al menos, una copia de una matriz completa. El uso de memoria es proporcional al número de procesos ejecutados. No hace falta tener las dos matrices porque el \textit{master} se encarga de repartir filas para que vayan realizando el cálculo.
 		
 		\vspace*{0.2cm}
 	
-		Seguidamente se ejecutan los programas de multiplicación de matrices en el ordenador de propósito general. La figura \ref{fig:mult_matrices} muestra la ejecución del algoritmo secuencial, además de la estrategia implementada en la sección \ref{cap:c3_1}, con \textit{2}, \textit{4} y \textit{6} procesos \textit{workers}. Se puede apreciar, la reducción, aplicando la estrategia con los diferentes números de procesos, llegando a obtener un \textit{speedup} de \textit{8.4} al ejecutar el algoritmo con seis \textit{workers} en una multiplicación de \textit{1750x1750}.
+		Seguidamente, se ejecutan los programas de multiplicación de matrices en el ordenador de propósito general. La Figura \ref{fig:mult_matrices} muestra la ejecución del algoritmo secuencial, además de la estrategia implementada en la Sección \ref{cap:c3_1}, con \textit{2}, \textit{4} y \textit{6} procesos \textit{workers}. Se puede apreciar la reducción de tiempo, aplicando la estrategia con los diferentes números de procesos, llegando a obtener un \textit{speedup} de \textit{8.4} al ejecutar el algoritmo con seis \textit{workers} en una multiplicación de \textit{1750x1750}.
 		
 		\begin{figure}[!h]
 		\centering
@@ -351,9 +332,9 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 		Las oscilaciones en la gráfica se deben al incremento de diez elementos entre pruebas en un algoritmo con complejidad cúbica O($N^{3}$). Estas oscilaciones son más pronunciadas en la multiplicación sin paralelizar, pues el tiempo de ejecución es mayor.
 		
-		En el cluster, al poder ejecutar muchos procesos, se puede aumentar el tamaño de las matrices de las pruebas a ejecutar. Utilizamos \textit{16}, \textit{32}, \textit{64} y \textit{128} procesos para medir el tiempo que tarda el algoritmo con la misma estrategia que la prueba anterior. En este caso comenzando con \textit{500} elementos por fila, e incrementando ese mismo tamaño hasta llegar a una matriz de \textit{5000} filas y columnas. 
+		En el \textit{cluster}, al poder ejecutar un número elevado de procesos, se puede aumentar el tamaño de las matrices de las pruebas a ejecutar. Utilizamos \textit{16}, \textit{32}, \textit{64} y \textit{128} procesos para medir el tiempo que tarda el algoritmo con la misma estrategia que la prueba anterior. En este caso, comenzando con \textit{500} elementos por fila, e incrementando ese mismo tamaño hasta llegar a una matriz de \textit{5000} filas y columnas. 
 				
-		La figura \ref{fig:mult_matrices_cluster} muestra los tiempos de ejecución con los procesos y tamaños comentados en el párrafo anterior. No se puede apreciar, pero con una matriz de \textit{1000} filas, ejecutar \textit{128} procesos reduce el tiempo de ejecución hasta unos \textit{1.06} segundos, logrando un \textit{speedup} de \textit{84} con respecto a los \textit{89.1} segundos del cálculo sin paralelizar. La comunicación entre procesos no es tan óptima como en la estrategia de \textit{MergeSort}, debido a que en esta implementación aplicamos el modelo \textit{Master-Worker} y es posible que un proceso \textit{worker}, al finalizar de procesar una fila, tenga que esperar a que el \textit{master} esté libre (puede estar recibiendo y colocando otros datos recibidos de otro proceso) para recibir nuevos datos que procesar. En cada prueba, se pierden \textit{(N/M)*T} segundos en la comunicación entre procesos. Siendo \textit{N} el número de filas de la matriz, \textit{M} el número de \textit{workers} y \textit{T} el tiempo de comunicación.
+		La Figura \ref{fig:mult_matrices_cluster} muestra los tiempos de ejecución con los procesos y tamaños comentados en el párrafo anterior. No se puede apreciar, pero con una matriz de \textit{1000} filas, ejecutar \textit{128} procesos reduce el tiempo de ejecución hasta unos \textit{1.06} segundos, logrando un \textit{speedup} de \textit{84} con respecto a los \textit{89.1} segundos del cálculo sin paralelizar. La comunicación entre procesos no es tan optimizada como en la estrategia de \textit{MergeSort}, debido a que en esta implementación aplicamos el modelo \textit{Master-Worker} y es posible que un proceso \textit{worker}, al finalizar de procesar una fila, tenga que esperar a que el \textit{master} esté libre (puede estar recibiendo y colocando otros datos recibidos de otro proceso) para recibir nuevos datos que procesar. En cada experimento, se pierden \textit{(N/M)*T} segundos en la comunicación entre procesos. Siendo \textit{N} el número de filas de la matriz, \textit{M} el número de \textit{workers} y \textit{T} el tiempo de comunicación.
 
 		\begin{figure}[!h]
 			%\centering % AL QUITAR ESTA OPCION SE PUEDE MOVER LA FIGURA
@@ -384,7 +365,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					
 				\end{axis}
 			\end{tikzpicture}
-			\caption{Tiempo de ejecución de multiplicación de matrices en Cluster}
+			\caption{Tiempo de ejecución de multiplicación de matrices en el Cluster}
 			\label{fig:mult_matrices_cluster}
 		\end{figure}
 		
@@ -401,11 +382,11 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 
 	Las poblaciones que se utilizan en las pruebas de esta sección se han almacenado en un fichero para usar la misma población generada de manera aleatoria, con dos variables de entrada, es decir, individuos es un plano bidimensional. Los valores son delimitados en el siguiente intervalo \textit{[-10, 10]}, ya que los valores no influyen en el cálculo de la distancia. Los tamaños de las poblaciones se incrementan dependiendo de la complejidad temporal de cada algoritmo. En sus secciones se especifica en profundidad.	
 	
-	Los tres algoritmos de esta sección, se basan en el modelos \textit{Master-Worker}. El \textit{master} divide los datos de entrada para que los \textit{workers} hagan el procesado. El \textit{master} en cada algoritmo tiene las siguientes funciones:	
+	Los tres algoritmos de esta sección se basan en el modelo \textit{Master-Worker}. El \textit{master} divide los datos de entrada para que los \textit{workers} hagan el procesado. El \textit{master} en cada algoritmo tiene las siguientes funciones:	
 	
 	\begin{itemize}
-		\item Jerárquico Aglomerativo. En cada iteración se encarga de gestionar que procesos tienen que eliminar o actualizar las filas y columnas de la matriz. El \textit{master} no tiene una copia de la matriz, así mejorando el uso de memoria al estar dividida entre los procesos \textit{workers}.
-		\item KMedias. Su función principal es comprobar la condición de finalización. En cada iteración recibe las asignaciones de los datos procesados de los \textit{workers}, y si esta asignación no varía se finaliza la ejecución.
+		\item Jerárquico Aglomerativo. En cada iteración se encarga de gestionar qué procesos tienen que eliminar o actualizar las filas y columnas de la matriz. El \textit{master} no tiene una copia de la matriz, mejorando así el uso de memoria al estar dividida entre los procesos \textit{workers}.
+		\item KMedias. Su función principal es comprobar la condición de finalización. En cada iteración recibe las asignaciones de los datos procesados de los \textit{workers}, y si esta asignación no varía, se finaliza la ejecución.
 		\item K-Vecinos más Cercanos (KNN). En las dos estrategias se encarga, de diferente forma, de actualizar las poblaciones de los \textit{workers} para que haya más precisión a la hora de categorizar nuevos individuos.
 	\end{itemize} 
 
@@ -427,12 +408,12 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 	%\subsubsection{Distancias sin mejoras}		
 		
-		En este algoritmo, el cálculo de las distancias entre clusters es muy importante. Cada tipo genera diferentes agrupaciones, además de tener diferentes complejidades temporales. La distancia por \textit{centroides} es la que menos tiempo consume, siendo constante, al solo importar los centros de los clusters. Mientras que \textit{enlace simple} y \textit{completo} tienen una complejidad cuadrática O(\(N^{2}\)), recorriendo todos los individuos de los ambos clusters para calcular la distancia. Además hay que añadir el cálculo de la distancia entre individuos, que puede ser \textit{Manhattan} o Euclídea, siendo esta última un poco más tardía que la primera.
+		En este algoritmo, el cálculo de las distancias entre clusters es muy importante. Cada tipo genera diferentes agrupaciones, además de tener diferentes complejidades temporales. La distancia por \textit{centroides} es la que menos tiempo consume, siendo constante, al solo importar los centros de los clusters. Mientras que \textit{enlace simple} y \textit{completo} tienen una complejidad cuadrática O(\(N^{2}\)), recorriendo todos los individuos de ambos clusters para calcular la distancia. Además hay que añadir el cálculo de la distancia entre individuos, que puede ser \textit{manhattan} o \textit{euclídea}, siendo esta última un poco más costosa computacionalmente que la primera.
 		
 
-		Para mostrar la importancia de las distancias entre clusters y entre individuos, se realiza un estudio de los algoritmos sin aplicar ninguna estrategia computo de alto rendimiento (HPC). Con la población almacenada, se ejecutan las diferentes combinaciones de distancias (entre cluster e individuo), generando 4 tipos, pues enlace \textit{simple} y \textit{completo} solo varia almacenar la menor o menor distancia entre clusters. Empezando con veinte individuos, y aumentando ese mismo tamaño hasta llegar a mil. A partir de este punto, es mejor incrementar entre prueba \textit{250} individuos, pues ya empieza a tardar bastante. La figura \ref{fig:prueba_jerarquicosec} muestra dicho estudio. 
+		Para mostrar la importancia de las distancias entre clusters y entre individuos, se realiza un estudio de los algoritmos sin aplicar ninguna estrategia computo de alto rendimiento (HPC). Con la población almacenada, se ejecutan las diferentes combinaciones de distancias (entre cluster e individuo), generando 4 tipos, pues entre enlace \textit{simple} y \textit{completo} solo varía almacenar la menor o mayor distancia entre clusters. Empezando con veinte individuos, y aumentando ese mismo tamaño hasta llegar a mil. A partir de este punto, es mejor incrementar en \textit{250} individuos. La Figura \ref{fig:prueba_jerarquicosec} muestra los resultados de este experimento 
 		
-		Al principio no hay tanta diferencia, pero conforme aumenta el tamaño de la población, los tiempos de ejecución empiezan a distinguirse. Como muestra el circulo rojo, la distancia entre clusters por \textit{centroide} no varia mucho usar una distancia \textit{euclídea} o \textit{manhattan} entre individuos. No obstante, aplicando enlace \textit{simple} (o \textit{completo}) es mejor usar distancia \textit{manhattan}. El cálculo de distancias entre individuos no usa potencias o raices cuadradas, operaciones con un mayor coste que restas en valor absoluto. Cabe recalcar la diferencia de las distancias entre clusters por \textit{centroide} y por enlace \textit{simple} y \textit{completo}. Al aumentar la población a categorizar aumentan los tamaños de los clusters, sobrecargando el calculo de nuevas distancias.
+		Al principio no hay tanta diferencia, pero conforme aumenta el tamaño de la población, los tiempos de ejecución empiezan a distinguirse. Como muestra el circulo rojo, la distancia entre clusters por \textit{centroide} no varia mucho usar una distancia \textit{euclídea} o \textit{manhattan} entre individuos. No obstante, aplicando enlace \textit{simple} (o \textit{completo}) es mejor usar distancia \textit{manhattan}. El cálculo de distancias entre individuos no usa potencias o raices cuadradas, operaciones con un mayor coste que restas en valor absoluto. Cabe recalcar la diferencia de las distancias entre clusters por \textit{centroide} y por enlace \textit{simple} y \textit{completo}. Al aumentar la población a categorizar, aumentan los tamaños de los clusters, sobrecargando el cálculo de nuevas distancias.
 		
 		
 		\begin{figure}[!h]
@@ -447,10 +428,10 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 		
 	%\subsubsection{Distancia Centroide con mejoras}	
-		Una vez comprobado los tiempos de ejecución del algoritmo sin paralelizar, podemos pasar a las pruebas de las estrategias comentadas en la sección \ref{cap:3_2_1}. Primero estudiamos la distancia entre cluster con menor tiempo de ejecución, por \textit{centroide}. Ejecutamos, con \textit{2}, \textit{4}, \textit{6} y \textit{8} procesos la primera estrategia en tres diferentes poblaciones. No aplicamos la segunda y tercera estrategia, pues estas están diseñadas para las distancias por enlace \textit{simple} y \textit{completo}.
+		Una vez comprobado los tiempos de ejecución del algoritmo sin paralelizar, podemos pasar a las pruebas de las estrategias comentadas en la Sección \ref{cap:3_2_1}. Primero, estudiamos la distancia entre \textit{clusters} con menor tiempo de ejecución, por \textit{centroide}. Ejecutamos, con \textit{2}, \textit{4}, \textit{6} y \textit{8} procesos la primera estrategia en tres diferentes poblaciones. No aplicamos la segunda y tercera estrategia, pues estas están diseñadas para las distancias por enlace \textit{simple} y \textit{completo}.
 		
 		
-		La figura \ref{fig:JA_centroide} muestra un buen rendimiento, reduciendo los tiempos de ejecución hasta con tamaños de poblaciones elevados. Para una población de \textit{5000} individuos se consiguen los siguientes \textit{speedups [1.78, 2.89, 3.61, 4.21]}. Los \textit{speedups} no crecen en proporción a los procesos ejecutados. La estrategia implementada, para tamaños de poblaciones elevados, no es optima. Si un proceso no elimina filas en muchas iteraciones, acumula muchos más datos que procesar que los demás procesos, provocando que los procesos con menos datos esperen para seguir con la ejecución.
+		La Figura \ref{fig:JA_centroide} muestra un buen rendimiento, reduciendo los tiempos de ejecución hasta con tamaños de poblaciones elevados. Para una población de \textit{5000} individuos se consiguen los siguientes \textit{speedups [1.78, 2.89, 3.61, 4.21]} utlizando \textit{2}, \textit{4}, \textit{6} y \textit{8} procesos, respectivamente. Los \textit{speedups} no crecen en proporción a los procesos ejecutados. La estrategia implementada, para tamaños de poblaciones elevados, no es óptima. Si un proceso no elimina filas en muchas iteraciones, acumula muchos más datos que procesar que los demás procesos, provocando que los procesos con menos datos esperen para seguir con la ejecución.
 			
 		% JERARQUICO AGLOMERATIVO: HISTOGRAMA CON VARIOS PROCESOS
 		\begin{figure}[!h]
@@ -494,7 +475,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 			
 	%\subsubsection{Distancia por enlace Simple/Completo con mejoras}
 	
-		Ahora veamos el comportamiento de las estrategias para la distancia entre cluster con mayor complejidad, enlace \textit{simple} o \textit{completo}. Las pruebas se realizan con tamaños de poblaciones inferiores a las pruebas anteriores. Estos son los siguientes \textit{[100, 200, 500, 1000, 1500, 2000]}, y se ejecutan las estrategias con cuatro procesos para comprobar el rendimiento. Antes de nada, la tercera estrategia tiene un mismo rendimiento que la segunda, pero con más procesos. Reservar procesos unicamente para el calculo de nuevas distancias no es eficaz, es mejor dividir entre los procesos activos (segunda estrategia). La figura \ref{fig:JA_simple} muestra los resultados obtenidos del estudio. Aunque si reduce el tiempo de ejecución, no se obtienen buenos resultados, pues el \textit{speedup} con \textit{2000} individuos de población para la estrategia con mejores resultados es de \textit{1.88}. Al usar cuatro procesos, podemos concluir que los tres \textit{workers} pierden mucho tiempo calculando las distancias en cada iteración. Es posible que mediante la refinación progresiva de la segunda estrategia a través de un proceso iterativo de prueba y error, se logre reducir el tiempo de ejecución. No obstante, hasta el momento, no hemos logrado reducirlo más allá del tiempo actual.
+		Ahora veamos el comportamiento de las estrategias para la distancia entre \textit{clusters} con mayor complejidad, enlace \textit{simple} o \textit{completo}. Las pruebas se realizan con tamaños de poblaciones inferiores a las pruebas anteriores. Estos son los siguientes \textit{[100, 200, 500, 1000, 1500, 2000]}, y se ejecutan las estrategias con cuatro procesos para comprobar el rendimiento. La tercera estrategia tiene el mismo rendimiento que la segunda, pero con más procesos. Reservar procesos unicamente para el cálculo de nuevas distancias no es eficaz, es mejor dividir entre los procesos activos (segunda estrategia). La Figura \ref{fig:JA_simple} muestra los resultados obtenidos del estudio. Aunque sí reduce el tiempo de ejecución, no se obtienen buenos resultados, pues el \textit{speedup} con \textit{2000} individuos de población para la estrategia con mejores resultados es de \textit{1.88}. Al usar cuatro procesos, podemos concluir que los tres \textit{workers} pierden mucho tiempo calculando las distancias en cada iteración. Es posible que mediante la refinación progresiva de la segunda estrategia a través de un proceso iterativo de prueba y error, se logre reducir el tiempo de ejecución. No obstante, hasta el momento, no hemos logrado reducirlo más allá del tiempo actual.
 		
 			\begin{figure}[!h]
 				\hspace{-0.10\textwidth}
@@ -518,8 +499,8 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 						
 						
 						\addlegendentry{Secuencial}
-						\addlegendentry{MPI1}
-						\addlegendentry{MPI2}
+						\addlegendentry{MPI\_1(4)}
+						\addlegendentry{MPI\_2(4)}
 						
 						
 					\end{axis}
@@ -530,7 +511,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				
 			
 	%\subsubsection{Cluster}	
-		Los resultados de la prueba anterior, con la complejidad del algoritmo indican que no es viable probar las estrategias implementadas sobre estas distancias entre cluster en el sistema altamente distribuido. Por este motivo, solo se prueba la distancia por \textit{centroides} con tres grandes poblaciones. Los tamaños son los siguientes \textit{[5000, 7500, 10000]}, y se prueban con \textit{20}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos. La figura \ref{fig:JA_cluster} muestra los resultados, y concluimos que para agrupar tamaños de poblaciones elevados no conviene aplicar este algoritmo. O por lo menos las estrategias implementadas no dan resultados notorios, pues el \textit{speedup} entre usar \textit{20} o \textit{128} procesos en una población de \textit{10000} individuos es de \textit{2.32}.
+		Los resultados de la prueba anterior, con la complejidad del algoritmo indican que no es viable probar las estrategias implementadas sobre estas distancias entre cluster en el sistema altamente distribuido. Por este motivo, solo se prueba la distancia por \textit{centroides} con tres grandes poblaciones. Los tamaños son los siguientes \textit{[5000, 7500, 10000]}, y se prueban con \textit{20}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos. La Figura \ref{fig:JA_cluster} muestra los resultados, y concluimos que para agrupar tamaños de poblaciones elevados no conviene aplicar este algoritmo. 
 						
 			
 			\begin{figure}[!h]
@@ -572,71 +553,99 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 			\end{figure}
 			
 					
-	
+			O por lo menos las estrategias implementadas no dan resultados notorios, pues el \textit{speedup} entre usar \textit{20} o \textit{128} procesos en una población de \textit{10000} individuos es de \textit{2.32}.
 	
 % ------------------------------------------------------------------------------------------------
 % --- KMEDIAS ------------------------------------------------------------------------------------
 % ------------------------------------------------------------------------------------------------
-	\newpage
+	
 	
 	\subsection{K-Medias}	
 
-		El algoritmo anterior no tiene ninguna variable que modifique el tiempo de ejecución (sin contar la distancia entre clusters). Esta técnica de agrupación tiene un coste temporal mucho menor que el aglomerativo, \textit{O(N*K*iter)} siendo \textit{N} el tamaño de la población, \textit{iter} las iteraciones  hasta que no cambien los centros. \textit{(N $\gg$ K,iter)} \textit{K} e \textit{iter} no son valores muy altos, por lo que la complejidad no llega a ser cuadrática. Cuanto mayor sea el valor de \textit{K} más tiempo va a consumir para realizar la asignación, pues cada individuo de la población es comparado con más centros. No obstante, dependiendo de la asignación de los individuos,  una ejecución con más centros puede ser más rápida que otra con menos centros. Todo depende de la variable \textit{iter}, es decir, si consigue llegar antes a la condición de finalización (que los centros no cambien entre dos iteraciones). La figura \ref{fig:Kmedias_variarK} demuestra precisamente este punto. Para dos poblaciones distintas, \textit{75000} y \textit{100000} aplicando \textit{K=25}  centros (línea roja), tardan aproximadamente lo mismo. La primera población itera muchas veces, más en concreto el doble de veces que la segunda población para finalizar la ejecución. Una ejecución del algoritmo sobre una misma población puede variar considerablemente dependiendo del número de centros, o la disposición de los mismos.
+		El algoritmo anterior no tiene ninguna variable que modifique el tiempo de ejecución (sin contar la distancia entre clusters). Esta técnica de agrupación tiene un coste temporal mucho menor que el aglomerativo, \textit{O(N*K*iter)} siendo \textit{N} el tamaño de la población, \textit{iter} las iteraciones hasta que no cambien los centros y \textit{K} el número de centros. \textit{(N $\gg$ K,iter)} \textit{K} e \textit{iter} no son valores muy altos, por lo que la complejidad no llega a ser cuadrática. Cuanto mayor sea el valor de \textit{K}, más tiempo va a consumir para realizar la asignación, pues cada individuo de la población es comparado con más centros. No obstante, dependiendo de la asignación de los individuos,  una ejecución con más centros puede ser más rápida que otra con menos centros. Todo depende de la variable \textit{iter}, es decir, si consigue llegar antes a la condición de finalización (que los centros no cambien entre dos iteraciones). La Figura \ref{fig:Kmedias_variarK} muestra precisamente este punto. Para dos poblaciones distintas, de \textit{75000} y \textit{100000} individuos aplicando \textit{K=25} centros (línea roja), requieren aproximadamente el mismo tiempo. La primera población itera muchas veces, más en concreto, el doble de veces que la segunda población para finalizar la ejecución. Una ejecución del algoritmo sobre una misma población puede variar considerablemente dependiendo del número de centros, o la disposición de los mismos.
 		
 		
 		
 		\begin{figure}[!h]
-		\centering
-		\begin{tikzpicture}
-		\begin{axis}[
-			width=0.85\textwidth,
-			height=0.40\textwidth,
-			ybar,
-			bar width=0.35cm,
-			ylabel={Tiempo de ejecución (s)},
-			xlabel={Tam. de la Población},
-			symbolic x coords={25000, 50000, 75000, 100000},
-			xtick=data,
-			enlarge x limits=0.2,
-			ymin=0,
-			legend style={at={(0.5,1.13)}, anchor=north, legend columns=-1},
-			area legend,
-			legend columns=4,
-			]
-			
-			% Histo
-			\addplot+[ybar, pattern=vertical lines, draw=black] plot coordinates 
-			{(25000, 0.62) (50000, 1.31) (75000, 1.66) (100000, 2.56)};				
-			\addplot+[ybar, pattern=grid, draw=black] plot coordinates 
-			{(25000, 1.69) (50000, 4.22) (75000, 5.19)  (100000, 8.76)};						
-			\addplot+[ybar, pattern=dots, draw=black] plot coordinates 
-			{(25000, 8.29) (50000, 33.80) (75000, 79.83) (100000, 79.56)};						
-			\addplot+[ybar, pattern=crosshatch, draw=black] plot coordinates 
-			{(25000, 19.93) (50000, 56.03) (75000, 109.96) (100000, 123.16)};
-			
-			\addplot[smooth, mark=diamond, green] plot coordinates
-			{(25000, 0.62) (50000, 1.31) (75000, 1.66) (100000, 2.56)};
-			\addplot[smooth, mark=diamond, blue] plot coordinates
-			{(25000, 1.69) (50000, 4.22) (75000, 5.19)  (100000, 8.76)};
-			\addplot[smooth, mark=diamond, red] plot coordinates
-			{(25000, 8.29) (50000, 33.80) (75000, 79.83) (100000, 79.56)};
-			\addplot[smooth, mark=diamond, black] plot coordinates
-			{(25000, 19.93) (50000, 56.03) (75000, 109.96) (100000, 123.16)};
-			
-			\legend{5, 10, 25, 50}
-		\end{axis}
-		\end{tikzpicture}
-		\caption{Variaciones en el número de clusters (K) en el algoritmo K-Medias}
-		\label{fig:Kmedias_variarK}
+			\centering
+			\begin{tikzpicture}
+				\begin{axis}[
+					width=0.85\textwidth,
+					height=0.40\textwidth,
+					ybar,
+					bar width=0.35cm,
+					ylabel={Tiempo de ejecución (s)},
+					xlabel={Tam. de la Población},
+					symbolic x coords={25000, 50000, 75000, 100000},
+					xtick=data,
+					enlarge x limits=0.2,
+					ymin=0,
+					legend style={at={(0.5,1.13)}, anchor=north, legend columns=-1},
+					extra description/.code={
+						\node at (0.28, 1.12) [anchor=north] {\textbf{K}};
+					},
+					area legend,
+					legend columns=4,					
+					]
+					
+					% Histo
+					\addplot+[ybar, pattern=vertical lines, draw=black] plot coordinates 
+					{(25000, 0.62) (50000, 1.31) (75000, 1.66) (100000, 2.56)};				
+					\addplot+[ybar, pattern=grid, draw=black] plot coordinates 
+					{(25000, 1.69) (50000, 4.22) (75000, 5.19)  (100000, 8.76)};						
+					\addplot+[ybar, pattern=dots, draw=black] plot coordinates 
+					{(25000, 8.29) (50000, 33.80) (75000, 79.83) (100000, 79.56)};						
+					\addplot+[ybar, pattern=crosshatch, draw=black] plot coordinates 
+					{(25000, 19.93) (50000, 56.03) (75000, 109.96) (100000, 123.16)};
+					
+					\addlegendentry{5}
+					\addlegendentry{10}
+					\addlegendentry{25}
+					\addlegendentry{50}
+					
+				\end{axis}
+				
+				\begin{axis}[
+					width=0.85\textwidth,
+					height=0.40\textwidth,
+					axis y line=none,
+					axis x line=none,
+					ymin=0,				
+					legend style={at={(1.02,0.5)}, anchor=west},
+					legend cell align={left},
+					extra description/.code={
+						\node at (1.05, 0.83) [anchor=north] {\textbf{K}};
+					}									
+					]
+					
+					\addplot[smooth, mark=diamond, green] plot coordinates
+					{(25000, 0.62) (50000, 1.31) (75000, 1.66) (100000, 2.56)};
+					\addplot[smooth, mark=diamond, blue] plot coordinates
+					{(25000, 1.69) (50000, 4.22) (75000, 5.19)  (100000, 8.76)};
+					\addplot[smooth, mark=diamond, red] plot coordinates
+					{(25000, 8.29) (50000, 33.80) (75000, 79.83) (100000, 79.56)};
+					\addplot[smooth, mark=diamond, black] plot coordinates
+					{(25000, 19.93) (50000, 56.03) (75000, 109.96) (100000, 123.16)};
+					
+					\addlegendentry{5}
+					\addlegendentry{10}
+					\addlegendentry{25}
+					\addlegendentry{50}
+					
+				\end{axis}
+			\end{tikzpicture}
+			\caption{Variaciones en el número de clusters (K) en el algoritmo K-Medias}
+			\label{fig:Kmedias_variarK}
 		\end{figure}
+		
 		
 	
 		
 	%\subsubsection{Ordenador de propósito general}	
 	
-		Las distancias entre individuos siguen presentes, pero esta vez, al tener una complejidad menor, no debería afectar tanto usar la distancia \textit{euclídea} o \textit{manhattan}. O eso es lo que parece a simple vista. Como se comprobó en la figura anterior (\ref{fig:Kmedias_variarK}) el número de iteraciones para llegar a la condición de finalización importa, y usar una distancia u otra va a influir en el tiempo de ejecución. El número de iteraciones varia dependiendo de que distancia se usa, pues la \textit{euclídea}, aunque su cálculo es más lento, tiene una mayor precisión, lo que le da una gran ventaja frente a la distancia \textit{manhattan}. Esta última, al no ser tan precisa, puede hacer que aunque sea por poco, un individuo pertenezca a otro cluster, provocando una reacción en cadena que resulte en un aumento considerable en el número de iteraciones. 
+		Las distancias entre individuos siguen presentes, pero esta vez, al tener una complejidad menor, no debería afectar tanto usar la distancia \textit{euclídea} o \textit{manhattan}. O eso es lo que parece a simple vista. Como se comprobó en la Figura \ref{fig:Kmedias_variarK}, el número de iteraciones para llegar a la condición de finalización importa, y usar una distancia u otra va a influir en el tiempo de ejecución. El número de iteraciones varia dependiendo de qué distancia se use, pues la \textit{euclídea}, aunque su cálculo es más lento, tiene una mayor precisión, lo que le da una gran ventaja frente a la distancia \textit{manhattan}. Esta última, al no ser tan precisa, puede hacer que aunque sea por poco, un individuo pertenezca a otro cluster, provocando una reacción en cadena que resulte en un aumento considerable en el número de iteraciones. 
 		
-		El estudio realizado para comprobar el rendimiento de la estrategia comentada en la sección \ref{cap:3_2_2} con cinco procesos frente el algoritmo secuencial, se representa en la figura \ref{fig:KMedias}, utilizando \textit{K=10} centros, y comparando también las distancias entre individuos (\textit{euclídea} y \textit{manhattan}). Los tamaños de las poblaciones utilizadas para medir estas pruebas se realizan como en la las pruebas de las ordenaciones cuadráticas \ref{cap:4_2_1_1}. Se puede apreciar que las funciones tienen picos, siendo más pronunciados en los algoritmos sin paralelizar. Como se comentó anteriormente, el tiempo de ejecución para una población puede variar dependiendo de la distancia implementada, además de la posibilidad de que una población con menor tamaño pueda tardar mucho más que una población mayor, debido a la disposición de los individuos y los clusters en la ejecución. 						
+		El estudio realizado para comprobar el rendimiento de la estrategia comentada en la Sección \ref{cap:3_2_2} con cinco procesos frente el algoritmo secuencial, se representa en la Figura \ref{fig:KMedias}, utilizando \textit{K=10} centros, y comparando también las distancias entre individuos (\textit{euclídea} y \textit{manhattan}). Los tamaños de las poblaciones utilizadas para medir estas pruebas se realizan como en la las pruebas de las ordenaciones cuadráticas (ver sección \ref{cap:4_2_1_1}). Se puede apreciar que las funciones tienen picos, siendo más pronunciados en los algoritmos sin paralelizar. Como se comentó anteriormente, el tiempo de ejecución para una población puede variar dependiendo de la distancia implementada, además de la posibilidad de que una población con menor tamaño pueda tardar mucho más que una población mayor, debido a la disposición de los individuos y los clusters en la ejecución. 						
 	
 	
 			\begin{figure}[!h]
@@ -662,18 +671,18 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				
 				\addlegendentry{Euclidea}
 				\addlegendentry{Manhattan}
-				\addlegendentry{Euclidea\_MPI}
-				\addlegendentry{Manhattan\_MPI}
+				\addlegendentry{Euclidea\_MPI(5)}
+				\addlegendentry{Manhattan\_MPI(5)}
 				
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{Tiempo de ejecución de la primera estrategia del algoritmo K-Medias en ordenador de propósito general}
+			\caption{Tiempo de ejecución -con 5 procesos- de la primera estrategia del algoritmo K-Medias en ordenador de propósito general}
 			\label{fig:KMedias}
 			\end{figure}
 			
 			
-			Comparando el algoritmo secuencial y paralelizado se puede apreciar una mejora considerable, y debido a los picos, es interesante medir la evolución de los speedups. La figura \ref{fig:Kmedias_speedup} muestra esta evolución, cuyos \textit{speedups} son calculados con los tiempos utilizados en la anterior figura. Ambas distancias comienzan siendo volátiles, siendo algunas veces peor que el algoritmo secuencial (\textit{speedup<1}) y otras veces superando por mucho el \textit{speedup} ideal. A partir de diez mil individuos de población, el \textit{speedup} es equivalente al número de \textit{workers} ejecutados. Y lo más curioso es,  que pese a que la distancia \textit{euclídea} es más precisa, a la larga es mejor aplicar distancia \textit{manhattan}, pues aunque itere más veces, el coste es menor, llevando a conseguir mejores resultados. Se puede apreciar la linea azul superando en la mayoría de las veces a la línea roja, probando lo recien comentado.
+			Comparando el algoritmo secuencial y el paralelizado se puede apreciar una mejora considerable, y debido a los picos, es interesante medir la evolución de los \textit{speedups}. La Figura \ref{fig:Kmedias_speedup} muestra esta evolución, cuyos \textit{speedups} son calculados con los tiempos utilizados en la anterior figura. Ambas distancias comienzan siendo volátiles, siendo algunas veces peor que el algoritmo secuencial (\textit{speedup<1}) y otras veces superando por mucho el \textit{speedup} ideal. A partir de diez mil individuos de población, el \textit{speedup} es equivalente al número de \textit{workers} ejecutados. Tras analizar los resultados, observamos que, pese a que la distancia \textit{euclídea} es más precisa, a la larga es mejor aplicar distancia \textit{manhattan}, pues aunque itere más veces, el coste es menor, llevando a conseguir mejores resultados. Se puede apreciar la línea azul superando en la mayoría de las veces a la línea roja, probando lo comentado.
 			
 			
 			
@@ -705,7 +714,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{SpeedUp de la primera estrategia del algoritmo K-Medias en ordenador de propósito general}
+			\caption{SpeedUp de la primera estrategia del algoritmo K-Medias en ordenador de propósito general usando 5 procesos}
 			\label{fig:Kmedias_speedup}
 			\end{figure}
 			
@@ -713,7 +722,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					
 	%\subsubsection{Cluster}
 		
-			Para este algoritmo, al contrario que el anterior, se pueden realizar pruebas con tamaños de poblaciones mayores en el sistema altamente distribuido. La siguiente prueba realizada comienza con una población de \textit{20000} individuos, esta vez con cinco variables de entrada. Entre pruebas se aumenta ese mismo tamaño hasta llegar a \textit{240000} individuos, utilizando en proporción una población seis veces mayor que en el ordenador de propósito general. Se usa el mismo valor de \textit{K} (\textit{K=10}), y se ejecuta la misma estrategia con \textit{10}, \textit{20}, \textit{35}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos. Como se muestra en la figura \ref{fig:Kmedias_cluster}, a partir de veinte procesos, la reducción del tiempo de ejecución se ralentiza. Con un número elevado de procesos, esta estrategia no consigue reducir el tiempo de ejecución en proporción a los procesos ejecutados, esto se debe a la gran cantidad de comunicaciones que se deben realizar para finalizar la ejecución.
+			Para este algoritmo, al contrario que el anterior, se pueden realizar pruebas con tamaños de poblaciones mayores en el sistema distribuido. La siguiente prueba realizada comienza con una población de \textit{20000} individuos, esta vez con cinco variables de entrada. Entre pruebas se aumenta ese mismo tamaño hasta llegar a \textit{240000} individuos, utilizando en proporción una población seis veces mayor que en el ordenador de propósito general. Se usa el mismo valor de \textit{K} (\textit{K=10}), y se ejecuta la misma estrategia con \textit{10}, \textit{20}, \textit{35}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos. Como se muestra en la Figura \ref{fig:Kmedias_cluster}, a partir de veinte procesos, la reducción del tiempo de ejecución se ralentiza. Con un número elevado de procesos, esta estrategia no consigue reducir el tiempo de ejecución en proporción a los procesos ejecutados, esto se debe a la gran cantidad de comunicaciones que se deben realizar para finalizar la ejecución.
 			
 			
 			\begin{figure}[!h]
@@ -752,7 +761,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 						
 					\end{axis}
 				\end{tikzpicture}
-				\caption{Tiempo de ejecución de la primera estrategia del algoritmo K-Medias en Cluster}
+				\caption{Tiempo de ejecución de la primera estrategia del algoritmo K-Medias en el Cluster}
 				\label{fig:Kmedias_cluster}
 			\end{figure}
 			
@@ -810,16 +819,14 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 	\subsection{KNN}
 
 
-		En cada iteración de este algoritmo de aprendizaje supervisado, se clasifica un individuo utilizando una población previamente categorizada. Al contrario que los algoritmos de aprendizaje no supervisado, que agrupan una población entera al finalizar la población. La complejidad temporal de este algoritmo es menor, y el valor de \textit{K} no influye en el tiempo de ejecución como el algoritmo de \textit{K-Medias}, pues al aumentar este valor solo aumenta el número de los individuos más cercanos que se comprueban para categorizar el nuevo individuo. Este algoritmo usa dos poblaciones, y como se comentó en la sección \ref{cap:3_2_3} las dos estrategias dividen una de las poblaciones para paralelizar el algoritmo. 
+		En cada iteración de este algoritmo de aprendizaje supervisado, se clasifica un individuo utilizando una población previamente categorizada. Al contrario que los algoritmos de aprendizaje no supervisado, que agrupan una población entera al finalizar la población. La complejidad temporal de este algoritmo es menor, y el valor de \textit{K} no influye en el tiempo de ejecución como el algoritmo de \textit{K-Medias}, pues al aumentar este valor solo aumenta el número de los individuos más cercanos que se comprueban para categorizar el nuevo individuo. Este algoritmo usa dos poblaciones, y como se comentó en la Sección \ref{cap:3_2_3}, las dos estrategias dividen una de las poblaciones para paralelizar el algoritmo. 
 		
-			Para las siguientes pruebas realizadas en el ordenador de propósito general, se fija la misma población utilizada en el algoritmo anterior, con un tamaño de \textit{100000} individuos, para la población a categorizar. Y la población inicial se obtiene al realizar una búsqueda del mejor número de clusters y agrupación la final con el algoritmo de \textit{K-Medias}, sobre una población de mil individuos, obteniendo cuatro clusters. Con estas dos poblaciones se ejecuta el algoritmo de \textit{K-Vecinos más Cercanos} con un valor de \textit{K=15}, un número impar para que no haya posibilidad de empates a la hora de asignar un cluster a cada individuo.
+			Para las siguientes pruebas realizadas en el ordenador de propósito general, se fija la misma población utilizada en el algoritmo anterior, con un tamaño de \textit{100000} individuos para la población a categorizar. La población inicialmente categorizada tiene un tamaño de mil individuos y se obtiene realizando una búsqueda exhaustiva con el algoritmo K-Medias. Esta búsqueda se realiza con valores de K en el intervalo de [\textit{2, 20]} centros, ejecutando, para cada uno, el algoritmo diez veces, calculando así la mejor agrupación. Se obtiene como resultado cuatro centros. Con estas dos poblaciones se ejecuta el algoritmo de \textit{K-Vecinos más Cercanos} con un valor de \textit{K=15}, un número impar para que no haya posibilidad de empates a la hora de asignar un cluster a cada individuo.
 			
 		%\subsubsection{Algoritmo sin mejoras}
 		
-			Primero comprobamos las dos métodos para el algoritmo secuencial, actualizar o no actualizar al categorizar un nuevo individuo. Si se actualiza la población conforme avanzan las iteraciones, la población final será mucho más precisa que si no se actualiza, pero el tiempo de ejecución aumentará considerablemente. La figura \ref{fig:knn_secuencial} muestra este aumento. Si no se actualiza, la complejidad es lineal, pues la población categorizada se mantiene constante, y no se puede diferenciar cual de las dos distancias ralentiza más la ejecución. Sin embargo, cuando se actualiza la poblacion, se comprueba una vez más que la distancia \textit{euclídea} es más lenta que la \textit{manhattan}.
+			Primero comprobamos las dos métodos para el algoritmo secuencial, actualizar o no actualizar al categorizar un nuevo individuo. Si se actualiza la población conforme avanzan las iteraciones, la población final será mucho más precisa que si no se actualiza, pero el tiempo de ejecución aumentará considerablemente. La Figura \ref{fig:knn_secuencial} muestra los resultados. Si no se actualiza, la complejidad es lineal, pues la población categorizada se mantiene constante, y no se puede diferenciar cuál de las dos distancias ralentiza más la ejecución. Sin embargo, cuando se actualiza la población, se comprueba una vez más que la distancia \textit{euclídea} es más lenta que la \textit{manhattan}.
 			
-			\newpage
-		
 
 			% KNN BASICO
 			\begin{figure}[!h]
@@ -854,16 +861,16 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					
 				\end{axis}
 				\end{tikzpicture}
-				\caption{Tiempo de ejecución del algoritmo secuencial KNN}
+				\caption{Tiempo de ejecución del algoritmo secuencial KNN en ordenador de propósito general}
 				\label{fig:knn_secuencial}
 			\end{figure}
 
 			
 		
 		%\subsubsection{Algoritmo con mejoras}
-			Despues de comprobar el algoritmo secuencial pasamos a las estrategias para reducir el tiempo de ejecución. El algoritmo sin actualizar es veloz y es mejor estudiar el comportamiento con una población variable con el tiempo. Por esos se ejecutan las dos estrategias con cinco procesos. La primera, de dividir la población categorizada entre los \textit{workers}, se realizan dos versiones, una en la que cada \textit{worker} espera el individuo categorizado de la iteracón anterior y otra en la que no se espera, sino que los \textit{workers} trabajan en la siguiente iteración mientras que el \textit{master} agrupa el individuo. Podemos ver los resultados en la figura \ref{fig:knn_ordenador}, con una reducción notoria en el tiempo de ejecución. La primera estrategia es ligeramente más veloz que la segunda, y aun perdiendo tiempo esperando a la categorización del individuo (la primera versión), sigue finalizando antes que la segunda estrategia. 
+			Después de comprobar el algoritmo secuencial pasamos a las estrategias para reducir el tiempo de ejecución. El algoritmo sin actualizar es rápido y es mejor estudiar el comportamiento con una población variable con el tiempo. Por eso se ejecutan las dos estrategias con cinco procesos. Podemos ver los resultados en la figura \ref{fig:knn_ordenador}, con una reducción notoria en el tiempo de ejecución. Para la primera estrategia, dividir la población categorizada entre los \textit{workers}, se realizan dos versiones, una en la que cada \textit{worker} espera el individuo categorizado de la iteración anterior (línea de color verde), y otra en la que no se espera, sino que los \textit{workers} trabajan en la siguiente iteración mientras que el \textit{master} agrupa el individuo (línea de color negro). La primera estrategia es ligeramente más rápida que la segunda (línea de color azul), y aún perdiendo tiempo esperando a la categorización del individuo (la primera versión), sigue finalizando antes que la segunda estrategia. 
 			
-			En cuestión de complejidad espacial la segunda estrategia consume mucha más memoria. Al finalizar la ejecución, cada \textit{worker} tiene una copia entera de la población categorizada, mientras que la primera mejora se divide esta población entre los procesos. 
+			En cuestión de complejidad espacial la segunda estrategia consume mucha más memoria. Al finalizar la ejecución, cada \textit{worker} tiene una copia entera de la población categorizada, mientras que en la primera mejora se divide esta población entre los procesos. 
 			
 
 			\begin{figure}[!h]
@@ -874,7 +881,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 			\end{figure}
 			
 			
-			Comparando las evoluciones de los \textit{speedups} de las estrategias, se puede concluir que al principio es mejor dividir la población a predecir, pero a largo plazo es más efectivo dividir la población categorizada, además de tener menos complejidad espacial. 
+			Comparando las evoluciones de los \textit{speedups} en las estrategias, se puede concluir que al principio es mejor dividir la población a predecir, pero a largo plazo es más efectivo dividir la población categorizada, además de tener menos complejidad espacial. 
 		
 			\begin{figure} [!h]
 				\centering
@@ -906,11 +913,10 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				\caption{\textit{Speedups} de las estrategias del algoritmo KNN en ordenador de propósito general}
 			\end{figure}
 			
-			\newpage
 		
 		%\subsubsection{Cluster}
 		
-			En algoritmos pasados ya hemos visto el funcionamiento de varias estrategias con tamaños de poblaciones elevados. Esta vez, para las pruebas en el sistema altamente distribuido, ejecutamos la misma prueba que antes, pero con más procesos en paralelo. Se ejecutan \textit{10}, \textit{20}, \textit{35}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos sobre la mejor estrategia obtenida en el estudio anterior, para ver si es óptimo usar muchos procesos o genera mucha sobrecarga. La figura \ref{fig:knn_cluster} muestra que, al aumentar los procesos no reduce considerablemente el tiempo de ejecución, generando sobrecarga a partir de veinte procesos ejecutándose. Al igual que en el algoritmo de \textit{K-Medias}, aumentar el número de procesos provoca que, aunque se reduce el tiempo de ejecución en cada iteración, el tiempo de comunicación entre iteraciones aumenta. 
+			En algoritmos pasados ya hemos visto el funcionamiento de varias estrategias con tamaños de poblaciones elevados. Esta vez, para las pruebas en el sistema distribuido, ejecutamos la misma prueba que antes, pero con más procesos en paralelo. Se ejecutan \textit{10}, \textit{20}, \textit{35}, \textit{50}, \textit{75}, \textit{100} y \textit{128} procesos sobre la mejor estrategia obtenida en el estudio anterior, comprobar el \textit{speedup} al usar muchos procesos. La Figura \ref{fig:knn_cluster} muestra que, al aumentar los procesos, no se reduce considerablemente el tiempo de ejecución, generando sobrecarga a partir de veinte procesos. Al igual que en el algoritmo \textit{K-Medias}, aumentar el número de procesos provoca que, aunque se reduce el tiempo de ejecución en cada iteración, el tiempo de comunicación (overhead) entre iteraciones aumenta. 
 			
 
 			
@@ -964,11 +970,11 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 
 \section{Q-Learning}	
 	
-	Para el aprendizaje por refuerzo, cuyos dos algoritmos se comentaron en la sección \ref{cap:2_2}, primero se estudia el algoritmo de \textit{Q-Learning}. El otro algoritmo, \textit{Deep Q-Network}, se basa en redes neuronales, estudio que se realiza posteriormente en la sección \ref{cap:4_6}.
+	Para el aprendizaje por refuerzo, cuyos dos algoritmos se comentaron en la Sección \ref{cap:2_2}, primero se estudia el algoritmo de \textit{Q-Learning}. El otro algoritmo, \textit{Deep Q-Network}, se basa en redes neuronales, estudio que se realiza posteriormente en la Sección \ref{cap:4_6}.
 	
 	
 	%\subsubsection{Algoritmo sin mejoras}
-		Antes de entrar en profundidad con las estrategias comentadas en la sección \ref{cap:3_3}, primero estudiamos el comportamiento del algoritmo de manera secuencial, con y sin preprocesado del entorno. Este preprocesado consiste en recorrer la matriz entera eliminando estados inaccesibles (el agente se situa en un muro) y acciones que no queremos que el agente ejecute, como chocar contra una pared. Se ejecuta con tres diferentes laberintos, con \textit{30}, \textit{50} y \textit{100} filas. La figura \ref{fig:rl_preprocesado} muestra una leve reducción en el tiempo de ejecución. Además, obtiene mejores resultados con una variedad mayor de combinaciones de hiper-parámetros. Al reducir las acciones disponibles, el agente tiene una mayor probabilidad de explorar más el laberinto, generando maás combinaciones con las cuales aprender el camino óptimo hasta la meta.			
+		Antes de entrar en profundidad con las estrategias comentadas en la Sección \ref{cap:3_3}, primero estudiamos el comportamiento del algoritmo de manera secuencial, con y sin preprocesado del entorno. Este preprocesado consiste en recorrer la matriz entera eliminando estados inaccesibles (el agente se situa en un muro) y acciones que no queremos que el agente ejecute, como chocar contra una pared. Se ejecuta con tres laberintos diferentes, con \textit{30}, \textit{50} y \textit{100} filas. La Figura \ref{fig:rl_preprocesado} muestra una leve reducción en el tiempo de ejecución. Además, obtiene mejores resultados con una mayor variedad de combinaciones de hiper-parámetros. Al reducir las acciones disponibles, el agente tiene una mayor probabilidad de explorar más el laberinto, generando más combinaciones con las cuales aprender el camino óptimo hasta la meta.			
 	
 
 		\begin{figure}[!h]
@@ -995,7 +1001,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{Tiempo de ejecución del algoritmo secuencial Aprendizaje por Refuerzo}
+			\caption{Tiempo de ejecución del algoritmo secuencial Aprendizaje por Refuerzo en ordenador de propósito general}
 			\label{fig:rl_preprocesado}
 		\end{figure}
 		
@@ -1003,9 +1009,9 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 	%\subsubsection{Búsqueda de los mejores hiper-parámetros}
 		
-		Una buena configuración de hiper-parámetros, genera que el agente logre alcanzar su objetivo. En entornos de gran tamaño, algunas veces, es complicado encontrar configuraciones que funcionen, lo que provoca un aumento en el tiempo dedicado a la fase de entrenamiento para encontrar estas combinaciones. Por este motivo se desarrolla una estrategia para encontrar combinaciones de los hiper-parámetros realizando una búsqueda exhaustiva. 
+		Una buena configuración de hiper-parámetros genera que el agente logre alcanzar su objetivo. En entornos de gran tamaño, algunas veces, es complicado encontrar configuraciones que funcionen, lo que provoca un aumento en el tiempo dedicado a la fase de entrenamiento para encontrar estas combinaciones. Por este motivo, se desarrolla una estrategia para encontrar combinaciones de los hiper-parámetros realizando una búsqueda exhaustiva. 
 		
-		Consiste en ejecutar en muchos procesos el algoritmo secuencial sin preprocesar con diferentes combinaciones. Se inicializa \textit{100} filas y columnas, y con una precisión de \textit{0.01}, es decir un \textit{1\%}, el \textit{master} aumenta los valores de los hiper-parámetros. Cuando uno de estos llega al \textit{100\%} se reinicia y aumenta el siguiente, así hasta cubrir todas las posibles combinaciones. Al ser tres hiper-parámetros hay \(10^{6}\) combinaciones distintas. El \textit{master} envía a cada \textit{worker} diferentes combinaciones, y cuando terminan de procesar una combinación, envían de vuelta un mensaje de confirmación. Si termina con éxito, el \textit{master} almacena en un fichero la conbinación de hiper-parámetros, junto con los movimientos requeridos, así como las veces que el algoritmo falla y llega a la meta. En caso contrario no almacena nada. Dicha prueba se realizó en el sistema altamente distribuido, con \textit{128} procesos, y ha tardado siete días completos en finalizar la prueba, obteniendo \textit{500} combinaciones distintas, de las cuales, solo la mitad dan con el camino óptimo.
+		Consiste en ejecutar en muchos procesos el algoritmo secuencial sin preprocesar con diferentes combinaciones. Se inicializa \textit{100} filas y columnas, y con una precisión de \textit{0.01}, es decir un \textit{1\%}, el \textit{master} aumenta los valores de los hiper-parámetros. Cuando uno de estos llega al \textit{100\%} se reinicia y aumenta el siguiente, así hasta cubrir todas las posibles combinaciones. Al ser tres hiper-parámetros hay \(10^{6}\) combinaciones distintas. El \textit{master} envía a cada \textit{worker} diferentes combinaciones, y cuando terminan de procesar una combinación, envían de vuelta un mensaje de confirmación. Si termina con éxito, el \textit{master} almacena en un fichero la conbinación de hiper-parámetros, junto con los movimientos requeridos, así como las veces que el algoritmo falla y llega a la meta. En caso contrario no almacena nada. Dicha prueba se realizó en el sistema distribuido, con \textit{128} procesos, y ha tardado siete días completos en finalizar la prueba, obteniendo \textit{500} combinaciones distintas, de las cuales, solo la mitad dan con el camino óptimo.
 		
 
 
@@ -1013,11 +1019,11 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 	
 	
 	%\subsubsection{Mejora: Ejecuciones en paralelo}
-		Una vez estudiado las combinaciones de hiper-parámetros, podemos pasar a las pruebas de las estrategias para reducir el tiempo de ejecución del algoritmo. Para ello, se usa un laberinto de cien filas y columnas, con una combinación de hiper-parámetros que se óptima (alguna de las previamente encontradas). El algoritmo secuencial ejecuta \textit{100} episodios (iteraciones que finalizan al llegar a la meta), mientras que la estrategia paralelizada, ejecuta, con cinco procesos, \textit{400} episodios. Esta estrategia, usando el modelo \textit{Master-Worker} se basa en la misma idea de encotrar las combinaciones de hiper-parámetros, pues se ejecuta en paralelo el algoritmo secuencial, pero esta vez en diferentes posiciones. Al final de la ejecución, el \textit{master} realiza la media de las experiencias obtenidas en todo el entorno. 
+		Una vez estudiado las combinaciones de hiper-parámetros, podemos pasar a las pruebas de las estrategias para reducir el tiempo de ejecución del algoritmo. Para ello, se usa un laberinto de cien filas y columnas, con una combinación de hiper-parámetros que sea óptima (alguna de las previamente encontradas). El algoritmo secuencial ejecuta \textit{100} episodios (iteraciones que finalizan al llegar a la meta), mientras que la estrategia paralelizada, ejecuta, con cinco procesos, \textit{400} episodios. Esta estrategia, usando el modelo \textit{Master-Worker} se basa en la misma idea de encotrar las combinaciones de hiper-parámetros, pues se ejecuta en paralelo el algoritmo secuencial, pero esta vez en diferentes posiciones. Al final de la ejecución, el \textit{master} realiza la media de las experiencias obtenidas en todo el entorno. 
 		
-		La imagen a la izquierda de la figura \ref{fig:RL_estrategia1} muestra el mapa de calor del algoritmo secuencial y la estrategia. En rojo se representan las celdas que más veces han sido visitadas por el algoritmo secuencial, mientras que en verde las del paralelizado. En amarillo se representa los puntos de salida, siendo el superior izquierdo el del algoritmo secuencial y un \textit{worker} de la estrategia paralelizada. Para obtener este mapa se hacen una comparaciones de las celdas visitadas, haciendo la media en el caso de la estrategia, pues sin hacerla se obtendría una mapa completamente verde. Se puede observar que el algoritmo secuencial visita más veces la parte superior izquierda, debido a que la media de veces que se visita esa zona en la estrategia se divide entre cuatro, y al ser menos probable que todos los \textit{workers} la visiten, hace que la ejecución secuencial la visite más veces, ya que siempre se inicializa por esa zona. 
+		La imagen a la izquierda de la Figura \ref{fig:RL_estrategia1} muestra el mapa de calor del algoritmo secuencial y la estrategia. En rojo se representan las celdas que más veces han sido visitadas por el algoritmo secuencial, mientras que en verde las del paralelizado. En amarillo se representan los puntos de salida, siendo el superior izquierdo el del algoritmo secuencial y un proceso \textit{worker} de la estrategia paralelizada (para la estrategia paralelizada hay que garantizar que haya al menos un proceso en el punto origen). Para obtener este mapa se hacen una comparaciones de las celdas visitadas, haciendo la media en el caso de la estrategia, pues sin hacerla se obtendría una mapa completamente verde. Se puede observar que el algoritmo secuencial visita más veces la parte superior izquierda, debido a que la media de veces que se visita esa zona en la estrategia se divide entre cuatro, y al ser menos probable que todos los \textit{workers} la visiten, hace que la ejecución secuencial la visite más veces, ya que siempre se inicializa por esa zona. 
 		
-		Los tiempos de ejecución son aproximadamente iguales. El tiempo de ejecución de la estrategia paralelizada viene dada por el mayor tiempo de ejecución de los \textit{workers} ejecutados. El \textit{worker} que más tiempo consume es el que está posicionado en la misma salida que el algoritmo secuencial, por lo que por la aleatoriedad y el tiempo de comunicación con el proceso \textit{master} provoca que la ejecución total de la estrategia sea más lenta. No obstante, esta estrategia visita muchas más celdas en el laberinto, además de ejecutar cuatro veces más episodios sumando los ejecutados en cada proceso.		
+		Los tiempos de ejecución son similares. El tiempo de ejecución de la estrategia paralelizada viene dada por el mayor tiempo de ejecución de los \textit{workers}. El \textit{worker} que más tiempo consume es el que está posicionado en la misma salida que el algoritmo secuencial, por lo que por la aleatoriedad y el tiempo de comunicación con el proceso \textit{master} provoca que la ejecución total de la estrategia sea más lenta. No obstante, esta estrategia visita muchas más celdas en el laberinto, además de ejecutar cuatro veces más episodios sumando los ejecutados en cada proceso.		
 		
 		\begin{figure}[!h]
 			\centering
@@ -1031,16 +1037,15 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 			\begin{subfigure}[t]{0.5\textwidth}
 				\centering
 				\includegraphics[width=\textwidth]{images/chapter_4/histo}
-				\caption{Tiempo de ejecució}
+				\caption{Procesos y modo de ejecución}
 				\label{fig:RL_histo}
 			\end{subfigure}
 			\caption{Tiempo de ejecución y mapa de calor de la primera estrategia del algoritmo Aprendizaje por Refuerzo en ordenador de propósito general}
 			\label{fig:RL_estrategia1}
 		\end{figure}
 		
-		\newpage
-		
-		La segunda estrategia, dividir el entorno entre los procesos ejecutados, no funciona correctamente. En la fase de entrenamiento no se ha conseguido finalizar, en ninguna de las pruebas realizadas en una matriz de treinta filas y columnas (el laberinto de menor tamaño generado previamente). No obstante, al ejecutar la estrategia con valores aprendidos en un entrenamiento secuencial, si se logra llegar a la meta. Hemos comprobado con varios hiper-parámetros y ninguno termina el entrenamiento. La teoría más razonable es que esta estrategia está muy influenciada por la combinación de hiper-parámetros, provocando que una mala configuración desemboque en un mal aprendizaje y llevar a bucles infinitos.
+				
+		La segunda estrategia, dividir el entorno entre los procesos ejecutados, no funciona correctamente. En la fase de entrenamiento no se ha conseguido finalizar, en ninguna de las pruebas realizadas, en una matriz de treinta filas y columnas (el laberinto de menor tamaño generado previamente). No obstante, al ejecutar la estrategia con valores aprendidos en un entrenamiento secuencial, sí se logra llegar a la meta. Hemos comprobado con varios hiper-parámetros y ninguno termina el entrenamiento. La teoría más razonable es que esta estrategia está muy influenciada por la combinación de hiper-parámetros, provocando que una mala configuración lleve a un mal aprendizaje, generando bucles infinitos.
 				
 		
 		
@@ -1054,59 +1059,27 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 % ------------------------------------------------------------------------------------------------	
 \section{Algoritmos Evolutivos}
 
-	Este algoritmo no se ejecuta sobre unos datos previamente generados, sino que en cada ejecución crea desde ceros los individuos que va a evolucionar para optimizar una función de evaluación. Las pruebas realizadas en esta sección, utilizan un 5\% de elitismo (porcentaje de individuos que se mantienen entre dos generaciones) para cualquiera de los tres individuos. El método de selección es siempre el mismo, por ruleta. Consiste en elegir aleatoriamente los individuos, cuyas probabilidades aumentan o disminuyen dependiendo de su valor de \textit{fitness} (aptitud del individuo para resolver el problema de forma óptima). Los métodos de cruce y mutación son distintos para cada individuso, pero se elijen los más básicos. La función de evaluación no consiste únicamente en calcular su \textit{fitness}, también hay otras funcionalidades como el desplazamiento de individuos, que consiste en garantizar que todos tengan un valor \textit{fitness} positivo, además de controlar la diversidad con un escalado lineal. Los individuos representados como árboles, se añade un control de \textit{bloating} para controlar la altura de los individuos, generando un leve aumento en el tiempo de la función de evaluación, pues si un individuo supera un límite de altura en el árbol, se sustituye con uno nuevo generado de manera aleatoria. Las complejidades del cálculo \textit{fitness} de un individuo se calculan de la siguiente forma:
+	Este algoritmo no se ejecuta sobre unos datos previamente generados, sino que en cada ejecución crea desde ceros los individuos que va a evolucionar para optimizar una función de evaluación. Las pruebas realizadas en esta sección, utilizan un 5\% de elitismo (porcentaje de individuos que se mantienen entre dos generaciones) para cualquiera de los tres individuos. El método de selección es siempre el mismo, por ruleta, el cual consiste en elegir aleatoriamente los individuos, cuyas probabilidades aumentan o disminuyen dependiendo de su valor de \textit{fitness} (aptitud del individuo para resolver el problema). Los métodos de cruce y mutación son distintos para cada individuo, pero se eligen los más básicos. La función de evaluación no consiste únicamente en calcular su \textit{fitness}, también hay otras funcionalidades como el desplazamiento de individuos, que consiste en garantizar que todos tengan un valor \textit{fitness} positivo, además de controlar la diversidad con un escalado lineal. Los individuos representados como árboles, se añade un control de \textit{bloating} para controlar la altura de los individuos, generando un leve aumento en el tiempo de la función de evaluación, pues si un individuo supera un límite de altura en el árbol, se sustituye con uno nuevo generado de manera aleatoria. Las complejidades del cálculo \textit{fitness} y las variables que afectan a los tamaños de las pruebas de cada individuo se determinan de la siguiente forma:
 	\begin{enumerate}
-		\item Binario. Función matemática. Tiene un coste lineal \textit{O(N)}. Siendo \textit{N} el número de bits, pues solo tiene que convertir de binario a real y aplicar la función matemática.
-		\item Real. El problema del aeropuerto. Tiene un coste logaritmico \textit{O(N*LogM))} siendo \textit{N} siendo \textit{N} el número de aviones, y \textit{M} el de aviones.
-		\item Árbol. El problema del cortacésped. Tiene, aproximadamente, un coste lineal \textit{O(N))} siendo \textit{N} siendo \textit{N} el número de acciones a disposición del agente para intentar cortar el máximo número de celdas.
+		\item Binario. Función matemática. Tiene un coste lineal \textit{O(N)}, siendo \textit{N} el número de bits, pues solo tiene que convertir de binario a real y aplicar la función matemática. El tamaño de las pruebas son condicionados por la precisión. Esta variable refleja el grado de exactitud necesario de la codificación binaria para representar un valor numérico real. Cuanto mayor sea ésta, más bits se necesitan. Con una precisión de \textit{2} decimales se necesitan \textit{11}, y con una precisión de \textit{10}, \textit{38} son los bits necesarios. Como el problema se mide en un espacio bidimensional, se necesitan dos números reales, sumando en total \textit{22} y \textit{76} bits respectivamente. 
+		\item Real. El utilizado en el problema del aeropuerto (descrito en la Sección \ref{cap:3_4}). Tiene un coste logarítmico \textit{O(N*LogM))} siendo \textit{N} el número de aviones, y \textit{M} el de aeropuertos. El tamaño de las pruebas para este problema es condicionado por la complejidad temporal, por lo que el número de aviones y aeropuertos son las variables que se van a estudiar.						
+		\item Árbol. El utilizado en el problema del cortacésped (descrito en la Sección \ref{cap:3_4}). Tiene, aproximadamente, un coste lineal \textit{O(N))}, siendo \textit{N} el número de acciones (\textit{ticks}) a disposición del agente para intentar cortar el máximo número de celdas. El número de \textit{ticks} es la variable que modifica el tiempo ejecución. El tamaño del entorno (la matriz cuadrada que representa el jardín) no aumenta el tiempo de ejecución, pues tarda el mismo tiempo en ejecutar \textit{X} ticks en cualquier matriz. Solo aumenta la complejidad espacial de la función de evaluación. 
 	\end{enumerate}
 	
 	
 	
-		\begin{comment}[boxrule=0.5pt, fontupper=\small]
-			\scriptsize
-			Tam. Población = 100\\
-			Núm. Generaciones = \{25,50,100,250,500,1000,2000\} \textbf{(Eje X)}\\
-			Met. Selección: Torneo Determinístico, con un valor k=5.\\
-			
-			- Individuo Binario:\\
-			Met. Cruce (p=0.6): Básica\\
-			Met. Mutación (p=0.05): Básica \\
-			P(x)=precision: \{P2: 30 bits, P10: 76 bits\}\\
-			
-			- Individuo Real:\\
-			Met. Cruce (p=0.6): PMX\\
-			Met. Mutación (p=0.3): Inserción \\
-			AER(x)=aeropuerto: \{AER1: 10 vuelos, 3 pistas, AER1: 25 vuelos, 5 pistas, AER3: 100 vuelos, 10 pistas\}\\
-			
-			- Individuo Binario:\\
-			Met. Cruce (p=0.6): Intercambio\\
-			Met. Mutación (p=0.3): Terminal \\
-			M(x)X(y)=matriz: \{M8X8: 8 filas, 8 columnas y 100 ticks; M100X100: 100 filas, 100 columnas y 10000 ticks\}				
-			
-		\end{comment}
-		
-				
-		Los tamaños de las pruebas de cada individuo están determinadas por las siguientes variables:
-		
-		\begin{itemize}
-			\item Binario. La precisión refleja el grado de exactitud necesario de la codificación binaria para representar un valor numérico real. Cuanto mayor sea esta, más bits se necesitan. Con una precisión de \textit{2} se necesitan \textit{11}, y con una precisión de \textit{10}, \textit{38} son los bits necesarios. Como el problema se mide en un espacio bidimensional, se necesitan dos números reales, sumando en total \textit{22} y \textit{76} bits respectivamente. 
-			\item Reales. Número de aviones (\textit{N}) y número de pistas (\textit{M}).
-			\item Árboles. Número de \textit{ticks} disponibles para podar la mayor cantidad de celdas de la matriz. Un \textit{tick} equivale a una acción ejecutada. El tamaño de la matriz cuadrada que representa el jardín no aumenta el tiempo de ejecución, solo la complejidad espacial de la función de evaluación, pues cada individuo almacena el árbol de acciones a ejecutar.
-		\end{itemize}
-		
-		La siguiente tabla (\ref{tab:pev_variables}), indica los identificadores con los valores de las variables, anteriormente mencionadas, con los cuales entender las pruebas que se van a realizar. En la parte izquierda los individuos binarios, en la central los reales y a la derecha los árboles.
+		La Tabla \ref{tab:pev_variables}, muestra los identificadores, con los valores de las variables, anteriormente mencionadas. En la parte izquierda los individuos binarios, en la central los reales y a la derecha los árboles.
 		
 		\begin{table}[!h]
 			\centering
 			\includegraphics[width=1\textwidth]{images/chapter_4/tab_pev_variables}		
-			\caption{Variables de cada individuo que modifican el tiempo de ejecución de los algoritmos evolutivos}
+			\caption{Variables de cada individuo utilizadas en los experimentos}
 			\label{tab:pev_variables}
 		\end{table}		
 	
 	%\subsubsection{Algoritmos sin mejoras}
 			
-		Primero de todo, veamos como afecta a cada individuo aumentar las variables. La figura \ref{fig:pev_secuencial} muestra dichos tiempos, notando un aumento considerable al ejecutar las pruebas con mayor tamaño de los individuos reales y árboles. En la gráfica derecha, las pruebas de los árboles, se puede observar que la primera función (representada por la línea azul) es diez veces más rápida que la segunda (línea roja), dado que el número de \textit{ticks} es diez veces menor. Sin embargo, esto no pasa con la prueba de los individuos reales (gráfica central), pues al tener una complejidad mayor, el aumento en el tiempo de ejecución no es proporcionalmente lineal al tamaño incrementado. Las gráficas se muestran de forma lineal porque el número de generaciones es estático, es decir, solo aumenta el tamaño de la población. De otro modo sería exponencial y el tiempo de ejecución sería mucho mayor.
+		Primero, veamos cómo afecta a cada individuo modificar las variables de cada problema. La Figura \ref{fig:pev_secuencial} muestra dichos tiempos. La primera gráfica pertenece a los individuos binarios, y se puede apreciar que modificar la precisión no supone un coste elevado, al contrario que los otros dos individuos, cuyos resultados muestran un aumento considerable al ejecutar las pruebas con mayor tamaño. La gráfica del medio, representando a los individuos reales, tiene una mayor complejidad, por eso se puede apreciar una diferencia significativa al utilizar la segunda especificación (\textit{AER2}) con respecto a la tercera (\textit{AER3}). La última gráfica, muestra los resultados del problema de los individuos representados como árboles. Se puede observar que la primera función (línea azul) es diez veces más rápida que la segunda (línea roja), dado que el número de \textit{ticks} es diez veces menor. Las gráficas se muestran de forma lineal porque el número de generaciones es estático, es decir, solo aumenta el tamaño de la población. De otro modo sería exponencial y el tiempo de ejecución sería mucho mayor.
 	
 
 	
@@ -1121,12 +1094,13 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					vertical sep=0.5cm},
 				width=0.40\textwidth,
 				height=0.40\textwidth,
-				tick label style={font=\tiny} 
+				tick label style={font=\tiny},
+			 	title style={at={(0.05,0.95)},anchor=north west}
 				]
 				
 				% 1
 				\nextgroupplot[
-				title={},
+				title={Binario},
 				ylabel= Tiempo de ejecución (s),
 				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
 				xtick={25, 500, 1000, 1500, 2000} 
@@ -1138,7 +1112,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				
 				% 2
 				\nextgroupplot[
-				title={},
+				title={Real},
 				xlabel=Tam. Población,
 				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
 				xtick={25, 500, 1000, 1500, 2000} 
@@ -1149,10 +1123,10 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				\addlegendentry{\tiny AER 1}
 				\addlegendentry{\tiny AER 2}
 				\addlegendentry{\tiny AER 3}
-				
+			
 				% 3
 				\nextgroupplot[
-				title={},
+				title={Árbol},
 				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
 				xtick={25, 500, 1000, 1500, 2000} 
 				]
@@ -1161,6 +1135,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				\addlegendentry{\tiny M8X8}
 				\addlegendentry{\tiny M100X10}
 				
+				
 			\end{groupplot}        
 		\end{tikzpicture}
 		\caption{Tiempos de ejecución de los agoritmos evolutivos secuenciales}
@@ -1168,7 +1143,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		\end{figure}
 
 						
-		Antes de realizar las pruebas de las tres estrategias comentadas en la sección \ref{cap:3_4}, vamos a comentar los tiempos de ejecución de los métodos del algoritmo evolutivo. Estos métodos son inicializar, evaluar, seleccionar, cruzar y mutar. Cada prueba mide el tiempo de ejecución para un individuo (dos individuos en el caso del cruce).La tabla\ref{tab:pev}, muestra los resultados obtenidos, resaltando en rojo aquellos métodos que más tiempo consumen. Para los individuos binarios se puede apreciar que los métodos cruce y mutación son los que más tiempo tardan (inicialización no cuenta, pues solo se ejecuta una vez), la evaluación recorre los mismos bits para un individuo, pero no cambia los valores, reduciendo así el tiempo de ejecución. Los individuos reales y árboles tienen una función de evaluación con mayor complejidad, lo que provoca que este método sea el que más tarde. 
+		Antes de realizar las pruebas de las tres estrategias comentadas en la Sección \ref{cap:3_4}, vamos a comentar los tiempos de ejecución de las partes del algoritmo evolutivo. Estos métodos son inicializar, evaluar, seleccionar, cruzar y mutar. Cada prueba mide el tiempo de ejecución para un individuo (dos individuos en el caso del cruce). La Tabla\ref{tab:pev}, muestra los resultados obtenidos, resaltando en rojo aquellos métodos que más tiempo consumen. Para los individuos binarios se puede apreciar que los métodos cruce y mutación son los que más tiempo tardan (inicialización no cuenta, pues solo se ejecuta una vez), la evaluación recorre los mismos bits para un individuo, pero no cambia los valores, reduciendo así el tiempo de ejecución. Los individuos reales y árboles tienen una función de evaluación con mayor complejidad, lo que provoca que este método sea el que más tarde. 
 		
 		
 		
@@ -1210,14 +1185,18 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		
 		
 		
-		Cabe destacar que estos tiempos no son la única medida que se necesita para las estrategias. El tiempo de comunicación entre procesos va a aumentar considerablemente el tiempo de ejecución, siendo, el individuo binario, el tipo de individuo que más desventaja tiene, pues al tener más datos consumirá más tiempo al enviar y recibir.
+		Cabe destacar que estos tiempos no son la única medida que se necesita para las estrategias. El tiempo de comunicación entre procesos va a aumentar considerablemente el tiempo de ejecución, siendo, el individuo binario, el tipo de individuo que más desventaja tiene, pues al tener más datos consumirá más tiempo al enviar y recibir mensajes.
 		
 
 
 
 
 	%\subsubsection{Mejora 2: Modelo de islas}
-		Empezando con las estrategias de la sección \ref{cap:3_4}, Modelo de islas, es una estrategia que consiste en dividir los individuos de la población entre ``islas'' (procesos). La configuración de las islas no influye en la reducción del tiempo de ejecución, una configuración u otra solo varia como se garantiza la supervivencia de los mejores individuos en la población general. Si usamos la configuración en estrella o anillo, podemos ir mezclando poblaciones y tener más diversidad, siendo más probable obtener mejores resultados. Para garantizar la supervivencia de los más aptos, todos los procesos se conectan cada cien generaciones para reiniciar las poblaciones con el \textit{5\%} de mejores individuos. La siguiente prueba se ejecuta con cuatro procesos, variando las poblaciones y comparando los tiempos obtenidos frente al algoritmo secuencial. La figura \ref{fig:pev_mpi2} muestra una considerable reducción del tiempo de ejecución para los dos primeros problemas. El estudio de los \textit{speedups} (figura \ref{fig:pev_mpi1_speedups}) confirma que la reducción del tiempo de ejecución es proporcional al número de procesos ejecutados. La comprobación del tercer individuo (árboles) no es necesaria. Tiene una menor complejidad que para el individuo real, y para este problema se confirma la reducción en las tres pruebas realizadas.
+		Empezando con las estrategias de la Sección \ref{cap:3_4}, \textit{modelo de islas}, es una estrategia que consiste en dividir los individuos de la población entre ``islas'' (procesos). La configuración de las islas no influye en la reducción del tiempo de ejecución, en una configuración u otra solo varía como se garantiza la supervivencia de los mejores individuos en la población general. Si usamos la configuración en estrella o anillo, podemos mezclar poblaciones y tener más diversidad, siendo más probable obtener mejores resultados. Para garantizar la supervivencia de los más aptos, todos los procesos se conectan cada cien generaciones para reiniciar las poblaciones con el \textit{5\%} de mejores individuos. La siguiente prueba se ejecuta con cuatro procesos, variando las poblaciones y comparando los tiempos obtenidos frente al algoritmo secuencial. La Figura \ref{fig:pev_mpi2} muestra el tiempo de ejecución de los algoritmos evolutivos con la estrategia de \textit{modelo de islas}, segunda estrategia implementada que consiste en ejecutar en paralelo el algoritmo secuencial. Se logra obtener una reducción del tiempo de ejecución en todos los problemas. Se puede apreciar que en todos los problemas se obtiene una reducción proporcional al número de procesos ejecutados.
+		
+		
+		
+		para los dos primeros problemas. El estudio de los \textit{speedups} (figura \ref{fig:pev_mpi1_speedups}) confirma que la reducción del tiempo de ejecución es proporcional al número de procesos ejecutados. La comprobación del tercer individuo (árboles) no es necesaria. Tiene una menor complejidad que para el individuo real, y para este problema se confirma la reducción en las tres pruebas realizadas.
 		
 			
 		
@@ -1648,11 +1627,11 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 \section{Redes Neuronales}
 \label{cap:4_6}
 		
-	Este modelo de inteligencia artificial necesita una cantidad elevada de datos, utilizados en la etapa de entrenamiento, para, de manera correcta, predecir los individuos. El algoritmo de DQN, comentado en la sección \ref{cap:2_2_2}, no se necesita de un conjunto de datos, al ser un entorno en el cual un agente ejecuta acciones. Su estapa de entrenamiento consiste en ejecutar muchas veces diferentes ejecuciones para que aprenda a moverse por el entorno, modificando la red neuronal. Pero si es verdad que se pueden cambiar los estados con los cuales el agente comienza cada iteración, cambiando los variables del entorno para que sean accesibles. Ahora bien, para la predicción del índice de masa corporal (IMC) de un individuo, se necesita de una población con la cual enseñar a la red neuronal a predecir. Es por eso que se generan individuos de manera secuencial, variando sus valores para que no sean idénticos, y lograr una población con la cual poder ejecutar el entrenamiento. Es importante resaltar que estos individuos tendrán una conexión con la realidad. Los individuos tienen alturas dado el siguiente intervalo en centimetros \textit{[150, 200]}, y el peso varia con valores entre de 25 kilogramos por encima y debajo de su altura. Esto quiere decir que si una individuo mide 180 centimetros, su peso se genera aleatoriamente con el siguiente intervalo de kilogramos \textit{[55, 105]}.
+	Este modelo de inteligencia artificial necesita una cantidad elevada de datos, utilizados en la etapa de entrenamiento para, de manera correcta, predecir los individuos. El algoritmo de DQN, comentado en la Sección \ref{cap:2_2_2}, no necesita de un conjunto de datos, al ser un entorno en el cual un agente ejecuta acciones. Su estapa de entrenamiento consiste en ejecutar muchas veces diferentes ejecuciones para que aprenda a moverse por el entorno, modificando la red neuronal. Sin embargo, se pueden cambiar los estados con los cuales el agente comienza cada iteración, cambiando los variables del entorno para que sean accesibles. Ahora bien, para la predicción del índice de masa corporal (IMC) de un individuo, se necesita de una población con la cual enseñar a la red neuronal a predecir. Es por eso que se generan individuos de manera secuencial, variando sus valores para que no sean idénticos, y lograr así una población con la cual poder ejecutar el entrenamiento. Es importante resaltar que estos individuos tendrán una conexión con la realidad. Los individuos tienen alturas dado el siguiente intervalo en centimetros \textit{[150, 200]}, y el peso varia con valores entre de 25 kilogramos por encima y debajo del peso ideal para cada altura (\textit{IMC = 22.5}). Esto quiere decir que si una individuo mide 180 centimetros, su peso se genera aleatoriamente con el siguiente intervalo de kilogramos \textit{[55, 105]}.
 		
 	
 	%\subsubsection{Mejora 1: PipeLine}
-		La primera estrategia, \textit{PipeLine} de individuos, se logra generando en la capa de salida los individuos, siendo gestionados por el proceso \textit{master}. Los demás procesos (los \textit{workers}) gestionan las posteriores capas creadas. La siguiente prueba tiene una población de \textit{2000} individuos, previamente generados como se comentó en el párrafo anterior. La red neuronal tiene una capa oculta con dos capas y cincuenta neuronas cada una (\textit{2x50}). Con cinco repeticiones, se entrena la red neuronal con \textit{10000} individuos en total. Dando los resultados que se muestran en la figura \ref{fig:redneu_estrategia1}. Esta estrategia, tanto aplicando mensajes síncronos como asíncronos, no surte mucho efecto, pues en vez de reducir el tiempo de ejecución lo aumenta. En programación evolutiva, el flujo de mensajes es unidireccional, y no se pierde tanto tiempo entre mensajes. Este algoritmo, al tener dos métodos en diferentes direcciones, provoca un flujo bidireccional, y la comunicación entre procesos se ralentiza. Usando mensajes asíncronos, permite a cada proceso ejecutar antes el cálculo de \textit{forward} (hacia adelante) y cuando recibe los errores los actualiza. Reduce muy poco el tiempo comparándolo con la versión síncrona. Además, hay que tener en cuenta que el flujo de mensajes hace que el modelo aprenda con valores desactualizados. Y dependiendo de la población, puede situarse en un bucle en el cual aumenta y reduce los pesos, provocando un entrenamiento erróneo.
+		La primera estrategia, \textit{Pipeline} de individuos, se logra generando en la capa de salida los individuos, siendo gestionados por el proceso \textit{master}. Los demás procesos (los \textit{workers}) gestionan las posteriores capas creadas. La siguiente prueba tiene una población de \textit{2000} individuos, previamente generados como se comentó en el párrafo anterior. La red neuronal tiene una parte oculta con dos capas y cincuenta neuronas cada una (\textit{2x50}). Con cinco repeticiones, se entrena la red neuronal con \textit{10000} individuos en total, dando los resultados que se muestran en la Figura \ref{fig:redneu_estrategia1}. Esta estrategia, tanto aplicando mensajes síncronos como asíncronos, no surte mucho efecto, pues en vez de reducir el tiempo de ejecución lo aumenta. En programación evolutiva, el flujo de mensajes es unidireccional, y no se pierde tanto tiempo entre mensajes. Este algoritmo, al tener dos métodos en diferentes direcciones, provoca un flujo bidireccional, y la comunicación entre procesos se ralentiza. Usando mensajes asíncronos, permite a cada proceso ejecutar antes el cálculo de \textit{forward} (hacia adelante) y cuando recibe los errores los actualiza. Reduce muy poco el tiempo comparándolo con la versión síncrona. Además, hay que tener en cuenta que el flujo de mensajes hace que el modelo aprenda con valores desactualizados. Dependiendo de la población, puede situarse en un bucle en el cual aumenta y reduce los pesos, provocando un entrenamiento erróneo.
 
 
 			\begin{figure}[!h]
@@ -1681,7 +1660,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 						
 					\end{axis}
 				\end{tikzpicture}
-				\caption{Tiempo de ejecución de la primera estrategia de Red Neuronal en ordenador de propósito general}
+				\caption{Tiempo de ejecución de la estrategia Pipeline de Red Neuronal en ordenador de propósito general}
 				\label{fig:redneu_estrategia1}
 			\end{figure}
 
@@ -1689,7 +1668,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 			
 		%\subsubsection{Mejora 2: Dividir el trabajo en procesos}
 
-			La estrategia de dividir el proceso en entrenamiento entre varios procesos, ya se ha comprobado que funciona correctamente en otros algoritmos como pueden ser \textit{Q-Learning} y programación evolutiva con el modelo de islas, además de basarse ligeramente en la idea de \textit{fine-tuning}. Esta vez, hay que tener en cuenta que la etapa de entrenamiento es un proceso iterativo en el cual se predice un individuo y se actualiza los errores cometidos, siendo un proceso complicado de lograr satisfactoriamente. La figura \ref{fig:redneu_estrategia2} muestra la prueba realizada con una población de 80 individuos y 1000 repeticiones, sumando un total de \textit{80000} individuos predichos en el entrenamiento. Se aplica el modelo \textit{Master-Worker} para paralelizar el entrenamiento con \textit{3} y \textit{5} procesos, y una vez terminado enviar los pesos al \textit{master} para realizar la media, intentando maximizar las predicciones finales. El \textit{master} se encarga de dividir la población, siguiendo alguno de los métodos comentados en el final de la sección \ref{cap:3_5}. Se puede apreciar una reducción del tiempo de ejecución proporcional al número pe procesos \textit{worker} ejecutados.
+			La estrategia de dividir el proceso en entrenamiento entre varios procesos, ya se ha comprobado que funciona correctamente en otros algoritmos como pueden ser \textit{Q-Learning} y programación evolutiva con el modelo de islas, además de basarse ligeramente en la idea de \textit{fine-tuning}. Esta vez, hay que tener en cuenta que la etapa de entrenamiento es un proceso iterativo en el cual se predice un individuo y se actualiza los errores cometidos, siendo un proceso complicado de lograr satisfactoriamente. La Figura \ref{fig:redneu_estrategia2} muestra la prueba realizada con una población de 80 individuos y 1000 repeticiones, sumando un total de \textit{80000} individuos predichos en el entrenamiento. Se aplica el modelo \textit{Master-Worker} para paralelizar el entrenamiento con \textit{3} y \textit{5} procesos, y una vez terminado enviar los pesos al \textit{master} para realizar la media, intentando maximizar las predicciones finales. El \textit{master} se encarga de dividir la población, siguiendo alguno de los métodos comentados en el final de la Sección \ref{cap:3_5}. Se puede apreciar una reducción del tiempo de ejecución proporcional al número pe procesos \textit{worker} ejecutados.
 		
 			\begin{figure}[!h]
 				\centering
@@ -1717,7 +1696,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 						
 					\end{axis}
 				\end{tikzpicture}
-				\caption{Tiempo de ejecución de la segunda estrategia de Red Neuronal en ordenador de propósito general}
+				\caption{Tiempo de ejecución de la estrategia de dividir el trabajo de la Red Neuronal en ordenador de propósito general}
 				\label{fig:redneu_estrategia2}
 			\end{figure}
 			

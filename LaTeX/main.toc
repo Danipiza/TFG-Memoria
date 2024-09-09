@@ -40,14 +40,14 @@
 \contentsline {subsection}{\numberline {4.2.1}Ordenaciones}{62}{subsection.4.2.1}%
 \contentsline {subsubsection}{\numberline {4.2.1.1}Algoritmos de complejidad cuadrática}{62}{subsubsection.4.2.1.1}%
 \contentsline {subsubsection}{\numberline {4.2.1.2}Algoritmo \textit {MergeSort}}{64}{subsubsection.4.2.1.2}%
-\contentsline {subsection}{\numberline {4.2.2}Multiplicación de matrices}{67}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Algoritmos de Agrupación}{69}{section.4.3}%
+\contentsline {subsection}{\numberline {4.2.2}Multiplicación de matrices}{66}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Algoritmos de Agrupación}{68}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Jerárquico Aglomerativo}{70}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}K-Medias}{74}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}KNN}{78}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}Q-Learning}{81}{section.4.4}%
+\contentsline {subsection}{\numberline {4.3.3}KNN}{77}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Q-Learning}{80}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Algoritmos Evolutivos}{84}{section.4.5}%
 \contentsline {section}{\numberline {4.6}Redes Neuronales}{94}{section.4.6}%
 \contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{98}{chapter.5}%
 \contentsline {chapter}{5. Conclusions and future work}{100}{chapter.5}%
-\contentsline {chapter}{Bibliography}{104}{chapter*.71}%
+\contentsline {chapter}{Bibliography}{104}{chapter*.70}%
