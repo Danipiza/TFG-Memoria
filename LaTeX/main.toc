@@ -19,9 +19,9 @@
 \contentsline {section}{\numberline {2.3}Aprendizaje No-Supervisado}{18}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Clustering jerárquico aglomerativo}{19}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}Clustering basado en particiones: K-Medias}{20}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{21}{section.2.4}%
+\contentsline {section}{\numberline {2.4}Aprendizaje Supervisado}{22}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}K-Vecinos más Cercanos - KNN}{22}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Redes Neuronales}{24}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.2}Redes Neuronales}{23}{subsection.2.4.2}%
 \contentsline {section}{\numberline {2.5}Algoritmos Evolutivos}{25}{section.2.5}%
 \contentsline {chapter}{\numberline {3}Diseño e Implementación de estrategias para aumentar el rendimiento de algoritmos de IA}{27}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Programas sencillos}{27}{section.3.1}%

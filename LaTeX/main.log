@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  11 SEP 2024 20:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  11 SEP 2024 21:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1691,23 +1691,19 @@ rama.jpg>]
 File: images/chapter_2/kmedias.png Graphic file (type png)
 <use images/chapter_2/kmedias.png>
 Package pdftex.def Info: images/chapter_2/kmedias.png  used on input line 272.
-(pdftex.def)             Requested size: 466.86469pt x 192.02339pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[21] [22 <./images/chapter_2/kmedias.png>]
-<images/chapter_2/knn_redneu.png, id=527, 915.42pt x 347.2975pt>
+(pdftex.def)             Requested size: 420.17535pt x 172.82153pt.
+ [21 <./images/chapter_2/kmedias.png>] [22]
+<images/chapter_2/knn_redneu.png, id=528, 915.42pt x 347.2975pt>
 File: images/chapter_2/knn_redneu.png Graphic file (type png)
 <use images/chapter_2/knn_redneu.png>
 Package pdftex.def Info: images/chapter_2/knn_redneu.png  used on input line 32
-6.
+8.
 (pdftex.def)             Requested size: 466.86469pt x 177.11937pt.
  [23 <./images/chapter_2/knn_redneu.png>] [24] [25]
 <images/chapter_2/AG.png, id=554, 754.82pt x 844.15375pt>
 File: images/chapter_2/AG.png Graphic file (type png)
 <use images/chapter_2/AG.png>
-Package pdftex.def Info: images/chapter_2/AG.png  used on input line 432.
+Package pdftex.def Info: images/chapter_2/AG.png  used on input line 434.
 (pdftex.def)             Requested size: 233.43234pt x 261.0538pt.
 ) [26 <./images/chapter_2/AG.png>]
 \openout2 = `Capitulos/3_Diseño_implementaciones.aux'.
@@ -2338,7 +2334,7 @@ Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6
 s/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (115 pages, 11866306 bytes).
+Output written on main.pdf (115 pages, 11866288 bytes).
 PDF statistics:
  1969 PDF objects out of 2073 (max. 8388607)
  325 named destinations out of 1000 (max. 500000)
