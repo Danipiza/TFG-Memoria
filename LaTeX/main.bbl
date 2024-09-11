@@ -86,6 +86,13 @@ Surender Mor, Sonu Madan, and Kumar~Dharmendra Prasad.
   agriculture.
 \newblock {\em Strategic Change}, 30(3):269--280, 2021.
 
+\bibitem{pitis2019rethinking}
+Silviu Pitis.
+\newblock Rethinking the discount factor in reinforcement learning: A decision
+  theoretic approach.
+\newblock In {\em Proceedings of the AAAI conference on artificial
+  intelligence}, volume~33, pages 7949--7956, 2019.
+
 \bibitem{pool2020accelerating}
 Jeff Pool.
 \newblock Accelerating sparsity in the nvidia ampere architecture.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  9 SEP 2024 20:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  11 SEP 2024 11:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1388,11 +1388,7 @@ LaTeX Info: Redefining \. on input line 22.
 LaTeX Info: Redefining \% on input line 22.
  (Capitulos/1_Introduccion.aux) (Capitulos/2_Contextualizacion.aux)
 (Capitulos/3_Diseño_implementaciones.aux) (Capitulos/4_Estudio_empírico.aux)
-(Capitulos/5_Conclusiones_trabajo_futuro.aux)
-
-LaTeX Warning: Label `cap:c5_conclu' multiply defined.
-
-(Cascaras/acronimos.aux))
+(Capitulos/5_Conclusiones_trabajo_futuro.aux) (Cascaras/acronimos.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 197.
@@ -1627,7 +1623,7 @@ Package hyperref Warning: The anchor of a bookmark and its parent's must not
 
  (Capitulos/2_Contextualizacion.tex
 Cap\'{\i }tulo 2.
-<images/chapter_2/mpi_1.png, id=405, 627.09282pt x 423.08063pt>
+<images/chapter_2/mpi_1.png, id=404, 627.09282pt x 423.08063pt>
 File: images/chapter_2/mpi_1.png Graphic file (type png)
 <use images/chapter_2/mpi_1.png>
 Package pdftex.def Info: images/chapter_2/mpi_1.png  used on input line 24.
@@ -1639,7 +1635,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 ] [12 <./images/chapter_2/mpi_1.png>]
-<images/chapter_2/mpi_2.png, id=422, 1049.42062pt x 470.50781pt>
+<images/chapter_2/mpi_2.png, id=421, 1049.42062pt x 470.50781pt>
 File: images/chapter_2/mpi_2.png Graphic file (type png)
 <use images/chapter_2/mpi_2.png>
 Package pdftex.def Info: images/chapter_2/mpi_2.png  used on input line 47.
@@ -1656,20 +1652,20 @@ Package mdframed Info: mdframed inside float
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 126.
  [15]
-<images/chapter_2/pacman.png, id=471, 1258.7025pt x 1011.78pt>
+<images/chapter_2/pacman.png, id=470, 1258.7025pt x 1011.78pt>
 File: images/chapter_2/pacman.png Graphic file (type png)
 <use images/chapter_2/pacman.png>
 Package pdftex.def Info: images/chapter_2/pacman.png  used on input line 149.
 (pdftex.def)             Requested size: 256.777pt x 206.3973pt.
  [16 <./images/chapter_2/pacman.png>] [17]
-<images/chapter_2/ap_nosup_diagramas.jpg, id=487, 1159.33125pt x 390.45876pt>
+<images/chapter_2/ap_nosup_diagramas.jpg, id=486, 1159.33125pt x 390.45876pt>
 File: images/chapter_2/ap_nosup_diagramas.jpg Graphic file (type jpg)
 <use images/chapter_2/ap_nosup_diagramas.jpg>
 Package pdftex.def Info: images/chapter_2/ap_nosup_diagramas.jpg  used on input
  line 178.
 (pdftex.def)             Requested size: 443.52002pt x 149.37679pt.
  [18 <./images/chapter_2/ap_nosup_diagramas.jpg>]
-<images/chapter_2/dendograma.jpg, id=498, 988.9579pt x 648.90852pt>
+<images/chapter_2/dendograma.jpg, id=497, 988.9579pt x 648.90852pt>
 File: images/chapter_2/dendograma.jpg Graphic file (type jpg)
 <use images/chapter_2/dendograma.jpg>
 Package pdftex.def Info: images/chapter_2/dendograma.jpg  used on input line 22
@@ -1680,20 +1676,20 @@ Package pdftex.def Info: images/chapter_2/dendograma.jpg  used on input line 22
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [19] [20 <./images/chapter_2/dendograma.jpg>]
-<images/chapter_2/kmedias.png, id=517, 759.58781pt x 312.41719pt>
+<images/chapter_2/kmedias.png, id=516, 759.58781pt x 312.41719pt>
 File: images/chapter_2/kmedias.png Graphic file (type png)
 <use images/chapter_2/kmedias.png>
 Package pdftex.def Info: images/chapter_2/kmedias.png  used on input line 263.
 (pdftex.def)             Requested size: 466.86469pt x 192.02339pt.
  [21 <./images/chapter_2/kmedias.png>] [22]
-<images/chapter_2/knn_redneu.png, id=532, 915.42pt x 347.2975pt>
+<images/chapter_2/knn_redneu.png, id=531, 915.42pt x 347.2975pt>
 File: images/chapter_2/knn_redneu.png Graphic file (type png)
 <use images/chapter_2/knn_redneu.png>
 Package pdftex.def Info: images/chapter_2/knn_redneu.png  used on input line 31
 7.
 (pdftex.def)             Requested size: 466.86469pt x 177.11937pt.
  [23 <./images/chapter_2/knn_redneu.png>] [24]
-<images/chapter_2/AG.png, id=548, 754.82pt x 844.15375pt>
+<images/chapter_2/AG.png, id=547, 754.82pt x 844.15375pt>
 File: images/chapter_2/AG.png Graphic file (type png)
 <use images/chapter_2/AG.png>
 Package pdftex.def Info: images/chapter_2/AG.png  used on input line 420.
@@ -1709,7 +1705,7 @@ Cap\'{\i }tulo 3.
 
 
 ]
-<images/chapter_3/matriz_mpi.png, id=561, 881.2925pt x 780.9175pt>
+<images/chapter_3/matriz_mpi.png, id=560, 881.2925pt x 780.9175pt>
 File: images/chapter_3/matriz_mpi.png Graphic file (type png)
 <use images/chapter_3/matriz_mpi.png>
 Package pdftex.def Info: images/chapter_3/matriz_mpi.png  used on input line 40
@@ -1720,7 +1716,7 @@ Package pdftex.def Info: images/chapter_3/matriz_mpi.png  used on input line 40
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [27]
-<images/chapter_3/sequentialsort_mpi.jpeg, id=568, 2033.5975pt x 1345.025pt>
+<images/chapter_3/sequentialsort_mpi.jpeg, id=567, 2033.5975pt x 1345.025pt>
 File: images/chapter_3/sequentialsort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/sequentialsort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/sequentialsort_mpi.jpeg  used on inpu
@@ -1732,7 +1728,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [28 <./images/chapter_3/matriz_mpi.png>] [29 <./images/chapter_3/sequentialsort
 _mpi.jpeg>]
-<images/chapter_3/mergesort_mpi.jpeg, id=584, 4107.345pt x 1710.39pt>
+<images/chapter_3/mergesort_mpi.jpeg, id=583, 4107.345pt x 1710.39pt>
 File: images/chapter_3/mergesort_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/mergesort_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/mergesort_mpi.jpeg  used on input lin
@@ -1759,7 +1755,7 @@ Package mdframed Info: mdframed inside a box
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [32]
-<images/chapter_3/aglomerativo_mpi.jpg, id=602, 314.18431pt x 262.45421pt>
+<images/chapter_3/aglomerativo_mpi.jpg, id=601, 314.18431pt x 262.45421pt>
 File: images/chapter_3/aglomerativo_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/aglomerativo_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/aglomerativo_mpi.jpg  used on input l
@@ -1773,7 +1769,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 239.
-<images/chapter_3/kmedias_mpi.jpeg, id=627, 2089.8075pt x 927.465pt>
+<images/chapter_3/kmedias_mpi.jpeg, id=626, 2089.8075pt x 927.465pt>
 File: images/chapter_3/kmedias_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_3/kmedias_mpi.jpeg>
 Package pdftex.def Info: images/chapter_3/kmedias_mpi.jpeg  used on input line 
@@ -1792,13 +1788,13 @@ Package mdframed Info: mdframed inside float
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 295.
  [37 <./images/chapter_3/kmedias_mpi.jpeg>] [38]
-<images/chapter_3/knn_mpi1.jpg, id=650, 4015.0pt x 4015.0pt>
+<images/chapter_3/knn_mpi1.jpg, id=649, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi1.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi1.jpg>
 Package pdftex.def Info: images/chapter_3/knn_mpi1.jpg  used on input line 338.
 
 (pdftex.def)             Requested size: 210.08768pt x 210.07387pt.
-<images/chapter_3/knn_mpi2.jpg, id=651, 4015.0pt x 4015.0pt>
+<images/chapter_3/knn_mpi2.jpg, id=650, 4015.0pt x 4015.0pt>
 File: images/chapter_3/knn_mpi2.jpg Graphic file (type jpg)
 <use images/chapter_3/knn_mpi2.jpg>
 Package pdftex.def Info: images/chapter_3/knn_mpi2.jpg  used on input line 345.
@@ -1810,13 +1806,13 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [39] [40 <./images/chapter_3/knn_mpi1.jpg> <./images/chapter_3/knn_mpi2.jpg>]
 [41] [42] [43]
-<images/chapter_3/rl_mpi.jpg, id=682, 2264.46pt x 2288.55pt>
+<images/chapter_3/rl_mpi.jpg, id=681, 2264.46pt x 2288.55pt>
 File: images/chapter_3/rl_mpi.jpg Graphic file (type jpg)
 <use images/chapter_3/rl_mpi.jpg>
 Package pdftex.def Info: images/chapter_3/rl_mpi.jpg  used on input line 425.
 (pdftex.def)             Requested size: 256.777pt x 259.4936pt.
  [44 <./images/chapter_3/rl_mpi.jpg>] [45] [46]
-<images/chapter_3/pacman_states.png, id=696, 980.16188pt x 408.02437pt>
+<images/chapter_3/pacman_states.png, id=695, 980.16188pt x 408.02437pt>
 File: images/chapter_3/pacman_states.png Graphic file (type png)
 <use images/chapter_3/pacman_states.png>
 Package pdftex.def Info: images/chapter_3/pacman_states.png  used on input line
@@ -1827,7 +1823,7 @@ Package pdftex.def Info: images/chapter_3/pacman_states.png  used on input line
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [47] [48 <./images/chapter_3/pacman_states.png>] [49] [50] [51]
-<images/chapter_3/pev_mpi1.png, id=742, 1853.92625pt x 1257.69875pt>
+<images/chapter_3/pev_mpi1.png, id=741, 1853.92625pt x 1257.69875pt>
 File: images/chapter_3/pev_mpi1.png Graphic file (type png)
 <use images/chapter_3/pev_mpi1.png>
 Package pdftex.def Info: images/chapter_3/pev_mpi1.png  used on input line 618.
@@ -1838,7 +1834,7 @@ Package pdftex.def Info: images/chapter_3/pev_mpi1.png  used on input line 618.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [52]
-<images/chapter_3/pev_mpi2.png, id=753, 1784.6675pt x 552.0625pt>
+<images/chapter_3/pev_mpi2.png, id=751, 1784.6675pt x 552.0625pt>
 File: images/chapter_3/pev_mpi2.png Graphic file (type png)
 <use images/chapter_3/pev_mpi2.png>
 Package pdftex.def Info: images/chapter_3/pev_mpi2.png  used on input line 633.
@@ -1849,7 +1845,7 @@ Package pdftex.def Info: images/chapter_3/pev_mpi2.png  used on input line 633.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [53 <./images/chapter_3/pev_mpi1.png>]
-<images/chapter_3/pev_mpi3.png, id=761, 1670.24pt x 1339.0025pt>
+<images/chapter_3/pev_mpi3.png, id=760, 1670.24pt x 1339.0025pt>
 File: images/chapter_3/pev_mpi3.png Graphic file (type png)
 <use images/chapter_3/pev_mpi3.png>
 Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 644.
@@ -1861,13 +1857,17 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [54 <./images/chapter_3/pev_mpi2.png>] [55 <./images/chapter_3/pev_mpi3.png>]
 [56]
-<images/chapter_3/redneu_mpi2.png, id=781, 2125.9425pt x 2298.5875pt>
+<images/chapter_3/redneu_mpi2.png, id=780, 2125.9425pt x 2298.5875pt>
 File: images/chapter_3/redneu_mpi2.png Graphic file (type png)
 <use images/chapter_3/redneu_mpi2.png>
 Package pdftex.def Info: images/chapter_3/redneu_mpi2.png  used on input line 6
 91.
 (pdftex.def)             Requested size: 256.777pt x 277.60735pt.
- [57 <./images/chapter_3/redneu_mpi2.png (PNG copy)>] [58]) [59]
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[57] [58 <./images/chapter_3/redneu_mpi2.png (PNG copy)>]) [59]
 \openout2 = `Capitulos/4_Estudio_empírico.aux'.
 
 
@@ -1879,7 +1879,7 @@ Cap\'{\i }tulo 4.
 
 
 ]
-<images/chapter_4/cluster.jpg, id=809, 891.58357pt x 777.47305pt>
+<images/chapter_4/cluster.jpg, id=808, 891.58357pt x 777.47305pt>
 File: images/chapter_4/cluster.jpg Graphic file (type jpg)
 <use images/chapter_4/cluster.jpg>
 Package pdftex.def Info: images/chapter_4/cluster.jpg  used on input line 40.
@@ -1954,7 +1954,7 @@ Overfull \hbox (25.3392pt too wide) in paragraph at lines 341--368
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [68] [69] [70]
-<images/chapter_4/jerarquico.jpg, id=877, 1567.8575pt x 713.66624pt>
+<images/chapter_4/jerarquico.jpg, id=876, 1567.8575pt x 713.66624pt>
 File: images/chapter_4/jerarquico.jpg Graphic file (type jpg)
 <use images/chapter_4/jerarquico.jpg>
 Package pdftex.def Info: images/chapter_4/jerarquico.jpg  used on input line 42
@@ -2040,7 +2040,7 @@ Overfull \hbox (10.02524pt too wide) in paragraph at lines 863--864
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [78]
-<images/chapter_4/knn_mpi.jpeg, id=935, 2376.88pt x 1065.9825pt>
+<images/chapter_4/knn_mpi.jpeg, id=934, 2376.88pt x 1065.9825pt>
 File: images/chapter_4/knn_mpi.jpeg Graphic file (type jpg)
 <use images/chapter_4/knn_mpi.jpeg>
 Package pdftex.def Info: images/chapter_4/knn_mpi.jpeg  used on input line 878.
@@ -2080,13 +2080,13 @@ PGFPlots: reading {files/rl.txt}
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [81] [82]
-<images/chapter_4/mapa_calor.png, id=961, 380.17032pt x 380.17032pt>
+<images/chapter_4/mapa_calor.png, id=960, 380.17032pt x 380.17032pt>
 File: images/chapter_4/mapa_calor.png Graphic file (type png)
 <use images/chapter_4/mapa_calor.png>
 Package pdftex.def Info: images/chapter_4/mapa_calor.png  used on input line 10
 32.
 (pdftex.def)             Requested size: 186.74301pt x 186.74916pt.
-<images/chapter_4/histo.png, id=962, 529.98pt x 381.67593pt>
+<images/chapter_4/histo.png, id=961, 529.98pt x 381.67593pt>
 File: images/chapter_4/histo.png Graphic file (type png)
 <use images/chapter_4/histo.png>
 Package pdftex.def Info: images/chapter_4/histo.png  used on input line 1039.
@@ -2096,12 +2096,17 @@ Package pdftex.def Info: images/chapter_4/histo.png  used on input line 1039.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [83] [84 <./images/chapter_4/mapa_calor.png> <./images/chapter_4/histo.png>]
+Overfull \hbox (7.6211pt too wide) in paragraph at lines 1067--1068
+[]\T1/cmr/m/n/12 Real. El uti-li-za-do en el pro-ble-ma del ae-ro-puer-to. Tie-
+ne un cos-te lo-ga-r�t-mi-co \T1/cmr/m/it/12 O(N*LogM))
+ []
+
 [85]
-<images/chapter_4/tab_pev_variables.png, id=985, 1492.8272pt x 190.46156pt>
+<images/chapter_4/tab_pev_variables.png, id=983, 1492.8272pt x 190.46156pt>
 File: images/chapter_4/tab_pev_variables.png Graphic file (type png)
 <use images/chapter_4/tab_pev_variables.png>
 Package pdftex.def Info: images/chapter_4/tab_pev_variables.png  used on input 
-line 1075.
+line 1077.
 (pdftex.def)             Requested size: 466.86469pt x 59.56267pt.
 PGFPlots: reading {files/pev.txt}
 PGFPlots: reading {files/pev.txt}
@@ -2111,7 +2116,7 @@ PGFPlots: reading {files/pev.txt}
 PGFPlots: reading {files/pev.txt}
 PGFPlots: reading {files/pev.txt}
 
-Overfull \hbox (13.31828pt too wide) in paragraph at lines 1088--1141
+Overfull \hbox (13.31828pt too wide) in paragraph at lines 1090--1143
 []  [] 
  []
 
@@ -2119,135 +2124,57 @@ Overfull \hbox (13.31828pt too wide) in paragraph at lines 1088--1141
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [86 <./images/chapter_4/tab_pev_variables.png>]
-<images/chapter_4/tabla_pev.png, id=996, 1321.18594pt x 545.03625pt>
+<images/chapter_4/tabla_pev.png, id=993, 1321.18594pt x 545.03625pt>
 File: images/chapter_4/tabla_pev.png Graphic file (type png)
 <use images/chapter_4/tabla_pev.png>
 Package pdftex.def Info: images/chapter_4/tabla_pev.png  used on input line 115
-2.
+7.
 (pdftex.def)             Requested size: 466.86469pt x 192.59518pt.
- [87 <./images/chapter_4/tabla_pev.png>]
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-PGFPlots: reading {files/pev_2mpi.txt}
-
-Overfull \hbox (13.31828pt too wide) in paragraph at lines 1204--1252
-[]  [] 
- []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[87] [88 <./images/chapter_4/tabla_pev.png>]
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
+PGFPlots: reading {files/pev_2mpi.txt}
 PGFPlots: reading {files/pev_2mpi_speedup.txt}
 PGFPlots: reading {files/pev_2mpi_speedup.txt}
 PGFPlots: reading {files/pev_2mpi_speedup.txt}
+PGFPlots: reading {files/pev_2mpi_speedup.txt}
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[88] [89]
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
-PGFPlots: reading {files/pev_1_1mpi.txt}
+[89] [90]
+<images/chapter_4/pev_1_1mpi.png, id=1026, 4605.205pt x 4006.97pt>
+File: images/chapter_4/pev_1_1mpi.png Graphic file (type png)
+<use images/chapter_4/pev_1_1mpi.png>
+Package pdftex.def Info: images/chapter_4/pev_1_1mpi.png  used on input line 13
+31.
+(pdftex.def)             Requested size: 373.49316pt x 324.96632pt.
+ [91 <./images/chapter_4/pev_1_1mpi.png>]
 
-Overfull \hbox (13.31828pt too wide) in paragraph at lines 1306--1357
-[]  [] 
- []
+LaTeX Warning: Reference `pev:estrategia_mpi3_2' on page 92 undefined on input 
+line 1587.
 
-<images/chapter_4/pev_mpi1.jpeg, id=1018, 2302.6025pt x 2003.485pt>
-File: images/chapter_4/pev_mpi1.jpeg Graphic file (type jpg)
-<use images/chapter_4/pev_mpi1.jpeg>
-Package pdftex.def Info: images/chapter_4/pev_mpi1.jpeg  used on input line 136
-3.
-(pdftex.def)             Requested size: 280.12166pt x 243.70946pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[90] [91 <./images/chapter_4/pev_mpi1.jpeg>]
-Missing character: There is no x in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no k in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no ] in font nullfont!
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-Missing character: There is no x in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no k in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no ] in font nullfont!
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-PGFPlots: reading {files/pev_3mpi.txt}
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[92]
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
 
-Overfull \hbox (25.3392pt too wide) in paragraph at lines 1553--1582
+Overfull \hbox (25.3392pt too wide) in paragraph at lines 1593--1622
 []  [] 
  []
 
@@ -2259,14 +2186,14 @@ PGFPlots: reading {files/cluster/pevReal.txt}
 PGFPlots: reading {files/cluster/pevReal.txt}
 PGFPlots: reading {files/cluster/pevReal.txt}
 
-Overfull \hbox (13.5907pt too wide) in paragraph at lines 1589--1618
+Overfull \hbox (13.5907pt too wide) in paragraph at lines 1629--1658
 []  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[93] [94]
+[92] [93]
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
@@ -2274,44 +2201,60 @@ PGFPlots: reading {files/redneu1.txt}
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[95]
+[94]
 PGFPlots: reading {files/redneu2.txt}
 PGFPlots: reading {files/redneu2.txt}
 PGFPlots: reading {files/redneu2.txt}
 
-Overfull \hbox (0.87617pt too wide) in paragraph at lines 1698--1699
+Overfull \hbox (0.87617pt too wide) in paragraph at lines 1738--1739
  [][] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[96]) [97]
+[95] [96]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[97]
+<images/chapter_4/DQN_search.png, id=1073, 638.385pt x 653.44125pt>
+File: images/chapter_4/DQN_search.png Graphic file (type png)
+<use images/chapter_4/DQN_search.png>
+Package pdftex.def Info: images/chapter_4/DQN_search.png  used on input line 17
+89.
+(pdftex.def)             Requested size: 373.49316pt x 382.30646pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) [98] [99 <./images/chapter_4/DQN_search.png>]
 \openout2 = `Capitulos/5_Conclusiones_trabajo_futuro.aux'.
 
- (Capitulos/5_Conclusiones_trabajo_futuro.tex
+
+(Capitulos/5_Conclusiones_trabajo_futuro.tex
 Cap\'{\i }tulo 5.
-[98
+[100
 
 
 
 
-]) [99] (Capitulos/5_Conclusiones_trabajo_futuro_EN.tex [100
+]) [101] (Capitulos/5_Conclusiones_trabajo_futuro_EN.tex [102
 
 
 
 ]) (main.bbl
-[101]
+[103]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 5
 .
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [102
+) [104
 
-] [103]) [104]
+] [105]) [106]
 \openout2 = `Cascaras/acronimos.aux'.
 
- (Cascaras/acronimos.tex) [105
+ (Cascaras/acronimos.tex) [107
 
 ]
 
@@ -2331,19 +2274,19 @@ L3 programming layer <2024-01-04>
  ***********
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: E6EEAFA8670684FDC4BE007F1A3BABAE;8859.
+(rerunfilecheck)             Checksum: D2974555D5B6836AAA694F6A6F11C7B4;8859.
  ) 
 Here is how much of TeX's memory you used:
- 50764 strings out of 474485
- 1128170 string characters out of 5742791
+ 50763 strings out of 474485
+ 1128418 string characters out of 5742791
  2052542 words of memory out of 5000000
- 71831 multiletter control sequences out of 15000+600000
+ 71832 multiletter control sequences out of 15000+600000
  580557 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,20n,131p,2364b,2468s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,20n,131p,2451b,2484s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ec
 ti0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\ectt1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
@@ -2379,9 +2322,9 @@ Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6
 s/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (112 pages, 8989872 bytes).
+Output written on main.pdf (114 pages, 11869468 bytes).
 PDF statistics:
- 1955 PDF objects out of 2073 (max. 8388607)
- 322 named destinations out of 1000 (max. 500000)
- 631 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1986 PDF objects out of 2073 (max. 8388607)
+ 324 named destinations out of 1000 (max. 500000)
+ 636 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -475,7 +475,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 			
 	%\subsubsection{Distancia por enlace Simple/Completo con mejoras}
 	
-		Ahora veamos el comportamiento de las estrategias para la distancia entre \textit{clusters} con mayor complejidad, enlace \textit{simple} o \textit{completo}. Las pruebas se realizan con tamaños de poblaciones inferiores a las pruebas anteriores. Estos son los siguientes \textit{[100, 200, 500, 1000, 1500, 2000]}, y se ejecutan las estrategias con cuatro procesos para comprobar el rendimiento. La tercera estrategia tiene el mismo rendimiento que la segunda, pero con más procesos. Reservar procesos unicamente para el cálculo de nuevas distancias no es eficaz, es mejor dividir entre los procesos activos (segunda estrategia). La Figura \ref{fig:JA_simple} muestra los resultados obtenidos del estudio. Aunque sí reduce el tiempo de ejecución, no se obtienen buenos resultados, pues el \textit{speedup} con \textit{2000} individuos de población para la estrategia con mejores resultados es de \textit{1.88}. Al usar cuatro procesos, podemos concluir que los tres \textit{workers} pierden mucho tiempo calculando las distancias en cada iteración. Es posible que mediante la refinación progresiva de la segunda estrategia a través de un proceso iterativo de prueba y error, se logre reducir el tiempo de ejecución. No obstante, hasta el momento, no hemos logrado reducirlo más allá del tiempo actual.
+		Ahora veamos el comportamiento de las estrategias para la distancia entre \textit{clusters} con mayor complejidad, enlace \textit{simple} o \textit{completo}. Las pruebas se realizan con tamaños de poblaciones inferiores a las pruebas anteriores. Estos son los siguientes \textit{[100, 200, 500, 1000, 1500, 2000]}, y se ejecutan las estrategias con cuatro procesos para comprobar el rendimiento. La tercera estrategia tiene el mismo rendimiento que la segunda, pero con más procesos. Reservar procesos únicamente para el cálculo de nuevas distancias no es eficaz, es mejor dividir entre los procesos activos (segunda estrategia). La Figura \ref{fig:JA_simple} muestra los resultados obtenidos del estudio. Aunque sí reduce el tiempo de ejecución, no se obtienen buenos resultados, pues el \textit{speedup} con \textit{2000} individuos de población para la estrategia con mejores resultados es de \textit{1.88}. Al usar cuatro procesos, podemos concluir que los tres \textit{workers} pierden mucho tiempo calculando las distancias en cada iteración. Es posible que mediante la refinación progresiva de la segunda estrategia a través de un proceso iterativo de prueba y error, se logre reducir el tiempo de ejecución. No obstante, hasta el momento, no hemos logrado reducirlo más allá del tiempo actual.
 		
 			\begin{figure}[!h]
 				\hspace{-0.10\textwidth}
@@ -1059,11 +1059,13 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 % ------------------------------------------------------------------------------------------------	
 \section{Algoritmos Evolutivos}
 
-	Este algoritmo no se ejecuta sobre unos datos previamente generados, sino que en cada ejecución crea desde ceros los individuos que va a evolucionar para optimizar una función de evaluación. Las pruebas realizadas en esta sección, utilizan un 5\% de elitismo (porcentaje de individuos que se mantienen entre dos generaciones) para cualquiera de los tres individuos. El método de selección es siempre el mismo, por ruleta, el cual consiste en elegir aleatoriamente los individuos, cuyas probabilidades aumentan o disminuyen dependiendo de su valor de \textit{fitness} (aptitud del individuo para resolver el problema). Los métodos de cruce y mutación son distintos para cada individuo, pero se eligen los más básicos. La función de evaluación no consiste únicamente en calcular su \textit{fitness}, también hay otras funcionalidades como el desplazamiento de individuos, que consiste en garantizar que todos tengan un valor \textit{fitness} positivo, además de controlar la diversidad con un escalado lineal. Los individuos representados como árboles, se añade un control de \textit{bloating} para controlar la altura de los individuos, generando un leve aumento en el tiempo de la función de evaluación, pues si un individuo supera un límite de altura en el árbol, se sustituye con uno nuevo generado de manera aleatoria. Las complejidades del cálculo \textit{fitness} y las variables que afectan a los tamaños de las pruebas de cada individuo se determinan de la siguiente forma:
+	Este algoritmo no se ejecuta sobre unos datos previamente generados, sino que en cada ejecución crea desde cero los individuos que va a evolucionar para optimizar una función de evaluación. Las pruebas realizadas en esta sección en el ordenador de propósito general se ejecutan sobre los siguientes tamaños de poblaciones \textit{[25, 50, 100, 200, 500, 1000, 2000]} con \textit{100} generaciones. Para garantizar la supervivencia de los mejores individuos se utiliza un 5\% de elitismo. 
+	
+	Como cada individuo tiene su propia estructura, no se puede aplicar los mismos métodos para las partes del algoritmo. El cruce y la mutación varían dependiendo del individuo, pero se eligen los más básicos. La selección es común para todos los individuos. Debido a que solo juega con los valores \textit{fitness} (aptitud del individuo para resolver el problema) calculados en las funciones de evaluación, que se comentaron en la Sección \ref{cap:3_4}. Esta selección consiste en elegir aleatoriamente los individuos, cuyas probabilidades de selección aumentan o disminuyen dependiendo de su valor de \textit{fitness}. Para la función de evaluación, además de contar con el cálculo del \textit{fitness}, también cuenta con otras funcionalidades como el desplazamiento de individuos, que consiste en garantizar que todos tengan un valor \textit{fitness} positivo, además de controlar la diversidad con un escalado lineal. Para los individuos representados como árboles, se añade un control de \textit{bloating}, controlando así la altura de los individuos, generando un leve aumento en el tiempo de la función de evaluación, pues si un individuo supera un límite de altura en el árbol, se sustituye con uno nuevo generado de manera aleatoria. Las complejidades del cálculo \textit{fitness} y las variables que afectan a los tamaños de las pruebas de cada individuo se determinan de la siguiente forma:
 	\begin{enumerate}
-		\item Binario. Función matemática. Tiene un coste lineal \textit{O(N)}, siendo \textit{N} el número de bits, pues solo tiene que convertir de binario a real y aplicar la función matemática. El tamaño de las pruebas son condicionados por la precisión. Esta variable refleja el grado de exactitud necesario de la codificación binaria para representar un valor numérico real. Cuanto mayor sea ésta, más bits se necesitan. Con una precisión de \textit{2} decimales se necesitan \textit{11}, y con una precisión de \textit{10}, \textit{38} son los bits necesarios. Como el problema se mide en un espacio bidimensional, se necesitan dos números reales, sumando en total \textit{22} y \textit{76} bits respectivamente. 
-		\item Real. El utilizado en el problema del aeropuerto (descrito en la Sección \ref{cap:3_4}). Tiene un coste logarítmico \textit{O(N*LogM))} siendo \textit{N} el número de aviones, y \textit{M} el de aeropuertos. El tamaño de las pruebas para este problema es condicionado por la complejidad temporal, por lo que el número de aviones y aeropuertos son las variables que se van a estudiar.						
-		\item Árbol. El utilizado en el problema del cortacésped (descrito en la Sección \ref{cap:3_4}). Tiene, aproximadamente, un coste lineal \textit{O(N))}, siendo \textit{N} el número de acciones (\textit{ticks}) a disposición del agente para intentar cortar el máximo número de celdas. El número de \textit{ticks} es la variable que modifica el tiempo ejecución. El tamaño del entorno (la matriz cuadrada que representa el jardín) no aumenta el tiempo de ejecución, pues tarda el mismo tiempo en ejecutar \textit{X} ticks en cualquier matriz. Solo aumenta la complejidad espacial de la función de evaluación. 
+		\item Binario. Función matemática. Tiene un coste lineal \textit{O(N)}, siendo \textit{N} el número de bits, pues solo tiene que convertir de binario a real y aplicar la función matemática. El tamaño de las pruebas es condicionado por la precisión, variable que refleja el grado de exactitud necesario de la codificación binaria para representar un valor numérico real. Cuanto mayor sea ésta, más bits se necesitan. Con una precisión de \textit{2} decimales se necesitan \textit{11}, y con una precisión de \textit{10}, \textit{38} son los bits necesarios. Como el problema se mide en un espacio bidimensional, se necesitan dos números reales, sumando en total \textit{22} y \textit{76} bits respectivamente. 
+		\item Real. El utilizado en el problema del aeropuerto. Tiene un coste logarítmico \textit{O(N*LogM))} siendo \textit{N} el número de aviones, y \textit{M} el de aeropuertos. El tamaño de las pruebas para este problema es condicionado por la complejidad temporal, por lo que el número de aviones y aeropuertos son las variables que se van a estudiar.						
+		\item Árbol. El utilizado en el problema del cortacésped. Tiene, aproximadamente, un coste lineal \textit{O(N))}, siendo \textit{N} el número de acciones (\textit{ticks}) a disposición del agente para intentar cortar el máximo número de celdas. El número de \textit{ticks} es la variable que modifica el tiempo ejecución. El tamaño del entorno (la matriz cuadrada que representa el jardín) no aumenta el tiempo de ejecución, pues tarda el mismo tiempo en ejecutar \textit{X} ticks en cualquier matriz, solo aumenta la complejidad espacial de la función de evaluación. 
 	\end{enumerate}
 	
 	
@@ -1079,9 +1081,9 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 	
 	%\subsubsection{Algoritmos sin mejoras}
 			
-		Primero, veamos cómo afecta a cada individuo modificar las variables de cada problema. La Figura \ref{fig:pev_secuencial} muestra dichos tiempos. La primera gráfica pertenece a los individuos binarios, y se puede apreciar que modificar la precisión no supone un coste elevado, al contrario que los otros dos individuos, cuyos resultados muestran un aumento considerable al ejecutar las pruebas con mayor tamaño. La gráfica del medio, representando a los individuos reales, tiene una mayor complejidad, por eso se puede apreciar una diferencia significativa al utilizar la segunda especificación (\textit{AER2}) con respecto a la tercera (\textit{AER3}). La última gráfica, muestra los resultados del problema de los individuos representados como árboles. Se puede observar que la primera función (línea azul) es diez veces más rápida que la segunda (línea roja), dado que el número de \textit{ticks} es diez veces menor. Las gráficas se muestran de forma lineal porque el número de generaciones es estático, es decir, solo aumenta el tamaño de la población. De otro modo sería exponencial y el tiempo de ejecución sería mucho mayor.
+		Primero, veamos cómo afecta a cada individuo modificar las variables de cada problema. La Figura \ref{fig:pev_secuencial} muestra dichos tiempos. La primera gráfica pertenece a los individuos binarios, y se puede apreciar que modificar la precisión no supone un coste elevado. Aumentar por cinco la precisión de la representación binaria (\textit{precisión(P10)/precisión(P2) = 5})) supone un aumento en el tamaño del array de bits de \textit{3.45} veces (\textit{76/22 = 3.45}) su tamaño. Sin embargo, el tiempo de ejecución no es proporcional al aumento del tamaño de bits, es aproximadamente dos veces más lento.	La gráfica del medio, representando a los individuos reales, tiene una mayor complejidad, por eso se puede apreciar una diferencia significativa al utilizar la segunda especificación (\textit{AER2}) con respecto a la tercera (\textit{AER3}), siendo seis veces más lenta. La última gráfica, muestra los resultados del problema de los individuos representados como árboles. Se puede observar que la primera función (línea azul) es cuatro veces más rápida que la segunda (línea roja). El tiempo de ejecución no es proporcional al número de \textit{ticks} ejecutados, pues el segundo problema ejecuta diez veces más \textit{ticks} que el primero. Las gráficas se muestran de forma lineal porque el número de generaciones es estático, es decir, solo aumenta el tamaño de la población. De otro modo sería exponencial y el tiempo de ejecución sería mucho mayor. 
 	
-
+	
 	
 	
 		\begin{figure}[h!]
@@ -1095,7 +1097,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				width=0.40\textwidth,
 				height=0.40\textwidth,
 				tick label style={font=\tiny},
-			 	title style={at={(0.05,0.95)},anchor=north west}
+			 	title style={at={(0.05,0.925)},anchor=north west}
 				]
 				
 				% 1
@@ -1128,12 +1130,12 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				\nextgroupplot[
 				title={Árbol},
 				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-				xtick={25, 500, 1000, 1500, 2000} 
+				xtick={25, 500, 1000, 1500, 2000}
 				]
 				\addplot [mark=none, color=blue] table [x index=0, y index=6, col sep=space] {files/pev.txt};
 				\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev.txt};
-				\addlegendentry{\tiny M8X8}
-				\addlegendentry{\tiny M100X10}
+				\addlegendentry{\tiny M10X10}
+				\addlegendentry{\tiny M100X100}
 				
 				
 			\end{groupplot}        
@@ -1141,9 +1143,12 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		\caption{Tiempos de ejecución de los agoritmos evolutivos secuenciales}
 		\label{fig:pev_secuencial}
 		\end{figure}
-
+		
+		
+	
+		
 						
-		Antes de realizar las pruebas de las tres estrategias comentadas en la Sección \ref{cap:3_4}, vamos a comentar los tiempos de ejecución de las partes del algoritmo evolutivo. Estos métodos son inicializar, evaluar, seleccionar, cruzar y mutar. Cada prueba mide el tiempo de ejecución para un individuo (dos individuos en el caso del cruce). La Tabla\ref{tab:pev}, muestra los resultados obtenidos, resaltando en rojo aquellos métodos que más tiempo consumen. Para los individuos binarios se puede apreciar que los métodos cruce y mutación son los que más tiempo tardan (inicialización no cuenta, pues solo se ejecuta una vez), la evaluación recorre los mismos bits para un individuo, pero no cambia los valores, reduciendo así el tiempo de ejecución. Los individuos reales y árboles tienen una función de evaluación con mayor complejidad, lo que provoca que este método sea el que más tarde. 
+		Antes de realizar las pruebas de las tres estrategias comentadas en la Sección \ref{cap:3_4}, vamos a comentar los tiempos de ejecución de las partes del algoritmo evolutivo, inicialización, evaluación, selección, cruce y mutación. Cada prueba mide el tiempo de ejecución para un individuo (dos individuos en el caso del cruce). La Tabla \ref{tab:pev}, muestra los resultados obtenidos, resaltando en rojo aquellos métodos que más tiempo consumen. Los resultados de los individuos binarios muestran que el cruce y mutación son las partes que más tiempo consumen (inicialización no cuenta, pues solo se ejecuta una vez). La evaluación de estos individuos recorre los bits, pero no cambian los valores, reduciendo así el tiempo de ejecución. Los individuos reales y árboles tienen una función de evaluación con mayor complejidad, lo que provoca que esta parte sea la que más tarde. 
 		
 		
 		
@@ -1192,64 +1197,87 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 
 
 	%\subsubsection{Mejora 2: Modelo de islas}
-		Empezando con las estrategias de la Sección \ref{cap:3_4}, \textit{modelo de islas}, es una estrategia que consiste en dividir los individuos de la población entre ``islas'' (procesos). La configuración de las islas no influye en la reducción del tiempo de ejecución, en una configuración u otra solo varía como se garantiza la supervivencia de los mejores individuos en la población general. Si usamos la configuración en estrella o anillo, podemos mezclar poblaciones y tener más diversidad, siendo más probable obtener mejores resultados. Para garantizar la supervivencia de los más aptos, todos los procesos se conectan cada cien generaciones para reiniciar las poblaciones con el \textit{5\%} de mejores individuos. La siguiente prueba se ejecuta con cuatro procesos, variando las poblaciones y comparando los tiempos obtenidos frente al algoritmo secuencial. La Figura \ref{fig:pev_mpi2} muestra el tiempo de ejecución de los algoritmos evolutivos con la estrategia de \textit{modelo de islas}, segunda estrategia implementada que consiste en ejecutar en paralelo el algoritmo secuencial. Se logra obtener una reducción del tiempo de ejecución en todos los problemas. Se puede apreciar que en todos los problemas se obtiene una reducción proporcional al número de procesos ejecutados.
+		Empezando con las estrategias de la Sección \ref{cap:3_4}, \textit{modelo de islas} consiste en dividir los individuos de la población entre ``islas'' (procesos). La configuración de las islas no influye en la reducción del tiempo de ejecución, en una configuración u otra solo varía como se garantiza la supervivencia de los mejores individuos en la población general. Si usamos la topología en estrella, hay que reservar un proceso para que actúe como \textit{master} para que éste realice el proceso de comunicación cada \textit{X} generaciones. Las demás topologías (red y anillo) no tienen un proceso \textit{master} por lo que se optimiza de mejor forma los recursos computacionales. Las pruebas realizadas a continuación se han ejecutado con la topología de anillo, con cuatro procesos. La Figura \ref{fig:pev_mpi2} muestra los resultados en forma de malla de \textit{2x2} con los tiempos de ejecución de los algoritmos evolutivos con esta estrategia, separando las pruebas de los individuos reales (segunda fila) debido a la diferencia de tiempos con respecto al problema con mayor tamaño (\textit{AER3}). Como se puede apreciar, se logra obtener una reducción del tiempo de ejecución proporcional al número de procesos ejecutados. El estudio de los \textit{speedups} (figura \ref{fig:pev_mpi1_speedups}) para los problemas de mayor tamaño de cada individuo, confirma la proporcionalidad de la reducción del tiempo de ejecución con respecto al número de procesos ejecutados. La primera gráfica de la primera fila (ver Figura \ref{fig:pev_mpi2}) muestra los resultados obtenidos para los individuos binarios, consiguiendo reducir el tiempo de ejecución. La segunda gráfica de esta misma fila muestra los resultados para los árboles, cuyo tiempo de ejecución de la estrategia sobre el segundo problema (\textit{1500 ticks}) es aproximadamente igual a los obtenidos para la ejecución secuencial del primer problema (\textit{150 ticks}). Como se usan cuatro procesos y el primer problema es cuatro veces más rápido que el segundo, los resultados de estas ejecuciones se solapan, provocando que la línea verde y azul coincidan. Las gráficas de los individuos reales de la segunda fila (ver Figura \ref{fig:pev_mpi2}), muestran un mismo comportamiento que las gráficas anteriores con respecto a la reducción del tiempo de ejecución.
 		
-		
-		
-		para los dos primeros problemas. El estudio de los \textit{speedups} (figura \ref{fig:pev_mpi1_speedups}) confirma que la reducción del tiempo de ejecución es proporcional al número de procesos ejecutados. La comprobación del tercer individuo (árboles) no es necesaria. Tiene una menor complejidad que para el individuo real, y para este problema se confirma la reducción en las tres pruebas realizadas.
 		
 			
 		
 		\begin{figure}[h!]
+			\centering
 			\hspace{-0.06\textwidth}
 			\begin{tikzpicture}
-			\begin{groupplot}[group style={
-					group size=3 by 1,
-					horizontal sep=0.78cm, 
-					vertical sep=0.5cm},
-				width=0.40\textwidth, height=0.22\textheight, 	
-				tick label style={font=\tiny} 	
-				]
+				\begin{groupplot}[group style={
+						group size=2 by 2,
+						horizontal sep=1.2cm, 
+						vertical sep=1.75cm},  
+					width=0.47\textwidth, height=0.30\textheight, 	
+					tick label style={font=\tiny},
+					title style={at={(0.05,0.915)},anchor=north west} 	
+					]
+					
+					% 1
+					\nextgroupplot[title=Binario, 
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
+					xtick={25, 500, 1000, 1500, 2000}]
+					\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=black] table [x index=0, y index=3, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=darkgreen] table [x index=0, y index=4, col sep=space] {files/pev_2mpi.txt};
+					\addlegendentry{\tiny P2}
+					\addlegendentry{\tiny P10}
+					\addlegendentry{\tiny P2\_MPI(4)}
+					\addlegendentry{\tiny P10\_MPI(4)}
+					
+					% 2
+					\nextgroupplot[title=Árbol,
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
+					xtick={25, 500, 1000, 1500, 2000},
+					xlabel near ticks]  
+					\addplot [mark=none, color=blue] table [x index=0, y index=11, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=red] table [x index=0, y index=12, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=black] table [x index=0, y index=13, col sep=space] {files/pev_2mpi.txt};  
+					\addplot [mark=none, color=darkgreen] table [x index=0, y index=14, col sep=space] {files/pev_2mpi.txt};  
+					\addlegendentry{\tiny M10X10}
+					\addlegendentry{\tiny M100X100}
+					\addlegendentry{\tiny M10X10\_MPI(4)}
+					\addlegendentry{\tiny M100X100\_MPI(4)}
+					
+					
+					% 3
+					\nextgroupplot[title=Real, 
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
+					xtick={25, 500, 1000, 1500, 2000}]
+					\addplot [mark=none, color=blue] table [x index=0, y index=5, col sep=space] {files/pev_2mpi.txt};			
+					\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=black] table [x index=0, y index=6, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=darkgreen] table [x index=0, y index=8, col sep=space] {files/pev_2mpi.txt};
+					\addlegendentry{\tiny AER 1}
+					\addlegendentry{\tiny AER 2}
+					\addlegendentry{\tiny AER 1\_MPI(4)}
+					\addlegendentry{\tiny AER 2\_MPI(4)}
+					
+					%4
+					\nextgroupplot[title=Real,
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+					xtick={25, 500, 1000, 1500, 2000},
+					xlabel near ticks] 
+					\addplot [mark=none, color=red] table [x index=0, y index=9, col sep=space] {files/pev_2mpi.txt};
+					\addplot [mark=none, color=black] table [x index=0, y index=10, col sep=space] {files/pev_2mpi.txt};
+					\addlegendentry{\tiny AER 3}
+					\addlegendentry{\tiny AER 3\_MPI(4)}
+					
+					
+					
+				\end{groupplot}
 				
-				% 1
-				\nextgroupplot[title={}, ylabel= Tiempo de ejecución (s),
-				legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
-				xtick={25, 500, 1000, 1500, 2000}]
-				\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev_2mpi.txt};
-				\addplot [mark=none, color=red] table [x index=0, y index=2, col sep=space] {files/pev_2mpi.txt};
-				\addplot [mark=none, color=black] table [x index=0, y index=3, col sep=space] {files/pev_2mpi.txt};
-				\addplot [mark=none, color=darkgreen] table [x index=0, y index=4, col sep=space] {files/pev_2mpi.txt};
-				\addlegendentry{\tiny P2}
-				\addlegendentry{\tiny P10}
-				\addlegendentry{\tiny P2\_MPI}
-				\addlegendentry{\tiny P10\_MPI}
+				% Eje X
+				\node at ($(group c2r2.south east)!0.5!(group c1r2.south west)$) [below=0.7cm] {Tam. Población};
 				
-				% 2
-				\nextgroupplot[title={}, xlabel=Tam. Población,
-				legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
-				xtick={25, 500, 1000, 1500, 2000}]
-				\addplot [mark=none, color=blue] table [x index=0, y index=5, col sep=space] {files/pev_2mpi.txt};			
-				\addplot [mark=none, color=red] table [x index=0, y index=7, col sep=space] {files/pev_2mpi.txt};
-				\addplot [mark=none, color=black] table [x index=0, y index=6, col sep=space] {files/pev_2mpi.txt};
-				\addplot [mark=none, color=darkgreen] table [x index=0, y index=8, col sep=space] {files/pev_2mpi.txt};
-				\addlegendentry{\tiny AER 1}
-				\addlegendentry{\tiny AER 2}
-				\addlegendentry{\tiny AER 1\_MPI}
-				\addlegendentry{\tiny AER 2\_MPI}
+				% Eje Y
+				\node at ($(group c1r2.south west)!0.75!(group c1r1.north west)$) [left=0.85cm,rotate=90] {\footnotesize Tiempo de ejecución (s)};
 				
-				
-				% 3
-				\nextgroupplot[title={},
-				legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
-				xtick={25, 500, 1000, 1500, 2000}]
-				\addplot [mark=none, color=red] table [x index=0, y index=9, col sep=space] {files/pev_2mpi.txt};
-				\addplot [mark=none, color=black] table [x index=0, y index=10, col sep=space] {files/pev_2mpi.txt};
-				\addlegendentry{\tiny AER 3}
-				\addlegendentry{\tiny AER 3\_MPI}
-				
-			\end{groupplot}		
 			\end{tikzpicture}
-			\caption{Tiempos de ejecución de la segunda estrategia de los algoritmos evolutivos en ordenador de propósito general}
+			\caption{Tiempos de ejecución de la estrategia modelo de islas de los algoritmos evolutivos en ordenador de propósito general}
 			\label{fig:pev_mpi2}
 		\end{figure}
 		
@@ -1262,8 +1290,8 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				ylabel={SpeedUp},
 				legend pos=south east,
 				grid=major,
-				width=0.45\textwidth,
-				height=0.3\textwidth,
+				width=0.55\textwidth,
+				height=0.40\textwidth,
 				scaled x ticks=false,
 				ymin=0, 
 				ymax=5
@@ -1273,36 +1301,40 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				\addplot [mark=diamond*, color=darkgreen, line width=1.2pt] table [x index=0, y index=1, col sep=space] {files/pev_2mpi_speedup.txt};
 				\addplot [mark=none, color=blue, line width=0.8pt] table [x index=0, y index=2, col sep=space] {files/pev_2mpi_speedup.txt};
 				\addplot [mark=none, color=red, line width=0.8pt] table [x index=0, y index=3, col sep=space] {files/pev_2mpi_speedup.txt};
+				\addplot [mark=none, color=black, line width=0.8pt] table [x index=0, y index=4, col sep=space] {files/pev_2mpi_speedup.txt};
 				
 				
 				\addlegendentry{Ideal}
 				\addlegendentry{P10}
 				\addlegendentry{AER3}
+				\addlegendentry{M100X100}
 				
 				
 			\end{axis}
 		\end{tikzpicture}
-		\caption{\textit{Speedups} de la segunda estrategia de los algoritmos evolutivos en ordenador de propósito general}
+		\caption{\textit{Speedups} de la estrategia modelos de islas de los algoritmos evolutivos en ordenador de propósito general}
 		\label{fig:pev_mpi1_speedups}
 		\end{figure}
 		
 		
 		\newpage
 		
-		\begin{itemize}
-			\item (Gráfica izquierda). Para los problemas binarios este método no es efectivo. Se pierde mucho tiempo en el paso de mensajes. Tener para cada individuo muchos bits provoca que una población no muy grande sea inviable para aplicar esta mejora. Además de que este problema es bastante rápido.
-			\item (Gráfica derecha). Aunque se controle el tamaño de los individuos, el problema es muy pequeño para alcanzar alguna mejora. Con matrices más grandes se puede mejorar.
-			\item (Gráfica central). Para este tipo de problema hasta con valores pequeños se puede reducir el tiempo de ejecución. Aunque está lejos de llegar a un \textit{speedup} ideal.
-		\end{itemize}
+		
 	
 	%\subsubsection{Mejora 1: Dividir con el master}
-		La primera estrategia tiene una complejidad mayor en lo que a lógica de programación se trata. Con el modelo de comunicación \textit{Master-Worker} y una población de individuos, el \textit{master} se encarga de dividir y enviar a los \textit{workers} la población sobre la cual tienen que ejecutar los métodos de cruce, mutación y evaluación en cada generación. Las siguientes pruebas se ejecutan cuatro procesos \textit{workers}, cinco en total contando al \textit{master}. La figura \ref{fig:pev_mpi1_1} muestra los resultados obtenidos para los tres diferentes individuos. 
+		La estrategia de dividir la población entre los procesos tiene una complejidad mayor en lo que a lógica de programación se trata. Con el modelo de comunicación \textit{Master-Worker} y una población de individuos, el \textit{master} se encarga de dividir y enviar a los \textit{workers} la población sobre la cual tienen que ejecutar las partes del algoritmo: cruce, mutación y evaluación en cada generación. Las siguientes pruebas se ejecutan cuatro procesos \textit{workers}, cinco en total contando al \textit{master}. La Figura \ref{fig:pev_mpi1_1} muestra, en forma de malla \textit{2x2}, los resultados obtenidos para los tres diferentes individuos. 
 		
-		La gráfica de la izquierda (individuos binarios), muestra que esta estrategia no es apta para los individuos binarios. Tener muchos bits que enviar y recibir provoca que no se pueda garantizar una reducción en el tiempo de ejecución. Esta reducción, tampoco se puede obtener en los individuos representados en forma de árbol, pues la gráfica situada a la derecha muestra que tienen el mismo tiempo de ejecución con y sin paralelización. Si ejecutamos la prueba con el tamaño más grande (\textit{ticks=1500}) se obtendrían resultados parecidos, pues como comprobamos anteriormente, el tiempo de ejecución para este problema es proporcional al número de ticks. Las pruebas en los individuos reales revelan un buen desempeño, reduciendo el tiempo de ejecución. Como muestra con mejor detalle la figura \ref{fig:pev_mpi1_2}, se puede alcanzar un \textit{speedup} de \textit{2.81}. Teniendo en cuenta que se ejecutan cinco procesos, esta estrategia no logra acercarse al \textit{speedup} ideal.
-	
+		La primera gráfica de la primera fila muestra los resultados de los individuos binarios, unos tiempos de ejecución muy parecidos. Para el primer problema, usando \textit{22} bits, no se logra reducir el tiempo de ejecución, pues se puede ver que empiezan de forma parecida, pero con mil individuos se empiezan a distanciar. Esto no ocurre con el segundo problema (\textit{77} bits por individuo), la estrategia logra reducir levemente el tiempo de ejecución, y con dos mil individuos, la ejecución sigue siendo un poco más rápida. El factor que frena a esta estrategia de reducir el tiempo de ejecución es la complejidad de las operaciones a realizar en cada parte del algoritmo, pues son muy simples. Además, la comunicación entre procesos al enviar y recibir muchos bits aumenta el tiempo de ejecución. La segunda gráfica de la misma fila (ver Figura \ref{fig:pev_mpi1_1}) muestra los resultados de los individuos representados como árboles, siendo resultados parecidos a la anterior gráfica comentada. Para el primer problema (\textit{150 ticks}) no se consigue reducir el tiempo de ejecución, no obstante, para el segundo si se logra, obteniendo, para la última población (\textit{2000} individuos), un \textit{speedup} de \textit{1.84}. Las pruebas en los individuos reales, al igual que para la estrategia anterior, se dividen en dos gráficas para poder ver con mayor exactitud los resultados obtenidos, estas gráficas se sitúan en la segunda fila (ver Figura \ref{fig:pev_mpi1_1}). Al contrario que los otros dos individuos, este individuo si alcanza una reducción del tiempo de ejecución con todos los tamaños de problemas. La gráfica de la izquierda muestra que la estrategia en los dos primeros tamaños, logran un buen rendimiento, pero el tercer problema, al ser más grande, tiene una reducción del tiempo de ejecución más notoria. Como muestra con mejor detalle la Figura \ref{fig:pev_mpi1_1}, se puede alcanzar un \textit{speedup} de \textit{2.81}.
 		
-
 		\begin{figure}[!h]
+			\centering
+			\includegraphics[width=0.80\textwidth]{images/chapter_4/pev_1_1mpi}
+			\caption{Tiempo de ejecución de la estrategia dividir población de los algoritmos evolutivos de en ordenador de propósito general}
+			\label{fig:pev_mpi1_1}			
+		\end{figure}
+		\newpage
+
+		\begin{comment}[!h]
 			\hspace{-0.06\textwidth}
 			\begin{tikzpicture}
 				\begin{groupplot}[group style={
@@ -1310,11 +1342,12 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 						horizontal sep=0.78cm, 
 						vertical sep=0.5cm}, 
 					width=0.40\textwidth, height=0.35\textwidth, 
-					tick label style={font=\tiny} 
+					tick label style={font=\tiny},
+					title style={at={(0.05,0.915)},anchor=north west} 	
 					]
 					
 					% 1
-					\nextgroupplot[title={}, ylabel=Tiempo de ejecución (s),
+					\nextgroupplot[title={Binarios}, ylabel=Tiempo de ejecución (s),
 					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
 					xtick={25, 500, 1000, 1500, 2000}]
 					\addplot [mark=none, color=blue] table [x index=0, y index=1, col sep=space] {files/pev_1_1mpi.txt};
@@ -1323,11 +1356,11 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					\addplot [mark=none, color=darkgreen] table [x index=0, y index=4, col sep=space] {files/pev_1_1mpi.txt};
 					\addlegendentry{\tiny P2}
 					\addlegendentry{\tiny P10}
-					\addlegendentry{\tiny P2\_MPI}
-					\addlegendentry{\tiny P10\_MPI}
+					\addlegendentry{\tiny P2\_MPI(5)}
+					\addlegendentry{\tiny P10\_MPI(5)}
 					
 					% 2
-					\nextgroupplot[title={}, xlabel=Tam. Población,
+					\nextgroupplot[title={Reales}, xlabel=Tam. Población,
 					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
 					xtick={25, 500, 1000, 1500, 2000}]
 					\addplot [mark=none, color=blue] table [x index=0, y index=5, col sep=space] {files/pev_1_1mpi.txt};	
@@ -1336,17 +1369,22 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					\addplot [mark=none, color=darkgreen] table [x index=0, y index=8, col sep=space] {files/pev_1_1mpi.txt};
 					\addlegendentry{\tiny AER 1}
 					\addlegendentry{\tiny AER 2}
-					\addlegendentry{\tiny AER 1\_MPI}
-					\addlegendentry{\tiny AER 2\_MPI}
+					\addlegendentry{\tiny AER 1\_MPI(5)}
+					\addlegendentry{\tiny AER 2\_MPI(5)}
+					
 					
 					% 3
-					\nextgroupplot[title={},
-					legend style={at={(0.5,1.05)},anchor=south,legend columns=-1},
+					\nextgroupplot[title={Árboles},
+					legend style={at={(0.5,1.05)},anchor=south,legend columns=2},
 					xtick={25, 500, 1000, 1500, 2000}]
-					\addplot [mark=none, color=red] table [x index=0, y index=9, col sep=space] {files/pev_1_1mpi.txt};			
-					\addplot [mark=none, color=black] table [x index=0, y index=10, col sep=space] {files/pev_1_1mpi.txt};			
-					\addlegendentry{\tiny M8X8}
-					\addlegendentry{\tiny MPI}
+					\addplot [mark=none, color=blue] table [x index=0, y index=9, col sep=space] {files/pev_1_1mpi.txt};			
+					\addplot [mark=none, color=red] table [x index=0, y index=10, col sep=space] {files/pev_1_1mpi.txt};		
+					\addplot [mark=none, color=black] table [x index=0, y index=11, col sep=space] {files/pev_1_1mpi.txt};
+					\addplot [mark=none, color=darkgreen] table [x index=0, y index=12, col sep=space] {files/pev_1_1mpi.txt};	
+					\addlegendentry{\tiny M10X10}
+					\addlegendentry{\tiny M100X100}
+					\addlegendentry{\tiny M10X10\_MPI(5)}
+					\addlegendentry{\tiny M100X100\_MPI(5)}
 					
 				\end{groupplot}	
 				
@@ -1354,38 +1392,39 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				%\node at ($(group c1r1.south)!0.5!(group c2r1.south) + (0,-0.4cm)$) [below] {Num. Generaciones};
 				
 			\end{tikzpicture}
-			\caption{Tiempos de ejecución de la primera estrategia de los algoritmos evolutivos en ordenador de propósito general}
-			\label{fig:pev_mpi1_1}
+			\caption{Tiempos de ejecución de la estrategia dividir población de los algoritmos evolutivos en ordenador de propósito general}
+			\label{fig:pev_mpi1_1AUX}
 		\end{figure}
 		
 		\begin{figure}[!h]
 			\centering
-			\includegraphics[width=0.6\textwidth]{images/chapter_4/pev_mpi1}
-			\caption{Tiempo de ejecución de la primera estrategia para problemas de mayor tamaño de los algoritmos evolutivos en ordenador de propósito general}
-			\label{fig:pev_mpi1_2}			
+			\includegraphics[width=0.45\textwidth]{images/chapter_4/pev_mpi1}
+			\caption{Tiempo de ejecución de la estrategia dividir población para problemas de mayor tamaño de individuos reales de los algoritmos evolutivos de en ordenador de propósito general}
+			\label{fig:pev_mpi1_2AUX}			
 		\end{figure}
 	
 	
-		
+		\newpage
 
 	%\subsubsection{Mejora 3: PipeLine}
 	
-		La última estrategia mezcla el modelos \textit{Master-Worker} con segmentación. El proceso \textit{master} se encarga de generar \textit{N} (número de \textit{workers}) poblaciones que envía al siguiente proceso. Cuando genera todas las poblaciones, se queda en un estado de recepción de mejores individuos. Cada proceso envía a su siguiente los datos procesados según su tarea, generando un flujo constante de trabajo.
-		
-		Este método varia para cada problema. Cada individuo tiene un tiempo determinado para ejecutar los métodos del algoritmo. Tiempos que se estudiaron previamente en la tabla \ref{tab:pev}. La primera prueba se realiza sobre los individuos binarios, con \textit{precision=10}, resultados plasmados en la figura \ref{pev:estrategia_mpi3_1}, cuyos procesos se estructuras de la siguiente forma:
+		La estrategia pipeline mezcla el modelos \textit{Master-Worker} con segmentación. El proceso \textit{master} se encarga de generar una población dividida entre \textit{N} (número de \textit{workers}) subpoblaciones que envía al siguiente proceso. Cuando genera todas las subpoblaciones, se queda en un estado de recepción de mejores individuos. Cada proceso envía a su siguiente los datos procesados según su tarea, generando un flujo constante de trabajo. Esta estrategia varía para cada individuo, debido a que los tiempos en cada parte del algoritmo son distintos para cada uno. Estos tiempos se estudiaron previamente en la Tabla \ref{tab:pev}. La primera prueba se realiza sobre los individuos binarios, con \textit{\textit{precision=10}}, cuyos procesos ejecutados se estructuran de la siguiente forma:
 		
 		\begin{itemize}
-			\item Con cuatro procesos: el \textit{master} se encarga de inicializar, los \textit{workers} \textit{1}, \textit{2} y \textit{3} se encargan de la evaluación y selección, cruce y mutación respectivamente.
-			\item Con siete procesos: se duplica la ayuda para los \textit{worker} en cada pipe. 
+			\item Con cuatro procesos el \textit{master} se encarga de inicializar. Los \textit{workers} se dividen en tres pipes; el primero se encarga de la evaluación y selección, el segundo del cruce y el tercero de la mutación.
+			\item Con siete procesos: se duplica la ayuda para los \textit{workers} en cada pipe. 
 		\end{itemize}
 		
 		
-		En esta estrategia, para los individuos binarios, y con el mismo número de bits que la pruebas anterior, se consigue reducir satisfactoriamente el tiempo de ejecución. El funcionamiento de \textit{pipeline} reduce el tiempo de paso de mensajes, al optimizar la paralelización de las tareas. Y como muestra la figura \ref{pev:estrategia_mpi3_2}, los individuos reales también presentan un buen rendimiento. Aunque duplicando los procesos \textit{workers} ejecutados, no se consigue disminuir más la reducción alcanzada con cuatro procesos. Los individuos reales y árboles tienen en común que la función de evaluación es el método que más tiempo tarda. Es por eso que se obtendrían los mismos resultados al aplicar la misma repartición de tareas, siendo esta la siguiente:		
+		Los resultados son plasmados en la Figura \ref{pev:estrategia_mpi3_1}, logrando reducir satisfactoriamente el tiempo de ejecución. El funcionamiento de \textit{pipeline} reduce el tiempo de paso de mensajes, al optimizar la paralelización de las partes del algoritmo. 
+		
+		Los individuos reales y árboles tienen tiempos de ejecución muy parecidos. Es por eso que se obtendrían los mismos resultados al aplicar la misma repartición de tareas, siendo esta la siguiente:		
 		\begin{itemize}
-			\item Con seis procesos: el \textit{master} se encarga de inicializar, los \textit{workers} con ids en el intervalo \textit{[1-4]} se encargan de la evaluación, pues este método consume cuatro veces más tiempo que los restantes. El último worker se encarga de la selección, cruce y mutación.
-			\item Con diez procesos: se duplica la ayuda para los \textit{worker} en la función de evaluación. Alcanzando, con este reparto de tareas, una igualdad en los tiempos de ejecución de los dos tipos de procesos \textit{worker} para esta estrategia aplicada a los individuos reales.
+			\item Con seis procesos: el \textit{master} se encarga de inicializar. Los \textit{workers} con \textit{ids} en el intervalo \textit{[1-4]} se encargan de la evaluación, pues esta parte del algoritmo consume cuatro veces más tiempo que los restantes. El último worker se encarga de la selección, cruce y mutación.
+			\item Con diez procesos: se duplica la ayuda para los \textit{workers} en la función de evaluación. Alcanzando, con este reparto de tareas, una igualdad en los tiempos de ejecución de los dos tipos de procesos \textit{worker}.
 		\end{itemize}
 		
+		Como muestra la Figura \ref{pev:estrategia_mpi3_2}, los individuos reales también presentan un buen rendimiento. Aunque se dupliquen los procesos \textit{workers} ejecutados, no se consigue disminuir más la reducción alcanzada con cuatro procesos. 
 		
 		
 		
@@ -1414,12 +1453,11 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 				
 			\end{axis}
 			\end{tikzpicture}
-			\caption{Tiempo de ejecución de la tercera estrategia (individuos binarios) en los algoritmos evolutivos en ordenador de propósito general}
+			\caption{Tiempo de ejecución de la estrategia pipeline en los individuos binarios del algoritmo evolutivo en ordenador de propósito general}
 			\label{pev:estrategia_mpi3_1}
 		\end{figure}
 		
-		
-	 
+			 
 	 
 	 
 		 \begin{figure}[!h]
@@ -1445,7 +1483,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 		 			
 		 		\end{axis}
 			 	\end{tikzpicture}
-			 	\caption{Tiempo de ejecución de la tercera estrategia (individuos reales) en los algoritmos evolutivos en ordenador de propósito general}
+			 	\caption{Tiempo de ejecución de la estrategia pipeline en los individuos reales del algoritmo evolutivo en ordenador de propósito general}
 			 	\label{pev:estrategia_mpi3_2}
 		 \end{figure}
 	 
@@ -1544,7 +1582,9 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 	
 	
 	%\subsubsection{Cluster}
-		En el cluster se han realizado pruebas para la primera y tercera estrategia. Ambas pruebas tienen los siguientes tamaños de poblaciones \textit{1000}, \textit{2000}, \textit{5000}, \textit{7000}. La primera estrategia, dividir la población, se ejecuta sobre individuos reales, con \textit{10}, \textit{20}, \textit{50}, y \textit{100} procesos. La figura \ref{fig:pev_cluster1} muestra dichos resultados. A partir de \textit{20} procesos no se logra reducir el tiempo de ejecución debido a la sobrecarga producida por la comunicación entre un número elevado de procesos \textit{workers} y el \textit{master}. La tercera estrategia se ejecuta sobre individuos árboles, siguiendo el mismo reparto de tareas que la utilizada para los individuos reales. Como se comentó antes, al llegar a \textit{10} procesos se alcanza una igualdad en los tiempos de ejecución. Es por esos que los procesos ejecutados para esta prueba son múltiplos de este número, siendo \textit{10}, \textit{20}, \textit{40} y \textit{80}. Para \textit{20} procesos, se duplican los procesos involucrados en cada tarea, incluyendo la inicialización de los individuos realiza por el proceso \textit{master}. Con \textit{40} procesos se vuelve a duplicar y con \textit{80} lo mismo. Los resultados obtenidos son mostrados en la figura \ref{fig:pev_cluster2}. Se puede apreciar un comportamiento similar a la figura \ref{pev:estrategia_mpi3_2} del párrafo anterior, en el cual al llegar a \textit{40} procesos se obtienen aproximadamente los mismos resultados que duplicando los procesos.
+		En el \textit{cluster} se han realizado pruebas para las estrategias de dividir la población y pipeline. La estrategia de modelo de islas no se ha realizado debido a que ya se han realizado varias pruebas en el sistema distribuido con esta estructura de dividir el algoritmo secuencial entre varios procesos. Ambas pruebas tienen los siguientes tamaños de poblaciones [\textit{1000}, \textit{2000}, \textit{5000}, \textit{7000}]. La estrategia de dividir la población se ejecuta sobre individuos reales, con \textit{10}, \textit{20}, \textit{50}, y \textit{100} procesos. La Figura \ref{fig:pev_cluster1} muestra dichos resultados. Como se puede ver en el gráfico, a partir de \textit{20} procesos la reducción del tiempo de ejecución empieza a ralentizarse. En el último tamaño de poblaciones, se logra obtener un menor tiempo con \textit{50} procesos en comparación a usar \textit{100}. La sobrecarga producida por la comunicación entre un número elevado de procesos \textit{workers} y el \textit{master} generan dichos resultados.
+		
+		La estrategia de pipeline se ejecuta sobre individuos árboles, siguiendo el mismo reparto de tareas que la utilizada para los individuos reales. Como se comentó antes, al llegar a \textit{10} procesos se alcanza una igualdad en los tiempos de ejecución. Es por esos que los procesos ejecutados para esta prueba son múltiplos de este número, siendo \textit{10}, \textit{20}, \textit{40} y \textit{80}. Entre cada prueba se duplican los procesos involucrados en cada tarea, incluyendo la inicialización de los individuos realiza por el proceso \textit{master}. Los resultados obtenidos son mostrados en la Figura \ref{fig:pev_cluster2}. Se puede apreciar un comportamiento similar a la Figura \ref{pev:estrategia_mpi3_2} del párrafo anterior, en el cual al llegar a \textit{40} procesos se obtienen aproximadamente los mismos resultados que duplicando los procesos.
 	
 	
 	
@@ -1579,7 +1619,7 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 						
 					\end{axis}
 				\end{tikzpicture}
-				\caption{Tiempos de ejecución de la primera estrategia de los algoritmos evolutivos en Cluster}
+				\caption{Tiempos de ejecución de la estrategia dividir la población en los individuos reales del algoritmo evolutivo en Cluster}
 				\label{fig:pev_cluster1}
 			\end{figure}
 			
@@ -1615,13 +1655,13 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 					
 				\end{axis}
 				\end{tikzpicture}
-				\caption{Tiempos de ejecución de la tercera estrategia de los algoritmos evolutivos en Cluster}
+				\caption{Tiempo de ejecución de la estrategia pipeline en los individuos árboles del algoritmo evolutivo en Cluster}
 				\label{fig:pev_cluster2}
 			\end{figure}
 			
 			
 				
-
+\newpage
 
 
 \section{Redes Neuronales}
@@ -1705,6 +1745,49 @@ Primero realizamos el estudio de los programas básicos descritos en la Sección
 			
 			La repartición de individuos es crucial para un correcto aprendizaje de la red. 
 			
-			No obstante, esta estrategia no converge en buenas predicciones. Hacer la media de los pesos de las neuronas obtenidos en cada proceso, no da buenos resultados. Si comprobamos la efectividad de una red sin entrenar, unicamente inicializados los pesos de manera aleatoria, se obtienen los mismos resultados que aplicando esta estrategia, es decir, predicciones erróneas. Este modelo de inteligencia artificial aprende en un proceso iterativo, y no se puede paralelizar con programación distribuida. Al menos en nuestras pruebas, no hemos logrado encontrar una combinación de hiper-parámetros que obtengan buenas predicciones.
+			No obstante, esta estrategia no converge en buenas predicciones. Hacer la media de los pesos de las neuronas obtenidos en cada proceso, no da buenos resultados. Si comprobamos la efectividad de una red sin entrenar, únicamente inicializados los pesos de manera aleatoria, se obtienen los mismos resultados que aplicando esta estrategia, es decir, predicciones erróneas. Este modelo de inteligencia artificial aprende en un proceso iterativo, y no se puede paralelizar con programación distribuida. Al menos en nuestras pruebas, no hemos logrado encontrar una combinación de hiper-parámetros que obtengan buenas predicciones.
 			
+			
+						
+			Aunque no se pueda paralelizar el entrenamiento, debido a no poder obtener buenas predicciones, se puede aplicar este modelo de trabajar de manera paralela entre varios procesos para realizar una búsqueda exhaustiva de los mejores hiperparámetros de la red neuronal. Para el algoritmo DQN de aprendizaje por refuerzo comentado en la Sección \ref{cap:3_3_2} se puede buscar los mejores hiperparámetros para el entrenamiento del agente, y lograr buenos resultados en el entorno (\textit{PacMan}). 
+			
+			Primero, hay que comentar los hiperparámetros que se van a estudiar. El algoritmo DQN tiene tres variables principales: el factor de descuento, la variable de exploración-explotación (epsilon) y la tasa de aprendizaje. El factor de descuento es la variable que más estudios se han realizado llegando a la conclusión que -generalmente- el mejor valor es de \textit{0.99}, como demuestra un estudio realizado en la universidad de Toronto \cite{pitis2019rethinking}. Es por esto que la búsqueda solo se centra en los siguientes dos parámetros:
+			
+			\begin{itemize}
+				\item \textit{Epsilon decay}. Esta variable marca cuanto se reduce entre episodios la variable epsilon. Epsilon empieza con un valor de \textit{1}, pues necesitamos que el agente aprenda correctamente a recoger las monedas sin chocar con los fantasmas. Se usa este valor para realizar una pequeña fase en la que el agente se mueve forma completamente aleatoria, y una vez ha aprendido a salir de los primeros estados, conviene ir reduciendo progresivamente el valor epsilon para seguir explorando el entorno. 
+				
+				\item Tasa de aprendizaje (\textit{learning rate}). Esta variable es fundamental para que el agente aprenda correctamente. Para ello se necesitan valores pequeños para que aprenda poco a poco a como completar el entorno en el que se encuentra.
+			\end{itemize}
+			
+			Este algoritmo tiene dos redes neuronales, la que se usa para saber cuál es la mejor acción para el estado actual, y la que, utilizada para comprobar el estado siguiente, conocida como red neuronal objetivo. La segunda red se actualiza en menor frecuencia, pero ambas tienen los mismos parámetros. Una zona oculta con dos capas de \textit{64} nodos, un valor de \textit{64} para el número de ejemplos de entrenamiento que se utilizan para actualizar los parámetros de la red neuronal durante una sola iteración del entrenamiento, conocido como \textit{batch size}. Y se usa el factor de descuento que se comentó anteriormente (\textit{0.99}). 				
+			
+			
+			La prueba se ejecuta con nueve procesos, sin usar un proceso \textit{master} el programa asigna a todos los procesos el mismo conjunto de ocho valores del hiperparámetro \textit{epsilon decay}, mientras que asigna un valor distinto de la tasa de aprendizaje para cada proceso. La Figura \ref{dqn_params} muestra estos valores, siendo el primer conjunto las variables que van a ejecutar todos los procesos y el segundo conjunto las variables que se dividen entre los procesos de forma única. Cada proceso ejecuta en paralelo el algoritmo secuencial durante mil episodios. Al finalizar una ejecución del algoritmo, almacena en un fichero de texto la puntuación media de los últimos cien episodios, y si no ha terminado de procesar los datos, continúa a la siguiente ejecución.
+			
+			\begin{figure}[!h]		
+			
+			 
+				\begin{tcolorbox}[boxrule=0.5pt, fontupper=\small]				
+					
+					\begin{center}
+						\textit{eps\_dec\_vals = [1e-4, 2.5e-4, 5e-4, 7.5e-4, 1e-5, 2.5e-5, 5e-5, 7.5e-5]	\\			
+					lr\_vals = [1e-3, 2.5e-3, 5e-3, 1e-4, 2.5e-4, 5e-4, 1e-5, 2.5e-5, 5e-5]	}
+					\end{center}			
+					
+				\end{tcolorbox}
+			\caption{Valores de la búsqueda exhuastiva de los hiperparámetros}
+			\label{dqn_params}
+			\end{figure}
+			
+			La Figura \ref{fig:dqn_search} muestra en forma de malla \textit{3x3} las ejecuciones en paralelo de los nueve procesos ejecutados. Cada histograma representa las ejecuciones de cada proceso, nombrando cada gráfica con su tasa de aprendizaje correspondiente. El \textit{eje X} de cada histograma representa los valores de \textit{epsilon decay}, comunes para todos los procesos, mientras que el \textit{eje Y} la puntuación media de los últimos cien episodios ejecutados en un intervalo de \textit{[-104.75, 313.95]}, siendo estos la puntación mínima y máxima obtenida, respectivamente. Como se puede apreciar, la tasa de aprendizaje que mejores resultados obtiene es la primera, siendo este valor de \textit{1e-3}, en el cual se obtiene la mejor puntuación además de ser el proceso que más puntuaciones positivas obtiene. Observando las demás gráficas se puede ver una tendencia en los resultados, al aumentar la tasa de aprendizaje las puntuaciones empeoran. Aunque, en la sexta gráfica, con un valor de \textit{5e-4} se obtienen buenas puntuaciones. Esta búsqueda realiza en total \textit{72} ejecuciones del algoritmo, pero al paralelizarse entre nueve procesos el tiempo de ejecución se reduce al proceso que más tiempo tarda en ejecutar las ocho ejecuciones, siendo este el primer proceso, pues el agente sobrevive más tiempo.
+			
+			
+			
+			
+			\begin{figure}[!h]
+				\centering
+				\includegraphics[width=0.8\textwidth]{images/chapter_4/DQN_search}
+				\caption{Estructura del sistema altamente distribuido de la Facultad de Informática}
+				\label{fig:dqn_search}
+			\end{figure}
 			

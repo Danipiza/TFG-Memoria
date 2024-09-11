@@ -24,48 +24,49 @@ Warning--entry type for "MazeGenerator" isn't style-file defined
 Warning--to sort, need author or key in BloomAI
 Warning--to sort, need author or key in MazeGenerator
 Warning--empty journal in auger2015merge
+Warning--can't use both volume and number fields in pitis2019rethinking
 Warning--empty booktitle in jjruiz2016compartida
 Warning--empty journal in sainin2021best
 Warning--empty journal in thomas2021global
-You've used 21 entries,
+You've used 22 entries,
             2118 wiz_defined-function locations,
-            621 strings with 7472 characters,
-and the built_in function-call counts, 6415 in all, are:
-= -- 628
-> -- 296
-< -- 4
-+ -- 120
-- -- 98
-* -- 416
-:= -- 1079
-add.period$ -- 64
-call.type$ -- 21
-change.case$ -- 111
+            629 strings with 7670 characters,
+and the built_in function-call counts, 6884 in all, are:
+= -- 678
+> -- 303
+< -- 6
++ -- 123
+- -- 100
+* -- 444
+:= -- 1138
+add.period$ -- 67
+call.type$ -- 22
+change.case$ -- 115
 chr.to.int$ -- 0
-cite$ -- 27
-duplicate$ -- 247
-empty$ -- 514
-format.name$ -- 98
-if$ -- 1331
+cite$ -- 29
+duplicate$ -- 272
+empty$ -- 558
+format.name$ -- 100
+if$ -- 1442
 int.to.chr$ -- 0
-int.to.str$ -- 21
-missing$ -- 20
-newline$ -- 106
-num.names$ -- 38
-pop$ -- 138
+int.to.str$ -- 22
+missing$ -- 21
+newline$ -- 111
+num.names$ -- 40
+pop$ -- 143
 preamble$ -- 1
-purify$ -- 91
+purify$ -- 94
 quote$ -- 0
-skip$ -- 163
+skip$ -- 187
 stack$ -- 0
-substring$ -- 352
-swap$ -- 38
-text.length$ -- 4
+substring$ -- 397
+swap$ -- 53
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 82
-warning$ -- 6
-while$ -- 61
-width$ -- 23
-write$ -- 217
-(There were 8 warnings)
+type$ -- 86
+warning$ -- 7
+while$ -- 66
+width$ -- 24
+write$ -- 229
+(There were 9 warnings)

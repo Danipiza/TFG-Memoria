@@ -47,7 +47,7 @@
 \contentsline {subsection}{\numberline {4.3.3}KNN}{77}{subsection.4.3.3}%
 \contentsline {section}{\numberline {4.4}Q-Learning}{80}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Algoritmos Evolutivos}{84}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Redes Neuronales}{94}{section.4.6}%
-\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{98}{chapter.5}%
-\contentsline {chapter}{5. Conclusions and future work}{100}{chapter.5}%
-\contentsline {chapter}{Bibliography}{104}{chapter*.70}%
+\contentsline {section}{\numberline {4.6}Redes Neuronales}{93}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Conclusiones y trabajo futuro}{100}{chapter.5}%
+\contentsline {chapter}{5. Conclusions and future work}{102}{chapter.5}%
+\contentsline {chapter}{Bibliography}{106}{chapter*.69}%

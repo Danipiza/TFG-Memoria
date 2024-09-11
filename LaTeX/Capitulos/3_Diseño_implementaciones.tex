@@ -620,11 +620,11 @@
 		\label{fig:pev_mpi1}
 	\end{figure}
 	
-	Para el modelo de islas (segunda estrategia), se aplica la estrategia que se ha desarrollado anteriormente para otros algoritmos. Cada proceso ejecuta el algoritmo básico, dividiendo la población general en los procesos ejecutados. Con este modelo se reduce la comunicación entre los procesos, pues al contrario que la estrategia anterior, no se reserva funcionalidades para diferentes procesos, si no que cada proceso se encarga de ejecutar todas las funciones para que su subpolación evolucione correctamente. Cada cierto tiempo se reinicia la población con los mejores individuos generales (de todos los procesos). Los tipos de comunicación se representa en en la Figura \ref{fig:pev3_mpi2}, y son los siguientes: 
+	Para el modelo de islas (segunda estrategia), se aplica la estrategia que se ha desarrollado anteriormente para otros algoritmos. Cada proceso ejecuta el algoritmo básico, dividiendo la población general en los procesos ejecutados. Con este modelo se reduce la comunicación entre los procesos, pues al contrario que la estrategia anterior, no se reserva funcionalidades para diferentes procesos, si no que cada proceso se encarga de ejecutar todas las funciones para que su subpoblación evolucione correctamente. Cada cierto tiempo los procesos se comunican, y reinicia la población con los mejores individuos obtenidos en el proceso de comunicación. Los tipos de comunicación se representa en en la Figura \ref{fig:pev3_mpi2}, y son los siguientes: 
 
 	\begin{itemize}
 		\item Estrella. El \textit{master} se posiciona en el centro y solo hay comunicaciones \textit{Master-Worker} para almacenar los mejores individuos de cada subpoblación.
-		\item En red. No hay proceso \textit{master}, todos los procesos ejecutan el algoritmo. Al finalizar una iteración todos los procesos se comunican entre sí, mandando los mejores individuos para el reinicio de la población.
+		\item En red. No hay proceso \textit{master}, todos los procesos ejecutan el algoritmo. En cada comunicación, todos los procesos se comunican entre sí, mandando los mejores individuos para el reinicio de la población.
 		\item En anillo. Igual que el anterior, pero esta vez no se comunican todos los procesos. La comunicación, como nu nombre indica se hace con topología circular, cada proceso se comunica con su predecesor y sucesor.
 	\end{itemize}
 	
