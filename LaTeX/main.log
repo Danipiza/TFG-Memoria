@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  11 SEP 2024 21:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.5.4)  13 SEP 2024 14:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1830,15 +1830,11 @@ File: images/chapter_3/pacman_states.png Graphic file (type png)
 Package pdftex.def Info: images/chapter_3/pacman_states.png  used on input line
  506.
 (pdftex.def)             Requested size: 466.86469pt x 194.34279pt.
- [49 <./images/chapter_3/pacman_states.png>] [50]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[51] [52]
+ [49 <./images/chapter_3/pacman_states.png>] [50] [51] [52]
 <images/chapter_3/pev_mpi1.png, id=744, 1853.92625pt x 1257.69875pt>
 File: images/chapter_3/pev_mpi1.png Graphic file (type png)
 <use images/chapter_3/pev_mpi1.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi1.png  used on input line 618.
+Package pdftex.def Info: images/chapter_3/pev_mpi1.png  used on input line 614.
 
 (pdftex.def)             Requested size: 303.45918pt x 205.86092pt.
 
@@ -1849,7 +1845,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <images/chapter_3/pev_mpi2.png, id=754, 1784.6675pt x 552.0625pt>
 File: images/chapter_3/pev_mpi2.png Graphic file (type png)
 <use images/chapter_3/pev_mpi2.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi2.png  used on input line 633.
+Package pdftex.def Info: images/chapter_3/pev_mpi2.png  used on input line 629.
 
 (pdftex.def)             Requested size: 466.86469pt x 144.41736pt.
 
@@ -1860,7 +1856,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <images/chapter_3/pev_mpi3.png, id=764, 1670.24pt x 1339.0025pt>
 File: images/chapter_3/pev_mpi3.png Graphic file (type png)
 <use images/chapter_3/pev_mpi3.png>
-Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 644.
+Package pdftex.def Info: images/chapter_3/pev_mpi3.png  used on input line 640.
 
 (pdftex.def)             Requested size: 303.45918pt x 243.27795pt.
 
@@ -1873,7 +1869,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: images/chapter_3/redneu_mpi2.png Graphic file (type png)
 <use images/chapter_3/redneu_mpi2.png>
 Package pdftex.def Info: images/chapter_3/redneu_mpi2.png  used on input line 6
-91.
+87.
 (pdftex.def)             Requested size: 256.777pt x 277.60735pt.
 
 
@@ -2108,11 +2104,6 @@ Package pdftex.def Info: images/chapter_4/histo.png  used on input line 1039.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [84] [85 <./images/chapter_4/mapa_calor.png> <./images/chapter_4/histo.png>]
-Overfull \hbox (7.6211pt too wide) in paragraph at lines 1067--1068
-[]\T1/cmr/m/n/12 Real. El uti-li-za-do en el pro-ble-ma del ae-ro-puer-to. Tie-
-ne un cos-te lo-ga-rít-mi-co \T1/cmr/m/it/12 O(N*LogM))
- []
-
 [86]
 <images/chapter_4/tab_pev_variables.png, id=986, 1492.8272pt x 190.46156pt>
 File: images/chapter_4/tab_pev_variables.png Graphic file (type png)
@@ -2170,103 +2161,145 @@ PGFPlots: reading {files/pev_2mpi_speedup.txt}
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [90] [91]
-<images/chapter_4/pev_1_1mpi.png, id=1029, 4605.205pt x 4006.97pt>
+<images/chapter_4/pev_1_1mpi.png, id=1027, 4605.205pt x 4006.97pt>
 File: images/chapter_4/pev_1_1mpi.png Graphic file (type png)
 <use images/chapter_4/pev_1_1mpi.png>
 Package pdftex.def Info: images/chapter_4/pev_1_1mpi.png  used on input line 13
 31.
 (pdftex.def)             Requested size: 373.49316pt x 324.96632pt.
  [92 <./images/chapter_4/pev_1_1mpi.png>]
-
-LaTeX Warning: Reference `pev:estrategia_mpi3_2' on page 93 undefined on input 
-line 1587.
-
+Missing character: There is no x in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no ] in font nullfont!
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+[93]
+Missing character: There is no x in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no ] in font nullfont!
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+PGFPlots: reading {files/pev_3mpi.txt}
+[94]
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
 PGFPlots: reading {files/cluster/pevArbol.txt}
 
-Overfull \hbox (25.3392pt too wide) in paragraph at lines 1593--1622
+Overfull \hbox (25.3392pt too wide) in paragraph at lines 1587--1616
+[]  [] 
+ []
+
+PGFPlots: reading {files/cluster/pevReal.txt}
+PGFPlots: reading {files/cluster/pevReal.txt}
+PGFPlots: reading {files/cluster/pevReal.txt}
+PGFPlots: reading {files/cluster/pevReal.txt}
+
+Overfull \hbox (13.5907pt too wide) in paragraph at lines 1623--1652
 []  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-PGFPlots: reading {files/cluster/pevReal.txt}
-PGFPlots: reading {files/cluster/pevReal.txt}
-PGFPlots: reading {files/cluster/pevReal.txt}
-PGFPlots: reading {files/cluster/pevReal.txt}
-
-Overfull \hbox (13.5907pt too wide) in paragraph at lines 1629--1658
-[]  [] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[93] [94]
+[95] [96]
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
 PGFPlots: reading {files/redneu1.txt}
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[95]
+ [97]
 PGFPlots: reading {files/redneu2.txt}
 PGFPlots: reading {files/redneu2.txt}
 PGFPlots: reading {files/redneu2.txt}
 
-Overfull \hbox (0.87617pt too wide) in paragraph at lines 1738--1739
+Overfull \hbox (0.87617pt too wide) in paragraph at lines 1732--1733
  [][] 
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[96] [97]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[98]
-<images/chapter_4/DQN_search.png, id=1076, 638.385pt x 653.44125pt>
+[98] [99] [100]
+<images/chapter_4/DQN_search.png, id=1088, 638.385pt x 653.44125pt>
 File: images/chapter_4/DQN_search.png Graphic file (type png)
 <use images/chapter_4/DQN_search.png>
 Package pdftex.def Info: images/chapter_4/DQN_search.png  used on input line 17
-89.
+83.
 (pdftex.def)             Requested size: 373.49316pt x 382.30646pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) [99] [100 <./images/chapter_4/DQN_search.png>]
+) [101 <./images/chapter_4/DQN_search.png>]
 \openout2 = `Capitulos/5_Conclusiones_trabajo_futuro.aux'.
 
 
 (Capitulos/5_Conclusiones_trabajo_futuro.tex
 Cap\'{\i }tulo 5.
-[101
+[102
 
 
 
 
-]) [102] (Capitulos/5_Conclusiones_trabajo_futuro_EN.tex [103
+]) [103] (Capitulos/5_Conclusiones_trabajo_futuro_EN.tex [104
 
 
 
 ]) (main.bbl
-[104]
+[105]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 5
 .
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [105
+) [106
 
-] [106]) [107]
+] [107]) [108]
 \openout2 = `Cascaras/acronimos.aux'.
 
- (Cascaras/acronimos.tex) [108
+ (Cascaras/acronimos.tex) [109
 
 ]
 
@@ -2284,21 +2317,17 @@ LaTeX Info: Redefining \% on input line 22.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D2974555D5B6836AAA694F6A6F11C7B4;8859.
+(rerunfilecheck)             Checksum: 78CA297C88193B45987178827E9F39A1;8859.
  ) 
 Here is how much of TeX's memory you used:
- 50765 strings out of 474485
- 1128438 string characters out of 5742791
+ 50795 strings out of 474485
+ 1128979 string characters out of 5742791
  2052542 words of memory out of 5000000
- 71833 multiletter control sequences out of 15000+600000
+ 71858 multiletter control sequences out of 15000+600000
  580557 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,20n,131p,2450b,2484s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,20n,131p,2418b,2484s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ec
 ti0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\ectt1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
@@ -2334,9 +2363,9 @@ Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6
 s/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (115 pages, 11866288 bytes).
+Output written on main.pdf (116 pages, 11875197 bytes).
 PDF statistics:
- 1969 PDF objects out of 2073 (max. 8388607)
- 325 named destinations out of 1000 (max. 500000)
+ 1978 PDF objects out of 2073 (max. 8388607)
+ 328 named destinations out of 1000 (max. 500000)
  636 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -78,7 +78,7 @@
 	
 	Aplicando la misma idea que \textit{TimSort}, se puede mejorar el tiempo de ejecución de \textit{MergeSort}, aplicando combinaciones de los métodos básicos con complejidad cuadrática y comprobar la eficiencia. Esta estrategia consiste en crear varios procesos (para mayor eficacia y simplicidad, el número de procesos tiene que ser potencia de dos), y se divide el array entre los procesos. Las fases de esta estrategia son:
 	\begin{itemize}
-		\item Primera fase de ordenación: cada proceso ordena su subarray con el método de ordenación correspondiente. En el capítulo \ref{cap:c4_estudio}, se realiza un estudio de los algoritmos cuadráticos, donde SelectionSort es el algoritmo que mejores resultados obtiene.
+		\item Primera fase de ordenación: cada proceso ordena su subarray con el método de ordenación correspondiente. En el Capítulo \ref{cap:c4_estudio}, se realiza un estudio de los algoritmos cuadráticos, donde SelectionSort es el algoritmo que mejores resultados obtiene.
 		\item Segunda fase de reagrupación y ordenación: esta fase se repite hasta solo tener un proceso activo, es decir, el array esté completamente ordenado.
 	\end{itemize}
 	
@@ -268,7 +268,7 @@
 		
 		\begin{enumerate}
 			\item Aplicar la implementación anterior con varios bucles. El externo para variar el valor de \textit{K} y el interior para repetir el algoritmo.
-			\item Ejecutar en cada proceso \textit{worker} el algoritmo sin mejoras. Los \textit{workers} ejecutan la búsqueda con valores distintos de \textit{K} y el \textit{master} se encarga de almacenar los mejores resultados.
+			\item Ejecutar en cada \textit{worker} el algoritmo sin mejoras. Los \textit{workers} ejecutan la búsqueda con valores distintos de \textit{K} y el \textit{master} se encarga de almacenar los mejores resultados.
 		\end{enumerate}
 		
 		Como muestra la Figura \ref{fig:KMedias_comp}, ambas ideas tienen el mismo coste temporal, sin contar el overhead (tiempo consumido para la comunicación de mensajes entre procesos). Pero, la segunda opción, al tener en cada proceso una copia de la población entera, tiene mayor complejidad espacial. Este aumento del uso de memoria para poblaciones elevadas provoca que no sea viable ejecutar esta estrategia en ejecuciones con un elevado número de procesos.
@@ -510,7 +510,7 @@
 		
 			
 		
-		Como se comentó anteriormente, este algoritmo usa redes neuronales para aprender a ejecutar la mejor acción para un estado dado. Se van a aplicar las mejoras que se comentan en la sección \ref{cap:3_5} de redes neuronales. En este caso, no se pueden aplicar las mejoras del algoritmo anterior, pues no es una matriz que se pueda dividir el trabajo, si no una red neuronal cuyos pesos varían al ejecutar acciones en estados. 	
+		Como se comentó anteriormente, este algoritmo usa redes neuronales para aprender a ejecutar la mejor acción para un estado dado. Se van a aplicar las mejoras que se comentan en la Sección \ref{cap:3_5} de redes neuronales. En este caso, no se pueden aplicar las mejoras del algoritmo anterior, pues no es una matriz que se pueda dividir el trabajo, si no una red neuronal cuyos pesos varían al ejecutar acciones en estados. 	
 		
 		
 	
@@ -528,16 +528,16 @@
 		\begin{itemize}
 			\item Binarios. Estos individuos son fáciles de inicializar, pero ralentizan la comunicación entre procesos, debido al gran elevado número de bits que es necesario enviar. Sin embargo, se puede enviar el número con su representación real en lugar de enviar todos los bits.
 			\item Reales. Al igual que los binarios son fáciles de inicializar, pero esta vez son más portables, al usar la \textit{base 10} como representación de los números, en vez del sistema binario (0's y 1's). 
-			\item Árboles. Más lentos para inicializar y difíciles de tratar. Se usan punteros y aumenta la complejidad al gestionar los punteros.
+			\item Árboles. Más lentos para inicializar y difíciles de tratar. Se usan punteros y aumenta la complejidad al gestionarlos.
 		\end{itemize}
 		
-		\item \textbf{Evaluación.} Este es el método que más tiempo de ejecución puede llegar a consumir. Varía dependiendo del tipo de individuo. Como su nombre indica, evalúa a todos los individuos dependiendo de una función de \textit{fitness}, que puede ser desde una fórmula matemática hasta una ejecución de un algoritmo en un entorno.
+		\item \textbf{Evaluación.} Este es la parte del algoritmo que más tiempo de ejecución puede llegar a consumir. Varía dependiendo del tipo de individuo. Como su nombre indica, evalúa a todos los individuos dependiendo de una función de \textit{fitness}, que puede ser desde una fórmula matemática hasta una ejecución de un algoritmo en un entorno.
 		
-		\item \textbf{Selección.} Se seleccionan a los individuos. La aleatoriedad predomina en este método, y dependiendo de la estrategia escogida se puede dar más o menos probabilidad a los más aptos. 
+		\item \textbf{Selección.} Se seleccionan a los individuos para una nueva generación. La aleatoriedad predomina en este método, y dependiendo de la estrategia escogida se puede dar más o menos probabilidad a los más aptos. 
 		
-		\item \textbf{Cruce.} Todos los individuos se cruzan, y con una cierta probabilidad se eligen a los hijos de estos cruces. Si no se cumple dicha probabilidad no se cruzan los individuos y se dejan como están. Normalmente tendrán un mayor coste temporal que el método anterior.
+		\item \textbf{Cruce.} Con una probabilidad dada, los individuos se cruzan para introducirlos a la nueva generación. Normalmente tendrán un mayor coste temporal que el método anterior, pues hay que realizar modificaciones en los individuos para realizar el cruce. 
 		
-		\item \textbf{Mutación.} Igual que el cruce, tiene una probabilidad para mutar. Normalmente es un poco más veloz que el cruce, debido a las estrategias implementadas y que la probabilidad de mutación suele ser menor a la de cruce, provocando una menor tasa de ejecución de la estrategia.
+		\item \textbf{Mutación.} Igual que el cruce, tiene una probabilidad para mutar. Normalmente es un poco más veloz que el cruce, debido a las estrategias implementadas y la probabilidad de mutación suele ser menor a la de cruce, provocando una menor tasa de ejecución en esta parte.
 	\end{enumerate}
 	
 	
@@ -546,13 +546,11 @@
 	\begin{enumerate}
 		\item Los individuos binarios, tienen un intervalo y una precisión como variable de inicialización. Queremos calcular el valor máximo o mínimo para ciertas funciones matemáticas. Los valores \textit{fitness} se calculan con la representación real del cromosoma, que varía dependiendo de la precisión que se le asigna al ejecutar el algoritmo. Por ello hay que convertir la información de binario a real. 
 		
-		Para estos individuos, el algoritmo se ejecuta bastante rápido, además de alcanzar el máximo global con menos generaciones que los otros dos tipos. La función de evaluación es lineal \textit{O(N)}, debido a la conversión del número binario. Reducir su tiempo de ejecución es desafiante, por el poco coste temporal y el tiempo necesario para enviar/recibir los individuos.		
+		Para estos individuos, el algoritmo se ejecuta bastante rápido, además de alcanzar el máximo global con menos generaciones que los otros dos individuos. La función de evaluación es lineal \textit{O(N)}, pues convierte número binario a real para ejecutar la función matemática. Reducir su tiempo de ejecución es desafiante, por el poco coste temporal y el tiempo necesario para enviar/recibir los individuos.		
 		
 		\item Los individuos reales, se enfrentan a un problema de mayor complejidad, como es la minimización del retraso total obtenible de un número de aviones \textit{NumAv}, en un aeropuerto con \textit{NumP} pistas. Este problema se puede resolver con vuelta atrás, pero tiene un coste exponencial O(\(2^{N}\)) siendo inviable para la mayoría de tamaños. 
 		
-		Los aviones tienen unos tiempos de llegada asignados a cada pista, además de contar con un tiempo de separación mínimo entre tipos de aviones para garantizar la seguridad de los pasajeros. El tiempo de separación viene condicionado por el tipo de avión que llegó antes y el que llegará.		
-			
-		La figura \ref{fig:pev_funcion_ev_2} muestra cómo se calcula el valor \textit{fitness} de un individuo. Tiene un coste \textit{O(NumAv*NumP) $\equiv$ O(\(N^{2}\))}. 
+		Los aviones tienen unos tiempos de llegada asignados a cada pista, además de contar con un tiempo de separación mínimo entre tipos de aviones para garantizar la seguridad de los pasajeros. Este tiempo viene condicionado por el tipo de avión que llegó antes y el que llegará. La figura \ref{fig:pev_funcion_ev_2} muestra cómo se calcula el valor \textit{fitness} de un individuo. Tiene un coste cuadrático \textit{O(NumAv*NumP) $\equiv$ O(\(N^{2}\))}. No obstante, dado que el número de pistas es menor que el número de aviones, el coste amortizado será lineal
 		
 		\begin{figure}[!h]
 		
@@ -565,8 +563,8 @@
 			\begin{lstlisting}
  fitness=0
  for avion in aviones:
- for pista in range(pistas): # Calculamos TLA para cada pista
- TLA = maximo(TLA(vuelo_anterior) + SEP[vuelo_anterior][vuelo_actual], TEL)
+   for pista in range(pistas): # Calculamos TLA para cada pista
+     TLA = max(TLA(vuelo_anterior) + SEP[vuelo_anterior][vuelo_actual], TEL)
  # Se asigna el vuelo actual a la pista con minimo TLA calculado
  fitness+=(menor_TLA-menor_TEL)^2
  # menor_TEL: menor TEL de ese vuelo con todas las pistas		
@@ -576,11 +574,9 @@
 		\end{figure}
 		
 		
-		Este problema consume la mayor parte del tiempo de ejecución en la función de evaluación, que varía dependiendo del número de aviones y pistas. 
+			
 		
-		
-		
-		\item Los individuos de tipo árbol, han de encontrar una sucesión de acciones en un entorno para maximizar las celdas visitadas en una matriz. Poniendo en contexto, el agente de este problema se encarga de podar un jardín de tamaño (\textit{NxM}, toroidal, es decir, los extremos de la matriz están conectados) con acciones de movimiento, giro y salto. El individuo es representado en forma de árbol con expresiones (\textit{Exp}). Cada expresión representa un nodo que puede ser una función, si es un nodo intermedio del árbol, o terminal si es una hoja (nodo del árbol sin hijos). Las expresiones terminales son:
+		\item Los individuos de tipo árbol, han de encontrar una sucesión de acciones en un entorno para maximizar las celdas visitadas en una matriz. Poniendo en contexto, el agente de este problema se encarga de podar un jardín de tamaño \textit{NxM} (toroidal, es decir, los extremos de la matriz están conectados) con acciones de movimiento, giro y salto. El individuo es representado en forma de árbol con expresiones (\textit{Exp}). Cada expresión representa un nodo que puede ser una función, si es un nodo intermedio del árbol, o terminal si es una hoja (nodo del árbol sin hijos). Las expresiones terminales son:
 		\begin{itemize}
 			\item Izquierda. El agente gira 90º grados a la izquierda. \textit{Devuelve (0, 0)}.
 			\item Avanza. El agente avanza una posición en con respecto a su dirección, y poda la casilla destino. \textit{Devuelve (0, 0)}.
@@ -591,7 +587,7 @@
 		\begin{itemize}
 			\item Suma(\textit{Exp}, \textit{Exp}): Ejecuta las dos expresiones. Devuelve la suma vectorial de los resultados de las expresiones.
 			\item Prong(\textit{Exp}, \textit{Exp}): Ejecuta las dos expresiones. Devuelve el resultado de la segunda expresión.
-			\item Salto(\textit{Exp}): Salta a una nueva posición determinada por el desplazamiento que devuelve la expresión. 
+			\item Salto(\textit{Exp}): Salta a una nueva posición determinada por el desplazamiento que devuelve la expresión. Por ejemplo, si el desplazamiento devuelve \textit{(4, 2)} el agente saltará \textit{4} casillas en su dirección actual y \textit{2} casillas a la izquierda.
 		\end{itemize}
 		
 				
@@ -603,14 +599,14 @@
 
 	\begin{enumerate}
 		\item Dividir la población en subpoblaciones. Al ejecutar el bucle principal se divide la población entre los procesos para agilizar el trabajo.
-		\item Modelo de islas. Se crean varios procesos que ejecutan el algoritmo de manera secuencial.
-		\item PipeLine. Se crean varias poblaciones, y cada proceso ejecutado se encarga de ejecutar un método del algoritmo.
+		\item Modelo de islas. La población se divide entre los procesos y, en paralelo, ejecutan el algoritmo de manera secuencial.
+		\item Pipeline. La población se divide en subpoblaciones que evolucionan de manera independiente. Cada proceso se encarga de ejecutar una parte del algoritmo. Estos reciben una subpoblación de un proceso con menor ID (\textit{rank}), la procesan y envían al siguiente proceso.
 	\end{enumerate}
 	
-	La primera estrategia, representada en la Figura \ref{fig:pev_mpi1}, consiste en dividir la población entre los procesos, y se puede paralelizar fácilmente. El \textit{master} recibe de los \textit{workers} las subpoblaciones inicializadas y evaluadas, y comienza el bucle principal del algoritmo, en el cual:
+	La primera estrategia, representada en la Figura \ref{fig:pev_mpi1}, consiste en dividir la población entre los procesos. En el comienzo de la estrategia, el \textit{master} recibe la población inicializada y evaluada de los \textit{workers}, comenzando el bucle principal del algoritmo, en el cual:
 	\begin{itemize}
 		\item El \textit{master} se encarga de hacer la selección, y enviarla dividida a los \textit{workers}. Mientras que los \textit{workers} procesan los datos recibidos, el \textit{master} almacena el progreso de los mejores individuos de cada generación.
-		\item Los \textit{workers} reciben la selección, la cruzan, mutan y evalúan. Al finalizar estos procesos mandan la subpoblación al \textit{master} para empezar la siguiente iteración.
+		\item Los \textit{workers} reciben la selección, para cruzar, mutar y evaluar su parte. Al finalizar estos procesos mandan sus subpoblaciones al \textit{master} para empezar la siguiente iteración.
 	\end{itemize}
 	
 	\begin{figure}[!h]
@@ -620,12 +616,12 @@
 		\label{fig:pev_mpi1}
 	\end{figure}
 	
-	Para el modelo de islas (segunda estrategia), se aplica la estrategia que se ha desarrollado anteriormente para otros algoritmos. Cada proceso ejecuta el algoritmo básico, dividiendo la población general en los procesos ejecutados. Con este modelo se reduce la comunicación entre los procesos, pues al contrario que la estrategia anterior, no se reserva funcionalidades para diferentes procesos, si no que cada proceso se encarga de ejecutar todas las funciones para que su subpoblación evolucione correctamente. Cada cierto tiempo los procesos se comunican, y reinicia la población con los mejores individuos obtenidos en el proceso de comunicación. Los tipos de comunicación se representa en la Figura \ref{fig:pev3_mpi2}, y son los siguientes: 
+	Para el modelo de islas (segunda estrategia), se aplica la estrategia que se ha desarrollado anteriormente para otros algoritmos. Cada proceso ejecuta el algoritmo básico, dividiendo la población general en los procesos ejecutados. Con este modelo se reduce la comunicación entre los procesos, pues al contrario que la estrategia anterior, no se reserva funcionalidades para diferentes procesos, si no que cada proceso se encarga de ejecutar todas las funciones para que su subpoblación evolucione correctamente. Cada cierto tiempo los procesos se comunican, y reinician las poblaciones con los mejores individuos obtenidos en el proceso de comunicación. Los tipos de comunicación se representa en la Figura \ref{fig:pev3_mpi2}, y son los siguientes: 
 
 	\begin{itemize}
 		\item Estrella. El \textit{master} se posiciona en el centro y solo hay comunicaciones \textit{Master-Worker} para almacenar los mejores individuos de cada subpoblación.
 		\item En red. No hay proceso \textit{master}, todos los procesos ejecutan el algoritmo. En cada comunicación, todos los procesos se comunican entre sí, mandando los mejores individuos para el reinicio de la población.
-		\item En anillo. Igual que el anterior, pero esta vez no se comunican todos los procesos. La comunicación, como su nombre indica se hace con topología circular, cada proceso se comunica con su predecesor y sucesor.
+		\item En anillo. Igual que el anterior, pero esta vez no se comunican todos los procesos. La comunicación, como su nombre indica, se hace con topología circular, cada proceso se comunica con su predecesor y sucesor.
 	\end{itemize}
 	
 	\begin{figure}[!h]
@@ -635,7 +631,7 @@
 		\label{fig:pev3_mpi2}
 	\end{figure}
 	
-	Segmentar el algoritmo entre los procesos (tercera estrategia, representada en la Figura \ref{fig:pev_mpi3}), provoca un flujo constante de generaciones. Como hay cinco métodos principales se necesitan, al menos, cinco procesos, incluyendo al \textit{master}, que se encarga de inicializar y evaluar las cuatro poblaciones distintas que se van a ejecutar al mismo tiempo. Al principio, todos los procesos \textit{worker} están en espera de recibir una población para ejecutar sus operaciones. El primer \textit{worker} se encarga de la selección y se despierta en la segunda iteración al recibir la primera población inicializada por parte del \textit{master}. Una vez ha ejecutado las cuatro selecciones de las poblaciones que el \textit{master} le envía, empieza a recibir las poblaciones del último \textit{worker}. Los otros tres \textit{workers} se encargan del cruce, mutación y el último de la evaluación, despertándose en la tercera, cuarta y quinta iteración respectivamente por parte de su \textit{worker} predecesor. El último \textit{worker} finaliza una generación al enviar la evaluación de la población mutada al \textit{worker 1}, encargado de realizar la selección. No hay conflicto con el \textit{master}, ya que, como se mencionó anteriormente, éste crea cuatro poblaciones (terminando en la iteración cuatro, mientras que la primera evaluación del último \textit{worker} se finaliza en la iteración cinco), y al finalizar su trabajo pasa a un estado de recepción de los mejores individuos. Si se ejecutan \textit{100} generaciones, esta estrategia evoluciona cuatro poblaciones distintas, en \textit{104} generaciones en total, de las cuales \textit{96} se ejecutan en las cuatro poblaciones simultáneamente.
+	Segmentar el algoritmo entre los procesos (tercera estrategia, representada en la Figura \ref{fig:pev_mpi3}), provoca un flujo constante de generaciones. Como hay cinco métodos principales se necesitan, al menos, cinco procesos, incluyendo al \textit{master}, que se encarga de inicializar y evaluar las cuatro poblaciones distintas que se van a ejecutar al mismo tiempo. Al principio, todos los procesos \textit{worker} están en espera de recibir una población para ejecutar sus operaciones. El primer \textit{worker} se encarga de la selección y se despierta en la segunda iteración (\textit{tick}) al recibir la primera población inicializada por parte del \textit{master}. Una vez ha ejecutado las cuatro selecciones de las poblaciones que el \textit{master} le envía, empieza a recibir las poblaciones del último \textit{worker}. Los otros tres \textit{workers} se encargan del cruce, mutación y el último de la evaluación, despertándose en la tercera, cuarta y quinta iteración (\textit{tick})respectivamente, por parte de su \textit{worker} predecesor. El último \textit{worker} finaliza una generación al enviar la evaluación de la población mutada al \textit{worker 1}, encargado de realizar la selección. No hay conflicto con el \textit{master}, ya que, como se mencionó anteriormente, éste crea cuatro poblaciones (terminando en la iteración cuatro, mientras que la primera evaluación del último \textit{worker} se finaliza en la iteración cinco), y al finalizar su trabajo pasa a un estado de recepción de los mejores individuos. Si se ejecutan \textit{100} generaciones, la población evolucionará en \textit{104 ticks} (iteraciones), donde los procesos trabajaran de manera conjunta en \textit{96 ticks}. Esto se debe a que el último \textit{worker} se despierta al comienzo del quinto tick, y el primer \textit{worker} termina de procesar datos al final del centésimo \textit{tick}.
 	
 	
 		
