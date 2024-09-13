@@ -1,0 +1,26 @@
+Logo UCM:
+https://www.ucm.es/data/cont/docs/3-2016-07-21-EscudoUCMTransparenteBig.png
+
+Logo FdI:
+https://informatica.ucm.es/data/cont/media/www/pag-78821/escudofdigrande.png
+
+
+Timeline:
+https://stock.adobe.com/es/search?k=blank+timeline&asset_id=614450722
+
+
+PyTorch:
+https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/PyTorch_logo_black.svg/488px-PyTorch_logo_black.svg.png
+
+Scikit_learn:
+https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/375px-Scikit_learn_logo_small.svg.png
+
+NumPy
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/NumPy_logo_2020.svg/512px-NumPy_logo_2020.svg.png
+
+Gymnasium:
+https://gymnasium.farama.org/_images/gymnasium-text.png
+
+
+conclu
+https://ignos.blog/wp-content/uploads/2022/06/ia-branches-e1656060441448-1024x632.png
